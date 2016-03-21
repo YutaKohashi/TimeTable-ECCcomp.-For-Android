@@ -3,6 +3,7 @@ package com.example.yutathinkpad.esc.activity;
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,14 +14,20 @@ import com.anprosit.android.promise.Callback;
 import com.anprosit.android.promise.NextTask;
 import com.anprosit.android.promise.Promise;
 import com.anprosit.android.promise.Task;
+
 import com.example.yutathinkpad.esc.R;
 import com.example.yutathinkpad.esc.http.JavaNetCookieJar;
+import com.example.yutathinkpad.esc.object.TimeBlock;
+import com.example.yutathinkpad.esc.tools.CreateTimeTableLists;
+import com.example.yutathinkpad.esc.tools.GetValuesBase;
 
 import java.io.IOException;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressDialog dialog;
     OkHttpClient client;
     static String mLastResponse;
+    int weekCount;
 
     static final String URL1 = "http://comp2.ecc.ac.jp/sutinfo/login";          //ログイン画面
     static final String URL2 = "http://comp2.ecc.ac.jp/sutinfo/auth/attempt";   //実ログイン
@@ -49,23 +57,37 @@ public class MainActivity extends AppCompatActivity {
     static final String password = "455478";
     final String TAG ="error:::";
 
+    //月曜日から金曜日の曜日ごとのリスト
+    static List<TimeBlock> MondayList;
+    static List<TimeBlock> TuesdayList;
+    static List<TimeBlock> WednesdayList;
+    static List<TimeBlock> ThursdayList;
+    static List<TimeBlock> FridayList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Proxy p=new Proxy(Proxy.Type.HTTP,new InetSocketAddress("192.168.10.8", 8888));
+        //Proxy p=new Proxy(Proxy.Type.HTTP,new InetSocketAddress("192.168.10.8", 8888));
         mBtnStart =(Button)findViewById(R.id.btn_start);
         mBtnEnd = (Button)findViewById(R.id.btn_end);
         textView =(TextView)findViewById(R.id.text_view);
         dialog = new ProgressDialog(this);
 
+        MondayList = new ArrayList<>();
+        TuesdayList = new ArrayList<>();
+        WednesdayList = new ArrayList<>();
+        ThursdayList = new ArrayList<>();
+        FridayList = new ArrayList<>();
+
         CookieManager cookieManager = new CookieManager();
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
         CookieJar cookieJar = new JavaNetCookieJar(cookieManager);
+        final GetValuesBase getValuesBase = new GetValuesBase();
 
         client = new OkHttpClient.Builder()
-                .proxy(p)
+                //.proxy(p)
                 .cookieJar(cookieJar)
                 .build();
 
@@ -76,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 Promise.with(this,String.class).then(new Task<String,String>(){
                     @Override
                     public void run(String s, NextTask<String> nextTask) {
-                        //ダイアログを表示
+                        // ダイアログを表示
                         dialog.setMessage("メッセージ");
                         dialog.setTitle("タイトル");
                         dialog.show();
@@ -87,13 +109,13 @@ public class MainActivity extends AppCompatActivity {
                 }).thenOnAsyncThread(new Task<String, String>() {
                     @Override
                     public void run(String result, NextTask<String> nextTask) {
-                        //ログイン画面へGET通信
+                        // ログイン画面へGET通信
                         Request request = new Request.Builder()
                                 .url(URL1)
                                 .build();
                         Response response;
                         try {
-                            //ログインページヘ
+                            // ログインページヘ
                             response = client.newCall(request).execute();
                             Thread.sleep(1500);
                             mLastResponse = response.body().string();
@@ -101,8 +123,7 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                        /********************************************************/
-                        //トークンの抽出処理
+                        // トークンの抽出処理
                         String token = GetToken(mLastResponse);
                         Log.d(TAG,token);
                         if("ERROR".equals(token)){
@@ -110,8 +131,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG,"トークン取得失敗");
                         }
 
-                        /********************************************************/
-                        //ESCへPOST
+                        // ESCへPOST
                         // パラメータ
                         RequestBody requestBody = new FormBody.Builder()
                                 .add("_token", token)
@@ -129,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                                 .build();
 
                         try {
-                            //ログイン
+                            // ログイン
                             Log.d(TAG,"POST");
                             response = client.newCall(request).execute();
                             Thread.sleep(1500);
@@ -146,12 +166,146 @@ public class MainActivity extends AppCompatActivity {
                 }).setCallback(new Callback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        textView.setText(result);
-                        if(result.indexOf("新着情報")!= -1){
-                            Toast.makeText(MainActivity.this,"Success",Toast.LENGTH_LONG).show();
-                        }else{
-                            Toast.makeText(MainActivity.this,"Failure",Toast.LENGTH_LONG).show();
+                        mLastResponse = result;
+                        Pattern pattern1 = Pattern.compile("<td>(.+?)</td>");
+                        Matcher matcher1;
+
+                        //1時限目のHTMLソース
+                        weekCount = 0;
+                        result= getValuesBase.NarrowingValues("<tr><thclass=\"term\">1","投書</a></li></ul></td></tr>",mLastResponse,true);
+                        CreateTimeTableLists createList = new CreateTimeTableLists();
+                        matcher1 = pattern1.matcher(result);
+                        while(matcher1.find()) {
+                            TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
+                            switch (weekCount) {
+                                case 0:
+                                    MondayList.add(timeBlock);
+                                    break;
+                                case 1:
+                                    TuesdayList.add(timeBlock);
+                                    break;
+                                case 2:
+                                    WednesdayList.add(timeBlock);
+                                    break;
+                                case 3:
+                                    ThursdayList.add(timeBlock);
+                                    break;
+                                case 4:
+                                    FridayList.add(timeBlock);
+                                    break;
+                            }
+                            weekCount++;
                         }
+
+                        //2時限目のHTMLソース
+                        weekCount = 0;
+                        result= getValuesBase.NarrowingValues("<thclass=\"term\">2</th>","<thclass=\"term\">3</th>",mLastResponse,true);
+                        matcher1 = pattern1.matcher(result);
+                        while(matcher1.find()) {
+                            TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
+                            switch (weekCount) {
+                                case 0:
+                                    MondayList.add(timeBlock);
+                                    break;
+                                case 1:
+                                    TuesdayList.add(timeBlock);
+                                    break;
+                                case 2:
+                                    WednesdayList.add(timeBlock);
+                                    break;
+                                case 3:
+                                    ThursdayList.add(timeBlock);
+                                    break;
+                                case 4:
+                                    FridayList.add(timeBlock);
+                                    break;
+                            }
+                            weekCount++;
+                        }
+
+                        //3時限目のHTMLソース
+                        weekCount = 0;
+                        result= getValuesBase.NarrowingValues("<thclass=\"term\">3</th>","<thclass=\"term\">4</th>",mLastResponse,true);
+                        matcher1 = pattern1.matcher(result);
+                        while(matcher1.find()) {
+                            TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
+                            switch (weekCount) {
+                                case 0:
+                                    MondayList.add(timeBlock);
+                                    break;
+                                case 1:
+                                    TuesdayList.add(timeBlock);
+                                    break;
+                                case 2:
+                                    WednesdayList.add(timeBlock);
+                                    break;
+                                case 3:
+                                    ThursdayList.add(timeBlock);
+                                    break;
+                                case 4:
+                                    FridayList.add(timeBlock);
+                                    break;
+                            }
+                            weekCount++;
+                        }
+
+                        //4時限目のHTMLソース
+                        weekCount = 0;
+                        result= getValuesBase.NarrowingValues("<thclass=\"term\">4</th>","<h2>担任からのお知らせ</h2>",mLastResponse,true);
+                        matcher1 = pattern1.matcher(result);
+                        while(matcher1.find()) {
+                            TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
+                            switch (weekCount) {
+                                case 0:
+                                    MondayList.add(timeBlock);
+                                    break;
+                                case 1:
+                                    TuesdayList.add(timeBlock);
+                                    break;
+                                case 2:
+                                    WednesdayList.add(timeBlock);
+                                    break;
+                                case 3:
+                                    ThursdayList.add(timeBlock);
+                                    break;
+                                case 4:
+                                    FridayList.add(timeBlock);
+                                    break;
+                            }
+                            weekCount++;
+                        }
+
+                        /********************** リスト完成 **********************/
+
+                        String LastResult = "";
+                        for(TimeBlock tb:MondayList){
+
+                            LastResult +=tb.getClassRoom() + "<br>";
+                            LastResult +=tb.getSubject() + "<br>";
+                        }
+                        for(TimeBlock tb:TuesdayList){
+                            LastResult +=tb.getClassRoom() + "<br>";
+                            LastResult +=tb.getSubject() + "<br>";
+                        }
+                        for(TimeBlock tb:WednesdayList){
+                            LastResult +=tb.getClassRoom() + "<br>";
+                            LastResult +=tb.getSubject() + "<br>";
+                        }
+                        for(TimeBlock tb:ThursdayList){
+                            LastResult +=tb.getClassRoom() + "<br>";
+                            LastResult +=tb.getSubject() + "<br>";
+                        }
+                        for(TimeBlock tb:FridayList){
+                            LastResult +=tb.getClassRoom() + "<br>";
+                            LastResult +=tb.getSubject() + "<br>";
+                        }
+                        textView.setText(Html.fromHtml(LastResult));
+
+//                        if(getValuesBase.ContainsCheck("ログアウト",result)){
+//                            Toast.makeText(MainActivity.this,"Success",Toast.LENGTH_LONG).show();
+//                        }else{
+//                            Toast.makeText(MainActivity.this,"Failure",Toast.LENGTH_LONG).show();
+//                        }
                         dialog.dismiss();
                     }
 
@@ -175,13 +329,13 @@ public class MainActivity extends AppCompatActivity {
                 Promise.with(this,String.class).thenOnAsyncThread(new Task<String, String>() {
                     @Override
                     public void run(String s, NextTask<String> nextTask) {
-                        //ログアウト処理
+                        // ログアウト処理
                         Request request = new Request.Builder()
                                 .url(URL3)
                                 .build();
                         Response response;
                         try {
-                            //ログインページヘ
+                            // ログインページヘ
                             response = client.newCall(request).execute();
                             Thread.sleep(1500);
                             mLastResponse = response.body().string();
