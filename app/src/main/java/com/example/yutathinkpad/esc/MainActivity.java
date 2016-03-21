@@ -16,12 +16,16 @@ import com.anprosit.android.promise.NextTask;
 import com.anprosit.android.promise.Promise;
 import com.anprosit.android.promise.Task;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+import okhttp3.CookieJar;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -50,13 +54,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Proxy p=new Proxy(Proxy.Type.HTTP,new InetSocketAddress("192.168.10.8", 8888));
         mBtnStart =(Button)findViewById(R.id.btn_start);
         mBtnEnd = (Button)findViewById(R.id.btn_end);
         textView =(TextView)findViewById(R.id.text_view);
         dialog = new ProgressDialog(this);
-        client = new OkHttpClient();
 
-        textView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        CookieManager cookieManager = new CookieManager();
+        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+        CookieJar cookieJar = new JavaNetCookieJar(cookieManager);
+
+        client = new OkHttpClient.Builder()
+                .proxy(p)
+                .cookieJar(cookieJar)
+                .build();
 
         //リセットボタン
         mBtnStart.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 Promise.with(this,String.class).then(new Task<String,String>(){
                     @Override
                     public void run(String s, NextTask<String> nextTask) {
-                        //ダイアログ
+                        //ダイアログを表示
                         dialog.setMessage("メッセージ");
                         dialog.setTitle("タイトル");
                         dialog.show();
@@ -83,9 +94,11 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             //ログインページヘ
                             response = client.newCall(request).execute();
-
+                            Thread.sleep(1500);
                             mLastResponse = response.body().string();
                         } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
 
@@ -97,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                             //例外処理
                             Log.d(TAG,"トークン取得失敗");
                         }
+
 
                         /********************************************************/
                         //ESCへPOST
@@ -111,34 +125,41 @@ public class MainActivity extends AppCompatActivity {
                         request = new Request.Builder()
                                 .url(URL2)
                                 .post(requestBody)
+                                .addHeader("Referer","http://comp2.ecc.ac.jp/sutinfo/login")
+                                .addHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87")
+                                .addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
                                 .build();
+
+                        request.header("referer");
 
                         try {
                             //ログイン
                             Log.d(TAG,"POST");
                             response = client.newCall(request).execute();
+                            Thread.sleep(1500);
                             mLastResponse = response.body().string();
                         } catch (IOException e) {
                             Log.d(TAG,"POST失敗");
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
 
                         /********************************************************/
                         //ログイン画面へGET通信
-                        request = new Request.Builder()
-                                .url(URL3)
-                                .build();
-//                        Response response;
-                        try {
-                            //ログインページヘ
-                            Log.d(TAG,"最終GET");
-                            response = client.newCall(request).execute();
-
-                            mLastResponse = response.body().string();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            Log.d(TAG,"最終GET失敗");
-                        }
+//                        request = new Request.Builder()
+//                                .url(URL3)
+//                                .build();
+////                        Response response;
+//                        try {
+//                            Log.d(TAG,"最終GET");
+//                            response = client.newCall(request).execute();
+//
+//                            mLastResponse = response.body().string();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                            Log.d(TAG,"最終GET失敗");
+//                        }
 
                         nextTask.run(mLastResponse);
                     }
