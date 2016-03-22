@@ -1,5 +1,6 @@
 package com.example.yutathinkpad.esc.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,8 +25,6 @@ import com.example.yutathinkpad.esc.tools.GetValuesBase;
 import java.io.IOException;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -39,7 +38,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class BeforeMainActivity extends Activity {
 
     Button mBtnStart;
     Button mBtnEnd;
@@ -301,17 +300,12 @@ public class MainActivity extends AppCompatActivity {
                         }
                         textView.setText(Html.fromHtml(LastResult));
 
-//                        if(getValuesBase.ContainsCheck("ログアウト",result)){
-//                            Toast.makeText(MainActivity.this,"Success",Toast.LENGTH_LONG).show();
-//                        }else{
-//                            Toast.makeText(MainActivity.this,"Failure",Toast.LENGTH_LONG).show();
-//                        }
                         dialog.dismiss();
                     }
 
                     @Override
                     public void onFailure(Bundle bundle, Exception e) {
-                        Toast.makeText(MainActivity.this,"onFailure::" + e.toString(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(BeforeMainActivity.this,"onFailure::" + e.toString(),Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
 
