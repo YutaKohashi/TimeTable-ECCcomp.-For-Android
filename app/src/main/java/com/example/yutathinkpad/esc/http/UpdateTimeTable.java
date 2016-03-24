@@ -10,8 +10,7 @@ import com.anprosit.android.promise.Callback;
 import com.anprosit.android.promise.NextTask;
 import com.anprosit.android.promise.Promise;
 import com.anprosit.android.promise.Task;
-import com.example.yutathinkpad.esc.database.SaveManager;
-import com.example.yutathinkpad.esc.database.TimeTable;
+import com.example.yutathinkpad.esc.preference.SaveManager;
 import com.example.yutathinkpad.esc.object.TimeBlock;
 import com.example.yutathinkpad.esc.tools.CreateTimeTableLists;
 
@@ -20,6 +19,7 @@ import com.example.yutathinkpad.esc.tools.GetValuesBase;
 import java.io.IOException;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,6 +39,8 @@ public class UpdateTimeTable {
     static final String URL1 = "http://comp2.ecc.ac.jp/sutinfo/login";          //ログイン画面
     static final String URL2 = "http://comp2.ecc.ac.jp/sutinfo/auth/attempt";   //実ログイン
     static final String URL3 ="http://comp2.ecc.ac.jp/sutinfo/logout";
+
+    static final String prefName ="sample";
 
     static final String userId = "2140257";
     static final String password = "455478";
@@ -61,13 +63,28 @@ public class UpdateTimeTable {
    CookieJar cookieJar;
     GetValuesBase getValuesBase;
 
+    SaveManager saveManager;
+
 
     public void upDateTimeTable(final Context context){
+
+        MondayList = new ArrayList<>();
+        TuesdayList = new ArrayList<>();
+        WednesdayList = new ArrayList<>();
+        ThursdayList = new ArrayList<>();
+        FridayList = new ArrayList<>();
+
+        dialog = new ProgressDialog(context);
 
         cookieManager = new CookieManager();
         cookieJar = new JavaNetCookieJar(cookieManager);
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
         getValuesBase = new GetValuesBase();
+
+        client = new OkHttpClient.Builder()
+                //.proxy(p)
+                .cookieJar(cookieJar)
+                .build();
 
         Promise.with(this,String.class).then(new Task<String,String>(){
             @Override
@@ -272,13 +289,13 @@ public class UpdateTimeTable {
 
                 /********************** 以上でリスト完成 **********************/
                 /******************* 以下データベース登録処理 ******************/
-                SaveManager saveManager = new SaveManager();
-                saveManager.saveManagerWithSqlite(MondayList,1);
-                saveManager.saveManagerWithSqlite(TuesdayList,2);
-                saveManager.saveManagerWithSqlite(WednesdayList,3);
-                saveManager.saveManagerWithSqlite(ThursdayList,4);
-                saveManager.saveManagerWithSqlite(FridayList,5);
 
+                saveManager = new SaveManager();
+                saveManager.saveMangerWithPreference(context,prefName,MondayList,"monList");
+                saveManager.saveMangerWithPreference(context,prefName,TuesdayList,"tueList");
+                saveManager.saveMangerWithPreference(context,prefName,WednesdayList,"wedList");
+                saveManager.saveMangerWithPreference(context,prefName,ThursdayList,"thurList");
+                saveManager.saveMangerWithPreference(context,prefName,FridayList,"friList");
 
                 dialog.dismiss();
             }

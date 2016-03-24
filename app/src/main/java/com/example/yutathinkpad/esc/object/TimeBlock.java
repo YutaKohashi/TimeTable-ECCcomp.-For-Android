@@ -7,7 +7,9 @@ public class TimeBlock {
     String classRoom;
     String  subject;
 
+    //コンストラクタ
     public TimeBlock(){
+        super();
         classRoom = "";
         subject = "";
     }

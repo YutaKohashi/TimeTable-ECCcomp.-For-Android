@@ -18,6 +18,7 @@ import com.anprosit.android.promise.Task;
 
 import com.example.yutathinkpad.esc.R;
 import com.example.yutathinkpad.esc.http.JavaNetCookieJar;
+import com.example.yutathinkpad.esc.http.UpdateTimeTable;
 import com.example.yutathinkpad.esc.object.TimeBlock;
 import com.example.yutathinkpad.esc.tools.CreateTimeTableLists;
 import com.example.yutathinkpad.esc.tools.GetValuesBase;
@@ -38,7 +39,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class BeforeMainActivity extends Activity {
+public class  BeforeMainActivity extends AppCompatActivity {
 
     Button mBtnStart;
     Button mBtnEnd;
@@ -57,11 +58,13 @@ public class BeforeMainActivity extends Activity {
     final String TAG ="error:::";
 
     //月曜日から金曜日の曜日ごとのリスト
-    static List<TimeBlock> MondayList;
-    static List<TimeBlock> TuesdayList;
-    static List<TimeBlock> WednesdayList;
-    static List<TimeBlock> ThursdayList;
-    static List<TimeBlock> FridayList;
+    List<TimeBlock> MondayList;
+    List<TimeBlock> TuesdayList;
+    List<TimeBlock> WednesdayList;
+    List<TimeBlock> ThursdayList;
+    List<TimeBlock> FridayList;
+
+    UpdateTimeTable utt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,10 +93,20 @@ public class BeforeMainActivity extends Activity {
                 .cookieJar(cookieJar)
                 .build();
 
+
         //リセットボタン
         mBtnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                MondayList = new ArrayList<>();
+                TuesdayList = new ArrayList<>();
+                WednesdayList = new ArrayList<>();
+                ThursdayList = new ArrayList<>();
+                FridayList = new ArrayList<>();
+
+
                 Promise.with(this,String.class).then(new Task<String,String>(){
                     @Override
                     public void run(String s, NextTask<String> nextTask) {
@@ -116,7 +129,7 @@ public class BeforeMainActivity extends Activity {
                         try {
                             // ログインページヘ
                             response = client.newCall(request).execute();
-                            Thread.sleep(1500);
+                            Thread.sleep(500);
                             mLastResponse = response.body().string();
                         } catch (IOException|InterruptedException e) {
                             e.printStackTrace();
@@ -151,7 +164,7 @@ public class BeforeMainActivity extends Activity {
                             // ログイン
                             Log.d(TAG,"POST");
                             response = client.newCall(request).execute();
-                            Thread.sleep(1500);
+                            Thread.sleep(500);
 
                             mLastResponse = response.body().string();
                         } catch (IOException |InterruptedException e) {
@@ -275,6 +288,14 @@ public class BeforeMainActivity extends Activity {
                         }
 
                         /********************** リスト完成 **********************/
+                        /******************* 以下データベース登録処理 ******************/
+//                        SaveManager saveManager = new SaveManager();
+//                        saveManager.saveManagerWithSqlite(MondayList,1);
+//                        saveManager.saveManagerWithSqlite(TuesdayList,2);
+//                        saveManager.saveManagerWithSqlite(WednesdayList,3);
+//                        saveManager.saveManagerWithSqlite(ThursdayList,4);
+//                        saveManager.saveManagerWithSqlite(FridayList,5);
+
 
                         String LastResult = "";
                         for(TimeBlock tb:MondayList){
@@ -320,6 +341,11 @@ public class BeforeMainActivity extends Activity {
             public void onClick(View view) {
                 textView.setText("");
 
+//                LoadManager loadManager = new LoadManager();
+//
+//                loadManager.loadManagerfromSqlite(1);
+
+
                 Promise.with(this,String.class).thenOnAsyncThread(new Task<String, String>() {
                     @Override
                     public void run(String s, NextTask<String> nextTask) {
@@ -338,6 +364,8 @@ public class BeforeMainActivity extends Activity {
                         }
                     }
                 });
+
+                Toast.makeText(BeforeMainActivity.this,"ログアウト",Toast.LENGTH_LONG).show();
             }
         });
 
