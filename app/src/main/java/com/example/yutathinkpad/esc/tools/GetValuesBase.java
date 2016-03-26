@@ -145,5 +145,22 @@ public class GetValuesBase {
         return token;
     }
 
+    public String GetValues(String key,String target){
+        String returnStr = "";
+        Pattern exp = Pattern.compile(key);
+        Matcher matcher = exp.matcher(target);
+
+        if(matcher.find()){
+            returnStr = matcher.group(1);
+        }
+
+        if(key.equals("")){
+            returnStr= "ERROR";
+            Log.d(TAG,"失敗");
+        }
+
+        return returnStr;
+    }
+
 
 }
