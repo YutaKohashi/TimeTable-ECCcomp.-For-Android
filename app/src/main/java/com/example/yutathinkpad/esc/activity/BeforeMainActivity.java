@@ -1,6 +1,5 @@
 package com.example.yutathinkpad.esc.activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,9 +15,8 @@ import com.anprosit.android.promise.NextTask;
 import com.anprosit.android.promise.Promise;
 import com.anprosit.android.promise.Task;
 
-import com.example.yutathinkpad.esc.R;
 import com.example.yutathinkpad.esc.http.JavaNetCookieJar;
-import com.example.yutathinkpad.esc.http.UpdateTimeTable;
+import com.example.yutathinkpad.esc.http.UpdateTimeTableManager;
 import com.example.yutathinkpad.esc.object.TimeBlock;
 import com.example.yutathinkpad.esc.tools.CreateTimeTableLists;
 import com.example.yutathinkpad.esc.tools.GetValuesBase;
@@ -64,17 +62,17 @@ public class  BeforeMainActivity extends AppCompatActivity {
     List<TimeBlock> ThursdayList;
     List<TimeBlock> FridayList;
 
-    UpdateTimeTable utt;
+    UpdateTimeTableManager utt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
 
         //Proxy p=new Proxy(Proxy.Type.HTTP,new InetSocketAddress("192.168.10.8", 8888));
-        mBtnStart =(Button)findViewById(R.id.btn_start);
-        mBtnEnd = (Button)findViewById(R.id.btn_end);
-        textView =(TextView)findViewById(R.id.text_view);
+//        mBtnStart =(Button)findViewById(R.id.btn_start);
+//        mBtnEnd = (Button)findViewById(R.id.btn_end);
+//        textView =(TextView)findViewById(R.id.text_view);
         dialog = new ProgressDialog(this);
 
         MondayList = new ArrayList<>();

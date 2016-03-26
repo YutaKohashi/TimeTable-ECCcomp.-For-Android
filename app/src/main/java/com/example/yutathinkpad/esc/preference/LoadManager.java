@@ -19,6 +19,13 @@ public class LoadManager {
 
     }
 
+    /**
+     *
+     * @param context
+     * @param prefName
+     * @param key
+     * @return
+     */
     public List<TimeBlock> loadManagerWithPreference(Context context, String prefName, String key){
         SharedPreferences sharedPreferences;
         List<TimeBlock> arrayList;

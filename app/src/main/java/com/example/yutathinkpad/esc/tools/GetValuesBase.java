@@ -1,5 +1,7 @@
 package com.example.yutathinkpad.esc.tools;
 
+import android.util.Log;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,6 +9,7 @@ import java.util.regex.Pattern;
  * Created by Yuta on 2016/03/21.
  */
 public class GetValuesBase {
+    final String TAG ="error:::";
 
     /**
      *
@@ -122,6 +125,24 @@ public class GetValuesBase {
 
 
         return afterStr;
+    }
+
+    //トークンの切り出し処理
+    public String GetToken(String target){
+        //TOKENをここで取得する
+        //matchで取得
+        //input name="_token" type="hidden" value="Nffzc7TtEFFuuhKC6bL4rg7ViPib1jkVxj2QBqlk"
+        String token = "";
+        Pattern exp = Pattern.compile("input name=\"_token\" type=\"hidden\" value=\"(.+?)\"");
+        Matcher matcher = exp.matcher(target);
+        if(matcher.find()){
+            token = matcher.group(1);
+        }
+        if(token.equals("")){
+            token = "ERROR";
+            Log.d(TAG,"トークンの取得に失敗");
+        }
+        return token;
     }
 
 
