@@ -4,19 +4,24 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.anprosit.android.promise.Callback;
 import com.anprosit.android.promise.NextTask;
 import com.anprosit.android.promise.Promise;
 import com.anprosit.android.promise.Task;
+import com.example.yutathinkpad.esc.object.AttendanceRateObject;
 import com.example.yutathinkpad.esc.preference.SaveManager;
+import com.example.yutathinkpad.esc.stab;
 import com.example.yutathinkpad.esc.tools.GetValuesBase;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,6 +41,8 @@ public class GetAttendanceRateManager {
     static final String URL2 = "http://school4.ecc.ac.jp/eccstdweb/st0100/st0100_01.aspx";
     static final String URL3 = "http://school4.ecc.ac.jp/EccStdWeb/ST0100/ST0100_02.aspx";
     static final String TAG ="error:::";
+
+    static final String PREF_NAME ="sample";
     ProgressDialog prg;
     OkHttpClient client;
     String mLastResponse;
@@ -45,6 +52,7 @@ public class GetAttendanceRateManager {
     GetValuesBase getValuesBase;
 
     SaveManager saveManager;
+    List<AttendanceRateObject> attendanceRateList;
 
     public void getAttendanceRate(final Context context, final String userId, final String password){
         prg = new ProgressDialog(context);
@@ -54,6 +62,7 @@ public class GetAttendanceRateManager {
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
         getValuesBase = new GetValuesBase();
         saveManager = new SaveManager();
+        attendanceRateList = new ArrayList();
 
         client = new OkHttpClient.Builder()
                 .cookieJar(cookieJar)
@@ -89,7 +98,7 @@ public class GetAttendanceRateManager {
                 }
 
                 String __LASTFOCUS = getValuesBase.GetValues("input type=\"hidden\" name=\"__LASTFOCUS\" id=\"__LASTFOCUS\" value=\"(.+?)\"",mLastResponse);
-               Log.d("content:;::",__LASTFOCUS);
+                Log.d("content:;::",__LASTFOCUS);
                 String __VIEWSTATE =  getValuesBase.GetValues("input type=\"hidden\" name=\"__VIEWSTATE\" id=\"__VIEWSTATE\" value=\"(.+?)\"",mLastResponse);
                 String __SCROLLPOSITIONX = getValuesBase.GetValues("input type=\"hidden\" name=\"__SCROLLPOSITIONX\" id=\"__SCROLLPOSITIONX\" value=\"(.+?)\"",mLastResponse);
                 String __SCROLLPOSITIONY = getValuesBase.GetValues("input type=\"hidden\" name=\"__SCROLLPOSITIONY\" id=\"__SCROLLPOSITIONY\" value=\"(.+?)\"",mLastResponse);
@@ -100,7 +109,7 @@ public class GetAttendanceRateManager {
                 String ctl00$ContentPlaceHolder1$txtPassword = password;
                 String ctl00$ContentPlaceHolder1$btnLogin = "ログイン";
 
-                RequestBody requestBody = new FormBody.Builder()
+                RequestBody requestBody2 = new FormBody.Builder()
                         .add("__LASTFOCUS",__LASTFOCUS)
                         .add("__VIEWSTATE",__VIEWSTATE)
                         .add("__SCROLLPOSITIONX",__SCROLLPOSITIONX)
@@ -115,7 +124,7 @@ public class GetAttendanceRateManager {
 
                 request = new Request.Builder()
                         .url(URL2)
-                        .post(requestBody)
+                        .post(requestBody2)
                         .addHeader("Referer","http://school4.ecc.ac.jp/eccstdweb/st0100/st0100_01.aspx")
                         .addHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87")
                         .addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
@@ -149,7 +158,7 @@ public class GetAttendanceRateManager {
                 String ctl00$txtHeadTitle = "";
 
 
-                RequestBody requestBody2 = new FormBody.Builder()
+                RequestBody requestBody3 = new FormBody.Builder()
                         .add("__EVENTTARGET",__EVENTTARGET2)
                         .add("__EVENTARGUMENT",__EVENTARGUMENT2)
                         .add("__VIEWSTATE",__VIEWSTATE2)
@@ -168,7 +177,7 @@ public class GetAttendanceRateManager {
 
                 request = new Request.Builder()
                         .url(URL3)
-                        .post(requestBody2)
+                        .post(requestBody3)
                         .addHeader("Referer",URL3)
                         .addHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87")
                         .addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
@@ -186,12 +195,75 @@ public class GetAttendanceRateManager {
                     e.printStackTrace();
                     Toast.makeText(context,"通信に失敗しました",Toast.LENGTH_LONG).show();
                 }
+//
+                nextTask.run(mLastResponse);
+            }
 
-                String html = getValuesBase.NarrowingValues("<tableid=\"Table1\"class=\"ListTable\"","<tablecellspacing=\"0\"border=\"0\"id=\"ctl00_ContentPlaceHolder1_fmvSyuseki\"",mLastResponse,true);
-                html = html.replaceAll("align=\"right\"style=\"border-color:Black;border-width:1px;border-style:Solid;font-size:9pt;width:8%;\"","");
+        }).thenOnMainThread(new Task<String, String>() {
+            @Override
+            public void run(String result, NextTask<String> nextTask) {
+                stab stub = new stab();
+                mLastResponse = stub.FireLoad(context);
+
+                String html = getValuesBase.NarrowingValues("<table class=\"GridVeiwTable\"","<table cellspacing=\"0\" border=\"0\" id=\"ctl00_ContentPlaceHolder1_fmvSyuseki\"",mLastResponse);
+
+                attendanceRateList = new ArrayList();
+//                html = html.replaceAll("align=\"right\"style=\"border-color:Black;border-width:1px;border-style:Solid;font-size:9pt;width:8%;\"","");
                 Log.d(TAG,html);
+                //値が一致する間ループ
+                //科目ごとにソースを抽出
+                Matcher match = getValuesBase.GetGropValues("<tr>.*?</tr>",html);
+                while(match.find()){
+                    AttendanceRateObject rateObject = new AttendanceRateObject();
+                    //教科ごとのhtmlソース
+                    String html2 = match.group();
+                    String subject = getValuesBase.GetValues("<img(?:\\\".*?\\\"|\\'.*?\\'|[^\\'\\\"])*?>(.+?)</a>",html2);
+                    rateObject.setSubjectName(subject);
+                    //<td>6</td><td>26</td><td>9</td><td>2</td><td>&nbsp;</td><td>&nbsp;</td><td>75%</td><td>&nbsp;</td>
 
-                
+                    //String html3 = getValuesBase.NarrowingValues("</a>","</tr>",html2,false);
+                    int count = 0;
+                    Matcher match2 = getValuesBase.GetGropValues("<td align=\".*?\" style=\".*?\">(.*?)</td>",html2);
+                    //Matcher match2 = getValuesBase.GetGropValues("<td>(.+?)</td>",html3);
+                    while(match2.find()){
+                        switch(count){
+                            case 0:
+                                break;
+                            case 1:
+                                rateObject.setUnit(match2.group(1));
+                                break;
+                            case 2:
+                                rateObject.setAttendanceNumber(match2.group(1));
+                                break;
+                            case 3:
+                                rateObject.setAbsentNumber(match2.group(1));
+                                break;
+                            case 4:
+                                rateObject.setLateNumber(match2.group(1));
+                                break;
+                            case 5:
+                                rateObject.setPublicAbsentNumber1(match2.group(1));
+                                break;
+                            case 6:
+                                rateObject.setPublicAbsentNumber2(match2.group(1));
+                                break;
+                            case 7:
+                                rateObject.setAttendanceRate(match2.group(1));
+                                break;
+                            case 8:
+                                rateObject.setShortageNumber(match2.group(1));
+                                break;
+                        }
+                        count++;
+                    }
+                    attendanceRateList.add(rateObject);
+                }
+
+                //出席率画面のリスト完成
+                /******************* 以下データベース登録処理 ******************/
+                saveManager = new SaveManager();
+                saveManager.saveMangerWithPreference(context,PREF_NAME,attendanceRateList,"attendanceList");
+
                 nextTask.run(mLastResponse);
             }
         }).setCallback(new Callback<String>() {

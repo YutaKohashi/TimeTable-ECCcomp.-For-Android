@@ -39,7 +39,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:hint="StudentNumber"/>
+                android:hint="StudentNumber"
+                android:text="2140257"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -50,14 +51,16 @@
             android:layout_below="@id/usernameWrapper"
             android:layout_marginTop="4dp"
             android:layout_marginLeft="20sp"
-            android:layout_marginRight="20sp">
+            android:layout_marginRight="20sp"
+            >
 
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:hint="Password"/>
+                android:hint="Password"
+                android:text = "455478"/>
 
         </android.support.design.widget.TextInputLayout>
 

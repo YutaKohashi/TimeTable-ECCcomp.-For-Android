@@ -3,6 +3,7 @@ package com.example.yutathinkpad.esc.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.yutathinkpad.esc.object.AttendanceRateObject;
 import com.example.yutathinkpad.esc.object.TimeBlock;
 import com.google.gson.Gson;
 
@@ -19,7 +20,7 @@ public class SaveManager {
 
     }
 
-    public void saveMangerWithPreference(Context context, String prefName, List<TimeBlock> arrayList, String key){
+    public void saveMangerWithPreference(Context context, String prefName, List arrayList, String key){
         SharedPreferences sharedPreferences;
         Gson gson;
 
@@ -27,4 +28,13 @@ public class SaveManager {
         gson = new Gson();
         sharedPreferences.edit().putString(key,gson.toJson(arrayList)).commit();
     }
+
+//    public void saveMangerWithPreference(Context context, String prefName, List<AttendanceRateObject> arrayList, String key){
+//        SharedPreferences sharedPreferences;
+//        Gson gson;
+//
+//        sharedPreferences = context.getSharedPreferences(prefName,context.MODE_PRIVATE);
+//        gson = new Gson();
+//        sharedPreferences.edit().putString(key,gson.toJson(arrayList)).commit();
+//    }
 }

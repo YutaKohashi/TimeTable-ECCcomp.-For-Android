@@ -35,7 +35,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 1;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
                 tabTitle = "時間割";
                 break;
             case 1:
-                tabTitle = "出席率";
+                tabTitle = "シラバス";
                 break;
 
 

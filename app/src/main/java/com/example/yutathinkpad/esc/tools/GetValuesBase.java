@@ -35,6 +35,17 @@ public class GetValuesBase {
         return returnStr;
     }
 
+    public String NarrowingValues(String start,String end,String target){
+        String keyStr = "";
+        String key = start + ".*?" + end;
+        Pattern exp = Pattern.compile(key);
+        Matcher matcher = exp.matcher(target);
+        if(matcher.find()){
+            keyStr = matcher.group();
+        }
+        return  keyStr;
+    }
+
     /**
      *
      * @param start
@@ -161,6 +172,22 @@ public class GetValuesBase {
 
         return returnStr;
     }
+
+    /**
+     *
+     * @param key regex
+     * @param target target
+     * @return Matcher型で返り値を返す
+     */
+    public Matcher GetGropValues(String key,String target){
+
+        Pattern exp = Pattern.compile(key);
+
+        Matcher matcher = exp.matcher(target);
+
+        return matcher;
+    }
+
 
 
 }

@@ -3,10 +3,12 @@ package com.example.yutathinkpad.esc.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.yutathinkpad.esc.object.AttendanceRateObject;
 import com.example.yutathinkpad.esc.object.TimeBlock;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class LoadManager {
      * @param key
      * @return
      */
-    public List<TimeBlock> loadManagerWithPreference(Context context, String prefName, String key){
+    public List<TimeBlock> loadManagerWithPreferenceForTimeBlock(Context context, String prefName, String key){
         SharedPreferences sharedPreferences;
         List<TimeBlock> arrayList;
 
@@ -34,6 +36,32 @@ public class LoadManager {
         Gson gson = new Gson();
         arrayList = new ArrayList<>();
         arrayList = gson.fromJson(sharedPreferences.getString(key,""),new TypeToken<List<TimeBlock>>(){}.getType());
+
+
+        return arrayList;
+    }
+
+    public List<String> loadManagerWithPreferenceForString(Context context, String prefName, String key){
+        SharedPreferences sharedPreferences;
+        List<String> arrayList;
+
+        sharedPreferences = context.getSharedPreferences(prefName,context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        arrayList = new ArrayList<>();
+        arrayList = gson.fromJson(sharedPreferences.getString(key,""),new TypeToken<List<String>>(){}.getType());
+
+
+        return arrayList;
+    }
+
+    public List<AttendanceRateObject> loadManagerWithPreferenceForAttendance(Context context, String prefName, String key){
+        SharedPreferences sharedPreferences;
+        List<AttendanceRateObject> arrayList;
+
+        sharedPreferences = context.getSharedPreferences(prefName,context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        arrayList = new ArrayList<>();
+        arrayList = gson.fromJson(sharedPreferences.getString(key,""),new TypeToken<List<AttendanceRateObject>>(){}.getType());
 
 
         return arrayList;

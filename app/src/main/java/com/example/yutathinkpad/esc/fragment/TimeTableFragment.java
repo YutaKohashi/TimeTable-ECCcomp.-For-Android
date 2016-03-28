@@ -1,14 +1,12 @@
 package com.example.yutathinkpad.esc.fragment;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -74,11 +72,11 @@ public class TimeTableFragment extends Fragment {
 
         loadManager = new LoadManager();
 
-        MondayList = loadManager.loadManagerWithPreference(getActivity(),prefName,"monList");
-        TuesdayList = loadManager.loadManagerWithPreference(getActivity(),prefName,"tueList");
-        WednesdayList = loadManager.loadManagerWithPreference(getActivity(),prefName,"wedList");
-        ThursdayList = loadManager.loadManagerWithPreference(getActivity(),prefName,"thurList");
-        FridayList = loadManager.loadManagerWithPreference(getActivity(),prefName,"friList");
+        MondayList = loadManager.loadManagerWithPreferenceForTimeBlock(getActivity(),prefName,"monList");
+        TuesdayList = loadManager.loadManagerWithPreferenceForTimeBlock(getActivity(),prefName,"tueList");
+        WednesdayList = loadManager.loadManagerWithPreferenceForTimeBlock(getActivity(),prefName,"wedList");
+        ThursdayList = loadManager.loadManagerWithPreferenceForTimeBlock(getActivity(),prefName,"thurList");
+        FridayList = loadManager.loadManagerWithPreferenceForTimeBlock(getActivity(),prefName,"friList");
 
 
         monLayout.removeAllViews();

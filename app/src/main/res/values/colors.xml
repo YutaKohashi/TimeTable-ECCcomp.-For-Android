@@ -5,5 +5,18 @@
     <color name="colorAccent">#00f148</color>
 
     <color name="colorAccentLight">#baffcf</color>
+    <color name="colorPrimary1">#beedff</color>
+    <color name="colorPrimary2">#7fd3f2</color>
+    <color name="colorPrimary3">#4fcfff</color>
+    <color name="colorPrimary4">#26c0fa</color>
+    <color name="colorPrimary5">#06bbff</color>
+    <color name="colorPrimary6">#008dc2</color>
+    <color name="colorPrimary7">#0077a4</color>
+    <color name="colorPrimary8">#014964</color>
+    <color name="colorPrimary9">#002938</color>
+
+    <color name="blue">#0099ff</color>
+
+
     <color name="dark">#ecebeb</color>
 </resources>
