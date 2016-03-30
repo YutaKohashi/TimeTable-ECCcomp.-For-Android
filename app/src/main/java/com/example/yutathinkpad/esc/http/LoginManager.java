@@ -10,7 +10,7 @@ public class LoginManager {
     public void loginManager(final Context context, View view, String userId, String password){
         //アプデートマネージャの使用
         UpdateTimeTableManager utt = new UpdateTimeTableManager();
-        utt.upDateTimeTableForLogin(context,userId,password);
+        utt.upDateTimeTableForLogin(context,view,userId,password);
 
         //GetAttendanceRateManager attendanceRateManager = new GetAttendanceRateManager();
         //attendanceRateManager.getAttendanceRate(context,userId,password);

@@ -8,4 +8,9 @@
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
     <string name="title_activity_provisiontal">ProvisiontalActivity</string>
+    <string name="title">title</string>
+    <string name="content_image">content_image</string>
+    <string name="Complete">成功</string>
+    <string name = "Error">エラー</string>
+    <string name="Login">ログイン</string>
 </resources>

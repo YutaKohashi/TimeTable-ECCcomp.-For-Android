@@ -10,8 +10,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity"></activity>
-        <activity android:name=".activity.LoginActivity">
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".activity.MainActivity" />
+        <activity
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,11 +24,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".activity.ProvisiontalActivity"
-            android:label="@string/title_activity_provisiontal"
-            >
-
-        </activity>
+            android:label="@string/title_activity_provisiontal"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".activity.PreferenceRelationActivity"></activity>
     </application>
 
 </manifest>

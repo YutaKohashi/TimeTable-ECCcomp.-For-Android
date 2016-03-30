@@ -1,5 +1,8 @@
 package com.example.yutathinkpad.esc.tools;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.util.regex.Matcher;
@@ -149,10 +152,6 @@ public class GetValuesBase {
         if(matcher.find()){
             token = matcher.group(1);
         }
-        if(token.equals("")){
-            token = "ERROR";
-            Log.d(TAG,"トークンの取得に失敗");
-        }
         return token;
     }
 
@@ -188,6 +187,49 @@ public class GetValuesBase {
         return matcher;
     }
 
+    public String DeletePercent(String str){
+        str = str.replaceAll("%","");
+        return str;
+    }
 
+    public String DeleteNBSPTo0(String str){
+        str = str.replaceAll("&nbsp;","0");
+        return str;
+    }
+
+    public static final int PREFERENCE_INIT = 0;
+    public static final int PREFERENCE_BOOTED = 1;
+
+    public int GetLoginState(Context context){
+        int state;
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        state = pref.getInt("InitState",PREFERENCE_INIT);
+
+        return state;
+    }
+
+    public void SetLoginState(Context context,boolean state){
+        int state2 = 0;
+
+        if(state){
+            state2 = 1;
+        }
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        pref.edit().putInt("InitState",state2).commit();
+
+    }
+
+    public boolean IsBooted(Context context){
+        int state = GetLoginState(context);
+
+        boolean rtn = false;
+        if(state == PREFERENCE_INIT){
+            rtn =  false;
+        }else if(state == PREFERENCE_BOOTED){
+            rtn = true;
+        }
+
+        return rtn;
+    }
 
 }

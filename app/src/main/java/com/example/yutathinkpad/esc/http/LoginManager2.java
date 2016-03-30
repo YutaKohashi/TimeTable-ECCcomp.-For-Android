@@ -177,7 +177,7 @@ public class LoginManager2 {
                 dialog.dismiss();
                 //アプデートマネージャの使用
                 UpdateTimeTableManager utt = new UpdateTimeTableManager();
-                utt.upDateTimeTableForLogin(context,userId,password);
+                utt.upDateTimeTableForLogin(context,view,userId,password);
 
             }
 

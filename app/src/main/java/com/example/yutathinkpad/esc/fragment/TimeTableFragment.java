@@ -38,6 +38,8 @@ public class TimeTableFragment extends Fragment {
     LinearLayout friLayout;
 
     LoadManager loadManager;
+
+    TextView textView;
  //   LayoutInflater inflater;
 
     public TimeTableFragment() {
@@ -158,6 +160,10 @@ public class TimeTableFragment extends Fragment {
 
             friLayout.addView(cardView);
         }
+
+        //タイトルの設定
+        textView = (TextView)getActivity().findViewById(R.id.title_name_text);
+        textView.setText("時間割");
 
         return v;
     }

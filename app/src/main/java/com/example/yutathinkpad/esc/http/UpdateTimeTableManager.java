@@ -1,17 +1,22 @@
 package com.example.yutathinkpad.esc.http;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.anprosit.android.promise.Callback;
 import com.anprosit.android.promise.NextTask;
 import com.anprosit.android.promise.Promise;
 import com.anprosit.android.promise.Task;
+import com.dd.CircularProgressButton;
+import com.example.yutathinkpad.esc.R;
 import com.example.yutathinkpad.esc.activity.MainActivity;
 import com.example.yutathinkpad.esc.object.AttendanceRateObject;
 import com.example.yutathinkpad.esc.preference.SaveManager;
@@ -22,8 +27,10 @@ import com.example.yutathinkpad.esc.tools.CreateTimeTableLists;
 import com.example.yutathinkpad.esc.tools.GetValuesBase;
 
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -321,7 +328,21 @@ public class UpdateTimeTableManager {
 
     }
 
-    public void upDateTimeTableForLogin(final Context context, final String userId, final String password){
+    /******************************** ログイン時に使用   *********************************************************/
+
+    // ログイン画面へGET通信
+    Request request;
+    Response response;
+    CircularProgressButton btn;
+    View viewStart;
+    /**
+     *
+     * @param context  コンテキスト
+     * @param v        layout
+     * @param userId   学籍番号
+     * @param password パスワード
+     */
+    public void upDateTimeTableForLogin(final Context context, final View v, final String userId, final String password){
 
         final String userId2 = userId;
         final String password2 = password;
@@ -338,46 +359,77 @@ public class UpdateTimeTableManager {
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
         getValuesBase = new GetValuesBase();
 
-        client = new OkHttpClient.Builder()
-                //.proxy(p)
-                .cookieJar(cookieJar)
-                .build();
+
+        btn =  (CircularProgressButton)v.findViewById(R.id.login_btn);
+
+        try{
+            client = new OkHttpClient.Builder()
+                    //.proxy(p)
+                    .cookieJar(cookieJar)
+                    .build();
+
+        }catch(Exception e){
+            Log.d("okhttp::::","通信に失敗しました");
+        }
+
+
 
         Promise.with(this,String.class).then(new Task<String,String>(){
             @Override
             public void run(String s, NextTask<String> nextTask) {
                 // ダイアログを表示
-                dialog.setMessage("メッセージ");
-                dialog.setTitle("タイトル");
-                dialog.show();
+//                dialog.setMessage("メッセージ");
+//                dialog.setTitle("タイトル");.
+//                dialog.show();
                 nextTask.run(null);
+
+
 
             }
 
         }).thenOnAsyncThread(new Task<String, String>() {
             @Override
             public void run(String result, NextTask<String> nextTask) {
-                // ログイン画面へGET通信
-                Request request = new Request.Builder()
-                        .url(URL1)
-                        .build();
-                Response response;
+
+
+                // ログインページヘ
                 try {
-                    // ログインページヘ
+                    request = new Request.Builder()
+                            .url(URL1)
+                            .build();
+
                     response = client.newCall(request).execute();
                     Thread.sleep(500);
                     mLastResponse = response.body().string();
-                } catch (IOException |InterruptedException e) {
+                } catch (UnknownHostException e) {
+                    Toast.makeText(context, "通信に失敗しました", Toast.LENGTH_LONG).show();
+                    Log.d("okhttp::::", "通信に失敗しました");
+                } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
-                }
 
-                // トークンの抽出処理
+                }
+                nextTask.run(mLastResponse);
+            }
+
+        }).thenOnMainThread(new Task<String, String>() {
+
+
+            @Override
+            public void run(String s, NextTask<String> nextTask) {
+            // トークンの抽出処理
                 String token = getValuesBase.GetToken(mLastResponse);
                 Log.d(TAG,token);
                 if("ERROR".equals(token)){
                     //例外処理
                     Log.d(TAG,"トークン取得失敗");
                 }
+                nextTask.run(token);
+        }
+
+        }).thenOnAsyncThread(new Task<String, String>() {
+
+            @Override
+            public void run(String token, NextTask<String> nextTask) {
 
                 // ESCへPOST
                 // パラメータ
@@ -421,9 +473,26 @@ public class UpdateTimeTableManager {
                 nextTask.run(mLastResponse);
             }
 
+        }).thenOnMainThread(new Task<String, String>() {
+
+            @Override
+            public void run(String s, NextTask<String> nextTask) {
+                // トークンの抽出処理
+                String token = getValuesBase.GetToken(mLastResponse);
+                Log.d(TAG,token);
+                if("ERROR".equals(token)){
+                    //例外処理
+                    Log.d(TAG,"トークン取得失敗");
+                }
+                btn.setProgress(70);
+                nextTask.run(mLastResponse);
+            }
+
         }).thenOnAsyncThread(new Task<String, String>() {
+
             @Override
             public void run(String result, NextTask<String> nextTask) {
+
                 // ログアウト処理
                 mLastResponse = result;
 
@@ -441,7 +510,7 @@ public class UpdateTimeTableManager {
                 }
                 nextTask.run(mLastResponse);
             }
-        }).thenOnAsyncThread(new Task<String, String>() {
+        }).thenOnMainThread(new Task<String, String>() {
             @Override
             public void run(String result, NextTask<String> nextTask) {
                 mLastResponse = result;
@@ -690,12 +759,19 @@ public class UpdateTimeTableManager {
         }).thenOnMainThread(new Task<String, String>() {
             @Override
             public void run(String result, NextTask<String> nextTask) {
-                stab stub = new stab();
-                mLastResponse = stub.FireLoad(context);
 
-                String html = getValuesBase.NarrowingValues("<table class=\"GridVeiwTable\"","<table cellspacing=\"0\" border=\"0\" id=\"ctl00_ContentPlaceHolder1_fmvSyuseki\"",mLastResponse);
+                //スタブ
+//                stab stub = new stab();
+//                mLastResponse = stub.FireLoad(context);
+                String html ="";
+                html = getValuesBase.NarrowingValues("<tableclass=\"GridVeiwTable\"","<tablecellspacing=\"0\"border=\"0\"id=\"ctl00_ContentPlaceHolder1_fmvSyuseki\"",mLastResponse,true);
 
+                if (html == "") {
+                   // throw new Exception();
+                    Toast.makeText(context,"解析に失敗しました",Toast.LENGTH_LONG).show();
+                }
                 attendanceRateList = new ArrayList();
+
 //                html = html.replaceAll("align=\"right\"style=\"border-color:Black;border-width:1px;border-style:Solid;font-size:9pt;width:8%;\"","");
                 Log.d(TAG,html);
                 //値が一致する間ループ
@@ -711,35 +787,39 @@ public class UpdateTimeTableManager {
 
                     //String html3 = getValuesBase.NarrowingValues("</a>","</tr>",html2,false);
                     int count = 0;
-                    Matcher match2 = getValuesBase.GetGropValues("<td align=\".*?\" style=\".*?\">(.*?)</td>",html2);
+                    Matcher match2 = getValuesBase.GetGropValues("<td(?:\\\".*?\\\"|\\'.*?\\'|[^\\'\\\"])*?>(.*?)</td>",html2);
                     //Matcher match2 = getValuesBase.GetGropValues("<td>(.+?)</td>",html3);
                     while(match2.find()){
+                        String str = "";
+                        str = match2.group(1);
+                        str = getValuesBase.DeletePercent(str);
+                        str = getValuesBase.DeleteNBSPTo0(str);
                         switch(count){
                             case 0:
                                 break;
                             case 1:
-                                rateObject.setUnit(match2.group(1));
+                                rateObject.setUnit(str);
                                 break;
                             case 2:
-                                rateObject.setAttendanceNumber(match2.group(1));
+                                rateObject.setAttendanceNumber(str);
                                 break;
                             case 3:
-                                rateObject.setAbsentNumber(match2.group(1));
+                                rateObject.setAbsentNumber(str);
                                 break;
                             case 4:
-                                rateObject.setLateNumber(match2.group(1));
+                                rateObject.setLateNumber(str);
                                 break;
                             case 5:
-                                rateObject.setPublicAbsentNumber1(match2.group(1));
+                                rateObject.setPublicAbsentNumber1(str);
                                 break;
                             case 6:
-                                rateObject.setPublicAbsentNumber2(match2.group(1));
+                                rateObject.setPublicAbsentNumber2(str);
                                 break;
                             case 7:
-                                rateObject.setAttendanceRate(match2.group(1));
+                                rateObject.setAttendanceRate(str);
                                 break;
                             case 8:
-                                rateObject.setShortageNumber(match2.group(1));
+                                rateObject.setShortageNumber(str);
                                 break;
                         }
                         count++;
@@ -757,9 +837,9 @@ public class UpdateTimeTableManager {
 
         }). setCallback(new Callback<String>() {
             @Override
-            public void onSuccess(String result) {
+            public void onSuccess(String result){
 
-                dialog.dismiss();
+                //dialog.dismiss();
 
                 //ユーザID：パスワードの保存
                 List<String> ipList = new ArrayList<String>();
@@ -767,14 +847,26 @@ public class UpdateTimeTableManager {
                 ipList.add(password);
                 saveManager.saveMangerWithPreference(context,PREF_NAME_ID_PASS,ipList,"ip");
 
+                btn.setProgress(100);
+//
+//                viewStart =v.findViewById(R.id.ecclogo_0001);
+//                Intent intent = new Intent(context, MainActivity.class);
+//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)context, viewStart, "ecclogo");
+//                context.startActivity(intent,options.toBundle());
+
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
+                ((Activity)context).finish();
+
+                //ログインしたことを記憶
+                getValuesBase.SetLoginState(context, true);
             }
 
             @Override
             public void onFailure(Bundle bundle, Exception e) {
-
-                dialog.dismiss();
+                btn.setProgress(-1);
+                //btn.setProgress(0);
+                //dialog.dismiss();
             }
 
         }).create().execute(null);

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/navigation_item_1"
+
+                android:title="時間割"/>
+            <item
+                android:id="@+id/navigation_item_2"
+
+                android:title="出席照会"/>
+            <!--<item-->
+                <!--android:id="@+id/navigation_item_3"-->
+
+                <!--android:title="シラバス"/>-->
+            <!--<item-->
+                <!--android:id="@+id/navigation_item_4"-->
+
+                <!--android:title="お知らせ"/>-->
+
+            <item
+                android:title="その他"
+                android:id="@+id/settings_group">
+                <menu android:checkableBehavior="single">
+                    <item
+                        android:title="設定"
+                        android:id="@+id/navigation_item_5"/>
+                    <item
+                        android:title="このアプリについて"
+                        android:id="@+id/navigation_item_6"/>
+
+                </menu>
+            </item>
+
+
+
+            <!--<item-->
+                <!--android:id="@+id/navigation_subheader"-->
+                <!--android:title="Tutorials">-->
+                <!--<menu>-->
+                    <!--<item-->
+                        <!--android:id="@+id/navigation_sub_item_1"-->
+
+                        <!--android:title="Android Tutorials"/>-->
+                    <!--<item-->
+                        <!--android:id="@+id/navigation_sub_item_2"-->
+
+                        <!--android:title="IOS Tutorials"/>-->
+                <!--</menu>-->
+            <!--</item>-->
+        </group>
+    </menu>

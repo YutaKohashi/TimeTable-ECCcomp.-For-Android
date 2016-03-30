@@ -19,7 +19,6 @@ public class stab {
 
         try {
             //ファイルを読み込む
-            //FileReader fr = new FileReader("./shusekirate.html");
             Resources res = context.getResources();
             InputStream inputStream = res.openRawResource(R.raw.shusekirate);
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
