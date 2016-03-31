@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.example.yutathinkpad.esc.R;
 import com.example.yutathinkpad.esc.fragment.AttendanceRateFragment;
-import com.example.yutathinkpad.esc.fragment.SyllabusFragment;
 import com.example.yutathinkpad.esc.fragment.TimeTableFragment;
 import com.example.yutathinkpad.esc.preference.LoadManager;
 
@@ -38,6 +37,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private int selectedId;
+
+    static int selectedItem = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,12 +103,22 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         switch(mSelectedId){
 
             case R.id.navigation_item_1:
-                fragment1 = new TimeTableFragment();
 
+                if(selectedItem == 0){
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    return;
+                }
+                fragment1 = new TimeTableFragment();
+                selectedItem = 0;
                 break;
 
             case R.id.navigation_item_2:
                 // addを呼んでいるので、重なる
+                if(selectedItem == 1){
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    return;
+                }
+                selectedItem = 1;
                 //transaction.replace(R.id.fragment_container, new AttendanceRateFragment(),"ddd");
                 fragment1 = new AttendanceRateFragment();
 
@@ -124,19 +135,36 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 //                fragment1 =  new Fragment();
 //                break;
             case R.id.navigation_item_5:
-
                 Intent intent =new Intent(MainActivity.this,PreferenceRelationActivity.class);
                 startActivity(intent);
+
+                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return;
             case R.id.navigation_item_6:
-                fragment1 =  new Fragment();
-                break;
+                Intent intent2 =new Intent(MainActivity.this,AboutActivity.class);
+                startActivity(intent2);
+
+                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return;
+
             default:
                 break;
 
         }
-        manager.beginTransaction().replace(R.id.fragment_container,fragment1, "dd").commit();
+        //drawerLayout.closeDrawer(GravityCompat.START);
+        // ↓ここに移動
+//        transaction.setCustomAnimations(
+//                R.anim.fade_in,
+//                R.anim.fade_out);
+//        transaction.replace(R.id.fragment_container,fragment1);
+//        transaction.addToBackStack(null);
+//        transaction.commit();
+        manager.beginTransaction()
+                .replace(R.id.fragment_container,fragment1, "dd")
+                .addToBackStack(null)
+                .commit();
         drawerLayout.closeDrawer(GravityCompat.START);
 //        transaction.replace(R.id.fragment_container,fragment,"ddd");
 //        transaction.commit();

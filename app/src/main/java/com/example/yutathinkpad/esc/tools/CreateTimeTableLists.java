@@ -20,7 +20,7 @@ public class CreateTimeTableLists {
         Pattern pattern1 = Pattern.compile("<td>(.+?)</td>");
         Matcher matcher1 = pattern1.matcher(result);
         while(matcher1.find()) {
-            Log.d("regex::::", matcher1.group());
+            //Log.d("regex::::", matcher1.group());
 
             int count = 0;
             Pattern pattern = Pattern.compile("<li>(.+?)</li>");
@@ -31,11 +31,11 @@ public class CreateTimeTableLists {
                 switch (count) {
                     case 0:
                         timeBlock.setSubject(matcher.group().replaceAll("<.+?>", " "));
-                        Log.d("regex::::", matcher.group().replaceAll("<.+?>", " "));
+                        //Log.d("regex::::", matcher.group().replaceAll("<.+?>", " "));
                         break;
                     case 1:
                         timeBlock.setClassRoom(matcher.group().replaceAll("<.+?>", " "));
-                        Log.d("regex::::", matcher.group().replaceAll("<.+?>", " "));
+                        //Log.d("regex::::", matcher.group().replaceAll("<.+?>", " "));
                         break;
                 }
                 count++;

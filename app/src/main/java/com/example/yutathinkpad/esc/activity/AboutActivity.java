@@ -11,17 +11,17 @@ import android.webkit.WebView;
 
 import com.example.yutathinkpad.esc.R;
 
-public class PreferenceRelationActivity extends AppCompatActivity {
+public class AboutActivity extends AppCompatActivity {
     Toolbar toolbar;
     WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preference);
+        setContentView(R.layout.activity_about);
 
-        toolbar= (Toolbar)findViewById(R.id.toolbar_settings);
-        toolbar.setTitle("設定");
+        toolbar= (Toolbar)findViewById(R.id.toolbar_about);
+        toolbar.setTitle("このアプリについて");
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -29,6 +29,10 @@ public class PreferenceRelationActivity extends AppCompatActivity {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        webView = (WebView)findViewById(R.id.webView1);
+        webView.loadUrl( "file:///android_asset/about_html.html" );
+
 
 
     }
@@ -54,4 +58,6 @@ public class PreferenceRelationActivity extends AppCompatActivity {
         super.onBackPressed();
         overridePendingTransition(R.anim.none_anim, R.anim.push_out_up);
     }
+
+
 }

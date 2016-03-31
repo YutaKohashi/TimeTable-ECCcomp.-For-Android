@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -28,7 +27,6 @@ import com.example.yutathinkpad.esc.tools.CreateTimeTableLists;
 import com.example.yutathinkpad.esc.tools.GetValuesBase;
 
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.UnknownHostException;
@@ -412,7 +410,7 @@ public class UpdateTimeTableManager {
                 nextTask.run(mLastResponse);
             }
 
-        }).thenOnMainThread(new Task<String, String>() {
+        }).thenOnAsyncThread( new Task<String, String>() {
 
 
             @Override
@@ -474,7 +472,7 @@ public class UpdateTimeTableManager {
                 nextTask.run(mLastResponse);
             }
 
-        }).thenOnMainThread(new Task<String, String>() {
+        }).thenOnAsyncThread(new Task<String, String>() {
 
             @Override
             public void run(String s, NextTask<String> nextTask) {
@@ -511,7 +509,7 @@ public class UpdateTimeTableManager {
                 }
                 nextTask.run(mLastResponse);
             }
-        }).thenOnMainThread(new Task<String, String>() {
+        }).thenOnAsyncThread(new Task<String, String>() {
             @Override
             public void run(String result, NextTask<String> nextTask) {
                 mLastResponse = result;
@@ -656,7 +654,7 @@ public class UpdateTimeTableManager {
                 }
 
                 String __LASTFOCUS = getValuesBase.GetValues("input type=\"hidden\" name=\"__LASTFOCUS\" id=\"__LASTFOCUS\" value=\"(.+?)\"",mLastResponse);
-                Log.d("content:;::",__LASTFOCUS);
+                //Log.d("content:;::",__LASTFOCUS);
                 String __VIEWSTATE =  getValuesBase.GetValues("input type=\"hidden\" name=\"__VIEWSTATE\" id=\"__VIEWSTATE\" value=\"(.+?)\"",mLastResponse);
                 String __SCROLLPOSITIONX = getValuesBase.GetValues("input type=\"hidden\" name=\"__SCROLLPOSITIONX\" id=\"__SCROLLPOSITIONX\" value=\"(.+?)\"",mLastResponse);
                 String __SCROLLPOSITIONY = getValuesBase.GetValues("input type=\"hidden\" name=\"__SCROLLPOSITIONY\" id=\"__SCROLLPOSITIONY\" value=\"(.+?)\"",mLastResponse);
@@ -747,7 +745,7 @@ public class UpdateTimeTableManager {
                     Thread.sleep(500);
                     //ここで出席照会のソースがmLastResponseに入っている
                     mLastResponse = response.body().string();
-                    Log.d(TAG,mLastResponse);
+                    //Log.d(TAG,mLastResponse);
                 } catch (IOException |InterruptedException e) {
                     Log.d(TAG, "POST失敗");
                     e.printStackTrace();
@@ -757,13 +755,13 @@ public class UpdateTimeTableManager {
                 nextTask.run(mLastResponse);
             }
 
-        }).thenOnMainThread(new Task<String, String>() {
+        }).thenOnAsyncThread(new Task<String, String>() {
             @Override
             public void run(String result, NextTask<String> nextTask) {
 
                 //スタブ
-//                stab stub = new stab();
-//                mLastResponse = stub.FireLoad(context);
+                stab stub = new stab();
+                mLastResponse = stub.FireLoad(context);
                 String html ="";
                 html = getValuesBase.NarrowingValues("<tableclass=\"GridVeiwTable\"","<tablecellspacing=\"0\"border=\"0\"id=\"ctl00_ContentPlaceHolder1_fmvSyuseki\"",mLastResponse,true);
 
@@ -774,7 +772,6 @@ public class UpdateTimeTableManager {
                 attendanceRateList = new ArrayList();
 
 //                html = html.replaceAll("align=\"right\"style=\"border-color:Black;border-width:1px;border-style:Solid;font-size:9pt;width:8%;\"","");
-                Log.d(TAG,html);
                 //値が一致する間ループ
                 //科目ごとにソースを抽出
                 Matcher match = getValuesBase.GetGropValues("<tr>.*?</tr>",html);
@@ -845,7 +842,7 @@ public class UpdateTimeTableManager {
                 //ユーザID：パスワードの保存
                 List<String> ipList = new ArrayList<String>();
                 ipList.add(userId2);
-                ipList.add(password);
+                ipList.add(password2);
                 saveManager.saveMangerWithPreference(context,PREF_NAME_ID_PASS,ipList,"ip");
 
                 btn.setProgress(100);
@@ -857,7 +854,9 @@ public class UpdateTimeTableManager {
 
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
+                ((Activity)context).overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
                 ((Activity)context).finish();
+                btn.setClickable(true);
 
                 //ログインしたことを記憶
                 getValuesBase.SetLoginState(context, true);
@@ -866,6 +865,7 @@ public class UpdateTimeTableManager {
             @Override
             public void onFailure(Bundle bundle, Exception e) {
                 btn.setProgress(-1);
+                btn.setClickable(true);
                 Snackbar.make(v,"通信エラーが発生しました",Snackbar.LENGTH_SHORT).show();
                 //btn.setProgress(0);
                 //dialog.dismiss();

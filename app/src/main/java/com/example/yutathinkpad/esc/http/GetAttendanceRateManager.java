@@ -1,9 +1,16 @@
 package com.example.yutathinkpad.esc.http;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -11,7 +18,11 @@ import com.anprosit.android.promise.Callback;
 import com.anprosit.android.promise.NextTask;
 import com.anprosit.android.promise.Promise;
 import com.anprosit.android.promise.Task;
+import com.example.yutathinkpad.esc.R;
+import com.example.yutathinkpad.esc.activity.MainActivity;
+import com.example.yutathinkpad.esc.adapter.RecyclerViewAdapter;
 import com.example.yutathinkpad.esc.object.AttendanceRateObject;
+import com.example.yutathinkpad.esc.preference.LoadManager;
 import com.example.yutathinkpad.esc.preference.SaveManager;
 import com.example.yutathinkpad.esc.stab;
 import com.example.yutathinkpad.esc.tools.GetValuesBase;
@@ -43,6 +54,7 @@ public class GetAttendanceRateManager {
     static final String TAG ="error:::";
 
     static final String PREF_NAME ="sample";
+    static final String PREF_NAME_ID_PASS = "ip";  //IDPAssが保存されているプリファレンス
     ProgressDialog prg;
     OkHttpClient client;
     String mLastResponse;
@@ -54,7 +66,14 @@ public class GetAttendanceRateManager {
     SaveManager saveManager;
     List<AttendanceRateObject> attendanceRateList;
 
-    public void getAttendanceRate(final Context context, final String userId, final String password){
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    RecyclerView recyclerView;
+    RecyclerView.Adapter adapter;
+    RecyclerView.LayoutManager layoutManager;
+
+    public void getAttendanceRate(final Context context, final View view, String userId, String password){
+        final String userId2 = userId;
+        final String password2 = password;
         prg = new ProgressDialog(context);
 
         cookieManager = new CookieManager();
@@ -71,10 +90,14 @@ public class GetAttendanceRateManager {
         Promise.with(this,String.class).then(new Task<String, String>() {
             @Override
             public void run(String s, NextTask<String> nextTask) {
-                // ダイアログを表示
-                prg.setMessage("メッセージ");
-                prg.setTitle("タイトル");
-                prg.show();
+//                // ダイアログを表示
+//                prg.setMessage("メッセージ");
+//                prg.setTitle("タイトル");
+//                prg.show();
+                recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view);
+                List<AttendanceRateObject> rateObjectList = new ArrayList<>();
+                adapter = new RecyclerViewAdapter(rateObjectList,context);
+                recyclerView.setAdapter(adapter);
                 nextTask.run(null);
 
             }
@@ -105,8 +128,8 @@ public class GetAttendanceRateManager {
                 String __EVENTTARGET = getValuesBase.GetValues("input type=\"hidden\" name=\"__EVENTTARGET\" id=\"__EVENTTARGET\" value=\"(.+?)\"",mLastResponse);
                 String __EVENTARGUMENT = getValuesBase.GetValues("input type=\"hidden\" name=\"__EVENTARGUMENT\" id=\"__EVENTARGUMENT\" value=\"(.+?)\"",mLastResponse);
                 String __EVENTVALIDATION = getValuesBase.GetValues("input type=\"hidden\" name=\"__EVENTVALIDATION\" id=\"__EVENTVALIDATION\" value=\"(.+?)\"",mLastResponse);
-                String ctl00$ContentPlaceHolder1$txtUserId = userId;
-                String ctl00$ContentPlaceHolder1$txtPassword = password;
+                String ctl00$ContentPlaceHolder1$txtUserId = userId2;
+                String ctl00$ContentPlaceHolder1$txtPassword = password2;
                 String ctl00$ContentPlaceHolder1$btnLogin = "ログイン";
 
                 RequestBody requestBody2 = new FormBody.Builder()
@@ -202,12 +225,19 @@ public class GetAttendanceRateManager {
         }).thenOnMainThread(new Task<String, String>() {
             @Override
             public void run(String result, NextTask<String> nextTask) {
+
+                //スタブ
                 stab stub = new stab();
                 mLastResponse = stub.FireLoad(context);
+                String html ="";
+                html = getValuesBase.NarrowingValues("<tableclass=\"GridVeiwTable\"","<tablecellspacing=\"0\"border=\"0\"id=\"ctl00_ContentPlaceHolder1_fmvSyuseki\"",mLastResponse,true);
 
-                String html = getValuesBase.NarrowingValues("<table class=\"GridVeiwTable\"","<table cellspacing=\"0\" border=\"0\" id=\"ctl00_ContentPlaceHolder1_fmvSyuseki\"",mLastResponse);
-
+                if (html == "") {
+                    // throw new Exception();
+                    Toast.makeText(context,"解析に失敗しました",Toast.LENGTH_LONG).show();
+                }
                 attendanceRateList = new ArrayList();
+
 //                html = html.replaceAll("align=\"right\"style=\"border-color:Black;border-width:1px;border-style:Solid;font-size:9pt;width:8%;\"","");
                 Log.d(TAG,html);
                 //値が一致する間ループ
@@ -223,35 +253,39 @@ public class GetAttendanceRateManager {
 
                     //String html3 = getValuesBase.NarrowingValues("</a>","</tr>",html2,false);
                     int count = 0;
-                    Matcher match2 = getValuesBase.GetGropValues("<td align=\".*?\" style=\".*?\">(.*?)</td>",html2);
+                    Matcher match2 = getValuesBase.GetGropValues("<td(?:\\\".*?\\\"|\\'.*?\\'|[^\\'\\\"])*?>(.*?)</td>",html2);
                     //Matcher match2 = getValuesBase.GetGropValues("<td>(.+?)</td>",html3);
                     while(match2.find()){
+                        String str = "";
+                        str = match2.group(1);
+                        str = getValuesBase.DeletePercent(str);
+                        str = getValuesBase.DeleteNBSPTo0(str);
                         switch(count){
                             case 0:
                                 break;
                             case 1:
-                                rateObject.setUnit(match2.group(1));
+                                rateObject.setUnit(str);
                                 break;
                             case 2:
-                                rateObject.setAttendanceNumber(match2.group(1));
+                                rateObject.setAttendanceNumber(str);
                                 break;
                             case 3:
-                                rateObject.setAbsentNumber(match2.group(1));
+                                rateObject.setAbsentNumber(str);
                                 break;
                             case 4:
-                                rateObject.setLateNumber(match2.group(1));
+                                rateObject.setLateNumber(str);
                                 break;
                             case 5:
-                                rateObject.setPublicAbsentNumber1(match2.group(1));
+                                rateObject.setPublicAbsentNumber1(str);
                                 break;
                             case 6:
-                                rateObject.setPublicAbsentNumber2(match2.group(1));
+                                rateObject.setPublicAbsentNumber2(str);
                                 break;
                             case 7:
-                                rateObject.setAttendanceRate(match2.group(1));
+                                rateObject.setAttendanceRate(str);
                                 break;
                             case 8:
-                                rateObject.setShortageNumber(match2.group(1));
+                                rateObject.setShortageNumber(str);
                                 break;
                         }
                         count++;
@@ -266,17 +300,79 @@ public class GetAttendanceRateManager {
 
                 nextTask.run(mLastResponse);
             }
-        }).setCallback(new Callback<String>() {
-            @Override
-            public void onSuccess(String s) {
 
-                prg.dismiss();
+        }). setCallback(new Callback<String>() {
+            @Override
+            public void onSuccess(String result){
+
+                //dialog.dismiss();
+
+                //ユーザID：パスワードの保存
+//                List<String> ipList = new ArrayList<String>();
+//                ipList.add(userId2);
+//                ipList.add(password2);
+//                saveManager.saveMangerWithPreference(context,PREF_NAME_ID_PASS,ipList,"ip");
+
+//                viewStart =v.findViewById(R.id.ecclogo_0001);
+//                Intent intent = new Intent(context, MainActivity.class);
+//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)context, viewStart, "ecclogo");
+//                context.startActivity(intent,options.toBundle());
+
+//                Intent intent = new Intent(context, MainActivity.class);
+//                context.startActivity(intent);
+//                ((Activity)context).finish();
+
+                //ログインしたことを記憶
+//                getValuesBase.SetLoginState(context, true);
+                //リフレッシュを終了
+                mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
+                mSwipeRefreshLayout.setRefreshing(false);
+
+
+                recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view);
+                List<AttendanceRateObject> rateObjectList = new ArrayList<>();
+//                adapter = new RecyclerViewAdapter(rateObjectList);
+//                recyclerView.setAdapter(adapter);
+//
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//
+//
+//                }
+                LoadManager loadManager = new LoadManager();
+                rateObjectList = loadManager.loadManagerWithPreferenceForAttendance(context,PREF_NAME,"attendanceList");
+
+                recyclerView.setHasFixedSize(true);
+
+                layoutManager = new LinearLayoutManager(context);
+                recyclerView.setLayoutManager(layoutManager);
+
+                adapter = new RecyclerViewAdapter(rateObjectList,context);
+                recyclerView.setAdapter(adapter);
+
+
+                Snackbar.make(view,"更新しました",Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Bundle bundle, Exception e) {
-                prg.dismiss();
+                Snackbar.make(view,"通信エラーが発生しました",Snackbar.LENGTH_SHORT).show();
+                //btn.setProgress(0);
+                //dialog.dismiss();
+                //リフレッシュを終了
+                mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
+                mSwipeRefreshLayout.setRefreshing(false);
+
+//                try {
+//                    Thread.sleep(1500);
+//                } catch (InterruptedException e1) {
+//                    e1.printStackTrace();
+//                }
+//                btn.setProgress(0);
+
             }
+
         }).create().execute(null);
     }
 

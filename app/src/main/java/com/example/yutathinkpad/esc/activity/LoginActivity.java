@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         GetValuesBase getValuesBase = new GetValuesBase();
         if(getValuesBase.IsBooted(LoginActivity.this)){
             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
@@ -74,6 +75,8 @@ public class LoginActivity extends AppCompatActivity{
                 loginManager = new LoginManager();
                 loginManager.loginManager(LoginActivity.this, view, userId, password);
                 circularButton1.setProgress(1);
+                //クリックイベントを発生させない
+                circularButton1.setClickable(false);
 
             }
         });
@@ -150,7 +153,7 @@ public class LoginActivity extends AppCompatActivity{
 
     @Override
     public void onPause(){
-        super.onStop();
+        super.onPause();
         finish();
     }
 }

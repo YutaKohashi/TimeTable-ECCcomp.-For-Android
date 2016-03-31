@@ -2,9 +2,14 @@ package com.example.yutathinkpad.esc.fragment;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.yutathinkpad.esc.R;
 import com.example.yutathinkpad.esc.adapter.RecyclerViewAdapter;
+import com.example.yutathinkpad.esc.http.GetAttendanceRateManager;
 import com.example.yutathinkpad.esc.object.AttendanceRateObject;
 import com.example.yutathinkpad.esc.preference.LoadManager;
 
@@ -23,10 +29,11 @@ import java.util.List;
  */
 public class AttendanceRateFragment extends Fragment {
     static final String PREF_NAME ="sample";
+    static final String PREF_NAME_ID_PASS = "ip";
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
-
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     TextView textView;
 
 
@@ -39,11 +46,12 @@ public class AttendanceRateFragment extends Fragment {
         return frag;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_attendance_rate, container, false);
-
+        final View v = inflater.inflate(R.layout.fragment_attendance_rate, container, false);
+//
         List<AttendanceRateObject> rateObjectList = new ArrayList<>();
         LoadManager loadManager = new LoadManager();
         rateObjectList = loadManager.loadManagerWithPreferenceForAttendance(getActivity(),PREF_NAME,"attendanceList");
@@ -54,14 +62,56 @@ public class AttendanceRateFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RecyclerViewAdapter(rateObjectList);
+        adapter = new RecyclerViewAdapter(rateObjectList,getActivity());
         recyclerView.setAdapter(adapter);
 
         //タイトルの設定
         textView = (TextView)getActivity().findViewById(R.id.title_name_text);
         textView.setText("出席照会");
 
+        // SwipeRefreshLayoutの設定
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.refresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                List<String> list = new ArrayList<String>();
+                LoadManager loadManager = new LoadManager();
+                list = loadManager.loadManagerWithPreferenceForString(getActivity(),PREF_NAME_ID_PASS,"ip");
+
+                String userId = list.get(0);
+                String pass = list.get(1);
+                GetAttendanceRateManager getAttendanceRateManager = new GetAttendanceRateManager();
+                getAttendanceRateManager.getAttendanceRate(getActivity(),v.getRootView(),userId,pass);
+            }
+        });
+        mSwipeRefreshLayout.setColorScheme(R.color.red, R.color.green, R.color.blue, R.color.yellow);
+
+
+
+
         return v;
     }
 
+//    @Override
+//    public void onStart(){
+//        super.onStart();
+//        DrawerLayout drawerLayout= (DrawerLayout)getActivity().findViewById(R.id.drawer_layout);
+//        drawerLayout.closeDrawer(GravityCompat.START);
+//
+//    }
+
+    private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+//            // 3秒待機
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    mSwipeRefreshLayout.setRefreshing(false);
+//                }
+//            }, 3000);
+
+
+        }
+    };
 }

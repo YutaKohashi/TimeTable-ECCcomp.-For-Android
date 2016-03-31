@@ -1,6 +1,7 @@
 package com.example.yutathinkpad.esc.fragment;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceActivity;
@@ -47,8 +48,10 @@ public class PreferenceRelationFragment extends PreferenceFragment{
     }
 
     MaterialDialog mMaterialDialog;
+    ProgressDialog prog;
     final int LOGOUT_DIALOG = 0;
     public void showDialog(int id, Context context){
+        prog = new ProgressDialog(context);
         switch(id){
             case LOGOUT_DIALOG:
                 mMaterialDialog = new MaterialDialog(context)
@@ -60,6 +63,10 @@ public class PreferenceRelationFragment extends PreferenceFragment{
                                 GetValuesBase getValuesBase = new GetValuesBase();
                                 getValuesBase.SetLoginState(getActivity(),false);
                                 mMaterialDialog.dismiss();
+//                                prog.setMessage("消去しています");
+//                                prog.show();
+
+
 
                                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                                 intent.setFlags(intent.FLAG_ACTIVITY_CLEAR_TASK);
