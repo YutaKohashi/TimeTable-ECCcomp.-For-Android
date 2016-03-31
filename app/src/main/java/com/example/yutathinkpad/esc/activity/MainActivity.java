@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
                 Intent intent =new Intent(MainActivity.this,PreferenceRelationActivity.class);
                 startActivity(intent);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 return;
             case R.id.navigation_item_6:
                 fragment1 =  new Fragment();

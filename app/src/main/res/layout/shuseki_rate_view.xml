@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     card_view:cardUseCompatPadding="true"
-    card_view:cardElevation="1sp"
-    android:layout_marginLeft="-1sp"
-    android:layout_marginRight="-1sp"
-    android:layout_marginBottom="-1.5sp"
-    android:layout_marginTop="-1.5sp">
+    card_view:cardElevation="5sp"
+    android:layout_marginLeft="-2sp"
+    android:layout_marginRight="-2sp"
+    android:layout_marginBottom="0sp"
+    android:layout_marginTop="-7sp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
+            android:background="@color/colorPrimary1"
             >
             <TextView
                 android:layout_width="wrap_content"

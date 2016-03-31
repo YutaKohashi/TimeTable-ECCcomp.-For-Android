@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -22,15 +23,15 @@ import com.example.yutathinkpad.esc.tools.GetValuesBase;
 import org.w3c.dom.Text;
 
 public class LoginActivity extends AppCompatActivity{
-    Button mLoginButton;
+   // Button mLoginButton;
     LoginManager loginManager;
 
-    TextView id;
-    TextView pss;
+    EditText id;
+    EditText pss;
 
     String userId;
     String password;
-    EditText editText;
+  //  EditText editText;
     TextView textView;
     CircularProgressButton circularButton1;
     // キーボード表示を制御するためのオブジェクト
@@ -51,10 +52,10 @@ public class LoginActivity extends AppCompatActivity{
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mainLayout = (ScrollView) findViewById(R.id.login_scroll_view);
 
-        mLoginButton = (Button)findViewById(R.id.login_btn);
-        id = (TextView)findViewById(R.id.username);
-        pss = (TextView)findViewById(R.id.password);
-        editText  = (EditText)findViewById(R.id.username);
+     //   mLoginButton = (Button)findViewById(R.id.login_btn);
+        id = (EditText) findViewById(R.id.username);
+        pss = (EditText)findViewById(R.id.password);
+        //editText  = (EditText)findViewById(R.id.username);
         textView = (TextView)findViewById(R.id.num_text);
 
         circularButton1 = (CircularProgressButton) findViewById(R.id.login_btn);
@@ -63,6 +64,10 @@ public class LoginActivity extends AppCompatActivity{
         circularButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                circularButton1.setProgress(0);
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
                 userId = id.getText().toString();
                 password = pss.getText().toString();
                 //ログイン処理
@@ -84,6 +89,40 @@ public class LoginActivity extends AppCompatActivity{
 //
 //            }
 //        });
+
+        id.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b){
+                    circularButton1.setProgress(0);
+                }
+            }
+        });
+
+        pss.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b){
+                    circularButton1.setProgress(0);
+                }
+            }
+        });
+
+        id.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                circularButton1.setProgress(0);
+            }
+        });
+
+        pss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                circularButton1.setProgress(0);
+            }
+        });
+
+
     }
     // 画面タップ時の処理
     @Override
@@ -97,6 +136,22 @@ public class LoginActivity extends AppCompatActivity{
 
         return true;
 
+    }
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent e) {
+        // 戻るボタンが押されたとき
+        if(e.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            // ボタンが押されたとき
+            return true;
+
+        }
+        return super.dispatchKeyEvent(e);
+    }
+
+    @Override
+    public void onPause(){
+        super.onStop();
+        finish();
     }
 }
 

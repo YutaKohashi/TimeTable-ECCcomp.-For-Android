@@ -4,6 +4,7 @@ package com.example.yutathinkpad.esc.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceActivity;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -63,12 +64,16 @@ public class PreferenceRelationFragment extends PreferenceFragment{
                                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                                 intent.setFlags(intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
+
+
                             }
                         })
                         .setNegativeButton("CANCEL", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 mMaterialDialog.dismiss();
+//
+//                                Snackbar.make(v,"キャンセルしました",)
                             }
                         });
 

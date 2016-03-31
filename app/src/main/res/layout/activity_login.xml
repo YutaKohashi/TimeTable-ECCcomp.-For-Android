@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="#dcf7f6"
+            android:background="#f2faf8"
             android:orientation="vertical">
 
             <ImageView
@@ -73,9 +73,9 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="学生番号"
+                    android:hint="学籍番号"
                     android:inputType="number"
-                    android:text="2140257" />
+                   />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -92,8 +92,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="パスワード"
-                    android:inputType="textPassword"
-                    android:text="455478" />
+                    android:inputType="numberPassword"
+                    />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -115,10 +115,21 @@
                 app:cpb_iconError="@drawable/ic_action_cancel"
                 app:cpb_textComplete="@string/Complete"
                 app:cpb_textError="@string/Error"
-                app:cpb_textIdle="@string/Login" >
-                <requestFocus/>
+                app:cpb_textIdle="@string/Login"
+
+                >
+
+
                 </com.dd.CircularProgressButton>
 
+            <!--ダミー-->
+            <TextView
+                android:layout_width="0sp"
+                android:layout_height="0sp"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+                <requestFocus/>
+                </TextView>
 
         </LinearLayout>
 </ScrollView>

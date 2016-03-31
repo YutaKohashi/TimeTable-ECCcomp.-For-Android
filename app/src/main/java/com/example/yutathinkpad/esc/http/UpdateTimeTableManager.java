@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.util.Log;
 import android.view.View;
@@ -484,7 +485,7 @@ public class UpdateTimeTableManager {
                     //例外処理
                     Log.d(TAG,"トークン取得失敗");
                 }
-                btn.setProgress(70);
+                //btn.setProgress(70);
                 nextTask.run(mLastResponse);
             }
 
@@ -865,8 +866,17 @@ public class UpdateTimeTableManager {
             @Override
             public void onFailure(Bundle bundle, Exception e) {
                 btn.setProgress(-1);
+                Snackbar.make(v,"通信エラーが発生しました",Snackbar.LENGTH_SHORT).show();
                 //btn.setProgress(0);
                 //dialog.dismiss();
+
+//                try {
+//                    Thread.sleep(1500);
+//                } catch (InterruptedException e1) {
+//                    e1.printStackTrace();
+//                }
+//                btn.setProgress(0);
+
             }
 
         }).create().execute(null);
