@@ -46,15 +46,22 @@ public class AttendanceRateFragment extends Fragment {
         return frag;
     }
 
-
+    List<AttendanceRateObject> rateObjectList;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_attendance_rate, container, false);
 //
-        List<AttendanceRateObject> rateObjectList = new ArrayList<>();
+        rateObjectList = new ArrayList<>();
         LoadManager loadManager = new LoadManager();
         rateObjectList = loadManager.loadManagerWithPreferenceForAttendance(getActivity(),PREF_NAME,"attendanceList");
+
+        if (rateObjectList == null){
+            rateObjectList = new ArrayList<>();
+            rateObjectList.add(
+                    new AttendanceRateObject((getString(R.string.get_rate_error))));
+        }
+
 
         recyclerView = (RecyclerView)v.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);

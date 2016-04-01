@@ -2,6 +2,7 @@ package com.example.yutathinkpad.esc.activity;
 
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.yutathinkpad.esc.R;
@@ -48,6 +50,14 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
         setToolbar();
         initView();
+
+        Intent intent = getIntent();
+        boolean notGetAttendanceRate = intent.getBooleanExtra("notGetAttendanceRate", false);
+
+        if(notGetAttendanceRate){
+            View view = findViewById(R.id.drawer_layout);
+            Snackbar.make(view,"出席照会データの取得に失敗しました",Snackbar.LENGTH_LONG).show();
+        }
 
         drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.setDrawerListener(drawerToggle);

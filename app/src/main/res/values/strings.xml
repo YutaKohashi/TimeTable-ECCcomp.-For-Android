@@ -15,4 +15,5 @@
     <string name="Login">ログイン</string>
     <string name="about_text2">現在実装されている機能◯時間割閲覧 ◯出席照会今後機能を拡張していく予定です。</string>
     <string name="about_text1">このアプリはECCコンピュータ専門学校の学生用サイトを閲覧する非公式アプリです。</string>
+    <string name="get_rate_error">データが取得の取得に失敗しているかデータが存在しません</string>
 </resources>

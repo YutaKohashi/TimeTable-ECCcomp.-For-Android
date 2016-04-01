@@ -2,6 +2,8 @@ package com.example.yutathinkpad.esc.tools;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -230,6 +232,25 @@ public class GetValuesBase {
         }
 
         return rtn;
+    }
+
+
+
+    ConnectivityManager cm;
+    public boolean ConnectionCheck(Context context){
+
+        boolean rtnbln = true;
+        cm = (ConnectivityManager)context.getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo =cm.getActiveNetworkInfo();
+
+        if (networkInfo == null) {
+            //Toast.makeText(this, "No Network Connection!", Toast.LENGTH_LONG)
+                    //.show();
+            rtnbln = false;
+        }
+
+        return rtnbln;
+
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.yutathinkpad.esc.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -42,16 +43,23 @@ public class LoginActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        Intent intent = getIntent();
+        boolean logouted = intent.getBooleanExtra("logouted", false);
+        View view = findViewById(R.id.root_linear_layout);
+        //
+        if(logouted){
+            Snackbar.make(view,"ログアウトしました",Snackbar.LENGTH_LONG).show();
+        }
 
-        GetValuesBase getValuesBase = new GetValuesBase();
+        final GetValuesBase getValuesBase = new GetValuesBase();
         if(getValuesBase.IsBooted(LoginActivity.this)){
-            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-            startActivity(intent);
+            Intent intent1 = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(intent1);
             finish();
         }
 
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        mainLayout = (ScrollView) findViewById(R.id.login_scroll_view);
+//        mainLayout = (ScrollView) findViewById(R.id.login_scroll_view);
 
      //   mLoginButton = (Button)findViewById(R.id.login_btn);
         id = (EditText) findViewById(R.id.username);
@@ -65,6 +73,16 @@ public class LoginActivity extends AppCompatActivity{
         circularButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                GetValuesBase getValuesBase1 = new GetValuesBase();
+
+                if(!getValuesBase.ConnectionCheck(LoginActivity.this)){
+                    Snackbar.make(view.getRootView(),"インターネットに接続されていません",Snackbar.LENGTH_SHORT).show();
+                    circularButton1.setProgress(-1);
+
+                    return;
+                }
+
                 circularButton1.setProgress(0);
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -127,19 +145,19 @@ public class LoginActivity extends AppCompatActivity{
 
 
     }
-    // 画面タップ時の処理
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        // キーボードを隠す
-        inputMethodManager.hideSoftInputFromWindow(mainLayout.getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
-        // 背景にフォーカスを移す
-        mainLayout.requestFocus();
-
-        return true;
-
-    }
+//    // 画面タップ時の処理
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//
+//        // キーボードを隠す
+//        inputMethodManager.hideSoftInputFromWindow(mainLayout.getWindowToken(),
+//                InputMethodManager.HIDE_NOT_ALWAYS);
+//        // 背景にフォーカスを移す
+//        mainLayout.requestFocus();
+//
+//        return true;
+//
+//    }
     @Override
     public boolean dispatchKeyEvent(KeyEvent e) {
         // 戻るボタンが押されたとき

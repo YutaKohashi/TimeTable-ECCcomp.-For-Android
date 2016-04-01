@@ -1,6 +1,7 @@
 package com.example.yutathinkpad.esc.fragment;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.preference.PreferenceFragment;
+import android.widget.LinearLayout;
 
 import com.example.yutathinkpad.esc.R;
 import com.example.yutathinkpad.esc.activity.LoginActivity;
@@ -50,7 +52,7 @@ public class PreferenceRelationFragment extends PreferenceFragment{
     MaterialDialog mMaterialDialog;
     ProgressDialog prog;
     final int LOGOUT_DIALOG = 0;
-    public void showDialog(int id, Context context){
+    public void showDialog(int id, final Context context){
         prog = new ProgressDialog(context);
         switch(id){
             case LOGOUT_DIALOG:
@@ -66,11 +68,11 @@ public class PreferenceRelationFragment extends PreferenceFragment{
 //                                prog.setMessage("消去しています");
 //                                prog.show();
 
-
-
                                 Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                intent.putExtra("logouted",true);
                                 intent.setFlags(intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
+                                ((Activity)context).finish();
 
 
                             }
@@ -80,7 +82,7 @@ public class PreferenceRelationFragment extends PreferenceFragment{
                             public void onClick(View v) {
                                 mMaterialDialog.dismiss();
 //
-//                                Snackbar.make(v,"キャンセルしました",)
+                                Snackbar.make(v,"キャンセルしました",Snackbar.LENGTH_SHORT).show();
                             }
                         });
 

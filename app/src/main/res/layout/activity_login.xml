@@ -8,44 +8,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary6"
+        android:paddingTop="150sp"
 
         tools:context="com.example.yutathinkpad.esc.activity.LoginActivity">
 
-        <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="2"-->
-        <!--android:background="@android:color/white">-->
-
-        <!--<ImageView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:src="@drawable/esclogoimage"/>-->
-        <!--</LinearLayout>-->
-        <!--<ImageView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:src="@drawable/ecclogo_0001"-->
-        <!--android:background="#55e2ef"-->
-        <!--android:paddingRight="20sp"-->
-        <!--android:paddingLeft="20sp"-->
-        <!--android:layout_alignTop="@+id/login_linear"-->
-        <!--android:layout_marginTop="110dp" />-->
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/login_scroll_view"
-        android:layout_weight="1"
-        android:fillViewport="true"
-        android:paddingTop="100sp"
-        android:focusableInTouchMode="true">
 
         <LinearLayout
             android:id="@+id/login_linear"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_height="match_parent"
+
             android:background="#f2faf8"
             android:orientation="vertical">
 
@@ -57,6 +29,7 @@
                 android:background="#008eb9"
                 android:paddingLeft="20sp"
                 android:paddingRight="20sp"
+                android:paddingBottom="10sp"
                 android:src="@drawable/ecclogo_0001"
                 android:transitionName="ecclogo" />
 
@@ -132,6 +105,6 @@
                 </TextView>
 
         </LinearLayout>
-</ScrollView>
+
     </RelativeLayout>
 

@@ -1,5 +1,6 @@
 package com.example.yutathinkpad.esc.http;
 
+import android.accounts.NetworkErrorException;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -33,6 +34,7 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,6 +73,8 @@ public class GetAttendanceRateManager {
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
 
+
+
     public void getAttendanceRate(final Context context, final View view, String userId, String password){
         final String userId2 = userId;
         final String password2 = password;
@@ -94,6 +98,12 @@ public class GetAttendanceRateManager {
 //                prg.setMessage("メッセージ");
 //                prg.setTitle("タイトル");
 //                prg.show();
+                if(!getValuesBase.ConnectionCheck(context)){
+                    mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    Snackbar.make(view,"インターネットに接続されていません",Snackbar.LENGTH_LONG).show();
+                    return;
+                }
                 recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view);
                 List<AttendanceRateObject> rateObjectList = new ArrayList<>();
                 adapter = new RecyclerViewAdapter(rateObjectList,context);
@@ -129,7 +139,8 @@ public class GetAttendanceRateManager {
                 String __EVENTARGUMENT = getValuesBase.GetValues("input type=\"hidden\" name=\"__EVENTARGUMENT\" id=\"__EVENTARGUMENT\" value=\"(.+?)\"",mLastResponse);
                 String __EVENTVALIDATION = getValuesBase.GetValues("input type=\"hidden\" name=\"__EVENTVALIDATION\" id=\"__EVENTVALIDATION\" value=\"(.+?)\"",mLastResponse);
                 String ctl00$ContentPlaceHolder1$txtUserId = userId2;
-                String ctl00$ContentPlaceHolder1$txtPassword = password2;
+//                String ctl00$ContentPlaceHolder1$txtPassword = password2;
+                String ctl00$ContentPlaceHolder1$txtPassword = "3333";
                 String ctl00$ContentPlaceHolder1$btnLogin = "ログイン";
 
                 RequestBody requestBody2 = new FormBody.Builder()
@@ -227,8 +238,8 @@ public class GetAttendanceRateManager {
             public void run(String result, NextTask<String> nextTask) {
 
                 //スタブ
-                stab stub = new stab();
-                mLastResponse = stub.FireLoad(context);
+  //              stab stub = new stab();
+//                mLastResponse = stub.FireLoad(context);
                 String html ="";
                 html = getValuesBase.NarrowingValues("<tableclass=\"GridVeiwTable\"","<tablecellspacing=\"0\"border=\"0\"id=\"ctl00_ContentPlaceHolder1_fmvSyuseki\"",mLastResponse,true);
 
@@ -357,12 +368,32 @@ public class GetAttendanceRateManager {
 
             @Override
             public void onFailure(Bundle bundle, Exception e) {
-                Snackbar.make(view,"通信エラーが発生しました",Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(view,"更新に失敗しました",Snackbar.LENGTH_SHORT).show();
                 //btn.setProgress(0);
                 //dialog.dismiss();
                 //リフレッシュを終了
                 mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
                 mSwipeRefreshLayout.setRefreshing(false);
+
+                recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view);
+                List<AttendanceRateObject> rateObjectList = new ArrayList<>();
+                LoadManager loadManager = new LoadManager();
+                //データが取得できなかった場合null値が代入される
+                rateObjectList = loadManager.loadManagerWithPreferenceForAttendance(context,PREF_NAME,"attendanceList");
+
+                if(rateObjectList == null){
+                    rateObjectList = new ArrayList<>();
+                    rateObjectList.add(new AttendanceRateObject(context.getString(R.string.get_rate_error)));
+
+                }
+                recyclerView.setHasFixedSize(true);
+                layoutManager = new LinearLayoutManager(context);
+                recyclerView.setLayoutManager(layoutManager);
+
+                adapter = new RecyclerViewAdapter(rateObjectList,context);
+                recyclerView.setAdapter(adapter);
+
+
 
 //                try {
 //                    Thread.sleep(1500);

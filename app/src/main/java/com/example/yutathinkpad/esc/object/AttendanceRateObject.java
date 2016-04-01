@@ -38,6 +38,18 @@ public class AttendanceRateObject {
         shortageNumber = "";
     }
 
+    public AttendanceRateObject(String subjectName){
+        this.subjectName = subjectName;
+        unit = "";
+        attendanceNumber = "";
+        absentNumber = "";
+        lateNumber = "";
+        publicAbsentNumber1 = "";
+        publicAbsentNumber2 = "";
+        attendanceRate = "";
+        shortageNumber = "";
+    }
+
     //セッター
     public void setSubjectName(String name){
         subjectName = name;

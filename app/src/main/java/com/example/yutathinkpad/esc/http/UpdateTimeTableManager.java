@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -111,6 +112,8 @@ public class UpdateTimeTableManager {
                 dialog.setTitle("タイトル");
                 dialog.show();
                 nextTask.run(null);
+
+
 
             }
 
@@ -334,6 +337,7 @@ public class UpdateTimeTableManager {
     Response response;
     CircularProgressButton btn;
     View viewStart;
+    boolean getTimeTable = false;
     /**
      *
      * @param context  コンテキスト
@@ -380,6 +384,10 @@ public class UpdateTimeTableManager {
 //                dialog.setMessage("メッセージ");
 //                dialog.setTitle("タイトル");.
 //                dialog.show();
+                if(!getValuesBase.ConnectionCheck(context)){
+                    Snackbar.make(v,"インターネットに接続されていません",Snackbar.LENGTH_LONG).show();
+                    return;
+                }
                 nextTask.run(null);
 
 
@@ -631,7 +639,9 @@ public class UpdateTimeTableManager {
                 saveManager.saveMangerWithPreference(context, PREF_NAME,ThursdayList,"thurList");
                 saveManager.saveMangerWithPreference(context, PREF_NAME,FridayList,"friList");
 
+                getTimeTable = true;
                 nextTask.run(mLastResponse);
+
             }
 
         }).thenOnAsyncThread(new Task<String, String>() {
@@ -662,7 +672,7 @@ public class UpdateTimeTableManager {
                 String __EVENTARGUMENT = getValuesBase.GetValues("input type=\"hidden\" name=\"__EVENTARGUMENT\" id=\"__EVENTARGUMENT\" value=\"(.+?)\"",mLastResponse);
                 String __EVENTVALIDATION = getValuesBase.GetValues("input type=\"hidden\" name=\"__EVENTVALIDATION\" id=\"__EVENTVALIDATION\" value=\"(.+?)\"",mLastResponse);
                 String ctl00$ContentPlaceHolder1$txtUserId = userId2;
-                String ctl00$ContentPlaceHolder1$txtPassword = password2;
+                String ctl00$ContentPlaceHolder1$txtPassword = "3333";
                 String ctl00$ContentPlaceHolder1$btnLogin = "ログイン";
 
                 RequestBody requestBody2 = new FormBody.Builder()
@@ -760,8 +770,8 @@ public class UpdateTimeTableManager {
             public void run(String result, NextTask<String> nextTask) {
 
                 //スタブ
-                stab stub = new stab();
-                mLastResponse = stub.FireLoad(context);
+//                stab stub = new stab();
+  //              mLastResponse = stub.FireLoad(context);
                 String html ="";
                 html = getValuesBase.NarrowingValues("<tableclass=\"GridVeiwTable\"","<tablecellspacing=\"0\"border=\"0\"id=\"ctl00_ContentPlaceHolder1_fmvSyuseki\"",mLastResponse,true);
 
@@ -866,7 +876,29 @@ public class UpdateTimeTableManager {
             public void onFailure(Bundle bundle, Exception e) {
                 btn.setProgress(-1);
                 btn.setClickable(true);
-                Snackbar.make(v,"通信エラーが発生しました",Snackbar.LENGTH_SHORT).show();
+                //Snackbar.make(v.getRootView(),"通信エラーが発生しました",Snackbar.LENGTH_SHORT).show();
+
+                //時間割のみ取得できている場合
+                if(getTimeTable = true){
+                    //ユーザID：パスワードの保存
+                    List<String> ipList = new ArrayList<String>();
+                    ipList.add(userId2);
+                    ipList.add(password2);
+                    saveManager = new SaveManager();
+                    saveManager.saveMangerWithPreference(context,PREF_NAME_ID_PASS,ipList,"ip");
+
+
+                    btn.setProgress(100);
+                    Intent intent = new Intent(context, MainActivity.class);
+                    intent.putExtra("notGetAttendanceRate",true);
+                    context.startActivity(intent);
+                    ((Activity)context).overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
+                    ((Activity)context).finish();
+                    btn.setClickable(true);
+                    //ログインしたことを記憶
+                    getValuesBase.SetLoginState(context, true);
+                }
+
                 //btn.setProgress(0);
                 //dialog.dismiss();
 
