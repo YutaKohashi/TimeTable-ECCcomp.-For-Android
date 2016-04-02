@@ -1,17 +1,20 @@
 
 
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="#FFF"
-    xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
-    >
+<!--<android.support.design.widget.CoordinatorLayout-->
+   <!---->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:fitsSystemWindows="true"-->
+    <!---->
+    <!--xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"-->
+    <!--&gt;-->
     <android.support.v4.widget.SwipeRefreshLayout
+
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/refresh"
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
+        android:background="#FFF"
         android:layout_height="match_parent">
 
 
@@ -23,5 +26,4 @@
         />
 
     </android.support.v4.widget.SwipeRefreshLayout>
-</android.support.design.widget.CoordinatorLayout>
 

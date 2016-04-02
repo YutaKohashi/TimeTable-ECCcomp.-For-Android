@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity{
   //  EditText editText;
     TextView textView;
     CircularProgressButton circularButton1;
+    TextView dummy;
     // キーボード表示を制御するためのオブジェクト
     InputMethodManager inputMethodManager;
     ScrollView mainLayout;
@@ -58,12 +59,17 @@ public class LoginActivity extends AppCompatActivity{
             finish();
         }
 
-        inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//        dummy = (TextView)findViewById(R.id.dummy);
+//        dummy.clearFocus();
+//        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(getBaseContext().INPUT_METHOD_SERVICE);
+//        inputMethodManager.hideSoftInputFromWindow(dummy.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+//        inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 //        mainLayout = (ScrollView) findViewById(R.id.login_scroll_view);
 
      //   mLoginButton = (Button)findViewById(R.id.login_btn);
         id = (EditText) findViewById(R.id.username);
         pss = (EditText)findViewById(R.id.password);
+
         //editText  = (EditText)findViewById(R.id.username);
         textView = (TextView)findViewById(R.id.num_text);
 
@@ -77,9 +83,26 @@ public class LoginActivity extends AppCompatActivity{
                 GetValuesBase getValuesBase1 = new GetValuesBase();
 
                 if(!getValuesBase.ConnectionCheck(LoginActivity.this)){
-                    Snackbar.make(view.getRootView(),"インターネットに接続されていません",Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(view,"インターネットに接続されていません",Snackbar.LENGTH_SHORT).show();
                     circularButton1.setProgress(-1);
 
+                    return;
+                }
+
+
+                String idCheck = id.getText().toString().replaceAll(" ","");
+                idCheck = idCheck.replaceAll("　","");
+                String passCheck = pss.getText().toString().replaceAll(" ","");
+                passCheck = passCheck.replaceAll("　","");
+                if(id.getText().toString().length() == 0 && pss.getText().toString().length() == 0){
+                    id.setError("学籍番号を入力してください");
+                    pss.setError("パスワードを入力してください");
+                    return;
+                }else if(id.getText().toString().length() == 0){
+                    id.setError("学籍番号を入力してください");
+                    return;
+                }else if(pss.getText().toString().length() == 0){
+                    pss.setError("パスワードを入力してください");
                     return;
                 }
 
@@ -111,6 +134,8 @@ public class LoginActivity extends AppCompatActivity{
 //            }
 //        });
 
+        id.setNextFocusDownId(R.id.password);
+        pss.setNextFocusDownId(R.id.login_btn);
         id.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -143,6 +168,16 @@ public class LoginActivity extends AppCompatActivity{
             }
         });
 
+        pss.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(!hasFocus){
+                    // ソフトキーボードを閉じる
+                    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+                }
+            }
+        });
 
     }
 //    // 画面タップ時の処理
@@ -169,11 +204,7 @@ public class LoginActivity extends AppCompatActivity{
         return super.dispatchKeyEvent(e);
     }
 
-    @Override
-    public void onPause(){
-        super.onPause();
-        finish();
-    }
+
 }
 
 

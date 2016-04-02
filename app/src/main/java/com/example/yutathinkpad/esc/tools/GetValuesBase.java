@@ -217,7 +217,7 @@ public class GetValuesBase {
             state2 = 1;
         }
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        pref.edit().putInt("InitState",state2).commit();
+        pref.edit().putInt("InitState",state2).apply();
 
     }
 

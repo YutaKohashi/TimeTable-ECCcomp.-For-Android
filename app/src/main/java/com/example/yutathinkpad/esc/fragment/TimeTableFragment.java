@@ -1,10 +1,14 @@
 package com.example.yutathinkpad.esc.fragment;
 
-
+import android.app.Activity;
+import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,9 +63,12 @@ public class TimeTableFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_time_table, container, false);
 
         //getActivity().findViewById(R.id.toolbar).scrollf
-
-
-
+//
+//        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+//        if(actionBar != null){
+//            actionBar.hide();
+//
+//        }
         MondayList = new ArrayList<>();
         TuesdayList = new ArrayList<>();
         WednesdayList = new ArrayList<>();
@@ -171,12 +178,19 @@ public class TimeTableFragment extends Fragment {
         return v;
     }
 
+//
+//
 //    @Override
-//    public void onStart(){
+//    public void onResume(){
 //        super.onStart();
-//        DrawerLayout drawerLayout= (DrawerLayout)getActivity().findViewById(R.id.drawer_layout);
-//        drawerLayout.closeDrawer(GravityCompat.START);
+//        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+//        if(actionBar != null){
+//            actionBar.show();
+//
+//        }
+//
 //
 //    }
+
 
 }

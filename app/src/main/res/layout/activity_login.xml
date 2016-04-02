@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:id="@+id/root_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary6"
         android:paddingTop="150sp"
-
         tools:context="com.example.yutathinkpad.esc.activity.LoginActivity">
 
 
@@ -36,7 +38,7 @@
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/usernameWrapper"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="20sp"
                 android:layout_marginRight="20sp"
                 >
@@ -47,6 +49,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="学籍番号"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:nextFocusDown="@+id/password"
                     android:inputType="number"
                    />
 
@@ -55,7 +60,7 @@
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/passwordWrapper"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="20sp"
                 android:layout_marginRight="20sp"
                 android:layout_marginTop="4dp">
@@ -66,6 +71,9 @@
                     android:layout_height="wrap_content"
                     android:hint="パスワード"
                     android:inputType="numberPassword"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:nextFocusDown="@+id/login_btn"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -96,15 +104,17 @@
                 </com.dd.CircularProgressButton>
 
             <!--ダミー-->
-            <TextView
-                android:layout_width="0sp"
-                android:layout_height="0sp"
-                android:focusable="true"
-                android:focusableInTouchMode="true">
-                <requestFocus/>
-                </TextView>
+            <!--<TextView-->
+                <!--android:id="@+id/dummy"-->
+                <!--android:layout_width="0sp"-->
+                <!--android:layout_height="0sp"-->
+                <!--android:focusable="true"-->
+                <!--android:focusableInTouchMode="true">-->
+                <!--<requestFocus/>-->
+                <!--</TextView>-->
 
         </LinearLayout>
 
     </RelativeLayout>
 
+</ScrollView>

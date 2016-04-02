@@ -2,6 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceScreen
+        android:key="update_time_table"
+        android:title="時間割を更新"
+        android:summary="時間割のデータを更新します"
+        />
+
+    <PreferenceScreen
         android:key="logout_button"
         android:title="ログアウト"
         android:summary="このアプリケーションからアカウントを消去します"

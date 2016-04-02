@@ -1,7 +1,10 @@
 package com.example.yutathinkpad.esc.activity;
 
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,11 +15,15 @@ import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.WindowCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,9 +33,12 @@ import com.example.yutathinkpad.esc.R;
 import com.example.yutathinkpad.esc.fragment.AttendanceRateFragment;
 import com.example.yutathinkpad.esc.fragment.TimeTableFragment;
 import com.example.yutathinkpad.esc.preference.LoadManager;
+import com.example.yutathinkpad.esc.tools.GetValuesBase;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 public class MainActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
     static final String PREF_NAME_ID_PASS = "ip";
@@ -46,9 +56,16 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+//        supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        setToolbar();
+
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+
+        }
+
         initView();
 
         Intent intent = getIntent();
@@ -91,13 +108,13 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
     }
 
-    private void setToolbar() {
-        toolbar= (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-        }
+//    private void setToolbar() {
+//        toolbar= (Toolbar) findViewById(R.id.toolbar);
+//        if (toolbar != null) {
+//            setSupportActionBar(toolbar);
+//        }
 
-    }
+  //  }
 
     private void initView() {
         drawer= (NavigationView) findViewById(R.id.navigation_drawer);
@@ -120,6 +137,13 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 }
                 fragment1 = new TimeTableFragment();
                 selectedItem = 0;
+
+//                ActionBar actionBar = getSupportActionBar();
+//
+//                if(actionBar != null){
+//                    actionBar.hide();
+//
+//                }
                 break;
 
             case R.id.navigation_item_2:
@@ -128,6 +152,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                     drawerLayout.closeDrawer(GravityCompat.START);
                     return;
                 }
+
                 selectedItem = 1;
                 //transaction.replace(R.id.fragment_container, new AttendanceRateFragment(),"ddd");
                 fragment1 = new AttendanceRateFragment();
@@ -202,14 +227,65 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         outState.putInt("SELECTED_ID",selectedId);
     }
 
+    MaterialDialog mMaterialDialog;
     @Override
     public boolean dispatchKeyEvent(KeyEvent e) {
         // 戻るボタンが押されたとき
-        if(e.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-            // ボタンが押されたとき
-            return true;
+//        if(e.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+//            // ボタンが押されたとき
+//            mMaterialDialog = new MaterialDialog(this)
+//                    .setTitle("アプリケーションの終了")
+//                    .setMessage("アプリケーションを終了してよろしいですか？")
+//                    .setPositiveButton("OK", new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            mMaterialDialog.dismiss();
+//                            finish();
+//
+//                        }
+//                    })
+//                    .setNegativeButton("CANCEL", new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            mMaterialDialog.dismiss();
+////
+//                            Snackbar.make(v,"キャンセルしました",Snackbar.LENGTH_SHORT).show();
+//                        }
+//                    });
+//
+//            mMaterialDialog.show();
+//            return true;
+//
+//        }
+        finish();
+        return super.dispatchKeyEvent(e);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        //時間割のデータを行使した場合
+        SharedPreferences sharedPreferences = getSharedPreferences("restart_fragment",MODE_PRIVATE);
+        Boolean flag = sharedPreferences.getBoolean("RESTART_FRAGMENT", false);
+
+        if(flag){
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            // addを呼んでいるので、重なる
+            transaction.add(R.id.fragment_container, new TimeTableFragment(),"ddd");
+            transaction.addToBackStack(null);
+            transaction.commit();
+
+            //プリファレンスのデータにfalseを設定
+            SharedPreferences preferences = getSharedPreferences("restart_fragment",MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("RESTART_FRAGMENT",false);
+            editor.apply();
+            itemSelection(R.id.navigation_item_1);
+
 
         }
-        return super.dispatchKeyEvent(e);
+
+        Log.d("MainActivity::::","onResume");
     }
 }

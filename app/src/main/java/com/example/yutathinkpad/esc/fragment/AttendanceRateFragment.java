@@ -3,6 +3,7 @@ package com.example.yutathinkpad.esc.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -88,11 +89,17 @@ public class AttendanceRateFragment extends Fragment {
                 String userId = list.get(0);
                 String pass = list.get(1);
                 GetAttendanceRateManager getAttendanceRateManager = new GetAttendanceRateManager();
-                getAttendanceRateManager.getAttendanceRate(getActivity(),v.getRootView(),userId,pass);
+                getAttendanceRateManager.getAttendanceRate(getActivity(),v,userId,pass);
             }
         });
-        mSwipeRefreshLayout.setColorScheme(R.color.red, R.color.green, R.color.blue, R.color.yellow);
+        mSwipeRefreshLayout.setColorScheme(R.color.colorPrimary1, R.color.colorPrimary2, R.color.colorPrimary6, R.color.colorPrimary7);
 
+        new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+                mSwipeRefreshLayout.setEnabled(i == 0);
+            }
+        };
 
 
 

@@ -139,8 +139,8 @@ public class GetAttendanceRateManager {
                 String __EVENTARGUMENT = getValuesBase.GetValues("input type=\"hidden\" name=\"__EVENTARGUMENT\" id=\"__EVENTARGUMENT\" value=\"(.+?)\"",mLastResponse);
                 String __EVENTVALIDATION = getValuesBase.GetValues("input type=\"hidden\" name=\"__EVENTVALIDATION\" id=\"__EVENTVALIDATION\" value=\"(.+?)\"",mLastResponse);
                 String ctl00$ContentPlaceHolder1$txtUserId = userId2;
-//                String ctl00$ContentPlaceHolder1$txtPassword = password2;
-                String ctl00$ContentPlaceHolder1$txtPassword = "3333";
+                String ctl00$ContentPlaceHolder1$txtPassword = password2;
+//                String ctl00$ContentPlaceHolder1$txtPassword = "3333";
                 String ctl00$ContentPlaceHolder1$btnLogin = "ログイン";
 
                 RequestBody requestBody2 = new FormBody.Builder()
@@ -172,7 +172,7 @@ public class GetAttendanceRateManager {
                 } catch (IOException |InterruptedException e) {
                     Log.d(TAG, "POST失敗");
                     e.printStackTrace();
-                    Toast.makeText(context,"通信に失敗しました",Toast.LENGTH_LONG).show();
+
                 }
 
 //                String __EVENTTARGET2 = getValuesBase.GetValues("input type=\"hidden\" name=\"__EVENTTARGET\" id=\"__EVENTTARGET\" value=\"(.+?)\"",mLastResponse);
@@ -233,7 +233,7 @@ public class GetAttendanceRateManager {
                 nextTask.run(mLastResponse);
             }
 
-        }).thenOnMainThread(new Task<String, String>() {
+        }).thenOnAsyncThread(new Task<String, String>() {
             @Override
             public void run(String result, NextTask<String> nextTask) {
 

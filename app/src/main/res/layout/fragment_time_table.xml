@@ -1,29 +1,25 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/time_table_root"
     android:layout_height="match_parent"
-    android:background="#FFF"
-    android:fitsSystemWindows="true">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:background="#FFF">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-    <LinearLayout
+    <RelativeLayout
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFF"
-        android:orientation="vertical"
         tools:context=".fragment.TimeTableFragment">
 
         <LinearLayout
             android:id="@+id/time_table_header"
             android:layout_width="match_parent"
             android:layout_height="40sp"
-            android:background="@color/dark"
+            android:background="#f7f7f7"
+            android:orientation="horizontal"
             android:weightSum="5">
 
             <TextView
@@ -32,7 +28,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="月"
+                android:text="@string/mon_string"
+                android:background="@drawable/week_header_right"
                 android:textColor="@android:color/black" />
 
             <TextView
@@ -41,7 +38,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="火"
+                android:text="@string/tue_string"
+                android:background="@drawable/week_header_right"
                 android:textColor="@android:color/black" />
 
             <TextView
@@ -50,7 +48,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="水"
+                android:text="@string/wed_string"
+                android:background="@drawable/week_header_right"
                 android:textColor="@android:color/black" />
 
             <TextView
@@ -59,7 +58,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="木"
+                android:text="@string/thur_string"
+                android:background="@drawable/week_header_right"
                 android:textColor="@android:color/black" />
 
             <TextView
@@ -68,18 +68,20 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="金"
+                android:text="@string/fri_string"
                 android:textColor="@android:color/black" />
         </LinearLayout>
 
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/time_table_header">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
                 android:orientation="horizontal"
                 android:weightSum="5">
 
@@ -120,8 +122,5 @@
 
             </LinearLayout>
         </ScrollView>
-
-
-    </LinearLayout>
-    </ScrollView>
+    </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

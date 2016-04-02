@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -22,9 +21,9 @@ import com.example.yutathinkpad.esc.activity.MainActivity;
 import com.example.yutathinkpad.esc.object.AttendanceRateObject;
 import com.example.yutathinkpad.esc.preference.SaveManager;
 import com.example.yutathinkpad.esc.object.TimeBlock;
-import com.example.yutathinkpad.esc.stab;
 import com.example.yutathinkpad.esc.tools.CreateTimeTableLists;
 
+import com.example.yutathinkpad.esc.tools.CustomProgressDialog;
 import com.example.yutathinkpad.esc.tools.GetValuesBase;
 
 import java.io.IOException;
@@ -48,6 +47,8 @@ import okhttp3.Response;
  */
 public class UpdateTimeTableManager {
 
+
+
     static final String URL1 = "http://comp2.ecc.ac.jp/sutinfo/login";          //ログイン画面
     static final String URL2 = "http://comp2.ecc.ac.jp/sutinfo/auth/attempt";   //実ログイン
     static final String URL3 ="http://comp2.ecc.ac.jp/sutinfo/logout";
@@ -57,9 +58,9 @@ public class UpdateTimeTableManager {
     static final String URL6 = "http://school4.ecc.ac.jp/EccStdWeb/ST0100/ST0100_02.aspx";
     static final String PREF_NAME ="sample";
     static final String PREF_NAME_ID_PASS = "ip";
-
-    static final String userId = "2140257";
-    static final String password = "455478";
+//
+//    static final String userId = "2140257";
+//    static final String password = "455478";
     final String TAG ="error:::";
 
     //月曜日から金曜日の曜日ごとのリスト
@@ -81,9 +82,13 @@ public class UpdateTimeTableManager {
 
     SaveManager saveManager;
     List<AttendanceRateObject> attendanceRateList;
+    ProgressDialog progressDialog;
+    CustomProgressDialog customDialog;
 
+    public void upDateTimeTable(final Context context, final View v, final String userId, final String password){
 
-    public void upDateTimeTable(final Context context){
+        final String userId2 = userId;
+        final String password2 = password;
 
         MondayList = new ArrayList<>();
         TuesdayList = new ArrayList<>();
@@ -104,286 +109,18 @@ public class UpdateTimeTableManager {
                 .cookieJar(cookieJar)
                 .build();
 
+       customDialog = new CustomProgressDialog();
         Promise.with(this,String.class).then(new Task<String,String>(){
             @Override
             public void run(String s, NextTask<String> nextTask) {
-                // ダイアログを表示
-                dialog.setMessage("メッセージ");
-                dialog.setTitle("タイトル");
-                dialog.show();
-                nextTask.run(null);
-
-
-
-            }
-
-        }).thenOnAsyncThread(new Task<String, String>() {
-            @Override
-            public void run(String result, NextTask<String> nextTask) {
-                // ログイン画面へGET通信
-                Request request = new Request.Builder()
-                        .url(URL1)
-                        .build();
-                Response response;
-                try {
-                    // ログインページヘ
-                    response = client.newCall(request).execute();
-                    Thread.sleep(500);
-                    mLastResponse = response.body().string();
-                } catch (IOException |InterruptedException e) {
-                    e.printStackTrace();
+               //  ダイアログを表示
+                if (progressDialog == null) {
+                    progressDialog = customDialog.createProgressDialogForTimeTableUpdate(context);
+                    progressDialog.show();
+                } else {
+                    progressDialog.show();
                 }
 
-                // トークンの抽出処理
-                String token = getValuesBase.GetToken(mLastResponse);
-                Log.d(TAG,token);
-                if("ERROR".equals(token)){
-                    //例外処理
-                    Log.d(TAG,"トークン取得失敗");
-                }
-
-                // ESCへPOST
-                // パラメータ
-                RequestBody requestBody = new FormBody.Builder()
-                        .add("_token", token)
-                        .add("userid", userId)
-                        .add("password", password)
-                        .build();
-
-                // リクエストオブジェクトを作成
-                request = new Request.Builder()
-                        .url(URL2)
-                        .post(requestBody)
-                        .addHeader("Referer","http://comp2.ecc.ac.jp/sutinfo/login")
-                        .addHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87")
-                        .addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
-                        .build();
-
-                try {
-                    Log.d(TAG,"POST");
-                    response = client.newCall(request).execute();
-                    Thread.sleep(500);
-
-                    mLastResponse = response.body().string();
-                } catch (IOException |InterruptedException e) {
-                    Log.d(TAG, "POST失敗");
-                    e.printStackTrace();
-                    Toast.makeText(context,"通信に失敗しました",Toast.LENGTH_LONG).show();
-                }
-
-                nextTask.run(mLastResponse);
-            }
-
-        }).thenOnAsyncThread(new Task<String, String>() {
-            @Override
-            public void run(String result, NextTask<String> nextTask) {
-                // ログアウト処理
-                mLastResponse = result;
-
-                Request request = new Request.Builder()
-                        .url(URL3)
-                        .build();
-                //Response response;
-                try {
-                    // ログインページヘ
-                    client.newCall(request).execute();
-                    Thread.sleep(1500);
-                    //mLastResponse = response.body().string();
-                } catch (IOException|InterruptedException e) {
-                    e.printStackTrace();
-                }
-                nextTask.run(mLastResponse);
-            }
-
-        }). setCallback(new Callback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                mLastResponse = result;
-                Pattern pattern1 = Pattern.compile("<td>(.+?)</td>");
-                Matcher matcher1;
-
-                //1時限目のHTMLソース
-                weekCount = 0;
-                result= getValuesBase.NarrowingValues("<tr><thclass=\"term\">1","<thclass=\"term\">2</th>",mLastResponse,true);
-                CreateTimeTableLists createList = new CreateTimeTableLists();
-                matcher1 = pattern1.matcher(result);
-                while(matcher1.find()) {
-                    TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
-                    switch (weekCount) {
-                        case 0:
-                            MondayList.add(timeBlock);
-                            break;
-                        case 1:
-                            TuesdayList.add(timeBlock);
-                            break;
-                        case 2:
-                            WednesdayList.add(timeBlock);
-                            break;
-                        case 3:
-                            ThursdayList.add(timeBlock);
-                            break;
-                        case 4:
-                            FridayList.add(timeBlock);
-                            break;
-                    }
-                    weekCount++;
-                }
-
-                //2時限目のHTMLソース
-                weekCount = 0;
-                result= getValuesBase.NarrowingValues("<thclass=\"term\">2</th>","<thclass=\"term\">3</th>",mLastResponse,true);
-                matcher1 = pattern1.matcher(result);
-                while(matcher1.find()) {
-                    TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
-                    switch (weekCount) {
-                        case 0:
-                            MondayList.add(timeBlock);
-                            break;
-                        case 1:
-                            TuesdayList.add(timeBlock);
-                            break;
-                        case 2:
-                            WednesdayList.add(timeBlock);
-                            break;
-                        case 3:
-                            ThursdayList.add(timeBlock);
-                            break;
-                        case 4:
-                            FridayList.add(timeBlock);
-                            break;
-                    }
-                    weekCount++;
-                }
-
-                //3時限目のHTMLソース
-                weekCount = 0;
-                result= getValuesBase.NarrowingValues("<thclass=\"term\">3</th>","<thclass=\"term\">4</th>",mLastResponse,true);
-                matcher1 = pattern1.matcher(result);
-                while(matcher1.find()) {
-                    TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
-                    switch (weekCount) {
-                        case 0:
-                            MondayList.add(timeBlock);
-                            break;
-                        case 1:
-                            TuesdayList.add(timeBlock);
-                            break;
-                        case 2:
-                            WednesdayList.add(timeBlock);
-                            break;
-                        case 3:
-                            ThursdayList.add(timeBlock);
-                            break;
-                        case 4:
-                            FridayList.add(timeBlock);
-                            break;
-                    }
-                    weekCount++;
-                }
-
-                //4時限目のHTMLソース
-                weekCount = 0;
-                result= getValuesBase.NarrowingValues("<thclass=\"term\">4</th>","<h2>担任からのお知らせ</h2>",mLastResponse,true);
-                matcher1 = pattern1.matcher(result);
-                while(matcher1.find()) {
-                    TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
-                    switch (weekCount) {
-                        case 0:
-                            MondayList.add(timeBlock);
-                            break;
-                        case 1:
-                            TuesdayList.add(timeBlock);
-                            break;
-                        case 2:
-                            WednesdayList.add(timeBlock);
-                            break;
-                        case 3:
-                            ThursdayList.add(timeBlock);
-                            break;
-                        case 4:
-                            FridayList.add(timeBlock);
-                            break;
-                    }
-                    weekCount++;
-                }
-
-                /********************** 以上でリスト完成 **********************/
-                /******************* 以下データベース登録処理 ******************/
-
-                saveManager = new SaveManager();
-                saveManager.saveMangerWithPreference(context, PREF_NAME,MondayList,"monList");
-                saveManager.saveMangerWithPreference(context, PREF_NAME,TuesdayList,"tueList");
-                saveManager.saveMangerWithPreference(context, PREF_NAME,WednesdayList,"wedList");
-                saveManager.saveMangerWithPreference(context, PREF_NAME,ThursdayList,"thurList");
-                saveManager.saveMangerWithPreference(context, PREF_NAME,FridayList,"friList");
-
-                dialog.dismiss();
-            }
-
-            @Override
-            public void onFailure(Bundle bundle, Exception e) {
-
-                dialog.dismiss();
-            }
-
-        }).create().execute(null);
-
-    }
-
-    /******************************** ログイン時に使用   *********************************************************/
-
-    // ログイン画面へGET通信
-    Request request;
-    Response response;
-    CircularProgressButton btn;
-    View viewStart;
-    boolean getTimeTable = false;
-    /**
-     *
-     * @param context  コンテキスト
-     * @param v        layout
-     * @param userId   学籍番号
-     * @param password パスワード
-     */
-    public void upDateTimeTableForLogin(final Context context, final View v, final String userId, final String password){
-
-        final String userId2 = userId;
-        final String password2 = password;
-        MondayList = new ArrayList<>();
-        TuesdayList = new ArrayList<>();
-        WednesdayList = new ArrayList<>();
-        ThursdayList = new ArrayList<>();
-        FridayList = new ArrayList<>();
-
-        dialog = new ProgressDialog(context);
-
-        cookieManager = new CookieManager();
-        cookieJar = new JavaNetCookieJar(cookieManager);
-        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-        getValuesBase = new GetValuesBase();
-
-
-        btn =  (CircularProgressButton)v.findViewById(R.id.login_btn);
-
-        try{
-            client = new OkHttpClient.Builder()
-                    //.proxy(p)
-                    .cookieJar(cookieJar)
-                    .build();
-
-        }catch(Exception e){
-            Log.d("okhttp::::","通信に失敗しました");
-        }
-
-
-
-        Promise.with(this,String.class).then(new Task<String,String>(){
-            @Override
-            public void run(String s, NextTask<String> nextTask) {
-                // ダイアログを表示
-//                dialog.setMessage("メッセージ");
-//                dialog.setTitle("タイトル");.
-//                dialog.show();
                 if(!getValuesBase.ConnectionCheck(context)){
                     Snackbar.make(v,"インターネットに接続されていません",Snackbar.LENGTH_LONG).show();
                     return;
@@ -397,8 +134,6 @@ public class UpdateTimeTableManager {
         }).thenOnAsyncThread(new Task<String, String>() {
             @Override
             public void run(String result, NextTask<String> nextTask) {
-
-
                 // ログインページヘ
                 try {
                     request = new Request.Builder()
@@ -423,7 +158,7 @@ public class UpdateTimeTableManager {
 
             @Override
             public void run(String s, NextTask<String> nextTask) {
-            // トークンの抽出処理
+                // トークンの抽出処理
                 String token = getValuesBase.GetToken(mLastResponse);
                 Log.d(TAG,token);
                 if("ERROR".equals(token)){
@@ -431,7 +166,7 @@ public class UpdateTimeTableManager {
                     Log.d(TAG,"トークン取得失敗");
                 }
                 nextTask.run(token);
-        }
+            }
 
         }).thenOnAsyncThread(new Task<String, String>() {
 
@@ -517,9 +252,10 @@ public class UpdateTimeTableManager {
                 }
                 nextTask.run(mLastResponse);
             }
-        }).thenOnAsyncThread(new Task<String, String>() {
+        }).setCallback(new Callback<String>() {
             @Override
-            public void run(String result, NextTask<String> nextTask) {
+
+            public void onSuccess(String result){
                 mLastResponse = result;
                 Pattern pattern1 = Pattern.compile("<td>(.+?)</td>");
                 Matcher matcher1;
@@ -640,8 +376,325 @@ public class UpdateTimeTableManager {
                 saveManager.saveMangerWithPreference(context, PREF_NAME,FridayList,"friList");
 
                 getTimeTable = true;
+
+                progressDialog.dismiss();
+                //dialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Bundle bundle, Exception e) {
+                progressDialog.dismiss();
+                //dialog.dismiss();
+            }
+
+        }).create().execute(null);
+
+    }
+
+    /******************************** ログイン時に使用   *********************************************************/
+
+    // ログイン画面へGET通信
+    Request request;
+    Response response;
+    CircularProgressButton btn;
+    View viewStart;
+    boolean getTimeTable = false;
+    String name ="no_name";
+    /**
+     *
+     * @param context  コンテキスト
+     * @param v        layout
+     * @param userId   学籍番号
+     * @param password パスワード
+     */
+    public void upDateTimeTableForLogin(final Context context, final View v, final String userId, final String password){
+
+        final String userId2 = userId;
+        final String password2 = password;
+        MondayList = new ArrayList<>();
+        TuesdayList = new ArrayList<>();
+        WednesdayList = new ArrayList<>();
+        ThursdayList = new ArrayList<>();
+        FridayList = new ArrayList<>();
+
+        dialog = new ProgressDialog(context);
+
+        cookieManager = new CookieManager();
+        cookieJar = new JavaNetCookieJar(cookieManager);
+        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+        getValuesBase = new GetValuesBase();
+
+
+        btn =  (CircularProgressButton)v.findViewById(R.id.login_btn);
+
+        try{
+            client = new OkHttpClient.Builder()
+                    //.proxy(p)
+                    .cookieJar(cookieJar)
+                    .build();
+
+        }catch(Exception e){
+            Log.d("okhttp::::","通信に失敗しました");
+        }
+
+
+
+        Promise.with(this,String.class).then(new Task<String,String>(){
+            @Override
+            public void run(String s, NextTask<String> nextTask) {
+                // ダイアログを表示
+//                dialog.setMessage("メッセージ");
+//                dialog.setTitle("タイトル");.
+//                dialog.show();
+                if(!getValuesBase.ConnectionCheck(context)){
+                    Snackbar.make(v,"インターネットに接続されていません",Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+                nextTask.run(null);
+
+
+
+            }
+
+        }).thenOnAsyncThread(new Task<String, String>() {
+            @Override
+            public void run(String result, NextTask<String> nextTask) {
+                // ログインページヘ
+                try {
+                    request = new Request.Builder()
+                            .url(URL1)
+                            .build();
+
+                    response = client.newCall(request).execute();
+                    Thread.sleep(500);
+                    mLastResponse = response.body().string();
+                } catch (UnknownHostException e) {
+                    Toast.makeText(context, "通信に失敗しました", Toast.LENGTH_LONG).show();
+                    Log.d("okhttp::::", "通信に失敗しました");
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+
+                }
+                nextTask.run(mLastResponse);
+            }
+
+        }).thenOnAsyncThread( new Task<String, String>() {
+
+
+            @Override
+            public void run(String s, NextTask<String> nextTask) {
+            // トークンの抽出処理
+                String token = getValuesBase.GetToken(mLastResponse);
+                Log.d(TAG,token);
+                if("ERROR".equals(token)){
+                    //例外処理
+                    Log.d(TAG,"トークン取得失敗");
+                }
+                nextTask.run(token);
+        }
+
+        }).thenOnAsyncThread(new Task<String, String>() {
+
+            @Override
+            public void run(String token, NextTask<String> nextTask) {
+
+                // ESCへPOST
+                // パラメータ
+                RequestBody requestBody = new FormBody.Builder()
+                        .add("_token", token)
+                        .add("userid", userId2)
+                        .add("password", password2)
+                        .build();
+
+                // リクエストオブジェクトを作成
+                request = new Request.Builder()
+                        .url(URL2)
+                        .post(requestBody)
+                        .addHeader("Referer","http://comp2.ecc.ac.jp/sutinfo/login")
+                        .addHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87")
+                        .addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+                        .build();
+
+                try {
+                    Log.d(TAG,"POST");
+                    response = client.newCall(request).execute();
+                    Thread.sleep(500);
+
+                    mLastResponse = response.body().string();
+
+                    //名前を保存
+                    name = getValuesBase.GetValues(" id=\"user_name\" class=\".*?\">(.+?)さん</li>",mLastResponse);
+                    name = name.replaceAll("&nbsp;","");
+                    Log.d("名前:::",name);
+                    SharedPreferences pref = context.getSharedPreferences("username", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("username",name);
+                    editor.apply();
+
+                } catch (IOException |InterruptedException e) {
+                    Log.d(TAG, "POST失敗");
+                    e.printStackTrace();
+                    Toast.makeText(context,"通信に失敗しました",Toast.LENGTH_LONG).show();
+                }
+
+                nextTask.run(mLastResponse);
+            }
+
+
+
+        }).thenOnAsyncThread(new Task<String, String>() {
+
+            @Override
+            public void run(String result, NextTask<String> nextTask) {
+
+                // ログアウト処理
+                mLastResponse = result;
+
+                Request request = new Request.Builder()
+                        .url(URL3)
+                        .build();
+                //Response response;
+                try {
+                    // ログアウト
+                    client.newCall(request).execute();
+                    Thread.sleep(1500);
+                    //mLastResponse = response.body().string();
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+                nextTask.run(mLastResponse);
+            }
+        }).thenOnAsyncThread(new Task<String, String>() {
+            @Override
+            public void run(String result, NextTask<String> nextTask) {
+                mLastResponse = result;
+                Pattern pattern1 = Pattern.compile("<td>(.+?)</td>");
+                Matcher matcher1;
+
+                //1時限目のHTMLソース
+                weekCount = 0;
+                result= getValuesBase.NarrowingValues("<tr><thclass=\"term\">1","<thclass=\"term\">2</th>",mLastResponse,true);
+                CreateTimeTableLists createList = new CreateTimeTableLists();
+                matcher1 = pattern1.matcher(result);
+                while(matcher1.find()) {
+                    TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
+                    switch (weekCount) {
+                        case 0:
+                            MondayList.add(timeBlock);
+                            break;
+                        case 1:
+                            TuesdayList.add(timeBlock);
+                            break;
+                        case 2:
+                            WednesdayList.add(timeBlock);
+                            break;
+                        case 3:
+                            ThursdayList.add(timeBlock);
+                            break;
+                        case 4:
+                            FridayList.add(timeBlock);
+                            break;
+                    }
+                    weekCount++;
+                }
+
+                //2時限目のHTMLソース
+                weekCount = 0;
+                result= getValuesBase.NarrowingValues("<thclass=\"term\">2</th>","<thclass=\"term\">3</th>",mLastResponse,true);
+                matcher1 = pattern1.matcher(result);
+                while(matcher1.find()) {
+                    TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
+                    switch (weekCount) {
+                        case 0:
+                            MondayList.add(timeBlock);
+                            break;
+                        case 1:
+                            TuesdayList.add(timeBlock);
+                            break;
+                        case 2:
+                            WednesdayList.add(timeBlock);
+                            break;
+                        case 3:
+                            ThursdayList.add(timeBlock);
+                            break;
+                        case 4:
+                            FridayList.add(timeBlock);
+                            break;
+                    }
+                    weekCount++;
+                }
+
+                //3時限目のHTMLソース
+                weekCount = 0;
+                result= getValuesBase.NarrowingValues("<thclass=\"term\">3</th>","<thclass=\"term\">4</th>",mLastResponse,true);
+                matcher1 = pattern1.matcher(result);
+                while(matcher1.find()) {
+                    TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
+                    switch (weekCount) {
+                        case 0:
+                            MondayList.add(timeBlock);
+                            break;
+                        case 1:
+                            TuesdayList.add(timeBlock);
+                            break;
+                        case 2:
+                            WednesdayList.add(timeBlock);
+                            break;
+                        case 3:
+                            ThursdayList.add(timeBlock);
+                            break;
+                        case 4:
+                            FridayList.add(timeBlock);
+                            break;
+                    }
+                    weekCount++;
+                }
+
+                //4時限目のHTMLソース
+                weekCount = 0;
+                result= getValuesBase.NarrowingValues("<thclass=\"term\">4</th>","<h2>担任からのお知らせ</h2>",mLastResponse,true);
+                matcher1 = pattern1.matcher(result);
+                while(matcher1.find()) {
+                    TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
+                    switch (weekCount) {
+                        case 0:
+                            MondayList.add(timeBlock);
+                            break;
+                        case 1:
+                            TuesdayList.add(timeBlock);
+                            break;
+                        case 2:
+                            WednesdayList.add(timeBlock);
+                            break;
+                        case 3:
+                            ThursdayList.add(timeBlock);
+                            break;
+                        case 4:
+                            FridayList.add(timeBlock);
+                            break;
+                    }
+                    weekCount++;
+                }
+
+                /********************** 以上でリスト完成 **********************/
+                /******************* 以下データベース登録処理 ******************/
+
+                saveManager = new SaveManager();
+                saveManager.saveMangerWithPreference(context, PREF_NAME,MondayList,"monList");
+                saveManager.saveMangerWithPreference(context, PREF_NAME,TuesdayList,"tueList");
+                saveManager.saveMangerWithPreference(context, PREF_NAME,WednesdayList,"wedList");
+                saveManager.saveMangerWithPreference(context, PREF_NAME,ThursdayList,"thurList");
+                saveManager.saveMangerWithPreference(context, PREF_NAME,FridayList,"friList");
+
                 nextTask.run(mLastResponse);
 
+            }
+        }).thenOnMainThread(new Task<String, String>() {
+
+            @Override
+            public void run(String result, NextTask<String> nextTask) {
+                getTimeTable = true;
+                nextTask.run(mLastResponse);
             }
 
         }).thenOnAsyncThread(new Task<String, String>() {
@@ -672,7 +725,8 @@ public class UpdateTimeTableManager {
                 String __EVENTARGUMENT = getValuesBase.GetValues("input type=\"hidden\" name=\"__EVENTARGUMENT\" id=\"__EVENTARGUMENT\" value=\"(.+?)\"",mLastResponse);
                 String __EVENTVALIDATION = getValuesBase.GetValues("input type=\"hidden\" name=\"__EVENTVALIDATION\" id=\"__EVENTVALIDATION\" value=\"(.+?)\"",mLastResponse);
                 String ctl00$ContentPlaceHolder1$txtUserId = userId2;
-                String ctl00$ContentPlaceHolder1$txtPassword = "3333";
+               String ctl00$ContentPlaceHolder1$txtPassword = password2;
+//                String ctl00$ContentPlaceHolder1$txtPassword = "3333";
                 String ctl00$ContentPlaceHolder1$btnLogin = "ログイン";
 
                 RequestBody requestBody2 = new FormBody.Builder()
@@ -879,7 +933,14 @@ public class UpdateTimeTableManager {
                 //Snackbar.make(v.getRootView(),"通信エラーが発生しました",Snackbar.LENGTH_SHORT).show();
 
                 //時間割のみ取得できている場合
-                if(getTimeTable = true){
+                if(getTimeTable == true){
+                    name = name.replaceAll("&nbsp;","");
+                    Log.d("名前:::",name);
+                    SharedPreferences pref = context.getSharedPreferences("username", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("username",name);
+                    editor.apply();
+
                     //ユーザID：パスワードの保存
                     List<String> ipList = new ArrayList<String>();
                     ipList.add(userId2);
@@ -914,6 +975,8 @@ public class UpdateTimeTableManager {
         }).create().execute(null);
 
     }
+
+
 
 
 
