@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimary6"
         android:paddingTop="150sp"
-        tools:context="com.example.yutathinkpad.esc.activity.LoginActivity">
+        tools:context="jp.yuta.kohashi.esc.activity.LoginActivity">
 
 
         <LinearLayout

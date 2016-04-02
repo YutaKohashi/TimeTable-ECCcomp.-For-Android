@@ -1,4 +1,4 @@
-package com.example.yutathinkpad.esc;
+package jp.yuta.kohashi.esc;
 
 import org.junit.Test;
 

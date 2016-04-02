@@ -1,4 +1,4 @@
-package com.example.yutathinkpad.esc;
+package jp.yuta.kohashi.esc;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

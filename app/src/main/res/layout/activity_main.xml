@@ -115,7 +115,7 @@
     <!--android:layout_height="match_parent"-->
     <!--android:layout_gravity="start"-->
     <!--app:layout="@layout/fragment_navigation_drawer"-->
-    <!--android:name="com.example.yutathinkpad.esc.fragment.NavigationDrawerFragment"-->
+    <!--android:name="jp.yuta.kohashi.esc.fragment.NavigationDrawerFragment"-->
     <!--tools:layout="@layout/fragment_navigation_drawer" />-->
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_drawer"
