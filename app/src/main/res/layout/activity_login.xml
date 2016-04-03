@@ -4,12 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#f2faf8"
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/root_linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary6"
         android:paddingTop="150sp"
         tools:context="jp.yuta.kohashi.esc.activity.LoginActivity">
@@ -19,11 +20,11 @@
             android:id="@+id/login_linear"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
+            android:paddingBottom="8sp"
             android:background="#f2faf8"
             android:orientation="vertical">
 
-            <ImageView
+            A<ImageView
                 android:id="@+id/ecclogo_0001"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,8 +40,8 @@
                 android:id="@+id/usernameWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20sp"
-                android:layout_marginRight="20sp"
+                android:layout_marginLeft="30sp"
+                android:layout_marginRight="30sp"
                 >
 
                 <android.support.v7.widget.AppCompatEditText
@@ -57,12 +58,16 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/passwordWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20sp"
-                android:layout_marginRight="20sp"
+                android:layout_marginLeft="30sp"
+                android:layout_marginRight="30sp"
                 android:layout_marginTop="4dp">
 
                 <android.support.v7.widget.AppCompatEditText
@@ -76,16 +81,18 @@
                     android:nextFocusDown="@+id/login_btn"
                     />
 
-            </android.support.design.widget.TextInputLayout>
 
+            </android.support.design.widget.TextInputLayout>
+            </RelativeLayout>
             <com.dd.CircularProgressButton
 
                 android:id="@+id/login_btn"
                 android:layout_width="150sp"
                 android:layout_height="40dp"
-                android:layout_gravity="right"
-                android:layout_marginRight="20sp"
-                android:layout_marginTop="16dp"
+
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+
                 android:textColor="#FFF"
                 android:textSize="16sp"
                 app:cpb_colorIndicator="@color/cpb_blue"
@@ -96,12 +103,9 @@
                 app:cpb_iconError="@drawable/ic_action_cancel"
                 app:cpb_textComplete="@string/Complete"
                 app:cpb_textError="@string/Error"
-                app:cpb_textIdle="@string/Login"
-
-                >
+                app:cpb_textIdle="@string/Login"/>
 
 
-                </com.dd.CircularProgressButton>
 
             <!--ダミー-->
             <!--<TextView-->

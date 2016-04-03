@@ -68,9 +68,9 @@ public class PreferenceRelationFragment extends PreferenceFragment{
 
                 String userId = list.get(0);
                 String pass = list.get(1);
-                View view = getActivity().findViewById(R.id.time_table_root);
+                //View view = getActivity().findViewById(R.id.time_table_root);
                 UpdateTimeTableManager utt = new UpdateTimeTableManager();
-                utt.upDateTimeTable(getActivity(),view,userId,pass);
+                utt.upDateTimeTable(getActivity(),getView(),userId,pass);
 
                 SharedPreferences preferences = getActivity().getSharedPreferences("restart_fragment",getActivity().MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();

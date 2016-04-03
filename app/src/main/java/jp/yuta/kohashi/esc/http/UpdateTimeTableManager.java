@@ -376,14 +376,18 @@ public class UpdateTimeTableManager {
                 saveManager.saveMangerWithPreference(context, PREF_NAME,FridayList,"friList");
 
                 getTimeTable = true;
-
                 progressDialog.dismiss();
+                Snackbar.make(v,"更新しました",Snackbar.LENGTH_SHORT).show();
+
+
                 //dialog.dismiss();
             }
 
             @Override
             public void onFailure(Bundle bundle, Exception e) {
                 progressDialog.dismiss();
+
+                Snackbar.make(v,"更新に失敗しました",Snackbar.LENGTH_SHORT).show();
                 //dialog.dismiss();
             }
 
@@ -420,7 +424,7 @@ public class UpdateTimeTableManager {
         dialog = new ProgressDialog(context);
 
         cookieManager = new CookieManager();
-        cookieJar = new JavaNetCookieJar(cookieManager);
+        cookieJar = new jp.yuta.kohashi.esc.http.JavaNetCookieJar(cookieManager);
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
         getValuesBase = new GetValuesBase();
 
