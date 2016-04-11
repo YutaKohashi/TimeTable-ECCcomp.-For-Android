@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         FragmentTransaction transaction = manager.beginTransaction();
 
         switch(mSelectedId){
-
+            //時間割
             case R.id.navigation_item_1:
 
                 if(selectedItem == 0){
@@ -137,15 +137,9 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 }
                 fragment1 = new TimeTableFragment();
                 selectedItem = 0;
-
-//                ActionBar actionBar = getSupportActionBar();
-//
-//                if(actionBar != null){
-//                    actionBar.hide();
-//
-//                }
                 break;
 
+            //出席照会
             case R.id.navigation_item_2:
                 // addを呼んでいるので、重なる
                 if(selectedItem == 1){
@@ -154,21 +148,24 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 }
 
                 selectedItem = 1;
-                //transaction.replace(R.id.fragment_container, new AttendanceRateFragment(),"ddd");
                 fragment1 = new AttendanceRateFragment();
-
-                //transaction.commit();
-
                 break;
 
-//            case R.id.navigation_item_3:
-//
-//                fragment1 =  new SyllabusFragment();
-//                break;
-//
-//            case R.id.navigation_item_4:
-//                fragment1 =  new Fragment();
-//                break;
+            case R.id.navigation_item_3:
+                Intent intent1 = new Intent(MainActivity.this,NewsActivity.class);
+                startActivity(intent1);
+                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return;
+
+            case R.id.navigation_item_7:
+                Intent intent2 = new Intent(MainActivity.this,SyllabusActivity.class);
+                startActivity(intent2);
+                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return;
+
+            //設定
             case R.id.navigation_item_5:
                 Intent intent =new Intent(MainActivity.this,PreferenceRelationActivity.class);
                 startActivity(intent);
@@ -176,9 +173,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return;
+            //このアプリについて
             case R.id.navigation_item_6:
-                Intent intent2 =new Intent(MainActivity.this,AboutActivity.class);
-                startActivity(intent2);
+                Intent intent3 =new Intent(MainActivity.this,AboutActivity.class);
+                startActivity(intent3);
 
                 overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -188,21 +186,11 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 break;
 
         }
-        //drawerLayout.closeDrawer(GravityCompat.START);
-        // ↓ここに移動
-//        transaction.setCustomAnimations(
-//                R.anim.fade_in,
-//                R.anim.fade_out);
-//        transaction.replace(R.id.fragment_container,fragment1);
-//        transaction.addToBackStack(null);
-//        transaction.commit();
         manager.beginTransaction()
                 .replace(R.id.fragment_container,fragment1, "dd")
                 .addToBackStack(null)
                 .commit();
         drawerLayout.closeDrawer(GravityCompat.START);
-//        transaction.replace(R.id.fragment_container,fragment,"ddd");
-//        transaction.commit();
 
     }
 

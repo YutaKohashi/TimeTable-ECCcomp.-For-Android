@@ -3,6 +3,11 @@
     <color name="colorPrimaryDark">#00729c</color>
     <color name="colorPrimary">#00AAEA</color>
     <color name="colorAccent">#0004fd</color>
+    <color name="toolbar_title">#FFF</color>
+    <color name="toolbar_icon">#ffffff</color>
+
+    <color name="tab_focus_color">#eaeaea</color>
+    <color name="tab_noFocus_color">#00729c</color>
 
     <color name="colorAccentLight">#baffcf</color>
     <color name="colorPrimary1">#adceeefa</color>
@@ -16,6 +21,7 @@
     <color name="colorPrimary9">#002938</color>
 
     <color name="blue">#0099ff</color>
+    <color name="white">#FFF</color>
 
     <color name="header_bg_color">#9e002f3b</color>
     <color name="dark">#ecebeb</color>
@@ -24,5 +30,8 @@
     <color name="red">#ff0000</color>
     <color name="green">#00d262</color>
     <color name="yellow">#fff700</color>
+
+
+    <color name="calendar_hedder">#eaeaea</color>
 
 </resources>

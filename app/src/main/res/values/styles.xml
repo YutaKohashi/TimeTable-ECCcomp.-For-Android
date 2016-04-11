@@ -6,10 +6,21 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Toolbar Title Color-->
+        <item name="android:textColorPrimary">@color/toolbar_title</item>
+        <!-- Toolbar menu overflow icon color -->
+        <item name="android:textColorSecondary">@color/toolbar_icon</item>
+    </style>
+
+    <style name="CustomTabPageIndicator" parent="android:TextAppearance.Medium">
+        <item name="android:textColor">@drawable/tab_text_color</item>
+    </style>
 </resources>

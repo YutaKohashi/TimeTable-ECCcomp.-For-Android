@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50sp"
+    android:id="@+id/tab_syllabus_cardView"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/shyllabus_root_layout"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/date_text"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="17日"/>
+        <TextView
+            android:paddingLeft="3sp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/contents_text"
+            android:gravity="center_vertical"
+            android:text="○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○"
+            android:layout_weight="8"/>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
