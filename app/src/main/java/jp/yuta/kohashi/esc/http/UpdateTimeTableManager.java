@@ -122,6 +122,7 @@ public class UpdateTimeTableManager {
                 }
 
                 if(!getValuesBase.ConnectionCheck(context)){
+                    progressDialog.dismiss();
                     Snackbar.make(v,"インターネットに接続されていません",Snackbar.LENGTH_LONG).show();
                     return;
                 }
