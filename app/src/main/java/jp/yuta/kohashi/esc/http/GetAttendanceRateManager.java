@@ -237,9 +237,11 @@ public class GetAttendanceRateManager {
             @Override
             public void run(String result, NextTask<String> nextTask) {
 
-                //スタブ
-  //              stab stub = new stab();
+                //**************スタブ****************************
+                //              stab stub = new stab();
 //                mLastResponse = stub.FireLoad(context);
+                //**************スタブ****************************
+
                 String html ="";
                 html = getValuesBase.NarrowingValues("<tableclass=\"GridVeiwTable\"","<tablecellspacing=\"0\"border=\"0\"id=\"ctl00_ContentPlaceHolder1_fmvSyuseki\"",mLastResponse,true);
 

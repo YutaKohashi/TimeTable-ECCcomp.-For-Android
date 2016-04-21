@@ -30,8 +30,10 @@
         <activity
             android:name=".activity.AboutActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.NewsActivity"></activity>
-        <activity android:name=".activity.SyllabusActivity"></activity>
+        <activity android:name=".activity.NewsActivity" />
+        <activity android:name=".activity.SyllabusActivity" />
+        <activity android:name=".activity.HandBookPDFActivity"></activity>
+
     </application>
 
 </manifest>

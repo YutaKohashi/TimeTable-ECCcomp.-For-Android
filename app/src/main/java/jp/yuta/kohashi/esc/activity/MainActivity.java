@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         SharedPreferences data = getSharedPreferences("username", Context.MODE_PRIVATE);
         String userName = data.getString("username","NO_NAME");
         textViewUserName = (TextView)findViewById(R.id.name_text);
-       textViewUserName.setText(userName);
+        textViewUserName.setText(userName);
         //通信
         //UpdateTimeTableManager utt = new UpdateTimeTableManager();
         //utt.upDateTimeTable(MainActivity.this);
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 //            setSupportActionBar(toolbar);
 //        }
 
-  //  }
+    //  }
 
     private void initView() {
         drawer= (NavigationView) findViewById(R.id.navigation_drawer);
@@ -151,12 +151,12 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 fragment1 = new AttendanceRateFragment();
                 break;
 
-            case R.id.navigation_item_3:
-                Intent intent1 = new Intent(MainActivity.this,NewsActivity.class);
-                startActivity(intent1);
-                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return;
+//            case R.id.navigation_item_3:
+//                Intent intent1 = new Intent(MainActivity.this,NewsActivity.class);
+//                startActivity(intent1);
+//                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
+//                drawerLayout.closeDrawer(GravityCompat.START);
+//                return;
 
             case R.id.navigation_item_7:
                 Intent intent2 = new Intent(MainActivity.this,SyllabusActivity.class);
@@ -164,7 +164,13 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return;
-
+//
+//            case R.id.handbook_item4:
+//                Intent intent4 = new Intent(MainActivity.this,HandBookPDFActivity.class);
+//                startActivity(intent4);
+//                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
+//                drawerLayout.closeDrawer(GravityCompat.START);
+//                return;
             //設定
             case R.id.navigation_item_5:
                 Intent intent =new Intent(MainActivity.this,PreferenceRelationActivity.class);
@@ -186,11 +192,18 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 break;
 
         }
-        manager.beginTransaction()
-                .replace(R.id.fragment_container,fragment1, "dd")
-                .addToBackStack(null)
-                .commit();
-        drawerLayout.closeDrawer(GravityCompat.START);
+
+        //デバッグじにPCからインストールする際NullpointerExceptionがここで発生する
+        try{
+            manager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment1, "dd")
+                    .addToBackStack(null)
+                    .commit();
+            drawerLayout.closeDrawer(GravityCompat.START);
+
+        }catch(NullPointerException e) {
+            Log.d("exception::",e.toString());
+        }
 
     }
 

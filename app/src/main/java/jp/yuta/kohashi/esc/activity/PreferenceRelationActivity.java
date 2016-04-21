@@ -54,4 +54,11 @@ public class PreferenceRelationActivity extends AppCompatActivity {
         super.onBackPressed();
         overridePendingTransition(R.anim.none_anim, R.anim.push_out_up);
     }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        finish();
+    }
+
 }

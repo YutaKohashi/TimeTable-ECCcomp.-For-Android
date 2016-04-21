@@ -14,17 +14,18 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
+import jp.yuta.kohashi.esc.object.ScheduleJJsonObject;
 import jp.yuta.kohashi.esc.object.SyllabusItem;
 
 /**
  * Created by Yuta on 2016/04/06.
  */
 public class SyllabusRecyclerAdapter extends RecyclerView.Adapter<SyllabusRecyclerAdapter.SyllabusViewHolder> {
-    private List<SyllabusItem> items;
+    private List<ScheduleJJsonObject> items;
     private Context context;
 
 
-    public SyllabusRecyclerAdapter(List<SyllabusItem> items, Context context){
+    public SyllabusRecyclerAdapter(List<ScheduleJJsonObject> items, Context context){
         this.items = items;
         this.context = context;
     }
@@ -39,8 +40,8 @@ public class SyllabusRecyclerAdapter extends RecyclerView.Adapter<SyllabusRecycl
 
     @Override
     public void onBindViewHolder(SyllabusViewHolder holder, int position) {
-        holder.dateText.setText(items.get(position).getDateText());
-        holder.containtsText.setText(items.get(position).getContaintsText());
+        holder.dateText.setText(items.get(position).getDate());
+        holder.containtsText.setText(items.get(position).getTitle());
 
         setAnimation(holder.container,position);
     }

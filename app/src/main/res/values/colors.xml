@@ -34,4 +34,8 @@
 
     <color name="calendar_hedder">#eaeaea</color>
 
+    <!--単位を落とした場合のCardViewの背景色-->
+    <color name="cardView_bg_golor">#9e9e9e</color>
+    <!--単位が危ないの時のCardViewの背景色-->
+    <color name="cardView_bg_golor_warning">#ffa1a1</color>
 </resources>

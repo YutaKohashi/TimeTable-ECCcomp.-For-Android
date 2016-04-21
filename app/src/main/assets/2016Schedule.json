@@ -1,17 +1,8 @@
-//2016Schedule.json
-//{
-//	"date":"",
-//	"title":""
-//},
-
-//キー値:date ...日付が入っている
-//value値 title ... イベント名が入っている
-
 {
 	"April":[
 		{
 			"date":"01",
-			"title":""
+			"title":"健康診断"
 		},
 		{
 			"date":"05",
@@ -127,7 +118,8 @@
 		{
 			"date":"27",
 			"title":"MOS・MTA"
-		},{
+		},
+		{
 			"date":"29",
 			"title":"SIC"
 		},

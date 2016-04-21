@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="150sp"
     android:layout_width="match_parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -12,6 +13,7 @@
     android:layout_marginTop="-7sp">
 
     <LinearLayout
+        android:id="@+id/attendance_card_view_sub_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -119,7 +121,9 @@
                     android:id="@+id/unit_num"
                     android:gravity="center|bottom"/>
 
+                <!--出席率の親VIew-->
                 <RelativeLayout
+                    android:id="@+id/attendance_rate_root_view"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.7"
@@ -162,6 +166,7 @@
                     android:id="@+id/attendance_num"
                     android:gravity="center|bottom"
                     android:paddingBottom="4sp"/>
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"

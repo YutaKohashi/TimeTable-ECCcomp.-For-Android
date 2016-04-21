@@ -1,23 +1,14 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    tools:context="jp.yuta.kohashi.esc.fragments.JanuaryFragment">
 
-    <LinearLayout
-        android:id="@+id/calender_area"
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:id="@+id/january_recyclerView">
 
-    </LinearLayout>
+    </android.support.v7.widget.RecyclerView>
 
-    <LinearLayout
-        android:id="@+id/list_area"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:orientation="vertical">
-
-    </LinearLayout>
-</LinearLayout>
+</FrameLayout>

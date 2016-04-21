@@ -10,6 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.adapter.ViewPagerAdapter;
 import jp.yuta.kohashi.esc.fragments.AprilFragment;
@@ -53,6 +58,20 @@ public class SyllabusActivity extends AppCompatActivity{
 
         tabLayout = (TabLayout) findViewById(R.id.tab_syllabus);
         tabLayout.setupWithViewPager(viewPager);
+        int someIndex = 0;
+        //現在の月を取得
+        int nowMonth = Integer.parseInt(getNowDate());
+        if(nowMonth == 1){
+            someIndex = 9;
+        }else if(nowMonth == 2){
+            someIndex = 10;
+        }else if(nowMonth == 3){
+            someIndex = 11;
+        }else{
+            someIndex =  nowMonth - 4;
+        }
+        TabLayout.Tab tab = tabLayout.getTabAt(someIndex);
+        tab.select();
     }
 
     private void setUpViewPager(ViewPager viewPager){
@@ -82,6 +101,21 @@ public class SyllabusActivity extends AppCompatActivity{
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * 現在日時をyyyy/MM/dd HH:mm:ss形式で取得する.
+     */
+    public static String getNowDate(){
+        final DateFormat df = new SimpleDateFormat("MM");
+        final Date date = new Date(System.currentTimeMillis());
+        return df.format(date);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.none_anim, R.anim.push_out_up);
     }
 
 }

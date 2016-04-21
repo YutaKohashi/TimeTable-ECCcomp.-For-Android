@@ -42,6 +42,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import jp.yuta.kohashi.esc.stab;
+
 /**
  * Created by YutaThinkPad on 2016/03/23.
  */
@@ -828,9 +830,11 @@ public class UpdateTimeTableManager {
             @Override
             public void run(String result, NextTask<String> nextTask) {
 
-                //スタブ
+                //**************スタブ****************************
 //                stab stub = new stab();
   //              mLastResponse = stub.FireLoad(context);
+                //**************スタブ****************************
+
                 String html ="";
                 html = getValuesBase.NarrowingValues("<tableclass=\"GridVeiwTable\"","<tablecellspacing=\"0\"border=\"0\"id=\"ctl00_ContentPlaceHolder1_fmvSyuseki\"",mLastResponse,true);
 
