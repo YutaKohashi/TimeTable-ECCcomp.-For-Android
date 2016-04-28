@@ -46,6 +46,7 @@ public class TimeTableFragment extends Fragment {
     LoadManager loadManager;
 
     TextView textView;
+    TextView latestUpText;
  //   LayoutInflater inflater;
 
     public TimeTableFragment() {

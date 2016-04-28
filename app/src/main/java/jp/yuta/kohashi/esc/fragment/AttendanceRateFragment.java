@@ -1,6 +1,8 @@
 package jp.yuta.kohashi.esc.fragment;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
@@ -31,11 +33,14 @@ import java.util.List;
 public class AttendanceRateFragment extends Fragment {
     static final String PREF_NAME ="sample";
     static final String PREF_NAME_ID_PASS = "ip";
+    static final String PREF_KEY_LATAST_UP = "latestUp";
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     TextView textView;
+    TextView latestUpText;
+    SharedPreferences pref;
 
 
     public AttendanceRateFragment() {
@@ -53,6 +58,15 @@ public class AttendanceRateFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_attendance_rate, container, false);
 //
+//        latestUpText = (TextView)getActivity().findViewById(R.id.latest_update);
+//        latestUpText.setVisibility(View.VISIBLE);
+
+        //最終更新日時をタイトル欄に表示する
+        latestUpText = (TextView)v.findViewById(R.id.latest_update);
+        pref = getActivity().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        String latestDate = pref.getString(PREF_KEY_LATAST_UP,"");
+        latestUpText.setText("最終更新日時:" + latestDate);
+
         rateObjectList = new ArrayList<>();
         LoadManager loadManager = new LoadManager();
         rateObjectList = loadManager.loadManagerWithPreferenceForAttendance(getActivity(),PREF_NAME,"attendanceList");

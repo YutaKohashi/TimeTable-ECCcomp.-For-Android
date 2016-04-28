@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,12 +14,16 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anprosit.android.promise.Callback;
 import com.anprosit.android.promise.NextTask;
 import com.anprosit.android.promise.Promise;
 import com.anprosit.android.promise.Task;
+
+import org.w3c.dom.Text;
+
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.activity.MainActivity;
 import jp.yuta.kohashi.esc.adapter.RecyclerViewAdapter;
@@ -57,6 +62,7 @@ public class GetAttendanceRateManager {
 
     static final String PREF_NAME ="sample";
     static final String PREF_NAME_ID_PASS = "ip";  //IDPAssが保存されているプリファレンス
+    static final String PREF_KEY_LATAST_UP = "latestUp";
     ProgressDialog prg;
     OkHttpClient client;
     String mLastResponse;
@@ -72,6 +78,9 @@ public class GetAttendanceRateManager {
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
+
+    TextView updateTextVie;
+    SharedPreferences pref;
 
 
 
@@ -364,6 +373,16 @@ public class GetAttendanceRateManager {
                 adapter = new RecyclerViewAdapter(rateObjectList,context);
                 recyclerView.setAdapter(adapter);
 
+                //更新日時を保存する
+                pref = context.getSharedPreferences(PREF_NAME,Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                String nowDate = getValuesBase.getNowDate();
+                editor.putString(PREF_KEY_LATAST_UP,nowDate);
+                editor.commit();
+
+                //更新日時を表示
+                updateTextVie = (TextView)((Activity)context).findViewById(R.id.latest_update);
+                updateTextVie.setText("最終更新日時:" + nowDate);
 
                 Snackbar.make(view,"更新しました",Snackbar.LENGTH_SHORT).show();
             }
@@ -408,6 +427,8 @@ public class GetAttendanceRateManager {
 
         }).create().execute(null);
     }
+
+
 
 
 }

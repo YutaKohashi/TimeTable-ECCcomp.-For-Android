@@ -17,8 +17,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -369,6 +372,16 @@ public class GetValuesBase {
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
         return dm.scaledDensity;
+    }
+
+    /**
+     * 現在日時をyyyy/MM/dd HH:mm:ss形式で取得する.<br>
+     */
+    public String getNowDate(){
+        //単位:年
+        final DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        final Date date = new Date(System.currentTimeMillis());
+        return df.format(date);
     }
 
 

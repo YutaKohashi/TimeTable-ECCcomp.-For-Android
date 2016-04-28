@@ -74,7 +74,7 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="パスワード"
+                    android:hint="@string/Passwored"
                     android:inputType="numberPassword"
                     android:singleLine="true"
                     android:imeOptions="actionNext"

@@ -34,7 +34,7 @@
             android:textSize="15sp"
             android:paddingLeft="10sp"
             android:paddingRight="10sp"
-            android:text="ファイるを読み込んでいます..."
+            android:text="@string/read_file_dialog_text"
             />
     </RelativeLayout>
 </RelativeLayout>

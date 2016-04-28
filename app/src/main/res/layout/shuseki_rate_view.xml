@@ -53,20 +53,20 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.7"
-                    android:text="単位数"
+                    android:text="@string/credits"
                     android:gravity="center"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.7"
-                    android:text="出席率"
+                    android:text="@string/attendance"
                     android:gravity="center"
                     android:paddingRight="4sp"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="出席"
+                    android:text="@string/attendance_num"
                     android:textSize="10sp"
                     android:gravity="center|bottom"
                     android:paddingBottom="4sp"/>
@@ -74,7 +74,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="欠席"
+                    android:text="@string/absence"
                     android:textSize="10sp"
                     android:gravity="center|bottom"
                     android:paddingBottom="4sp"/>
@@ -82,7 +82,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="遅刻"
+                    android:text="@string/late"
                     android:textSize="10sp"
                     android:gravity="center|bottom"
                     android:paddingBottom="4sp"/>
@@ -90,7 +90,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="公欠1"
+                    android:text="@string/kouketsu_1"
                     android:textSize="10sp"
                     android:gravity="center|bottom"
                     android:paddingBottom="4sp"/>
@@ -98,7 +98,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="公欠2"
+                    android:text="@string/kouketsu_2"
                     android:textSize="10sp"
                     android:gravity="center|bottom"
                     android:paddingBottom="4sp"/>

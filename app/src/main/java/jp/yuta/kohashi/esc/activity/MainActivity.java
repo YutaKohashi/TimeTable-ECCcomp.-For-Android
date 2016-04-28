@@ -54,6 +54,8 @@ import me.drakeet.materialdialog.MaterialDialog;
 
 public class MainActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
     static final String PREF_NAME_ID_PASS = "ip";
+    static final String PDF_FILE_NAME = "handbook2015.pdf";
+
     Toolbar toolbar;
     TextView textView;
     TextView textViewUserName;
@@ -178,10 +180,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 return;
 //
             //PDF
-            case R.id.handbook_item4:
-                CopyAssets(this);
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return;
+//            case R.id.handbook_item4:
+//                CopyAssets(this);
+//                drawerLayout.closeDrawer(GravityCompat.START);
+//                return;
 
             //設定
             case R.id.navigation_item_5:
@@ -205,7 +207,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
         }
 
-        //デバッグじにPCからインストールする際NullpointerExceptionがここで発生する
+        //デバッグ時にPCからインストールする際NullpointerExceptionがここで発生する
         try{
             manager.beginTransaction()
                     .replace(R.id.fragment_container, fragment1, "dd")
@@ -214,7 +216,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             drawerLayout.closeDrawer(GravityCompat.START);
 
         }catch(NullPointerException e) {
-            Log.d("exception::",e.toString());
+            Log.d("上書きインストールの際のException::",e.toString());
         }
 
     }
@@ -325,9 +327,9 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
                 InputStream in = null;
                 OutputStream out = null;
-                File file = new File(getFilesDir(), "handbook2015.pdf");
+                File file = new File(getFilesDir(), PDF_FILE_NAME);
                 try {
-                    in = assetManager.open("handbook2015.pdf");
+                    in = assetManager.open(PDF_FILE_NAME);
                     out = openFileOutput(file.getName(), Context.MODE_WORLD_READABLE);
 
                     copyFile(in, out);
@@ -349,10 +351,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 Intent intent = new Intent(context, MuPDFActivity.class);
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.setDataAndType(
-                        Uri.parse("file://" + getFilesDir() + "/handbook2015.pdf"),
+                        Uri.parse("file://" + getFilesDir() + "/" + PDF_FILE_NAME),
                         "application/pdf");
-
                 startActivity(intent);
+                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
             }
         }.execute("");
     }

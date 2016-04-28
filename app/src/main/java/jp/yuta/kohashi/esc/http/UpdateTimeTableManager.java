@@ -60,6 +60,7 @@ public class UpdateTimeTableManager {
     static final String URL6 = "http://school4.ecc.ac.jp/EccStdWeb/ST0100/ST0100_02.aspx";
     static final String PREF_NAME ="sample";
     static final String PREF_NAME_ID_PASS = "ip";
+    static final String PREF_KEY_LATAST_UP = "latestUp";
 //
 //    static final String userId = "2140257";
 //    static final String password = "455478";
@@ -77,7 +78,7 @@ public class UpdateTimeTableManager {
     static String mLastResponse;
     int weekCount;
 
-
+    SharedPreferences pref;
 
     CookieManager cookieManager;
    CookieJar cookieJar;
@@ -903,6 +904,13 @@ public class UpdateTimeTableManager {
                 /******************* 以下データベース登録処理 ******************/
                 saveManager = new SaveManager();
                 saveManager.saveMangerWithPreference(context,PREF_NAME,attendanceRateList,"attendanceList");
+
+                //最終更新日時を保存
+                pref = context.getSharedPreferences(PREF_NAME,Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                String nowDate = getValuesBase.getNowDate();
+                editor.putString(PREF_KEY_LATAST_UP,nowDate);
+                editor.commit();
 
                 nextTask.run(mLastResponse);
             }

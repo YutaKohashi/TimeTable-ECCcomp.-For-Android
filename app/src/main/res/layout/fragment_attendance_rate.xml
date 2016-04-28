@@ -1,7 +1,10 @@
 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-<!--<android.support.design.widget.CoordinatorLayout-->
-   <!---->
+    <!--<android.support.design.widget.CoordinatorLayout-->
+    <!---->
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="match_parent"-->
     <!--android:fitsSystemWindows="true"-->
@@ -10,20 +13,45 @@
     <!--&gt;-->
     <android.support.v4.widget.SwipeRefreshLayout
 
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
         android:id="@+id/refresh"
-        android:fitsSystemWindows="true"
-        android:layout_width="match_parent"
-        android:background="#FFF"
-        android:layout_height="match_parent">
-
-
-
-    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recycler_view"
-        />
+        android:background="#FFF"
+        android:fitsSystemWindows="true"
+        android:layout_above="@+id/relativeLayout">
 
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="20sp"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/relativeLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:text="@string/latest_up"
+            android:id="@+id/latest_update"
+            android:textColor="#FFF"
+            android:paddingRight="5sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+</RelativeLayout>
+
+
 

@@ -1,16 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xm押下l version="1.0" encoding="utf-8"?>
+<!--された時-->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="rectangle">
-            <corners
-                android:topRightRadius="0dp"
-                android:bottomLeftRadius="0sp"
-                android:bottomRightRadius="25dp"
-                android:topLeftRadius="0dp"
-                />
-            <solid
-                android:color="@color/colorPrimary"
-                />
-        </shape>
-    </item>
+<item android:state_pressed="true">
+    <shape android:shape="rectangle">
+        <corners
+            android:topRightRadius="0dp"
+            android:bottomLeftRadius="0sp"
+            android:bottomRightRadius="25dp"
+            android:topLeftRadius="0dp"
+            />
+        <solid
+            android:color="@color/colorPrimary7"
+            />
+    </shape>/>
+</item>
+    <!--通常表示時-->
+<item android:state_pressed="false">
+    <shape android:shape="rectangle">
+        <corners
+            android:topRightRadius="0dp"
+            android:bottomLeftRadius="0sp"
+            android:bottomRightRadius="25dp"
+            android:topLeftRadius="0dp"
+            />
+        <solid
+            android:color="@color/colorPrimary"
+            />
+    </shape> />
+</item>
 </selector>

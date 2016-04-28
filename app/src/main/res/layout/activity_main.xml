@@ -68,17 +68,17 @@
                     android:textColor="#FFF"
                     android:textSize="20sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:id="@+id/latest_update"
-                    android:text="2016/04/01"
-                    android:layout_below="@+id/title_name_text"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginBottom="2sp"
-                    android:layout_marginRight="2sp"/>
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="10sp"-->
+                    <!--android:id="@+id/latest_update"-->
+                    <!--android:text="2016/04/01"-->
+                    <!--android:layout_below="@+id/title_name_text"-->
+                    <!--android:layout_alignParentBottom="true"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_marginBottom="2sp"-->
+                    <!--android:layout_marginRight="2sp"/>-->
             </RelativeLayout>
 
 

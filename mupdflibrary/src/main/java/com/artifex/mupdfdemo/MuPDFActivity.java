@@ -1117,6 +1117,12 @@ public class MuPDFActivity extends Activity {
         }
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.none_anim, R.anim.push_out_up);;
+    }
+
 
 
 }
