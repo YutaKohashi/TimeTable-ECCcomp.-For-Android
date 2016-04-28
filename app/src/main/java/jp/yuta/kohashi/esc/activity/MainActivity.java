@@ -2,8 +2,11 @@ package jp.yuta.kohashi.esc.activity;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -29,14 +32,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.artifex.mupdfdemo.AsyncTask;
+import com.artifex.mupdfdemo.MuPDFActivity;
+
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.fragment.AttendanceRateFragment;
 import jp.yuta.kohashi.esc.fragment.TimeTableFragment;
 import jp.yuta.kohashi.esc.preference.LoadManager;
+import jp.yuta.kohashi.esc.tools.CustomProgressDialog;
 import jp.yuta.kohashi.esc.tools.GetValuesBase;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -165,16 +177,16 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return;
 //
-//            case R.id.handbook_item4:
-//                Intent intent4 = new Intent(MainActivity.this,HandBookPDFActivity.class);
-//                startActivity(intent4);
-//                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
-//                drawerLayout.closeDrawer(GravityCompat.START);
-//                return;
+            //PDF
+            case R.id.handbook_item4:
+                CopyAssets(this);
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return;
+
             //設定
             case R.id.navigation_item_5:
-                Intent intent =new Intent(MainActivity.this,PreferenceRelationActivity.class);
-                startActivity(intent);
+                Intent intent5 =new Intent(MainActivity.this,PreferenceRelationActivity.class);
+                startActivity(intent5);
 
                 overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -288,5 +300,68 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         }
 
         Log.d("MainActivity::::","onResume");
+    }
+
+    ProgressDialog prog;
+    CustomProgressDialog cProg;
+    private void CopyAssets(final Context context) {
+        cProg = new CustomProgressDialog();
+        //  ダイアログを表示
+        prog = cProg.createProgressDialogForFileRead(context);
+        prog.show();
+//        if (prog == null) {
+//
+//            prog.show();
+//        } else {
+//            prog.show();
+//        }
+;
+        new AsyncTask<String,String,String>(){
+
+            @Override
+            protected String doInBackground(String... params) {
+
+                AssetManager assetManager = getAssets();
+
+                InputStream in = null;
+                OutputStream out = null;
+                File file = new File(getFilesDir(), "handbook2015.pdf");
+                try {
+                    in = assetManager.open("handbook2015.pdf");
+                    out = openFileOutput(file.getName(), Context.MODE_WORLD_READABLE);
+
+                    copyFile(in, out);
+                    in.close();
+                    in = null;
+                    out.flush();
+                    out.close();
+                    out = null;
+                } catch (Exception e) {
+                    Log.e("tag", e.getMessage());
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                prog.dismiss();
+                Intent intent = new Intent(context, MuPDFActivity.class);
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setDataAndType(
+                        Uri.parse("file://" + getFilesDir() + "/handbook2015.pdf"),
+                        "application/pdf");
+
+                startActivity(intent);
+            }
+        }.execute("");
+    }
+
+    private void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while ((read = in.read(buffer)) != -1) {
+            out.write(buffer, 0, read);
+        }
     }
 }

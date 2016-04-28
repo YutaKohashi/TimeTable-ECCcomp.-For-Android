@@ -79,6 +79,7 @@ public class AttendanceRateFragment extends Fragment {
 
         // SwipeRefreshLayoutの設定
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.refresh);
+        //swipeTorefresh使用時のリスナー
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -90,6 +91,7 @@ public class AttendanceRateFragment extends Fragment {
                 String pass = list.get(1);
                 GetAttendanceRateManager getAttendanceRateManager = new GetAttendanceRateManager();
                 getAttendanceRateManager.getAttendanceRate(getActivity(),v,userId,pass);
+
             }
         });
         mSwipeRefreshLayout.setColorScheme(R.color.colorPrimary1, R.color.colorPrimary2, R.color.colorPrimary6, R.color.colorPrimary7);
@@ -101,18 +103,10 @@ public class AttendanceRateFragment extends Fragment {
             }
         };
 
-
-
         return v;
     }
 
-//    @Override
-//    public void onStart(){
-//        super.onStart();
-//        DrawerLayout drawerLayout= (DrawerLayout)getActivity().findViewById(R.id.drawer_layout);
-//        drawerLayout.closeDrawer(GravityCompat.START);
-//
-//    }
+
 
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override

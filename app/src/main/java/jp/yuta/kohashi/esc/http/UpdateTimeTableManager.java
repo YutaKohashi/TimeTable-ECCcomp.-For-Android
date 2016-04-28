@@ -78,6 +78,7 @@ public class UpdateTimeTableManager {
     int weekCount;
 
 
+
     CookieManager cookieManager;
    CookieJar cookieJar;
     GetValuesBase getValuesBase;

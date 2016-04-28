@@ -26,10 +26,9 @@
             android:id="@+id/navigation_item_7"
 
             android:title="スケジュール"/>
-        <!--<item-->
-        <!--android:id="@+id/handbook_item4"-->
-        <!--android:visible="false"-->
-        <!--android:title="シラバス"/>-->
+        <item
+        android:id="@+id/handbook_item4"
+        android:title="シラバス"/>
         <item
             android:title="その他"
             android:id="@+id/settings_group">

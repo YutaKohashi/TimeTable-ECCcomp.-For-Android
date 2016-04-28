@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
 
     <android.support.design.widget.CoordinatorLayout
@@ -13,110 +13,85 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-            <android.support.design.widget.AppBarLayout
-                android:id="@+id/appbar_layout"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fitsSystemWindows="true"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark">
+                android:layout_height="?attr/actionBarSize"
 
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-
-                    app:layout_scrollFlags="scroll|enterAlways"
-                    >
-
-                    <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:id="@+id/imageViewplaces"-->
-                    <!--android:src="@drawable/esclogoimage"-->
-                    <!--android:layout_gravity="left"/>-->
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingRight="60sp"
-                        android:paddingTop="15sp"
-                        android:paddingBottom="15sp"
-                        android:gravity="center">
-                        <ImageView
-                            android:scaleType="fitCenter"
-                            android:adjustViewBounds="true"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/ecclogo_0001"
-                            android:transitionName="ecclogo"
-                            android:id="@+id/ecclogo_0001"
-                            android:contentDescription="@string/content_image"/>
-                    </RelativeLayout>
-
-
-
-                </android.support.v7.widget.Toolbar>
+                app:layout_scrollFlags="scroll|enterAlways">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/colorPrimary"
-                    app:layout_scrollFlags="enterAlways"
-                    android:saveEnabled="false">
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingBottom="15sp"
+                    android:paddingRight="60sp"
+                    android:paddingTop="15sp">
 
-                    <TextView
-                        android:id="@+id/title_name_text"
+                    <ImageView
+                        android:id="@+id/ecclogo_0001"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:gravity="center"
-                        android:text="@string/title"
-                        android:textSize="20sp"
-                        android:textColor="#FFF"
-                        />
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/ecclogo_0001"
+                        android:contentDescription="@string/content_image"
+                        android:scaleType="fitCenter"
+                        android:transitionName="ecclogo" />
                 </RelativeLayout>
 
-                <!--<android.support.design.widget.TabLayout-->
-                <!--android:id="@+id/tablayout"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="?attr/colorPrimary"-->
-                <!--app:tabGravity="fill"/>-->
 
-            </android.support.design.widget.AppBarLayout>
+            </android.support.v7.widget.Toolbar>
 
-        <!--<android.support.v4.widget.NestedScrollView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--&gt;-->
-            <FrameLayout
-                android:id="@+id/fragment_container"
+            <!--タイトル部分-->
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-               />
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:saveEnabled="false"
+                app:layout_scrollFlags="enterAlways">
 
-        <!--</android.support.v4.widget.NestedScrollView>-->
+                <TextView
+                    android:id="@+id/title_name_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="@string/title"
+                    android:textColor="#FFF"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:id="@+id/latest_update"
+                    android:text="2016/04/01"
+                    android:layout_below="@+id/title_name_text"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="2sp"
+                    android:layout_marginRight="2sp"/>
+            </RelativeLayout>
 
 
-        <!--<android.support.v4.view.ViewPager-->
-        <!--android:id="@+id/viewpager"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"/>-->
+        </android.support.design.widget.AppBarLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </android.support.design.widget.CoordinatorLayout>
 
-
-    <!--<fragment-->
-    <!--android:layout_width="@dimen/nav_drawer_width"-->
-    <!--android:id="@+id/navigation_drawer"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_gravity="start"-->
-    <!--app:layout="@layout/fragment_navigation_drawer"-->
-    <!--android:name="jp.yuta.kohashi.esc.fragment.NavigationDrawerFragment"-->
-    <!--tools:layout="@layout/fragment_navigation_drawer" />-->
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_drawer"
         android:layout_width="wrap_content"

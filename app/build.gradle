@@ -27,6 +27,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
+    compile project(':mupdflibrary')
     compile files('libs/android-promise-0.1.0-20140912.035417-3.jar')
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
