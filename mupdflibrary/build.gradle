@@ -20,5 +20,4 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'me.drakeet.materialdialog:library:1.3.0'
 }

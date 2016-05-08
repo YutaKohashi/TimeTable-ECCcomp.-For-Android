@@ -53,7 +53,4 @@
     <string name="copy_text">copy text</string>
     <string name="format_currently_not_supported">Format currently not supported</string>
     <string name="toggle_reflow_mode">Toggle reflow mode</string>
-    <string name="pdf_warning_text">現在表示されているデータは2015年度のものです。\n
-                                    2016年度のデータが公開され次第データを更新します。
-    </string>
 </resources>

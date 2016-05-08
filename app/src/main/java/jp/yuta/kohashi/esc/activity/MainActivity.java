@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
         if(notGetAttendanceRate){
             View view = findViewById(R.id.drawer_layout);
-            Snackbar.make(view,getString(R.string.failed_get_attendancerate),Snackbar.LENGTH_LONG).show();
+            Snackbar.make(view,"出席照会データの取得に失敗しました",Snackbar.LENGTH_LONG).show();
         }
 
         drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
@@ -179,17 +179,9 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return;
 //
-         //   PDF
-            case R.id.handbook_item4:
-                CopyAssets(this);
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return;
-
-//            //お知らせ(Activity)
-//            case R.id.navigation_news:
-//                Intent intent9 = new Intent(MainActivity.this,NewsActivity.class);
-//                startActivity(intent9);
-//                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
+            //PDF
+//            case R.id.handbook_item4:
+//                CopyAssets(this);
 //                drawerLayout.closeDrawer(GravityCompat.START);
 //                return;
 
@@ -224,7 +216,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             drawerLayout.closeDrawer(GravityCompat.START);
 
         }catch(NullPointerException e) {
-            Log.d("上書きインストールの際Exception::",e.toString());
+            Log.d("上書きインストールの際のException::",e.toString());
         }
 
     }
@@ -362,8 +354,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                         Uri.parse("file://" + getFilesDir() + "/" + PDF_FILE_NAME),
                         "application/pdf");
                 startActivity(intent);
-
-
                 overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
             }
         }.execute("");
