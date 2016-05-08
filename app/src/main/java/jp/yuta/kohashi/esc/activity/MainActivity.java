@@ -191,6 +191,14 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 //                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
 //                drawerLayout.closeDrawer(GravityCompat.START);
 //                return;
+            //設定
+            case R.id.handbook_item4:
+                Intent intent4 =new Intent(MainActivity.this,PdfActivity.class);
+                startActivity(intent4);
+
+                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return;
 
             //設定
             case R.id.navigation_item_5:

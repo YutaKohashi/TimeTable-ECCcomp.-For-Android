@@ -26,9 +26,9 @@
             android:id="@+id/navigation_item_7"
 
             android:title="スケジュール"/>
-        <!--<item-->
-        <!--android:id="@+id/handbook_item4"-->
-        <!--android:title="HANDBOOK"/>-->
+        <item
+        android:id="@+id/handbook_item4"
+        android:title="HANDBOOK"/>
 
         <!--<item-->
             <!--android:id="@+id/navigation_news"-->
