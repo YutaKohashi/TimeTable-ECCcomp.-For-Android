@@ -696,8 +696,17 @@ public class UpdateTimeTableManager {
                 saveManager.saveMangerWithPreference(context, PREF_NAME,FridayList,"friList");
 
                 nextTask.run(mLastResponse);
-
             }
+        }).thenOnAsyncThread(new Task<String, String>() {
+
+            @Override
+            public void run(String result, NextTask<String> nextTask) {
+                //各時間割の先生名の取得処理
+//                GetTeacherNameManager getTeacherNameManager = new GetTeacherNameManager();
+//                getTeacherNameManager.getTeacherNames(result,context,client);
+                nextTask.run(mLastResponse);
+            }
+
         }).thenOnMainThread(new Task<String, String>() {
 
             @Override
