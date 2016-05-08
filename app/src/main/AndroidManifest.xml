@@ -30,9 +30,14 @@
         <activity
             android:name=".activity.AboutActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.NewsActivity" />
-        <activity android:name=".activity.SyllabusActivity" />
-        <activity android:name="com.artifex.mupdfdemo.MuPDFActivity"></activity>
+        <activity android:name=".activity.NewsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.SyllabusActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.artifex.mupdfdemo.MuPDFActivity"
+            android:screenOrientation="portrait" >
+
+        </activity>
 
     </application>
 

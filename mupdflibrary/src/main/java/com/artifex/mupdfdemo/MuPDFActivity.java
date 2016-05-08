@@ -33,6 +33,8 @@ import android.widget.ViewAnimator;
 import java.io.InputStream;
 import java.util.concurrent.Executor;
 
+import me.drakeet.materialdialog.MaterialDialog;
+
 class ThreadPerTaskExecutor implements Executor {
     public void execute(Runnable r) {
         new Thread(r).start();
@@ -239,6 +241,7 @@ public class MuPDFActivity extends Activity {
         return core;
     }
 
+    MaterialDialog mMaterialDialog;
     /**
      * Called when the activity is first created.
      */
@@ -246,7 +249,22 @@ public class MuPDFActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAlertBuilder = new AlertDialog.Builder(this);
+        //************************************************************************************
+
+       // 警告ダイアログの表示(2015年のハンドブックデータを使用するため)
+        mMaterialDialog = new MaterialDialog(this)
+                .setTitle("注意")
+                .setMessage(getString(R.string.pdf_warning_text))
+                .setPositiveButton("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                //ダイアログを閉じる
+                                mMaterialDialog.dismiss();
+                            }
+                        });
+        mMaterialDialog.show();
+
+        //************************************************************************************
 
         if (core == null) {
             core = (MuPDFCore) getLastNonConfigurationInstance();

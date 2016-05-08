@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ESC.iml" filepath="$PROJECT_DIR$/ESC.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/esc.iml" filepath="$PROJECT_DIR$/esc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mupdflibrary/mupdflibrary.iml" filepath="$PROJECT_DIR$/mupdflibrary/mupdflibrary.iml" />
     </modules>
   </component>
 </project>

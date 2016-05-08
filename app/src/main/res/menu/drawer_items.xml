@@ -26,9 +26,14 @@
             android:id="@+id/navigation_item_7"
 
             android:title="スケジュール"/>
+        <item
+        android:id="@+id/handbook_item4"
+        android:title="HANDBOOK"/>
+
         <!--<item-->
-        <!--android:id="@+id/handbook_item4"-->
-        <!--android:title="HANDBOOK"/>-->
+            <!--android:id="@+id/navigation_news"-->
+
+            <!--android:title="お知らせ"/>-->
         <item
             android:title="その他"
             android:id="@+id/settings_group">
@@ -42,22 +47,5 @@
 
             </menu>
         </item>
-
-
-
-        <!--<item-->
-        <!--android:id="@+id/navigation_subheader"-->
-        <!--android:title="Tutorials">-->
-        <!--<menu>-->
-        <!--<item-->
-        <!--android:id="@+id/navigation_sub_item_1"-->
-
-        <!--android:title="Android Tutorials"/>-->
-        <!--<item-->
-        <!--android:id="@+id/navigation_sub_item_2"-->
-
-        <!--android:title="IOS Tutorials"/>-->
-        <!--</menu>-->
-        <!--</item>-->
     </group>
 </menu>
