@@ -1,1 +1,1 @@
-include ':app', ':mupdflibrary'
+include ':app'

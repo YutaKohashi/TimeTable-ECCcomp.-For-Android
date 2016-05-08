@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -32,8 +33,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.artifex.mupdfdemo.AsyncTask;
-import com.artifex.mupdfdemo.MuPDFActivity;
 
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.fragment.AttendanceRateFragment;
@@ -180,10 +179,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 return;
 //
          //   PDF
-            case R.id.handbook_item4:
-                CopyAssets(this);
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return;
+//            case R.id.handbook_item4:
+//                CopyAssets(this);
+//                drawerLayout.closeDrawer(GravityCompat.START);
+//                return;
 
 //            //お知らせ(Activity)
 //            case R.id.navigation_news:
@@ -356,15 +355,15 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             protected void onPostExecute(String result) {
                 super.onPostExecute(result);
                 prog.dismiss();
-                Intent intent = new Intent(context, MuPDFActivity.class);
-                intent.setAction(Intent.ACTION_VIEW);
-                intent.setDataAndType(
-                        Uri.parse("file://" + getFilesDir() + "/" + PDF_FILE_NAME),
-                        "application/pdf");
-                startActivity(intent);
-
-
-                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
+//                Intent intent = new Intent(context, MuPDFActivity.class);
+//                intent.setAction(Intent.ACTION_VIEW);
+//                intent.setDataAndType(
+//                        Uri.parse("file://" + getFilesDir() + "/" + PDF_FILE_NAME),
+//                        "application/pdf");
+//                startActivity(intent);
+//
+//
+//                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
             }
         }.execute("");
     }

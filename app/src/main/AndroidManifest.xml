@@ -34,10 +34,6 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.SyllabusActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.artifex.mupdfdemo.MuPDFActivity"
-            android:screenOrientation="portrait" >
-
-        </activity>
 
     </application>
 
