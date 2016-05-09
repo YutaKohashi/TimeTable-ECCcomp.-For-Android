@@ -2,14 +2,24 @@ package jp.yuta.kohashi.esc.http;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Bundle;
+
+import com.anprosit.android.promise.Callback;
+import com.anprosit.android.promise.NextTask;
+import com.anprosit.android.promise.Promise;
+import com.anprosit.android.promise.Task;
 
 import java.io.IOException;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
 import jp.yuta.kohashi.esc.preference.SaveManager;
 import jp.yuta.kohashi.esc.tools.GetValuesBase;
+import okhttp3.CookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -21,61 +31,115 @@ public class GetTeacherNameManager {
     final String PREF_NAME ="sample";
     final String PREF_TEACHERS_KEY = "teachers";
 
-    GetValuesBase getValuesBase;
     String mLastResponse;
 
     SharedPreferences pref;
 
     List<String> teacherNames;
     SaveManager saveManager;
+    String subjectHtml;
+
+    CookieManager cookieManager;
+    CookieJar cookieJar;
+    GetValuesBase getValuesBase;
+    OkHttpClient client;
+
+//    OkHttpClient
 
     /**
      *
      * @param html      時間割ページのhtmlソース
      * @param context   コンテキスト
-     * @param client    OkhttpClientのインスタンス
      */
-    public void getTeacherNames(String html, Context context,OkHttpClient client){
+    public void getTeacherNames(String html, Context context){
 
         //htmlに時間割ページのhtmlソースを入れる
 
+
         //教科個別のページにアクセスし先生の名前を取得
         //プリファレンスをインスタンス化
-        pref = context.getSharedPreferences(PREF_NAME,Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
+//        pref = context.getSharedPreferences(PREF_NAME,Context.MODE_PRIVATE);
 
         teacherNames = new ArrayList<>();
-
+        cookieManager = new CookieManager();
+        cookieJar = new JavaNetCookieJar(cookieManager);
+        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+        getValuesBase = new GetValuesBase();
+        client = new OkHttpClient.Builder()
+                //.proxy(p)
+                .cookieJar(cookieJar)
+                .build();
         //************ 解析処理 ***************************************
         getValuesBase = new GetValuesBase();
         //教科個別のページへアクセスするURLをMatcher型で取得
         Matcher match = getValuesBase.GetGropValues("<li class=\"letter\"><a href=\"(.*?)\">",html);
 
         while(match.find()){
-            String subjectHtml = "";
+            subjectHtml = "";
             subjectHtml = match.group(1);
+//
+//            new AsyncTask<String,Void,String>(){
+//                @Override
+//                protected String doInBackground(String... strings) {
+//                    Request request = new Request.Builder()
+//                            .url(subjectHtml)
+//                            .build();
+//                    Response response;
+//                    try{
+//                        response = client.newCall(request).execute();
+//                        Thread.sleep(500);
+//
+//                        mLastResponse = response.body().string();
+//                    }catch(IOException | InterruptedException e){
+//                        e.printStackTrace();
+//                    }
+//                    return mLastResponse;
+//                }
+//
+//                @Override
+//                protected void onPostExecute(String result) {
+//                    super.onPostExecute(result);
+//                    //先生の名前を取り出す
+//                    String teacherName = getTeacherName(result);
+//                    teacherNames.add(teacherName);
+//
+//                }
+//            }.execute();
+            Promise.with(this, String.class).then(new Task<String, String>() {
+                @Override
+                public void run(String s, NextTask<String> nextTask) {
+                    nextTask.run(null);
+                }
+            }).thenOnAsyncThread(new Task<String, String>() {
+                @Override
+                public void run(String s, NextTask<String> nextTask) {
+                    Request request = new Request.Builder()
+                            .url(subjectHtml)
+                            .build();
+                    Response response;
+                    try {
+                        response = client.newCall(request).execute();
+                        Thread.sleep(500);
 
+                        mLastResponse = response.body().string();
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    nextTask.run(mLastResponse);
+                }
 
-            Request request = new Request.Builder()
-                    .url(subjectHtml)
-                    .addHeader("Referer","http://school4.ecc.ac.jp/eccstdweb/st0100/st0100_01.aspx")
-                    .addHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (HTML, like Gecko) Chrome/49.0.2623.87")
-                    .addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
-                    .build();
-            Response response;
-            try{
-                response = client.newCall(request).execute();
-                Thread.sleep(500);
+            }).setCallback(new Callback<String>() {
+                @Override
+                public void onSuccess(String result) {
+                    String teacherName = getTeacherName(result);
+                    teacherNames.add(teacherName);
+                }
 
-                mLastResponse = response.body().string();
-            }catch(IOException | InterruptedException e){
-                e.printStackTrace();
-            }
+                @Override
+                public void onFailure(Bundle bundle, Exception e) {
 
-            //先生の名前を取り出す
-            String teacherName = getTeacherName(mLastResponse);
-
-            teacherNames.add(teacherName);
+                }
+            }).create().execute(null);
         }
 
         //作成された先生の名前のコレクションをプリファレンスに保存

@@ -23,4 +23,27 @@
     <style name="CustomTabPageIndicator" parent="android:TextAppearance.Medium">
         <item name="android:textColor">@drawable/tab_text_color</item>
     </style>
+
+    <style name="Theme.Transparent" parent="android:Theme">
+    <!-- 背景を透明にする -->
+    <item name="android:windowIsTranslucent">true</item>
+    <!--タイトルバーを失くす -->
+    <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="MaterialDialogSheet" parent="@android:style/Theme.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowAnimationStyle">@style/MaterialDialogSheetAnimation</item>
+    </style>
+
+    <style name="MaterialDialogSheetAnimation">
+        <item name="android:windowEnterAnimation">@anim/popup_show</item>
+        <item name="android:windowExitAnimation">@anim/popup_hide</item>
+    </style>
+
 </resources>

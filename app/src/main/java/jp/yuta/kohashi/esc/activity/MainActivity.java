@@ -37,6 +37,7 @@ import android.widget.TextView;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.fragment.AttendanceRateFragment;
 import jp.yuta.kohashi.esc.fragment.TimeTableFragment;
+import jp.yuta.kohashi.esc.http.UpdateTimeTableManager;
 import jp.yuta.kohashi.esc.preference.LoadManager;
 import jp.yuta.kohashi.esc.tools.CustomProgressDialog;
 import jp.yuta.kohashi.esc.tools.GetValuesBase;
@@ -64,6 +65,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     private int selectedId;
 
     static int selectedItem = 0;
+
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +121,14 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         transaction.addToBackStack(null);
         transaction.commit();
 
+        //初回アップデート時
+        SharedPreferences pref = getSharedPreferences("sample", Context.MODE_PRIVATE);
+        //初回時はtrueを設定
+        String isUpdateFirst = pref.getString("teachers","empty");
+        if(isUpdateFirst == "empty"){
 
+            showDialog(0,MainActivity.this);
+        }
     }
 
 //    private void setToolbar() {
@@ -249,7 +259,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         outState.putInt("SELECTED_ID",selectedId);
     }
 
-    MaterialDialog mMaterialDialog;
+
     @Override
     public boolean dispatchKeyEvent(KeyEvent e) {
         // 戻るボタンが押されたとき
@@ -311,7 +321,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         Log.d("MainActivity::::","onResume");
     }
 
-    ProgressDialog prog;
+
+
     CustomProgressDialog cProg;
     private void CopyAssets(final Context context) {
         cProg = new CustomProgressDialog();
@@ -373,6 +384,66 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         int read;
         while ((read = in.read(buffer)) != -1) {
             out.write(buffer, 0, read);
+        }
+    }
+
+    MaterialDialog mMaterialDialog;
+    ProgressDialog prog;
+    final int LOGOUT_DIALOG = 0;
+    public void showDialog(int id, final Context context){
+        prog = new ProgressDialog(context);
+        switch(id){
+            case LOGOUT_DIALOG:
+                mMaterialDialog = new MaterialDialog(context)
+                        .setTitle("ECCAPP")
+                        .setMessage("アプリケーションがアップデートされました。\n" +
+                                "時間割の詳細を表示できるようになりました。\n" +
+                                "新しい機能を利用するために時間割をアップデートしてください。")
+                        .setPositiveButton("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new AsyncTask<String,Void,String>(){
+                                    @Override
+                                    protected  void onPreExecute(){
+                                        super.onPreExecute();
+
+                                    }
+                                    @Override
+                                    protected String doInBackground(String... strings) {
+
+                                        return "";
+                                    }
+
+                                    @Override
+                                    protected void onPostExecute(String result){
+                                        List<String> list = new ArrayList<String>();
+                                        LoadManager loadManager = new LoadManager();
+                                        list = loadManager.loadManagerWithPreferenceForString(MainActivity.this,PREF_NAME_ID_PASS,"ip");
+
+                                        String userId = list.get(0);
+                                        String pass = list.get(1);
+                                        //View view = getActivity().findViewById(R.id.time_table_root);
+                                        UpdateTimeTableManager utt = new UpdateTimeTableManager();
+                                        utt.upDateTimeTable(MainActivity.this,findViewById(R.id.drawer_layout),userId,pass);
+
+                                        SharedPreferences preferences = MainActivity.this.getSharedPreferences("restart_fragment",MainActivity.this.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = preferences.edit();
+                                        editor.putBoolean("RESTART_FRAGMENT",true);
+                                        editor.apply();
+
+                                        mMaterialDialog.dismiss();
+
+                                    }
+                                }.execute();
+
+
+
+                            }
+                        });
+
+                mMaterialDialog.show();
+                break;
+
         }
     }
 }

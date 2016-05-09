@@ -73,54 +73,81 @@
         </LinearLayout>
 
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/time_table_header">
+        <!--<ScrollView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_below="@+id/time_table_header">-->
 
             <LinearLayout
+                android:layout_below="@+id/time_table_header"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:baselineAligned="false"
                 android:orientation="horizontal"
                 android:weightSum="5">
 
-                <LinearLayout
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/mon_col"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:orientation="vertical" />-->
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/tue_col"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:orientation="vertical" />-->
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/wed_col"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:orientation="vertical" />-->
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/thur_col"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:orientation="vertical" />-->
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/fri_col"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:orientation="vertical" />-->
+
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/mon_col"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical" />
-
-                <LinearLayout
+                    android:layout_weight="1"/>
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/tue_col"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical" />
+                    android:layout_weight="1"/>
 
-                <LinearLayout
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/wed_col"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical" />
-
-                <LinearLayout
+                    android:layout_weight="1"/>
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/thur_col"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical" />
-
-                <LinearLayout
+                    android:layout_weight="1"/>
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/fri_col"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical" />
-
+                    android:layout_weight="1"/>
             </LinearLayout>
-        </ScrollView>
+        <!--</ScrollView>-->
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

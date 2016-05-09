@@ -180,6 +180,14 @@ public class GetValuesBase {
         return afterStr;
     }
 
+    public String ReplaceEnter(String target){
+        String afterStr;
+        afterStr = target.replaceAll("[\r\n]", "");
+        afterStr = afterStr.replaceAll("[\n\r]", "");
+        afterStr= afterStr.replaceAll("[\n]", "");
+        return afterStr;
+    }
+
     //トークンの切り出し処理
     public String GetToken(String target){
         //TOKENをここで取得する
@@ -382,6 +390,29 @@ public class GetValuesBase {
         final DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         final Date date = new Date(System.currentTimeMillis());
         return df.format(date);
+    }
+
+    /**
+     *
+     * @param html 教科個別のページ
+     * @return 先生名
+     */
+    public String getTeacherName(String html){
+        //先生の名前を格納する変数
+        String teacherName = "";
+
+        html = ReplaceEnter(html);
+        teacherName = GetValues("<h3>受信者</h3>    <p>(.*?)</p>",html,false);
+
+        return teacherName;
+    }
+
+    public String getSubjectName(String html){
+        String subjectName;
+
+        subjectName = GetValues("【(.*?)】の授業担当者へ投書します",html,false);
+
+        return subjectName;
     }
 
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import jp.yuta.kohashi.esc.object.AttendanceRateObject;
+import jp.yuta.kohashi.esc.object.TeacherNameObject;
 import jp.yuta.kohashi.esc.object.TimeBlock;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -62,6 +63,19 @@ public class LoadManager {
         Gson gson = new Gson();
         arrayList = new ArrayList<>();
         arrayList = gson.fromJson(sharedPreferences.getString(key,""),new TypeToken<List<AttendanceRateObject>>(){}.getType());
+
+
+        return arrayList;
+    }
+
+    public List<TeacherNameObject> loadManagerWithPreferenceForTeacherName(Context context, String prefName, String key){
+        SharedPreferences sharedPreferences;
+        List<TeacherNameObject> arrayList;
+
+        sharedPreferences = context.getSharedPreferences(prefName,context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        arrayList = new ArrayList<>();
+        arrayList = gson.fromJson(sharedPreferences.getString(key,""),new TypeToken<List<TeacherNameObject>>(){}.getType());
 
 
         return arrayList;

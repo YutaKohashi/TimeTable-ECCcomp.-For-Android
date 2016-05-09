@@ -2,6 +2,7 @@ package jp.yuta.kohashi.esc.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -54,6 +55,8 @@ public class LoginActivity extends AppCompatActivity{
 
         final GetValuesBase getValuesBase = new GetValuesBase();
         if(getValuesBase.IsBooted(LoginActivity.this)){
+
+
             Intent intent1 = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(intent1);
             finish();

@@ -19,6 +19,7 @@ import com.dd.CircularProgressButton;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.activity.MainActivity;
 import jp.yuta.kohashi.esc.object.AttendanceRateObject;
+import jp.yuta.kohashi.esc.object.TeacherNameObject;
 import jp.yuta.kohashi.esc.preference.SaveManager;
 import jp.yuta.kohashi.esc.object.TimeBlock;
 import jp.yuta.kohashi.esc.tools.CreateTimeTableLists;
@@ -61,6 +62,7 @@ public class UpdateTimeTableManager {
     static final String PREF_NAME ="sample";
     static final String PREF_NAME_ID_PASS = "ip";
     static final String PREF_KEY_LATAST_UP = "latestUp";
+    static final String PREF_TEACHERS_KEY = "teachers";
 //
 //    static final String userId = "2140257";
 //    static final String password = "455478";
@@ -88,6 +90,11 @@ public class UpdateTimeTableManager {
     List<AttendanceRateObject> attendanceRateList;
     ProgressDialog progressDialog;
     CustomProgressDialog customDialog;
+
+    String subjectHtml;
+
+    //担当先生のリスト
+    List<TeacherNameObject> teacherNames;
 
     public void upDateTimeTable(final Context context, final View v, final String userId, final String password){
 
@@ -235,6 +242,59 @@ public class UpdateTimeTableManager {
                 nextTask.run(mLastResponse);
             }
 
+        }).thenOnAsyncThread(new Task<String, String>() {
+
+            @Override
+            public void run(String result, NextTask<String> nextTask) {
+                mLastResponse = result;
+                //各時間割の先生名の取得処理
+                teacherNames = new ArrayList<>();
+
+                Matcher match = getValuesBase.GetGropValues("<li class=\"letter\"><a href=\"(.*?)\">",result);
+
+                while(match.find()) {
+                    String subjectResult = "null";
+                    TeacherNameObject teacherNameObject = new TeacherNameObject();
+                    subjectHtml = "";
+                    subjectHtml = match.group(1);
+                    Request request = new Request.Builder()
+                            .url(subjectHtml)
+                            .build();
+                    Response response;
+                    try {
+                        response = client.newCall(request).execute();
+                        Thread.sleep(100);
+
+                        subjectResult = response.body().string();
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
+
+                    }
+
+                    String teacherName = getValuesBase.getTeacherName(subjectResult);
+                    teacherName = teacherName.replace(" "," ");
+                    teacherNameObject.setTeacher(teacherName);
+
+                    String subjectName = getValuesBase.getSubjectName(subjectResult);
+                    teacherNameObject.setSubject(subjectName);
+
+                    teacherNames.add(teacherNameObject);
+
+                }
+
+                nextTask.run(mLastResponse);
+            }
+
+        }).thenOnMainThread(new Task<String, String>() {
+
+            @Override
+            public void run(String result, NextTask<String> nextTask) {
+
+                //teacherNamesコレクションを保存
+                saveManager = new SaveManager();
+                saveManager.saveMangerWithPreference(context,PREF_NAME,teacherNames,PREF_TEACHERS_KEY);
+                nextTask.run(mLastResponse);
+            }
         }).thenOnAsyncThread(new Task<String, String>() {
 
             @Override
@@ -551,28 +611,7 @@ public class UpdateTimeTableManager {
 
 
 
-        }).thenOnAsyncThread(new Task<String, String>() {
 
-            @Override
-            public void run(String result, NextTask<String> nextTask) {
-
-                // ログアウト処理
-                mLastResponse = result;
-
-                Request request = new Request.Builder()
-                        .url(URL3)
-                        .build();
-                //Response response;
-                try {
-                    // ログアウト
-                    client.newCall(request).execute();
-                    Thread.sleep(1500);
-                    //mLastResponse = response.body().string();
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-                nextTask.run(mLastResponse);
-            }
         }).thenOnAsyncThread(new Task<String, String>() {
             @Override
             public void run(String result, NextTask<String> nextTask) {
@@ -702,11 +741,75 @@ public class UpdateTimeTableManager {
             @Override
             public void run(String result, NextTask<String> nextTask) {
                 //各時間割の先生名の取得処理
-//                GetTeacherNameManager getTeacherNameManager = new GetTeacherNameManager();
-//                getTeacherNameManager.getTeacherNames(result,context,client);
+                teacherNames = new ArrayList<>();
+
+                Matcher match = getValuesBase.GetGropValues("<li class=\"letter\"><a href=\"(.*?)\">",result);
+
+                while(match.find()) {
+                    String subjectResult = "null";
+                    TeacherNameObject teacherNameObject = new TeacherNameObject();
+                    subjectHtml = "";
+                    subjectHtml = match.group(1);
+                    Request request = new Request.Builder()
+                            .url(subjectHtml)
+                            .build();
+                    Response response;
+                    try {
+                        response = client.newCall(request).execute();
+                        Thread.sleep(100);
+
+                        subjectResult = response.body().string();
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
+
+                    }
+
+                    String teacherName = getValuesBase.getTeacherName(subjectResult);
+                    teacherName = teacherName.replace(" "," ");
+                    teacherNameObject.setTeacher(teacherName);
+
+                    String subjectName = getValuesBase.getSubjectName(subjectResult);
+                    teacherNameObject.setSubject(subjectName);
+
+                    teacherNames.add(teacherNameObject);
+
+                }
+                mLastResponse = result;
                 nextTask.run(mLastResponse);
             }
 
+        }).thenOnMainThread(new Task<String, String>() {
+
+            @Override
+            public void run(String result, NextTask<String> nextTask) {
+
+                //teacherNamesコレクションを保存
+                saveManager = new SaveManager();
+                saveManager.saveMangerWithPreference(context,PREF_NAME,teacherNames,PREF_TEACHERS_KEY);
+                nextTask.run(mLastResponse);
+            }
+        }).thenOnAsyncThread(new Task<String, String>() {
+
+            @Override
+            public void run(String result, NextTask<String> nextTask) {
+
+                // ログアウト処理
+                mLastResponse = result;
+
+                Request request = new Request.Builder()
+                        .url(URL3)
+                        .build();
+                //Response response;
+                try {
+                    // ログアウト
+                    client.newCall(request).execute();
+                    Thread.sleep(1500);
+                    //mLastResponse = response.body().string();
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+                nextTask.run(mLastResponse);
+            }
         }).thenOnMainThread(new Task<String, String>() {
 
             @Override
