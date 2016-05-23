@@ -1,14 +1,7 @@
 package jp.yuta.kohashi.esc.fragment;
 
-import android.app.Activity;
-import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,19 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.adapter.RecyclerViewAdapter;
 import jp.yuta.kohashi.esc.adapter.TimeTableListAdapter;
 import jp.yuta.kohashi.esc.object.TimeBlock;
 import jp.yuta.kohashi.esc.preference.LoadManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,11 +35,11 @@ public class TimeTableFragment extends Fragment {
     List<TimeBlock> ThursdayList;
     List<TimeBlock> FridayList;
 
-    LinearLayout monLayout;
-    LinearLayout tueLayout;
-    LinearLayout wedLayout;
-    LinearLayout thurLayout;
-    LinearLayout friLayout;
+//    LinearLayout monLayout;
+//    LinearLayout tueLayout;
+//    LinearLayout wedLayout;
+//    LinearLayout thurLayout;
+//    LinearLayout friLayout;
 
     RecyclerView monList;
     RecyclerView tueList;
@@ -90,8 +80,6 @@ public class TimeTableFragment extends Fragment {
         WednesdayList = new ArrayList<>();
         ThursdayList = new ArrayList<>();
         FridayList = new ArrayList<>();
-
-
 //        monLayout = (LinearLayout)v.findViewById(R.id.mon_col);
 //        tueLayout =(LinearLayout)v.findViewById(R.id.tue_col);
 //        wedLayout = (LinearLayout)v.findViewById(R.id.wed_col);
@@ -195,37 +183,38 @@ public class TimeTableFragment extends Fragment {
         textView = (TextView)getActivity().findViewById(R.id.title_name_text);
         textView.setText("時間割");
 
-        //リスト
+        //曜日ごとにRecyclerViewを配置
         monList = (RecyclerView)v.findViewById(R.id.mon_col);
         tueList = (RecyclerView)v.findViewById(R.id.tue_col);
         wedList = (RecyclerView)v.findViewById(R.id.wed_col);
         thurList = (RecyclerView)v.findViewById(R.id.thur_col);
         friList = (RecyclerView)v.findViewById(R.id.fri_col);
 
+        //月曜日
         TimeTableListAdapter monAdapter = new TimeTableListAdapter(MondayList,getActivity());
         monList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         monList.setLayoutManager(layoutManager);
         monList.setAdapter(monAdapter);
-
+        //火曜日
         TimeTableListAdapter tueAdapter = new TimeTableListAdapter(TuesdayList,getActivity());
         tueList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         tueList.setLayoutManager(layoutManager);
         tueList.setAdapter(tueAdapter);
-
+        //水曜日
         TimeTableListAdapter wedAdapter = new TimeTableListAdapter(WednesdayList,getActivity());
         wedList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         wedList.setLayoutManager(layoutManager);
         wedList.setAdapter(wedAdapter);
-
+        //木曜日
         TimeTableListAdapter thurAdapter = new TimeTableListAdapter(ThursdayList,getActivity());
         thurList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         thurList.setLayoutManager(layoutManager);
         thurList.setAdapter(thurAdapter);
-
+        //金曜日
         TimeTableListAdapter friAdapter = new TimeTableListAdapter(FridayList,getActivity());
         friList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());

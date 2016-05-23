@@ -33,7 +33,7 @@ import jp.yuta.kohashi.esc.preference.LoadManager;
 
 /**
  * Created by Yuta on 2016/03/29
- * 出席照会FRAGMENTで使用.
+ * 時間割FRAGMENTで使用.
  */
 public class TimeTableListAdapter extends RecyclerView.Adapter<TimeTableListAdapter.TimeBlockViewHolder> {
     static final String PREF_TEACHERS_KEY = "teachers";
@@ -68,6 +68,10 @@ public class TimeTableListAdapter extends RecyclerView.Adapter<TimeTableListAdap
     public void onBindViewHolder(TimeBlockViewHolder viewHolder, final int position) {
         viewHolder.subjectName.setText(items.get(position).getSubject());
         viewHolder.roomName.setText(items.get(position).getClassRoom());
+
+        //色の指定
+//        TODO --- 出席率に応じて各セルの背景を変更
+
 
 //        setAnimation(viewHolder.container, i);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

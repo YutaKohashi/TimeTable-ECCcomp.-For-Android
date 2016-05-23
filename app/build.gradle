@@ -6,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId "jp.yuta.kohashi.esc"
-        minSdkVersion 16
+        minSdkVersion 14
         targetSdkVersion 22
-        versionCode 8
-        versionName "1.4.2"
+        versionCode 9
+        versionName "1.4.3"
     }
     buildTypes {
         release {

@@ -2,6 +2,7 @@ package jp.yuta.kohashi.esc.tools;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
@@ -257,7 +258,13 @@ public class CreateCalenderManager {
                 //dateListに含まれる場合
                 if(dateList.contains(String.format("%02d",dayCount))){
                     // btn1.setBackground(context.getResources().getDrawable(R.drawable.event_mark_bg));
-                    btn1.setBackground(ContextCompat.getDrawable(context, R.drawable.event_drwable_main));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        //APIレベルがJELLEYBEAN以上の時
+                        btn1.setBackground(ContextCompat.getDrawable(context, R.drawable.event_drwable_main));
+                    }else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                        //APIレベルがICSの時
+                        btn1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.event_drwable_main));
+                    }
                 }
 
                 rowLayout.addView(root);
