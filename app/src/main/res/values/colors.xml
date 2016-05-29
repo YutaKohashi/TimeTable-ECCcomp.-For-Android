@@ -34,12 +34,18 @@
 
     <color name="calendar_hedder">#eaeaea</color>
 
-    <!--単位を落とした場合のCardViewの背景色-->
-    <color name="cardView_bg_golor">#9e9e9e</color>
+
+    <color name="cardView_shuseki_rate_out">#666666</color>
+    <!--単位が非常に危ない時のCardViewの背景色-->
+    <color name="cardView_bg_golor_end">#a90303</color>
     <!--単位が危ないの時のCardViewの背景色-->
-    <color name="cardView_bg_golor_warning">#ffa1a1</color>
+    <color name="cardView_bg_golor_warning">#ffff00</color>
+
 
 
     <!--RecyclerView with headderの色-->
     <color name="default_header_color">#445566</color>
+
+    <color name="transparent">#00000000</color>
+
 </resources>

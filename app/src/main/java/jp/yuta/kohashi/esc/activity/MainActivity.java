@@ -1,14 +1,10 @@
 package jp.yuta.kohashi.esc.activity;
 
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,11 +15,8 @@ import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.WindowCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -40,7 +33,6 @@ import jp.yuta.kohashi.esc.fragment.TimeTableFragment;
 import jp.yuta.kohashi.esc.http.UpdateTimeTableManager;
 import jp.yuta.kohashi.esc.preference.LoadManager;
 import jp.yuta.kohashi.esc.tools.CustomProgressDialog;
-import jp.yuta.kohashi.esc.tools.GetValuesBase;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +40,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -107,7 +98,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         textView.setText(ipList.get(0));
 
         SharedPreferences data = getSharedPreferences("username", Context.MODE_PRIVATE);
-        String userName = data.getString("username","NO_NAME");
+        String userName = data.getString("username",getString(R.string.no_name));
         textViewUserName = (TextView)findViewById(R.id.name_text);
         textViewUserName.setText(userName);
         //通信
@@ -395,7 +386,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         switch(id){
             case LOGOUT_DIALOG:
                 mMaterialDialog = new MaterialDialog(context)
-                        .setTitle("ECCAPP")
+                        .setTitle("UPDATE")
                         .setMessage("アプリケーションがアップデートされました。\n" +
                                 "時間割の詳細を表示できるようになりました。\n" +
                                 "新しい機能を利用するために時間割をアップデートしてください。")
@@ -424,6 +415,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                                         String pass = list.get(1);
                                         //View view = getActivity().findViewById(R.id.time_table_root);
                                         UpdateTimeTableManager utt = new UpdateTimeTableManager();
+                                        //時間割情報のアップデート
                                         utt.upDateTimeTable(MainActivity.this,findViewById(R.id.drawer_layout),userId,pass);
 
                                         SharedPreferences preferences = MainActivity.this.getSharedPreferences("restart_fragment",MainActivity.this.MODE_PRIVATE);

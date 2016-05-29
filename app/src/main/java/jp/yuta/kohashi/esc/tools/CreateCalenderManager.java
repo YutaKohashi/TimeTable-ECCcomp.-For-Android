@@ -279,8 +279,5 @@ public class CreateCalenderManager {
                 break;
             }
         }
-
-
-
     }
 }

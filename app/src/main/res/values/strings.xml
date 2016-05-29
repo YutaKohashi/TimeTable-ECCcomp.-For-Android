@@ -133,4 +133,6 @@
     <string name="kouketsu_1">公欠1</string>
     <string name="kouketsu_2">公欠2</string>
     <string name="failed_get_attendancerate">出席照会データの取得に失敗しました</string>
+    <string name="no_name">NO_NAME</string>
+    <string name="kyoukamei">教科名</string>
 </resources>

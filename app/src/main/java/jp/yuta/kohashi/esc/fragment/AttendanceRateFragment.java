@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
+
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.adapter.RecyclerViewAdapter;
 import jp.yuta.kohashi.esc.http.GetAttendanceRateManager;
@@ -117,6 +119,12 @@ public class AttendanceRateFragment extends Fragment {
             }
         };
 
+//        new ShowcaseView.Builder(getActivity())
+//                .setTarget(new ViewTarget(getActivity(), textView))
+//                .setContentTitle("ShowcaseView")
+//                .setContentText("This is highlighting the Home button")
+//                .hideOnTouchOutside()
+//                .build();
         return v;
     }
 

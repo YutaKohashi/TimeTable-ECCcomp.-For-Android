@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <CheckBoxPreference
+        android:key="enable_color_attendance_rate"
+        android:title="出席照会の色分けを有効にする"
+        android:summary="チェックが入っている場合有効になります"
+        />
+
     <PreferenceScreen
         android:key="update_time_table"
         android:title="時間割を更新"

@@ -16,15 +16,15 @@ public class AttendanceRateObject {
 //    <th style="width:8%">出席率</th>
 //    <th style="width:8%">出席<br />不足単位</th>
 
-    String subjectName;
-    String unit;
-    String attendanceNumber;
-    String absentNumber;
-    String lateNumber;
-    String publicAbsentNumber1;
-    String publicAbsentNumber2;
-    String attendanceRate;
-    String shortageNumber;
+    String subjectName;         //教科
+    String unit;                //単位
+    String attendanceNumber;    //出席数
+    String absentNumber;        //欠席数
+    String lateNumber;          //遅刻数
+    String publicAbsentNumber1; //公欠１
+    String publicAbsentNumber2; //公欠２
+    String attendanceRate;      //出席率
+    String shortageNumber;      //
 
     public AttendanceRateObject(){
         subjectName = "";

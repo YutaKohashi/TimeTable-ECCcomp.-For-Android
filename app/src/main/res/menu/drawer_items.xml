@@ -39,6 +39,9 @@
             android:id="@+id/settings_group">
             <menu android:checkableBehavior="single">
                 <item
+                    android:title="Web版にアクセス"
+                    android:id="@+id/navigation_item_web"/>
+                <item
                     android:title="設定"
                     android:id="@+id/navigation_item_5"/>
                 <item
