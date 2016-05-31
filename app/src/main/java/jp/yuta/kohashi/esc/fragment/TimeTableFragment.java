@@ -1,14 +1,23 @@
 package jp.yuta.kohashi.esc.fragment;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.Space;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +26,8 @@ import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.adapter.TimeTableListAdapter;
 import jp.yuta.kohashi.esc.object.TimeBlock;
 import jp.yuta.kohashi.esc.preference.LoadManager;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +38,9 @@ import java.util.List;
 public class TimeTableFragment extends Fragment {
 
     static final String prefName ="sample";
+    private static final String SHOWCASE_ID = "sequence4";
+
+    private static int count = 0;
 
     //月曜日から金曜日の曜日ごとのリスト
     List<TimeBlock> MondayList;
@@ -75,6 +89,7 @@ public class TimeTableFragment extends Fragment {
 //            actionBar.hide();
 //
 //        }
+
         MondayList = new ArrayList<>();
         TuesdayList = new ArrayList<>();
         WednesdayList = new ArrayList<>();
@@ -221,7 +236,52 @@ public class TimeTableFragment extends Fragment {
         friList.setLayoutManager(layoutManager);
         friList.setAdapter(friAdapter);
 
+
+
+
+//        SharedPreferences prefs = getActivity().getSharedPreferences("material_showcaseview_prefs", Context.MODE_PRIVATE);
+//
+//        //チュートリアル
+//
+//        ShowcaseConfig config = new ShowcaseConfig();
+//        config.setDelay(500);
+//        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
+//        sequence.setConfig(config);
+//        sequence.addSequenceItem(view,
+//                "各ブロックをタップすと詳細情報が表示されます。", "次へ");
+//        sequence.addSequenceItem(getNavButtonView((Toolbar) getActivity().findViewById(R.id.toolbar)),
+//                "トグルをタップ、または右にスワイプすることでコンテンツを選択できます。", "開始する");
+//        sequence.start();
+
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+//        TextView view = (TextView)getActivity().findViewById(R.id.dummy_edit);
+//        Log.d("TimeTableFragment::","onStart");
+//        //チュートリアル
+//        ShowcaseConfig config = new ShowcaseConfig();
+//        config.setDelay(500);
+//        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
+//        sequence.setConfig(config);
+//        sequence.addSequenceItem(view,
+//                "各ブロックをタップすと詳細情報が表示されます。", "次へ");
+//        sequence.addSequenceItem(getNavButtonView((Toolbar) getActivity().findViewById(R.id.toolbar)),
+//                "トグルをタップ、または右にスワイプすることでコンテンツを選択できます。", "開始する");
+//        sequence.start();
+        TextView view = (TextView)getActivity().findViewById(R.id.dummy_edit);
+        Log.d("TimeTableFragment::","onCreate" + String.valueOf(count));
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500);
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
+        sequence.setConfig(config);
+        sequence.addSequenceItem(view,
+                "各ブロックをタップすと詳細情報が表示されます。", "次へ");
+        sequence.addSequenceItem(getNavButtonView((Toolbar) getActivity().findViewById(R.id.toolbar)),
+                "トグルをタップ、または右にスワイプすることでコンテンツを選択できます。", "開始する");
+        sequence.start();
     }
 
     //時間割の各ブロックのレイアウトを設定するクラス
@@ -263,6 +323,23 @@ public class TimeTableFragment extends Fragment {
             });
         }
     }
+
+    private static Point getDisplaySize(Activity activity){
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        Point point = new Point();
+        display.getSize(point);
+        return point;
+    }
+
+    private static ImageButton getNavButtonView(Toolbar toolbar)
+    {
+        for (int i = 0; i < toolbar.getChildCount(); i++)
+            if(toolbar.getChildAt(i) instanceof ImageButton)
+                return (ImageButton) toolbar.getChildAt(i);
+
+        return null;
+    }
+
 
 
 }

@@ -84,11 +84,19 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <FrameLayout
+        <RelativeLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+
+            <TextView
+                android:layout_width="120sp"
+                android:layout_height="120sp"
+                android:id="@+id/dummy_edit"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
 
     </android.support.design.widget.CoordinatorLayout>
 

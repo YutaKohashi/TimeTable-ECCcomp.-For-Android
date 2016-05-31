@@ -2,9 +2,11 @@ package jp.yuta.kohashi.esc.fragments;
 
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +46,9 @@ public class JuneFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
        View v = inflater.inflate(R.layout.fragment_june, container, false);
+
+        Toolbar toolbar = (Toolbar)getActivity().findViewById(R.id.callender_toolbar);
+        toolbar.setTitle(getResources().getString(R.string.schedule));
 
         GetValuesBase getValuesBase = new GetValuesBase();
 

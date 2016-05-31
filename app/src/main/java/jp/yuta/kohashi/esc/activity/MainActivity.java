@@ -1,10 +1,14 @@
 package jp.yuta.kohashi.esc.activity;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,9 +18,11 @@ import android.content.res.Configuration;
 import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -28,6 +34,7 @@ import android.widget.TextView;
 
 
 import jp.yuta.kohashi.esc.R;
+import jp.yuta.kohashi.esc.chrome.CustomTabsHelper;
 import jp.yuta.kohashi.esc.fragment.AttendanceRateFragment;
 import jp.yuta.kohashi.esc.fragment.TimeTableFragment;
 import jp.yuta.kohashi.esc.http.UpdateTimeTableManager;
@@ -90,17 +97,23 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         selectedId=savedInstanceState ==null ? R.id.navigation_item_1: savedInstanceState.getInt("SELECTED_ID");
         itemSelection(selectedId);
 
+        //TODO  何故かbuildを23にするとエラーが出る
         //レイアウトへid,名前の設定
         LoadManager loadManager = new LoadManager();
-        List<String> ipList = new ArrayList<>();
-        ipList = loadManager.loadManagerWithPreferenceForString(MainActivity.this,PREF_NAME_ID_PASS,"ip");
-        textView = (TextView)findViewById(R.id.num_text);
-        textView.setText(ipList.get(0));
+//        List<String> ipList = new ArrayList<>();
+//        ipList = loadManager.loadManagerWithPreferenceForString(MainActivity.this,PREF_NAME_ID_PASS,"ip");
+//        textView = (TextView)findViewById(R.id.num_text);
+//        try{
+//            textView.setText(ipList.get(0));
+//        }catch(NullPointerException e){
+//            textView.setText("NO_NUM");
+//        }
 
-        SharedPreferences data = getSharedPreferences("username", Context.MODE_PRIVATE);
-        String userName = data.getString("username",getString(R.string.no_name));
-        textViewUserName = (TextView)findViewById(R.id.name_text);
-        textViewUserName.setText(userName);
+
+//        SharedPreferences data = getSharedPreferences("username", Context.MODE_PRIVATE);
+//        String userName = data.getString("username",getString(R.string.no_name));
+//        textViewUserName = (TextView)findViewById(R.id.name_text);
+//        textViewUserName.setText(userName);
         //通信
         //UpdateTimeTableManager utt = new UpdateTimeTableManager();
         //utt.upDateTimeTable(MainActivity.this);
@@ -122,7 +135,28 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         }
     }
 
-//    private void setToolbar() {
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        //レイアウトへid,名前の設定
+        LoadManager loadManager = new LoadManager();
+        List<String> ipList = new ArrayList<>();
+        ipList = loadManager.loadManagerWithPreferenceForString(MainActivity.this,PREF_NAME_ID_PASS,"ip");
+        textView = (TextView)findViewById(R.id.num_text);
+        try{
+            textView.setText(ipList.get(0));
+        }catch(NullPointerException e){
+            textView.setText("NO_NUM");
+        }
+
+
+        SharedPreferences data = getSharedPreferences("username", Context.MODE_PRIVATE);
+        String userName = data.getString("username",getString(R.string.no_name));
+        textViewUserName = (TextView)findViewById(R.id.name_text);
+        textViewUserName.setText(userName);
+    }
+    //    private void setToolbar() {
 //        toolbar= (Toolbar) findViewById(R.id.toolbar);
 //        if (toolbar != null) {
 //            setSupportActionBar(toolbar);
@@ -194,9 +228,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 //                return;
 
             //設定
+            //設定
             case R.id.navigation_item_5:
                 Intent intent5 =new Intent(MainActivity.this,PreferenceRelationActivity.class);
-                startActivity(intent5);
+                startActivityForResult(intent5,999);
 
                 overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -210,6 +245,23 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return;
 
+            case R.id.navigation_item_web:
+                drawerLayout.closeDrawer(GravityCompat.START);
+
+                Uri uri = Uri.parse("http://comp2.ecc.ac.jp/sutinfo/login");
+                final CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder()
+                        .setShowTitle(true)
+                        .setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary))
+                        .setStartAnimations(MainActivity.this, R.anim.pull_in_up , R.anim.none_anim)
+                        .setExitAnimations(MainActivity.this, R.anim.none_anim, R.anim.push_out_up)
+                         .build();
+
+// Chromeの起動
+                tabsIntent.launchUrl(MainActivity.this, uri);
+
+                //overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
+
+                return;
             default:
                 break;
 
@@ -227,6 +279,22 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             Log.d("上書きインストールの際Exception::",e.toString());
         }
 
+    }
+
+    //設定画面起動時、ログアウトをした場合MainActivityもfinishする
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == 999 && resultCode == Activity.RESULT_OK){
+            Bundle extras = data.getExtras();
+            if (extras != null)
+            {
+                String text = extras.getString("text");
+                if ("終了".equals(text))
+                {
+                    MainActivity.this.finish();
+                }
+            }
+        }
     }
 
     @Override
@@ -250,39 +318,90 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         outState.putInt("SELECTED_ID",selectedId);
     }
 
-
     @Override
-    public boolean dispatchKeyEvent(KeyEvent e) {
-        // 戻るボタンが押されたとき
-//        if(e.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-//            // ボタンが押されたとき
-//            mMaterialDialog = new MaterialDialog(this)
-//                    .setTitle("アプリケーションの終了")
-//                    .setMessage("アプリケーションを終了してよろしいですか？")
-//                    .setPositiveButton("OK", new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            mMaterialDialog.dismiss();
-//                            finish();
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+
+            // ボタンが押されたとき
+            final MaterialDialog dialog = new MaterialDialog(this);
+            dialog
+                    .setTitle("アプリケーションの終了")
+                    .setMessage("アプリケーションを終了してよろしいですか？")
+                    .setPositiveButton("YES", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            MainActivity.this.finish();
+
+                        }
+                    })
+                    .setNegativeButton("NO", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
 //
-//                        }
-//                    })
-//                    .setNegativeButton("CANCEL", new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            mMaterialDialog.dismiss();
-////
-//                            Snackbar.make(v,"キャンセルしました",Snackbar.LENGTH_SHORT).show();
-//                        }
-//                    });
-//
-//            mMaterialDialog.show();
-//            return true;
-//
-//        }
-        finish();
-        return super.dispatchKeyEvent(e);
+                        }
+                    }).show();
+            return true;
+        }
+        return false;
     }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        super.onKeyDown(keyCode, event);
+//        // 戻るボタンが押されたとき
+////        if(keyCode == KeyEvent.KEYCODE_BACK){
+//            // ボタンが押されたとき
+////            mMaterialDialog = new MaterialDialog(this)
+////                    .setTitle("アプリケーションの終了")
+////                    .setMessage("アプリケーションを終了してよろしいですか？")
+////                    .setPositiveButton("OK", new View.OnClickListener() {
+////                        @Override
+////                        public void onClick(View v) {
+////                            mMaterialDialog.dismiss();
+////                            finish();
+////                        }
+////                    })
+////                    .setNegativeButton("CANCEL", new View.OnClickListener() {
+////                        @Override
+////                        public void onClick(View v) {
+////                            mMaterialDialog.dismiss();
+////
+//////
+////                            Snackbar.make(v,"キャンセルしました",Snackbar.LENGTH_SHORT).show();
+////                        }
+////                    });
+//
+//        //    mMaterialDialog.show();
+//            if (keyCode == KeyEvent.KEYCODE_BACK){
+//                new AlertDialog.Builder(this)
+//                        .setTitle("アプリケーションの終了")
+//                        .setMessage("アプリケーションを終了してよろしいですか？")
+//                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                // TODO 自動生成されたメソッド・スタブ
+//                                MainActivity.this.finish();
+//                            }
+//                        })
+//                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                // TODO 自動生成されたメソッド・スタブ
+//
+//                            }
+//                        })
+//                        .show();
+//
+//                return true;
+//            }
+//            return false;
+////        }
+////
+////        return false;
+//    }
 
     @Override
     public void onResume(){
@@ -311,6 +430,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
         Log.d("MainActivity::::","onResume");
     }
+
 
 
 

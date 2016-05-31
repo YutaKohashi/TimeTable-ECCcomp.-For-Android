@@ -2,9 +2,11 @@ package jp.yuta.kohashi.esc.fragments;
 
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +47,8 @@ public class OctoberFragment extends Fragment {
        View v = inflater.inflate(R.layout.fragment_october, container, false);
 
         GetValuesBase getValuesBase = new GetValuesBase();
-
+        Toolbar toolbar = (Toolbar)getActivity().findViewById(R.id.callender_toolbar);
+        toolbar.setTitle(getResources().getString(R.string.schedule));
         String fileName = "2016Schedule.json";  // "assets/res/data/sample.txt" となる
         String text = "空";  //this は起動した Activity が良い(Context)
         try {

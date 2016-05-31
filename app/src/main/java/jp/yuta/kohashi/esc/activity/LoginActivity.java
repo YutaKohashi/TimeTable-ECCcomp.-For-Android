@@ -21,6 +21,7 @@ import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.http.LoginManager;
 import jp.yuta.kohashi.esc.http.LoginManager2;
 import jp.yuta.kohashi.esc.tools.GetValuesBase;
+import me.drakeet.materialdialog.MaterialDialog;
 
 import org.w3c.dom.Text;
 
@@ -196,15 +197,44 @@ public class LoginActivity extends AppCompatActivity{
 //        return true;
 //
 //    }
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent e) {
-        // 戻るボタンが押されたとき
-        if(e.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-            // ボタンが押されたとき
-            return true;
+//    @Override
+//    public boolean dispatchKeyEvent(KeyEvent e) {
+//        // 戻るボタンが押されたとき
+//        if(e.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+//            // ボタンが押されたとき
+//            return true;
+//
+//        }
+//        return super.dispatchKeyEvent(e);
+//    }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+
+            // ボタンが押されたとき
+            final MaterialDialog dialog = new MaterialDialog(this);
+            dialog
+                    .setTitle("アプリケーションの終了")
+                    .setMessage("アプリケーションを終了してよろしいですか？")
+                    .setPositiveButton("YES", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                           LoginActivity.this.finish();
+
+                        }
+                    })
+                    .setNegativeButton("NO", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+//
+                        }
+                    }).show();
+            return true;
         }
-        return super.dispatchKeyEvent(e);
+        return false;
     }
 
 

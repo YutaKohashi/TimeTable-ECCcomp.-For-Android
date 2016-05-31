@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import java.text.DateFormat;
@@ -102,6 +104,14 @@ public class SyllabusActivity extends AppCompatActivity{
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.empty_menu, menu);
+        return true;
+    }
+
 
     /**
      * 現在日時をyyyy/MM/dd HH:mm:ss形式で取得する.

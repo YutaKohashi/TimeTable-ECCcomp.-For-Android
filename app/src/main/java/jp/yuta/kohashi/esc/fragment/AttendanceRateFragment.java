@@ -25,6 +25,8 @@ import jp.yuta.kohashi.esc.adapter.RecyclerViewAdapter;
 import jp.yuta.kohashi.esc.http.GetAttendanceRateManager;
 import jp.yuta.kohashi.esc.object.AttendanceRateObject;
 import jp.yuta.kohashi.esc.preference.LoadManager;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +46,8 @@ public class AttendanceRateFragment extends Fragment {
     TextView latestUpText;
     SharedPreferences pref;
 
+    private static final String SHOWCASE_ID = "sequence1";
+
 
     public AttendanceRateFragment() {
         // Required empty public constructor
@@ -55,6 +59,29 @@ public class AttendanceRateFragment extends Fragment {
     }
 
     List<AttendanceRateObject> rateObjectList;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+//        textView = (TextView)getActivity().findViewById(R.id.title_name_text);
+//        textView.setText("出席照会");
+//        latestUpText = (TextView)v.findViewById(R.id.latest_update);
+
+        latestUpText = (TextView)getActivity().findViewById(R.id.latest_update);
+        textView = (TextView)getActivity().findViewById(R.id.title_name_text);
+
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(400);
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
+        sequence.setConfig(config);
+        sequence.addSequenceItem(textView,
+                "下向きにスワイプすることでデータを更新できます。", "次へ");
+        sequence.addSequenceItem(latestUpText,
+                "下部に最終更新日時が表示されます。", "開始する");
+        sequence.start();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,6 +110,7 @@ public class AttendanceRateFragment extends Fragment {
         recyclerView = (RecyclerView)v.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
+
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
@@ -92,6 +120,16 @@ public class AttendanceRateFragment extends Fragment {
         //タイトルの設定
         textView = (TextView)getActivity().findViewById(R.id.title_name_text);
         textView.setText("出席照会");
+
+//        ShowcaseConfig config = new ShowcaseConfig();
+//        config.setDelay(400);
+//        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
+//        sequence.setConfig(config);
+//        sequence.addSequenceItem(textView,
+//                "下向きにスワイプすることでデータを更新できます。", "次へ");
+//        sequence.addSequenceItem(latestUpText,
+//                "下部に最終更新日時が表示されます。", "開始する");
+//        sequence.start();
 
         // SwipeRefreshLayoutの設定
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.refresh);

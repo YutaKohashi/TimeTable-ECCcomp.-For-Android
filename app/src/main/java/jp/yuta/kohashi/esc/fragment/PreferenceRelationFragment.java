@@ -16,6 +16,7 @@ import android.preference.PreferenceFragment;
 
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.activity.LoginActivity;
+import jp.yuta.kohashi.esc.activity.MainActivity;
 import jp.yuta.kohashi.esc.http.UpdateTimeTableManager;
 import jp.yuta.kohashi.esc.preference.LoadManager;
 import jp.yuta.kohashi.esc.tools.CustomProgressDialog;
@@ -29,6 +30,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class PreferenceRelationFragment extends PreferenceFragment{
     PreferenceScreen logout_item;
     PreferenceScreen update_time_table_item;
+    PreferenceScreen view_tutorial;
     static final String PREF_NAME_ID_PASS = "ip";
     CustomProgressDialog customProgressDialog;
     ProgressDialog dialog;
@@ -45,6 +47,7 @@ public class PreferenceRelationFragment extends PreferenceFragment{
 
         logout_item = (PreferenceScreen)findPreference("logout_button");
         update_time_table_item= (PreferenceScreen)findPreference("update_time_table");
+        view_tutorial = (PreferenceScreen)findPreference("view_tutorial");
 
         logout_item.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -55,6 +58,29 @@ public class PreferenceRelationFragment extends PreferenceFragment{
             }
         });
 
+        view_tutorial.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                //チュートリアルのフラグを保存しているPreferenceをクリアする
+                SharedPreferences sharedPreferences =getActivity().getSharedPreferences("material_showcaseview_prefs",getActivity().MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit();
+
+                getActivity().finish();
+
+//                //MainActivityを一旦終了する
+//                Intent intent1 = new Intent();
+//                intent1.putExtra("text", "終了");
+//                getActivity().setResult(Activity.RESULT_OK, intent1);
+//                getActivity().finish();
+//
+//                //MainActivityを表示してチュートリアルも表示
+//                Intent intent = new Intent(getActivity(), MainActivity.class);
+//                startActivity(intent);
+                return false;
+            }
+        });
 
         update_time_table_item.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -73,7 +99,7 @@ public class PreferenceRelationFragment extends PreferenceFragment{
                 SharedPreferences preferences = getActivity().getSharedPreferences("restart_fragment",getActivity().MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean("RESTART_FRAGMENT",true);
-                editor.apply();
+                editor.commit();
 
                 return false;
             }
@@ -107,6 +133,7 @@ public class PreferenceRelationFragment extends PreferenceFragment{
 
                                         mMaterialDialog.dismiss();
 
+                                        //学籍番号：パスワード
                                         SharedPreferences sharedPreferences =getActivity().getSharedPreferences("ip",getActivity().MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.clear();
@@ -117,10 +144,18 @@ public class PreferenceRelationFragment extends PreferenceFragment{
                                         editor.clear();
                                         editor.commit();
 
+                                        //ユーザの名前
                                         sharedPreferences =getActivity().getSharedPreferences("username",getActivity().MODE_PRIVATE);
                                         editor = sharedPreferences.edit();
                                         editor.clear();
                                         editor.commit();
+
+                                        //チュートリアルのフラグ
+                                       sharedPreferences =getActivity().getSharedPreferences("material_showcaseview_prefs",getActivity().MODE_PRIVATE);
+                                         editor = sharedPreferences.edit();
+                                        editor.clear();
+                                        editor.commit();
+
                                         getValuesBase.SetLoginState(getActivity(),false);
 
                                         try{
@@ -134,19 +169,19 @@ public class PreferenceRelationFragment extends PreferenceFragment{
                                     @Override
                                     protected void onPostExecute(String result){
 
-
-
                                         Intent intent = new Intent(getActivity(), LoginActivity.class);
                                         intent.putExtra("logouted",true);
                                         intent.setFlags(intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
+
+                                        Intent intent1 = new Intent();
+                                        intent1.putExtra("text", "終了");
+                                        ((Activity)context).setResult(Activity.RESULT_OK, intent1);
                                         ((Activity)context).finish();
+
                                         dialog.dismiss();
                                     }
                                 }.execute();
-
-
-
                             }
                         })
                         .setNegativeButton("CANCEL", new View.OnClickListener() {

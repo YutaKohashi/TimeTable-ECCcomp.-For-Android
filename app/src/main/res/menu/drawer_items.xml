@@ -1,54 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/group_feature"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/navigation_item_1"
 
-            android:title="時間割"/>
+            android:title="時間割" />
         <item
             android:id="@+id/navigation_item_2"
 
-            android:title="出席照会"/>
-        <!--<item-->
-        <!--android:id="@+id/navigation_item_3"-->
-
-        <!--android:title="担任からのお知らせ"/>-->
-        <!--<item-->
-        <!--android:id="@+id/navigation_item_4"-->
-
-        <!--android:title="What's New 学校からのお知らせ"/>-->
-        <!--<item-->
-        <!--android:id="@+id/navigation_item_3"-->
-        <!--android:visible="false"-->
-        <!--android:title="お知らせ"/>-->
-
+            android:title="出席照会" />
         <item
             android:id="@+id/navigation_item_7"
 
-            android:title="スケジュール"/>
-        <!--<item-->
-        <!--android:id="@+id/handbook_item4"-->
-        <!--android:title="HANDBOOK"/>-->
-
-        <!--<item-->
-            <!--android:id="@+id/navigation_news"-->
-
-            <!--android:title="お知らせ"/>-->
-        <item
-            android:title="その他"
-            android:id="@+id/settings_group">
-            <menu android:checkableBehavior="single">
-                <item
-                    android:title="Web版にアクセス"
-                    android:id="@+id/navigation_item_web"/>
-                <item
-                    android:title="設定"
-                    android:id="@+id/navigation_item_5"/>
-                <item
-                    android:title="このアプリについて"
-                    android:id="@+id/navigation_item_6"/>
-
-            </menu>
-        </item>
+            android:title="スケジュール" />
     </group>
+    <!--<item-->
+    <!--android:id="@+id/navigation_item_3"-->
+
+    <!--android:title="担任からのお知らせ"/>-->
+    <!--<item-->
+    <!--android:id="@+id/navigation_item_4"-->
+
+    <!--android:title="What's New 学校からのお知らせ"/>-->
+    <!--<item-->
+    <!--android:id="@+id/navigation_item_3"-->
+    <!--android:visible="false"-->
+    <!--android:title="お知らせ"/>-->
+
+
+    <!--<item-->
+    <!--android:id="@+id/handbook_item4"-->
+    <!--android:title="HANDBOOK"/>-->
+
+    <!--<item-->
+    <!--android:id="@+id/navigation_news"-->
+
+    <!--android:title="お知らせ"/>-->
+
+    <group
+        android:id="@+id/group_bottom"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_item_web"
+            android:title="Web版にアクセス" />
+        <item
+            android:id="@+id/navigation_item_5"
+            android:title="設定" />
+        <item
+            android:id="@+id/navigation_item_6"
+            android:title="このアプリについて" />
+    </group>
+    <!--<item-->
+    <!--android:title="その他"-->
+    <!--android:id="@+id/settings_group">-->
+    <!--<menu>-->
+    <!---->
+
+    <!--</menu>-->
+    <!--</item>-->
 </menu>

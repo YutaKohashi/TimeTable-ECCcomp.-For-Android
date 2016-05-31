@@ -2,9 +2,11 @@ package jp.yuta.kohashi.esc.fragments;
 
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,6 +88,9 @@ public class AugustFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         Calendar cal = Calendar.getInstance();
         if (isVisibleToUser) {
+
+            Toolbar toolbar = (Toolbar)getActivity().findViewById(R.id.callender_toolbar);
+            toolbar.setTitle(getResources().getString(R.string.schedule));
 
             GetValuesBase getValuesBase = new GetValuesBase();
 
