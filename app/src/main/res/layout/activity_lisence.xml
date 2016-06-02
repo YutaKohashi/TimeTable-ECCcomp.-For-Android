@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:id="@+id/view1"
+        android:id="@+id/view2"
         android:background="?attr/colorPrimary"
         android:orientation="horizontal"
         android:paddingLeft="10sp">
@@ -17,7 +17,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/about_back_button"
+            android:id="@+id/lisence_back_button"
             android:src="@drawable/ic_arrow_back_black_24dp"
             android:background="@android:color/transparent"/>
 
@@ -27,7 +27,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:title="このアプリについて"
+            app:title="ライセンス"
             app:titleTextColor="@color/white"
             />
 
@@ -37,8 +37,8 @@
     <WebView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/webView1"
-        android:layout_below="@+id/view1"
+        android:id="@+id/webView2"
+        android:layout_below="@+id/view2"
         android:layout_alignParentBottom="true" />
 
 

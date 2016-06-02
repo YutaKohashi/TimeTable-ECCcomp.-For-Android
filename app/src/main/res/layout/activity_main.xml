@@ -35,15 +35,13 @@
                     android:paddingRight="60sp"
                     android:paddingTop="15sp">
 
-                    <ImageView
-                        android:id="@+id/ecclogo_0001"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:adjustViewBounds="true"
-                        android:background="@drawable/ecclogo_0001"
-                        android:contentDescription="@string/content_image"
-                        android:scaleType="fitCenter"
-                        android:transitionName="ecclogo" />
+                   <TextView
+                       android:id="@+id/main_title"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:text="ECCComp."
+                       android:textSize="22sp"
+                       android:textColor="@color/white" />
                 </RelativeLayout>
 
 

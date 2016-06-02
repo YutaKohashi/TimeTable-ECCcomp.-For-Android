@@ -5,7 +5,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.customtabs.CustomTabsIntent;
@@ -26,6 +29,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -66,6 +70,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
     Intent intent;
 
+    TextView appTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +102,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         //default it set first item as selected
         selectedId=savedInstanceState ==null ? R.id.navigation_item_1: savedInstanceState.getInt("SELECTED_ID");
         itemSelection(selectedId);
+
+        appTitle = (TextView)findViewById(R.id.main_title);
+        Typeface font = Typeface.createFromAsset(getAssets(), "mplus-1p-medium.ttf");
+        appTitle.setTypeface(font);
 
         //TODO  何故かbuildを23にするとエラーが出る
         //レイアウトへid,名前の設定
@@ -199,35 +209,14 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 fragment1 = new AttendanceRateFragment();
                 break;
 
-//            case R.id.navigation_item_3:
-//                Intent intent1 = new Intent(MainActivity.this,NewsActivity.class);
-//                startActivity(intent1);
-//                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
-//                drawerLayout.closeDrawer(GravityCompat.START);
-//                return;
-
+            //年間スケジュール
             case R.id.navigation_item_7:
                 Intent intent2 = new Intent(MainActivity.this,SyllabusActivity.class);
                 startActivity(intent2);
                 overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return;
-//
-         //   PDF
-//            case R.id.handbook_item4:
-//                CopyAssets(this);
-//                drawerLayout.closeDrawer(GravityCompat.START);
-//                return;
 
-//            //お知らせ(Activity)
-//            case R.id.navigation_news:
-//                Intent intent9 = new Intent(MainActivity.this,NewsActivity.class);
-//                startActivity(intent9);
-//                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
-//                drawerLayout.closeDrawer(GravityCompat.START);
-//                return;
-
-            //設定
             //設定
             case R.id.navigation_item_5:
                 Intent intent5 =new Intent(MainActivity.this,PreferenceRelationActivity.class);
@@ -236,28 +225,52 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return;
-            //このアプリについて
-            case R.id.navigation_item_6:
-                Intent intent3 =new Intent(MainActivity.this,AboutActivity.class);
-                startActivity(intent3);
-
-                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return;
+//
+//            //このアプリについて
+//            case R.id.navigation_item_6:
+//                Intent intent3 =new Intent(MainActivity.this,AboutActivity.class);
+//                startActivity(intent3);
+//
+//                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
+//                drawerLayout.closeDrawer(GravityCompat.START);
+//                return;
 
             case R.id.navigation_item_web:
                 drawerLayout.closeDrawer(GravityCompat.START);
 
                 Uri uri = Uri.parse("http://comp2.ecc.ac.jp/sutinfo/login");
-                final CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder()
+//                final CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder()
+//                        .setShowTitle(true)
+//                        .setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary))
+//                        .setStartAnimations(MainActivity.this, R.anim.pull_in_up , R.anim.none_anim)
+//                        .setExitAnimations(MainActivity.this, R.anim.none_anim, R.anim.push_out_up)
+//                         .build();
+//
+//// Chromeの起動
+//                tabsIntent.launchUrl(MainActivity.this, uri);
+
+                //開かれるアプリをCHromeに限定する
+                String PACKAGE_NAME = "com.android.chrome";
+
+                CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                         .setShowTitle(true)
                         .setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary))
                         .setStartAnimations(MainActivity.this, R.anim.pull_in_up , R.anim.none_anim)
                         .setExitAnimations(MainActivity.this, R.anim.none_anim, R.anim.push_out_up)
-                         .build();
+                        .build();
 
-// Chromeの起動
-                tabsIntent.launchUrl(MainActivity.this, uri);
+                customTabsIntent.intent.setData(uri);
+
+                PackageManager packageManager = getPackageManager();
+                List<ResolveInfo> resolveInfoList = packageManager.queryIntentActivities(customTabsIntent.intent, PackageManager.MATCH_DEFAULT_ONLY);
+
+                for (ResolveInfo resolveInfo : resolveInfoList) {
+                    String packageName = resolveInfo.activityInfo.packageName;
+                    if (TextUtils.equals(packageName, PACKAGE_NAME))
+                        customTabsIntent.intent.setPackage(PACKAGE_NAME);
+                }
+
+                customTabsIntent.launchUrl(this, uri);
 
                 //overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
 
@@ -284,10 +297,15 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     //設定画面起動時、ログアウトをした場合MainActivityもfinishする
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
+
+
+
         if (requestCode == 999 && resultCode == Activity.RESULT_OK){
             Bundle extras = data.getExtras();
             if (extras != null)
             {
+
+
                 String text = extras.getString("text");
                 if ("終了".equals(text))
                 {
@@ -325,7 +343,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             // ボタンが押されたとき
             final MaterialDialog dialog = new MaterialDialog(this);
             dialog
-                    .setTitle("アプリケーションの終了")
+                    .setTitle("アプリケーション終了")
                     .setMessage("アプリケーションを終了してよろしいですか？")
                     .setPositiveButton("YES", new View.OnClickListener() {
                         @Override
@@ -406,7 +424,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     @Override
     public void onResume(){
         super.onResume();
-        //時間割のデータを行使した場合
+        //時間割のデータを更新した場合
         SharedPreferences sharedPreferences = getSharedPreferences("restart_fragment",MODE_PRIVATE);
         Boolean flag = sharedPreferences.getBoolean("RESTART_FRAGMENT", false);
 
@@ -547,9 +565,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
                                     }
                                 }.execute();
-
-
-
                             }
                         });
 
@@ -558,4 +573,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
         }
     }
+
+
 }

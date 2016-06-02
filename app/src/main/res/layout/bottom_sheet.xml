@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:padding="10sp"
+        android:textAlignment="center"
         android:text="詳細情報"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/white" />

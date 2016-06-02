@@ -2,19 +2,32 @@ package jp.yuta.kohashi.esc.fragment;
 
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.AsyncTask;
+import android.os.RemoteException;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
+import android.support.v4.view.GravityCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.preference.PreferenceFragment;
+import android.webkit.WebView;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import jp.yuta.kohashi.esc.R;
+import jp.yuta.kohashi.esc.activity.AboutActivity;
+import jp.yuta.kohashi.esc.activity.LisenceActivity;
 import jp.yuta.kohashi.esc.activity.LoginActivity;
 import jp.yuta.kohashi.esc.activity.MainActivity;
 import jp.yuta.kohashi.esc.http.UpdateTimeTableManager;
@@ -34,6 +47,13 @@ public class PreferenceRelationFragment extends PreferenceFragment{
     static final String PREF_NAME_ID_PASS = "ip";
     CustomProgressDialog customProgressDialog;
     ProgressDialog dialog;
+    PreferenceScreen sbout_app;
+    PreferenceScreen lisence;
+    PreferenceScreen aboutApp;
+//    static WebView webView;
+//    static View view;
+    Dialog mBottomSheetDialog;
+    Toolbar toolbar;
 
     public PreferenceRelationFragment() {
         // Required empty public constructor
@@ -48,6 +68,13 @@ public class PreferenceRelationFragment extends PreferenceFragment{
         logout_item = (PreferenceScreen)findPreference("logout_button");
         update_time_table_item= (PreferenceScreen)findPreference("update_time_table");
         view_tutorial = (PreferenceScreen)findPreference("view_tutorial");
+//        sbout_app = (PreferenceScreen)findPreference("sbout_app");
+        lisence = (PreferenceScreen)findPreference("license_screen");
+        aboutApp = (PreferenceScreen)findPreference("about_screen");
+
+//        view = getActivity().getLayoutInflater ().inflate (R.layout.activity_lisence, null);
+//        webView = (WebView)view.findViewById(R.id.webView2);
+//        webView.loadUrl( "file:///android_asset/lisence.html" );
 
         logout_item.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -67,17 +94,14 @@ public class PreferenceRelationFragment extends PreferenceFragment{
                 editor.clear();
                 editor.commit();
 
+                //ActivityiyForResultによる返り値を設定
+                Intent intent1 = new Intent();
+                intent1.putExtra("text2", "チュートリアル");
+                getActivity().setResult(Activity.RESULT_OK, intent1);
+
                 getActivity().finish();
 
-//                //MainActivityを一旦終了する
-//                Intent intent1 = new Intent();
-//                intent1.putExtra("text", "終了");
-//                getActivity().setResult(Activity.RESULT_OK, intent1);
-//                getActivity().finish();
-//
-//                //MainActivityを表示してチュートリアルも表示
-//                Intent intent = new Intent(getActivity(), MainActivity.class);
-//                startActivity(intent);
+
                 return false;
             }
         });
@@ -104,6 +128,87 @@ public class PreferenceRelationFragment extends PreferenceFragment{
                 return false;
             }
         });
+        lisence.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+//                Intent intent3 =new Intent(getActivity(),LisenceActivity.class);
+//                startActivity(intent3);
+                View view = getActivity().getLayoutInflater ().inflate (R.layout.activity_lisence, null);
+//
+//                ActionBar actionBar = getSupportActionBar();
+//                if (actionBar != null) {
+//                    actionBar.setHomeButtonEnabled(true);
+//                    actionBar.setDisplayHomeAsUpEnabled(true);
+//                }
+
+//                toolbar= (Toolbar)view.findViewById(R.id.toolbar_lisence);
+//                toolbar.setTitle("ライセンス");
+//                toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+
+                WebView webView = (WebView)view.findViewById(R.id.webView2);
+                webView.loadUrl( "file:///android_asset/lisence.html" );
+
+                mBottomSheetDialog = new Dialog (getActivity(), R.style.MaterialDialogSheet);
+                mBottomSheetDialog.setContentView (view);
+                mBottomSheetDialog.setCancelable (true);
+                mBottomSheetDialog.getWindow ().setLayout (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                mBottomSheetDialog.getWindow ().setGravity (Gravity.BOTTOM);
+                mBottomSheetDialog.show ();
+
+                //ツールバーの戻るボタンをタップした時finishメソッドを呼び出す
+                ImageButton imgButton = (ImageButton) view.findViewById(R.id.lisence_back_button);
+                imgButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mBottomSheetDialog.dismiss();
+                    }
+                });
+
+                return false;
+            }
+        });
+
+        aboutApp.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+//                Intent intent3 =new Intent(MainActivity.this,AboutActivity.class);
+//                startActivity(intent3);
+
+                View view = getActivity().getLayoutInflater ().inflate (R.layout.activity_about, null);
+//
+//                ActionBar actionBar = getSupportActionBar();
+//                if (actionBar != null) {
+//                    actionBar.setHomeButtonEnabled(true);
+//                    actionBar.setDisplayHomeAsUpEnabled(true);
+//                }
+
+//                toolbar= (Toolbar)view.findViewById(R.id.toolbar_lisence);
+//                toolbar.setTitle("ライセンス");
+//                toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+
+                WebView webView = (WebView)view.findViewById(R.id.webView1);
+                webView.loadUrl( "file:///android_asset/about_html.html" );
+
+                mBottomSheetDialog = new Dialog (getActivity(), R.style.MaterialDialogSheet);
+                mBottomSheetDialog.setContentView (view);
+                mBottomSheetDialog.setCancelable (true);
+                mBottomSheetDialog.getWindow ().setLayout (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                mBottomSheetDialog.getWindow ().setGravity (Gravity.BOTTOM);
+                mBottomSheetDialog.show ();
+
+                //ツールバーの戻るボタンをタップした時finishメソッドを呼び出す
+                ImageButton imgButton = (ImageButton) view.findViewById(R.id.about_back_button);
+                imgButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mBottomSheetDialog.dismiss();
+                    }
+                });
+
+                return false;
+            }
+        });
+
     }
 
     MaterialDialog mMaterialDialog;
@@ -198,7 +303,6 @@ public class PreferenceRelationFragment extends PreferenceFragment{
 
         }
     }
-
 
 
 }

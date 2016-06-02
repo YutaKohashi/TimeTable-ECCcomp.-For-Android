@@ -8,20 +8,41 @@
         />
 
     <PreferenceScreen
+        android:key="update_time_table"
+        android:title="時間割を更新。"
+        android:summary="時間割のデータを更新します"
+        />
+
+    <PreferenceScreen
         android:key="view_tutorial"
         android:title="チュートリアルをもう一度見る"
         android:summary="タップするともう一度チュートリアルを見ることができます。"
         />
 
-    <PreferenceScreen
-        android:key="update_time_table"
-        android:title="時間割を更新。"
-        android:summary="時間割のデータを更新します。"
-        />
 
     <PreferenceScreen
         android:key="logout_button"
-        android:title="ログアウト。"
+        android:title="ログアウト"
         android:summary="このアプリケーションからアカウントを消去します。"
         />
+    <PreferenceCategory
+        android:title="その他">
+
+        <PreferenceScreen
+            android:key="about_screen"
+            android:title="このアプリについて"
+            android:summary=""
+            />
+
+        <PreferenceScreen
+            android:key="license_screen"
+            android:title="ライセンス"
+            android:summary=""
+            />
+
+    </PreferenceCategory>
+
+
+
+
 </PreferenceScreen>

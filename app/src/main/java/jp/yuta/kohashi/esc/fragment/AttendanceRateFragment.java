@@ -64,22 +64,32 @@ public class AttendanceRateFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-//        textView = (TextView)getActivity().findViewById(R.id.title_name_text);
-//        textView.setText("出席照会");
-//        latestUpText = (TextView)v.findViewById(R.id.latest_update);
-
         latestUpText = (TextView)getActivity().findViewById(R.id.latest_update);
         textView = (TextView)getActivity().findViewById(R.id.title_name_text);
 
-        ShowcaseConfig config = new ShowcaseConfig();
-        config.setDelay(400);
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
-        sequence.setConfig(config);
-        sequence.addSequenceItem(textView,
-                "下向きにスワイプすることでデータを更新できます。", "次へ");
-        sequence.addSequenceItem(latestUpText,
-                "下部に最終更新日時が表示されます。", "開始する");
-        sequence.start();
+        //プリファレンスからチュートリアルを表示、非表示
+        SharedPreferences data = getActivity().getSharedPreferences("material_showcaseview_prefs", Context.MODE_PRIVATE);
+        boolean bool = data.getBoolean("enableTutorial",true);
+
+        //設定画面からこのFragmentに来た時のみonStartメソッドでチュートリアルを表示する
+        if(bool){
+            ShowcaseConfig config = new ShowcaseConfig();
+            config.setDelay(400);
+            MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
+            sequence.setConfig(config);
+            sequence.addSequenceItem(textView,
+                    "下向きにスワイプすることでデータを更新できます。", "次へ");
+            sequence.addSequenceItem(latestUpText,
+                    "下部に最終更新日時が表示されます。", "開始する");
+            sequence.start();
+
+
+            SharedPreferences.Editor editor = data.edit();
+            editor.putBoolean("enableTutorial", false);
+            editor.commit();
+
+        }
+
     }
 
     @Override
@@ -121,15 +131,22 @@ public class AttendanceRateFragment extends Fragment {
         textView = (TextView)getActivity().findViewById(R.id.title_name_text);
         textView.setText("出席照会");
 
-//        ShowcaseConfig config = new ShowcaseConfig();
-//        config.setDelay(400);
-//        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
-//        sequence.setConfig(config);
-//        sequence.addSequenceItem(textView,
-//                "下向きにスワイプすることでデータを更新できます。", "次へ");
-//        sequence.addSequenceItem(latestUpText,
-//                "下部に最終更新日時が表示されます。", "開始する");
-//        sequence.start();
+        //通常はonCreateViewでチュートリアルを表示する
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(400);
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
+        sequence.setConfig(config);
+        sequence.addSequenceItem(textView,
+                "下向きにスワイプすることでデータを更新できます。", "次へ");
+        sequence.addSequenceItem(latestUpText,
+                "下部に最終更新日時が表示されます。", "開始する");
+        sequence.start();
+
+        SharedPreferences preferences = getActivity().getSharedPreferences("material_showcaseview_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("enableTutorial", false);
+        editor.commit();
+
 
         // SwipeRefreshLayoutの設定
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.refresh);
@@ -157,12 +174,7 @@ public class AttendanceRateFragment extends Fragment {
             }
         };
 
-//        new ShowcaseView.Builder(getActivity())
-//                .setTarget(new ViewTarget(getActivity(), textView))
-//                .setContentTitle("ShowcaseView")
-//                .setContentText("This is highlighting the Home button")
-//                .hideOnTouchOutside()
-//                .build();
+
         return v;
     }
 

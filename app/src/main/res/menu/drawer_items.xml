@@ -48,9 +48,9 @@
         <item
             android:id="@+id/navigation_item_5"
             android:title="設定" />
-        <item
-            android:id="@+id/navigation_item_6"
-            android:title="このアプリについて" />
+        <!--<item-->
+            <!--android:id="@+id/navigation_item_6"-->
+            <!--android:title="このアプリについて" />-->
     </group>
     <!--<item-->
     <!--android:title="その他"-->

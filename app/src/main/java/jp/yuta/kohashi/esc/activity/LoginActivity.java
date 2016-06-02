@@ -3,6 +3,7 @@ package jp.yuta.kohashi.esc.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,6 +33,8 @@ public class LoginActivity extends AppCompatActivity{
     EditText id;
     EditText pss;
 
+    TextView loginTitle;
+
     String userId;
     String password;
   //  EditText editText;
@@ -44,7 +47,7 @@ public class LoginActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_new_login_layout);
 
         Intent intent = getIntent();
         boolean logouted = intent.getBooleanExtra("logouted", false);
@@ -62,6 +65,9 @@ public class LoginActivity extends AppCompatActivity{
             startActivity(intent1);
             finish();
         }
+        loginTitle = (TextView) findViewById(R.id.login_title);
+        Typeface font = Typeface.createFromAsset(getAssets(), "mplus-1p-medium.ttf");
+        loginTitle.setTypeface(font);
 
 //        dummy = (TextView)findViewById(R.id.dummy);
 //        dummy.clearFocus();
@@ -79,6 +85,7 @@ public class LoginActivity extends AppCompatActivity{
 
         circularButton1 = (CircularProgressButton) findViewById(R.id.login_btn);
         circularButton1.setIndeterminateProgressMode(true);
+        circularButton1.setTypeface(font);
 
         circularButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,7 +222,7 @@ public class LoginActivity extends AppCompatActivity{
             // ボタンが押されたとき
             final MaterialDialog dialog = new MaterialDialog(this);
             dialog
-                    .setTitle("アプリケーションの終了")
+                    .setTitle("アプリケーション終了")
                     .setMessage("アプリケーションを終了してよろしいですか？")
                     .setPositiveButton("YES", new View.OnClickListener() {
                         @Override

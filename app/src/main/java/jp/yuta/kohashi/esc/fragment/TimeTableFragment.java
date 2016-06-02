@@ -2,6 +2,7 @@ package jp.yuta.kohashi.esc.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -241,38 +242,9 @@ public class TimeTableFragment extends Fragment {
 
 //        SharedPreferences prefs = getActivity().getSharedPreferences("material_showcaseview_prefs", Context.MODE_PRIVATE);
 //
-//        //チュートリアル
-//
-//        ShowcaseConfig config = new ShowcaseConfig();
-//        config.setDelay(500);
-//        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
-//        sequence.setConfig(config);
-//        sequence.addSequenceItem(view,
-//                "各ブロックをタップすと詳細情報が表示されます。", "次へ");
-//        sequence.addSequenceItem(getNavButtonView((Toolbar) getActivity().findViewById(R.id.toolbar)),
-//                "トグルをタップ、または右にスワイプすることでコンテンツを選択できます。", "開始する");
-//        sequence.start();
-
-        return v;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-//        TextView view = (TextView)getActivity().findViewById(R.id.dummy_edit);
-//        Log.d("TimeTableFragment::","onStart");
-//        //チュートリアル
-//        ShowcaseConfig config = new ShowcaseConfig();
-//        config.setDelay(500);
-//        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
-//        sequence.setConfig(config);
-//        sequence.addSequenceItem(view,
-//                "各ブロックをタップすと詳細情報が表示されます。", "次へ");
-//        sequence.addSequenceItem(getNavButtonView((Toolbar) getActivity().findViewById(R.id.toolbar)),
-//                "トグルをタップ、または右にスワイプすることでコンテンツを選択できます。", "開始する");
-//        sequence.start();
+        //チュートリアル
+        //通常はonCreateviewでチュートリアルを表示する
         TextView view = (TextView)getActivity().findViewById(R.id.dummy_edit);
-        Log.d("TimeTableFragment::","onCreate" + String.valueOf(count));
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(500);
         MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
@@ -282,7 +254,49 @@ public class TimeTableFragment extends Fragment {
         sequence.addSequenceItem(getNavButtonView((Toolbar) getActivity().findViewById(R.id.toolbar)),
                 "トグルをタップ、または右にスワイプすることでコンテンツを選択できます。", "開始する");
         sequence.start();
+
+        SharedPreferences preferences = getActivity().getSharedPreferences("material_showcaseview_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("enableTutorial", false);
+        editor.commit();
+
+        return v;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        //設定画面から「チュートリアルをもう一度表示する」をタップぷした場合のみこのメソッドを通す
+        if(true){
+
+        }
+        //プリファレンスからチュートリアルを表示、非表示
+        SharedPreferences data = getActivity().getSharedPreferences("material_showcaseview_prefs", Context.MODE_PRIVATE);
+        boolean bool = data.getBoolean("enableTutorial",true);
+
+        //設定画面からこのFragmentに来た時のみonStartメソッドでチュートリアルを表示する
+        if(bool){
+            TextView view = (TextView)getActivity().findViewById(R.id.dummy_edit);
+            Log.d("TimeTableFragment::","onCreate" + String.valueOf(count));
+            ShowcaseConfig config = new ShowcaseConfig();
+            config.setDelay(500);
+            MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
+            sequence.setConfig(config);
+            sequence.addSequenceItem(view,
+                    "各ブロックをタップすと詳細情報が表示されます。", "次へ");
+            sequence.addSequenceItem(getNavButtonView((Toolbar) getActivity().findViewById(R.id.toolbar)),
+                    "トグルをタップ、または右にスワイプすることでコンテンツを選択できます。", "開始する");
+            sequence.start();
+
+            SharedPreferences.Editor editor = data.edit();
+            editor.putBoolean("enableTutorial", false);
+            editor.commit();
+
+        }
+
+    }
+
 
     //時間割の各ブロックのレイアウトを設定するクラス
     /**

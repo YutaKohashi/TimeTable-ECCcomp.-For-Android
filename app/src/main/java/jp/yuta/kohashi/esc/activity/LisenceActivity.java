@@ -1,27 +1,27 @@
 package jp.yuta.kohashi.esc.activity;
 
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.webkit.WebView;
+        import android.support.v7.app.ActionBar;
+        import android.support.v7.app.AppCompatActivity;
+        import android.os.Bundle;
+        import android.support.v7.widget.Toolbar;
+        import android.view.Menu;
+        import android.view.MenuInflater;
+        import android.view.MenuItem;
+        import android.webkit.WebView;
 
-import jp.yuta.kohashi.esc.R;
+        import jp.yuta.kohashi.esc.R;
 
-public class AboutActivity extends AppCompatActivity {
+public class LisenceActivity extends AppCompatActivity {
     Toolbar toolbar;
     WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        setContentView(R.layout.activity_lisence);
 
-//        toolbar= (Toolbar)findViewById(R.id.toolbar_about);
-//        toolbar.setTitle("このアプリについて");
+//        toolbar= (Toolbar)findViewById(R.id.toolbar_lisence);
+//        toolbar.setTitle("ライセンス");
 //        setSupportActionBar(toolbar);
 //
 //        ActionBar actionBar = getSupportActionBar();
@@ -30,8 +30,8 @@ public class AboutActivity extends AppCompatActivity {
 //            actionBar.setDisplayHomeAsUpEnabled(true);
 //        }
 
-        webView = (WebView)findViewById(R.id.webView1);
-        webView.loadUrl( "file:///android_asset/about_html.html" );
+        webView = (WebView)findViewById(R.id.webView2);
+        webView.loadUrl( "file:///android_asset/lisence.html" );
 
 
 
