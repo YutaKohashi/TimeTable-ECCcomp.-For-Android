@@ -87,9 +87,7 @@ public class AttendanceRateFragment extends Fragment {
             SharedPreferences.Editor editor = data.edit();
             editor.putBoolean("enableTutorial", false);
             editor.commit();
-
         }
-
     }
 
     @Override
@@ -165,7 +163,10 @@ public class AttendanceRateFragment extends Fragment {
 
             }
         });
-        mSwipeRefreshLayout.setColorScheme(R.color.colorPrimary1, R.color.colorPrimary2, R.color.colorPrimary6, R.color.colorPrimary7);
+
+        //setColorSchemeResources   推奨
+        //setColorScheme            非推奨
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary1, R.color.colorPrimary2, R.color.colorPrimary6, R.color.colorPrimary7);
 
         new AppBarLayout.OnOffsetChangedListener() {
             @Override

@@ -9,8 +9,8 @@
 
     <PreferenceScreen
         android:key="update_time_table"
-        android:title="時間割を更新。"
-        android:summary="時間割のデータを更新します"
+        android:title="時間割を更新"
+        android:summary="時間割のデータを更新します。"
         />
 
     <PreferenceScreen
@@ -41,8 +41,4 @@
             />
 
     </PreferenceCategory>
-
-
-
-
 </PreferenceScreen>

@@ -3,7 +3,6 @@ package jp.yuta.kohashi.esc.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -25,7 +24,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -35,8 +33,6 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
-
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.chrome.CustomTabsHelper;
 import jp.yuta.kohashi.esc.fragment.AttendanceRateFragment;
@@ -44,7 +40,6 @@ import jp.yuta.kohashi.esc.fragment.TimeTableFragment;
 import jp.yuta.kohashi.esc.http.UpdateTimeTableManager;
 import jp.yuta.kohashi.esc.preference.LoadManager;
 import jp.yuta.kohashi.esc.tools.CustomProgressDialog;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -68,22 +63,17 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
     static int selectedItem = 0;
 
-    Intent intent;
-
     TextView appTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
+        //ツールバーをActionBarとして扱う
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
-
         }
 
         initView();
@@ -97,36 +87,19 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         }
 
         drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
-        drawerLayout.setDrawerListener(drawerToggle);
+        //setDrawerListener ：   非推奨
+        //addDrawerListener ：   推奨
+        drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
-        //default it set first item as selected
-        selectedId=savedInstanceState ==null ? R.id.navigation_item_1: savedInstanceState.getInt("SELECTED_ID");
+
+        selectedId=savedInstanceState ==null ? R.id.navigation_item_time_table: savedInstanceState.getInt("SELECTED_ID");
         itemSelection(selectedId);
 
         appTitle = (TextView)findViewById(R.id.main_title);
         Typeface font = Typeface.createFromAsset(getAssets(), "mplus-1p-medium.ttf");
         appTitle.setTypeface(font);
 
-        //TODO  何故かbuildを23にするとエラーが出る
-        //レイアウトへid,名前の設定
-        LoadManager loadManager = new LoadManager();
-//        List<String> ipList = new ArrayList<>();
-//        ipList = loadManager.loadManagerWithPreferenceForString(MainActivity.this,PREF_NAME_ID_PASS,"ip");
-//        textView = (TextView)findViewById(R.id.num_text);
-//        try{
-//            textView.setText(ipList.get(0));
-//        }catch(NullPointerException e){
-//            textView.setText("NO_NUM");
-//        }
-
-
-//        SharedPreferences data = getSharedPreferences("username", Context.MODE_PRIVATE);
-//        String userName = data.getString("username",getString(R.string.no_name));
-//        textViewUserName = (TextView)findViewById(R.id.name_text);
-//        textViewUserName.setText(userName);
-        //通信
-        //UpdateTimeTableManager utt = new UpdateTimeTableManager();
-        //utt.upDateTimeTable(MainActivity.this);
+        //TODO  buildを23にするとエラーが出る
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -145,6 +118,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         }
     }
 
+    //NavigationDrawerに名前、学籍番号をセットする
+    //onWindowFocusChangedで行わないとbuild23以上でエラー
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -160,19 +135,11 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             textView.setText("NO_NUM");
         }
 
-
         SharedPreferences data = getSharedPreferences("username", Context.MODE_PRIVATE);
         String userName = data.getString("username",getString(R.string.no_name));
         textViewUserName = (TextView)findViewById(R.id.name_text);
         textViewUserName.setText(userName);
     }
-    //    private void setToolbar() {
-//        toolbar= (Toolbar) findViewById(R.id.toolbar);
-//        if (toolbar != null) {
-//            setSupportActionBar(toolbar);
-//        }
-
-    //  }
 
     private void initView() {
         drawer= (NavigationView) findViewById(R.id.navigation_drawer);
@@ -187,7 +154,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
         switch(mSelectedId){
             //時間割
-            case R.id.navigation_item_1:
+            case R.id.navigation_item_time_table:
 
                 if(selectedItem == 0){
                     drawerLayout.closeDrawer(GravityCompat.START);
@@ -198,7 +165,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 break;
 
             //出席照会
-            case R.id.navigation_item_2:
+            case R.id.navigation_item_attendance_rate:
                 // addを呼んでいるので、重なる
                 if(selectedItem == 1){
                     drawerLayout.closeDrawer(GravityCompat.START);
@@ -210,7 +177,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 break;
 
             //年間スケジュール
-            case R.id.navigation_item_7:
+            case R.id.navigation_item_schedule:
                 Intent intent2 = new Intent(MainActivity.this,SyllabusActivity.class);
                 startActivity(intent2);
                 overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
@@ -218,38 +185,21 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 return;
 
             //設定
-            case R.id.navigation_item_5:
+            case R.id.navigation_item_settings:
                 Intent intent5 =new Intent(MainActivity.this,PreferenceRelationActivity.class);
                 startActivityForResult(intent5,999);
 
                 overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return;
-//
-//            //このアプリについて
-//            case R.id.navigation_item_6:
-//                Intent intent3 =new Intent(MainActivity.this,AboutActivity.class);
-//                startActivity(intent3);
-//
-//                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
-//                drawerLayout.closeDrawer(GravityCompat.START);
-//                return;
 
+            //Web版
             case R.id.navigation_item_web:
                 drawerLayout.closeDrawer(GravityCompat.START);
 
                 Uri uri = Uri.parse("http://comp2.ecc.ac.jp/sutinfo/login");
-//                final CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder()
-//                        .setShowTitle(true)
-//                        .setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary))
-//                        .setStartAnimations(MainActivity.this, R.anim.pull_in_up , R.anim.none_anim)
-//                        .setExitAnimations(MainActivity.this, R.anim.none_anim, R.anim.push_out_up)
-//                         .build();
-//
-//// Chromeの起動
-//                tabsIntent.launchUrl(MainActivity.this, uri);
 
-                //開かれるアプリをCHromeに限定する
+                //SelectAppを表示させないためパッケージ名を指定
                 String PACKAGE_NAME = "com.android.chrome";
 
                 CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
@@ -269,15 +219,11 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                     if (TextUtils.equals(packageName, PACKAGE_NAME))
                         customTabsIntent.intent.setPackage(PACKAGE_NAME);
                 }
-
                 customTabsIntent.launchUrl(this, uri);
-
-                //overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
 
                 return;
             default:
                 break;
-
         }
 
         //デバッグ時にPCからインストールする際NullpointerExceptionがここで発生する
@@ -297,15 +243,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     //設定画面起動時、ログアウトをした場合MainActivityもfinishする
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-
-
-
         if (requestCode == 999 && resultCode == Activity.RESULT_OK){
             Bundle extras = data.getExtras();
             if (extras != null)
             {
-
-
                 String text = extras.getString("text");
                 if ("終了".equals(text))
                 {
@@ -327,7 +268,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         selectedId=menuItem.getItemId();
         itemSelection(selectedId);
         return true;
-//        return false;
     }
 
     @Override
@@ -442,16 +382,11 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean("RESTART_FRAGMENT",false);
             editor.apply();
-            itemSelection(R.id.navigation_item_1);
-
-
+            itemSelection(R.id.navigation_item_time_table);
         }
 
         Log.d("MainActivity::::","onResume");
     }
-
-
-
 
     CustomProgressDialog cProg;
     private void CopyAssets(final Context context) {
@@ -459,12 +394,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         //  ダイアログを表示
         prog = cProg.createProgressDialogForFileRead(context);
         prog.show();
-//        if (prog == null) {
-//
-//            prog.show();
-//        } else {
-//            prog.show();
-//        }
 ;
         new AsyncTask<String,String,String>(){
 
@@ -496,15 +425,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             protected void onPostExecute(String result) {
                 super.onPostExecute(result);
                 prog.dismiss();
-//                Intent intent = new Intent(context, MuPDFActivity.class);
-//                intent.setAction(Intent.ACTION_VIEW);
-//                intent.setDataAndType(
-//                        Uri.parse("file://" + getFilesDir() + "/" + PDF_FILE_NAME),
-//                        "application/pdf");
-//                startActivity(intent);
-//
-//
-//                overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
             }
         }.execute("");
     }
@@ -517,6 +437,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         }
     }
 
+
+    //アプリケーションアップデート時にダイアログを表示したい時に使用する
     MaterialDialog mMaterialDialog;
     ProgressDialog prog;
     final int LOGOUT_DIALOG = 0;
@@ -540,7 +462,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                                     }
                                     @Override
                                     protected String doInBackground(String... strings) {
-
                                         return "";
                                     }
 

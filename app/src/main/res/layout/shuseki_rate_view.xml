@@ -241,10 +241,7 @@
                     android:paddingBottom="4sp"
                     android:text="0"
                     android:textSize="15sp" />
-
-
             </LinearLayout>
-
         </LinearLayout>
 
     </LinearLayout>

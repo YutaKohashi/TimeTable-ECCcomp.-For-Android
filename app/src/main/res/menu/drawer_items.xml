@@ -4,40 +4,18 @@
         android:id="@+id/group_feature"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/navigation_item_1"
+            android:id="@+id/navigation_item_time_table"
 
             android:title="時間割" />
         <item
-            android:id="@+id/navigation_item_2"
+            android:id="@+id/navigation_item_attendance_rate"
 
             android:title="出席照会" />
         <item
-            android:id="@+id/navigation_item_7"
+            android:id="@+id/navigation_item_schedule"
 
             android:title="スケジュール" />
     </group>
-    <!--<item-->
-    <!--android:id="@+id/navigation_item_3"-->
-
-    <!--android:title="担任からのお知らせ"/>-->
-    <!--<item-->
-    <!--android:id="@+id/navigation_item_4"-->
-
-    <!--android:title="What's New 学校からのお知らせ"/>-->
-    <!--<item-->
-    <!--android:id="@+id/navigation_item_3"-->
-    <!--android:visible="false"-->
-    <!--android:title="お知らせ"/>-->
-
-
-    <!--<item-->
-    <!--android:id="@+id/handbook_item4"-->
-    <!--android:title="HANDBOOK"/>-->
-
-    <!--<item-->
-    <!--android:id="@+id/navigation_news"-->
-
-    <!--android:title="お知らせ"/>-->
 
     <group
         android:id="@+id/group_bottom"
@@ -46,7 +24,7 @@
             android:id="@+id/navigation_item_web"
             android:title="Web版にアクセス" />
         <item
-            android:id="@+id/navigation_item_5"
+            android:id="@+id/navigation_item_settings"
             android:title="設定" />
         <!--<item-->
             <!--android:id="@+id/navigation_item_6"-->

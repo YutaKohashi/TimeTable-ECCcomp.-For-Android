@@ -20,15 +20,6 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-//        toolbar= (Toolbar)findViewById(R.id.toolbar_about);
-//        toolbar.setTitle("このアプリについて");
-//        setSupportActionBar(toolbar);
-//
-//        ActionBar actionBar = getSupportActionBar();
-//        if (actionBar != null) {
-//            actionBar.setHomeButtonEnabled(true);
-//            actionBar.setDisplayHomeAsUpEnabled(true);
-//        }
 
         webView = (WebView)findViewById(R.id.webView1);
         webView.loadUrl( "file:///android_asset/about_html.html" );

@@ -13,6 +13,10 @@ import java.io.InputStreamReader;
 /**
  * Created by Yuta on 2016/03/29.
  */
+
+/**
+ * HTMLファイルを読み込み通信無しでテストするとき
+ */
 public class stab {
     public String FireLoad(Context context) {
         String returnStr = "";
@@ -33,16 +37,12 @@ public class stab {
 
             //終了処理
             br.close();
-            //fr.close();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return returnStr;
-
-
     }
 }

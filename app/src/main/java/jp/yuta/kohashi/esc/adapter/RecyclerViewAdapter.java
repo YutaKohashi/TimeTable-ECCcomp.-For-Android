@@ -76,6 +76,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         SharedPreferences spf = PreferenceManager.getDefaultSharedPreferences(context);
         boolean checkboxValue = spf.getBoolean("enable_color_attendance_rate", false);
 
+        //設定で有効になっている場合のみ色分け
         if(checkboxValue){
             //出席率などに応じて色を替える
 //        //単位を落としている場合背景をグレーにする
@@ -84,7 +85,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             if(rate < 75){
 //            単位を落とした時
                 //ブロック自体をブラックアウトする
-
                 BlackOutBlocks(viewHolder,context);
                 ColorStateList oldColors =  viewHolder.attendanceRateText.getTextColors();
                 viewHolder.attendanceRate.setTextColor(oldColors);
@@ -109,7 +109,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             }else{
                 //単位は大丈夫
-
                 DefaultColorBlocks(viewHolder,context);
                 ColorStateList oldColors =  viewHolder.attendanceRateText.getTextColors();
                 viewHolder.attendanceRate.setTextColor(oldColors);
@@ -118,8 +117,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //            viewHolder.shusekiRateText.setBackgroundColor(context.getResources().getColor(R.color.background_material_light));
             }
         }
-
-
         setAnimation(viewHolder.container, i);
     }
 
@@ -139,7 +136,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public RelativeLayout attendanceRateRootView;
         public LinearLayout attendanceSubRootView;
 
-
         //出席率テキスト
         public TextView shusekiRateText;
 
@@ -151,7 +147,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public TextView kouketu1Text;
         public TextView kouketu2Text;
         public RelativeLayout shusekiRateBlockHeader;
-
 
         public AttendanceRateViewHolder(View v) {
             super(v);

@@ -191,29 +191,6 @@ public class LoginActivity extends AppCompatActivity{
         });
 
     }
-//    // 画面タップ時の処理
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//
-//        // キーボードを隠す
-//        inputMethodManager.hideSoftInputFromWindow(mainLayout.getWindowToken(),
-//                InputMethodManager.HIDE_NOT_ALWAYS);
-//        // 背景にフォーカスを移す
-//        mainLayout.requestFocus();
-//
-//        return true;
-//
-//    }
-//    @Override
-//    public boolean dispatchKeyEvent(KeyEvent e) {
-//        // 戻るボタンが押されたとき
-//        if(e.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-//            // ボタンが押されたとき
-//            return true;
-//
-//        }
-//        return super.dispatchKeyEvent(e);
-//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){

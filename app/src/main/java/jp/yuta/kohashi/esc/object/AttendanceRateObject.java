@@ -6,15 +6,6 @@ import jp.yuta.kohashi.esc.fragment.AttendanceRateFragment;
  * Created by Yuta on 2016/03/27.
  */
 public class AttendanceRateObject {
-//    <th style="width:28%">教科名</th>
-//    <th style="width:8%">単位</th>
-//    <th style="width:8%">出席</th>
-//    <th style="width:8%">欠席</th>
-//    <th style="width:8%">遅刻</th>
-//    <th style="width:8%">公欠１</th>
-//    <th style="width:8%">公欠２</th>
-//    <th style="width:8%">出席率</th>
-//    <th style="width:8%">出席<br />不足単位</th>
 
     String subjectName;         //教科
     String unit;                //単位

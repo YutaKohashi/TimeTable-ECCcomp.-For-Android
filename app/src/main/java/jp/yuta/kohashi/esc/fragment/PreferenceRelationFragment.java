@@ -7,29 +7,20 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Point;
 import android.os.AsyncTask;
-import android.os.RemoteException;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.preference.PreferenceFragment;
 import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.activity.AboutActivity;
-import jp.yuta.kohashi.esc.activity.LisenceActivity;
 import jp.yuta.kohashi.esc.activity.LoginActivity;
-import jp.yuta.kohashi.esc.activity.MainActivity;
 import jp.yuta.kohashi.esc.http.UpdateTimeTableManager;
 import jp.yuta.kohashi.esc.preference.LoadManager;
 import jp.yuta.kohashi.esc.tools.CustomProgressDialog;
@@ -64,17 +55,11 @@ public class PreferenceRelationFragment extends PreferenceFragment{
         super.onCreate(bundle);
         addPreferencesFromResource(R.xml.settings_item);
 
-
         logout_item = (PreferenceScreen)findPreference("logout_button");
         update_time_table_item= (PreferenceScreen)findPreference("update_time_table");
         view_tutorial = (PreferenceScreen)findPreference("view_tutorial");
-//        sbout_app = (PreferenceScreen)findPreference("sbout_app");
         lisence = (PreferenceScreen)findPreference("license_screen");
         aboutApp = (PreferenceScreen)findPreference("about_screen");
-
-//        view = getActivity().getLayoutInflater ().inflate (R.layout.activity_lisence, null);
-//        webView = (WebView)view.findViewById(R.id.webView2);
-//        webView.loadUrl( "file:///android_asset/lisence.html" );
 
         logout_item.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -131,19 +116,7 @@ public class PreferenceRelationFragment extends PreferenceFragment{
         lisence.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-//                Intent intent3 =new Intent(getActivity(),LisenceActivity.class);
-//                startActivity(intent3);
                 View view = getActivity().getLayoutInflater ().inflate (R.layout.activity_lisence, null);
-//
-//                ActionBar actionBar = getSupportActionBar();
-//                if (actionBar != null) {
-//                    actionBar.setHomeButtonEnabled(true);
-//                    actionBar.setDisplayHomeAsUpEnabled(true);
-//                }
-
-//                toolbar= (Toolbar)view.findViewById(R.id.toolbar_lisence);
-//                toolbar.setTitle("ライセンス");
-//                toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
                 WebView webView = (WebView)view.findViewById(R.id.webView2);
                 webView.loadUrl( "file:///android_asset/lisence.html" );
@@ -171,20 +144,8 @@ public class PreferenceRelationFragment extends PreferenceFragment{
         aboutApp.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-//                Intent intent3 =new Intent(MainActivity.this,AboutActivity.class);
-//                startActivity(intent3);
 
                 View view = getActivity().getLayoutInflater ().inflate (R.layout.activity_about, null);
-//
-//                ActionBar actionBar = getSupportActionBar();
-//                if (actionBar != null) {
-//                    actionBar.setHomeButtonEnabled(true);
-//                    actionBar.setDisplayHomeAsUpEnabled(true);
-//                }
-
-//                toolbar= (Toolbar)view.findViewById(R.id.toolbar_lisence);
-//                toolbar.setTitle("ライセンス");
-//                toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
                 WebView webView = (WebView)view.findViewById(R.id.webView1);
                 webView.loadUrl( "file:///android_asset/about_html.html" );
@@ -293,7 +254,7 @@ public class PreferenceRelationFragment extends PreferenceFragment{
                             @Override
                             public void onClick(View v) {
                                 mMaterialDialog.dismiss();
-//
+
                                 Snackbar.make(v,"キャンセルしました",Snackbar.LENGTH_SHORT).show();
                             }
                         });

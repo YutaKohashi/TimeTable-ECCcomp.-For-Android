@@ -39,7 +39,7 @@
                        android:id="@+id/main_title"
                        android:layout_width="match_parent"
                        android:layout_height="match_parent"
-                       android:text="ECCComp."
+                       android:text="ECCcomp."
                        android:textSize="22sp"
                        android:textColor="@color/white" />
                 </RelativeLayout>
