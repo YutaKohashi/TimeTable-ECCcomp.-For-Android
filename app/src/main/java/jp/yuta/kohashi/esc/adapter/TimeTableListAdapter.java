@@ -72,17 +72,9 @@ public class TimeTableListAdapter extends RecyclerView.Adapter<TimeTableListAdap
         //色の指定
 //        TODO --- 出席率に応じて各セルの背景を変更
 
-
-//        setAnimation(viewHolder.container, i);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                openFragmentDialog(items.get(position));
-//                Intent intent = new Intent(context, TimeBlockClickActivity.class);
-//                intent.putExtra("subjectName",items.get(position).getSubject());
-//                context.startActivity(intent);
-//                ((Activity)context).overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
-
                 if (items.get(position).getSubject() == ""){
                     return;
                 }

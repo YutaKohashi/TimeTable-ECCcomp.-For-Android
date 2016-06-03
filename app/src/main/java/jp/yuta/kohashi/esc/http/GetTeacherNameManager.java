@@ -53,13 +53,6 @@ public class GetTeacherNameManager {
      */
     public void getTeacherNames(String html, Context context){
 
-        //htmlに時間割ページのhtmlソースを入れる
-
-
-        //教科個別のページにアクセスし先生の名前を取得
-        //プリファレンスをインスタンス化
-//        pref = context.getSharedPreferences(PREF_NAME,Context.MODE_PRIVATE);
-
         teacherNames = new ArrayList<>();
         cookieManager = new CookieManager();
         cookieJar = new JavaNetCookieJar(cookieManager);
@@ -77,34 +70,7 @@ public class GetTeacherNameManager {
         while(match.find()){
             subjectHtml = "";
             subjectHtml = match.group(1);
-//
-//            new AsyncTask<String,Void,String>(){
-//                @Override
-//                protected String doInBackground(String... strings) {
-//                    Request request = new Request.Builder()
-//                            .url(subjectHtml)
-//                            .build();
-//                    Response response;
-//                    try{
-//                        response = client.newCall(request).execute();
-//                        Thread.sleep(500);
-//
-//                        mLastResponse = response.body().string();
-//                    }catch(IOException | InterruptedException e){
-//                        e.printStackTrace();
-//                    }
-//                    return mLastResponse;
-//                }
-//
-//                @Override
-//                protected void onPostExecute(String result) {
-//                    super.onPostExecute(result);
-//                    //先生の名前を取り出す
-//                    String teacherName = getTeacherName(result);
-//                    teacherNames.add(teacherName);
-//
-//                }
-//            }.execute();
+
             Promise.with(this, String.class).then(new Task<String, String>() {
                 @Override
                 public void run(String s, NextTask<String> nextTask) {
@@ -119,7 +85,7 @@ public class GetTeacherNameManager {
                     Response response;
                     try {
                         response = client.newCall(request).execute();
-                        Thread.sleep(500);
+                        Thread.sleep(200);
 
                         mLastResponse = response.body().string();
                     } catch (IOException | InterruptedException e) {

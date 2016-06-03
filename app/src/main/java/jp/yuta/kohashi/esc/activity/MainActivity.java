@@ -349,7 +349,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                         @Override
                         public void onClick(View v) {
 
-                            MainActivity.this.finish();
+                            finish();
+                            moveTaskToBack(true);
 
                         }
                     })

@@ -94,7 +94,7 @@ public class LoginManager2 {
                 try {
                     // ログインページヘ
                     response = client.newCall(request).execute();
-                    Thread.sleep(500);
+                    Thread.sleep(200);
                     mLastResponse = response.body().string();
                 } catch (IOException |InterruptedException e) {
                     e.printStackTrace();
@@ -133,7 +133,7 @@ public class LoginManager2 {
                 try {
                     Log.d(TAG,"POST");
                     response = client.newCall(request).execute();
-                    Thread.sleep(500);
+                    Thread.sleep(200);
 
                     mLastResponse = response.body().string();
                 } catch (IOException |InterruptedException e) {
@@ -160,7 +160,7 @@ public class LoginManager2 {
                 try {
                     // ログインページヘ
                     client.newCall(request).execute();
-                    Thread.sleep(1500);
+                    Thread.sleep(200);
                     //mLastResponse = response.body().string();
                 } catch (IOException|InterruptedException e) {
                     e.printStackTrace();

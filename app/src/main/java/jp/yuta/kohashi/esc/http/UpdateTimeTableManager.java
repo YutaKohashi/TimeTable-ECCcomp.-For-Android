@@ -232,7 +232,7 @@ public class UpdateTimeTableManager {
                     //例外処理
                     Log.d(TAG,"トークン取得失敗");
                 }
-                //btn.setProgress(70);
+
                 nextTask.run(mLastResponse);
             }
 
@@ -257,7 +257,7 @@ public class UpdateTimeTableManager {
                     Response response;
                     try {
                         response = client.newCall(request).execute();
-                        Thread.sleep(100);
+                        Thread.sleep(200);
 
                         subjectResult = response.body().string();
                     } catch (IOException | InterruptedException e) {
@@ -300,11 +300,11 @@ public class UpdateTimeTableManager {
                 Request request = new Request.Builder()
                         .url(URL3)
                         .build();
-                //Response response;
+
                 try {
                     // ログインページヘ
                     client.newCall(request).execute();
-                    Thread.sleep(1500);
+                    Thread.sleep(200);
                     //mLastResponse = response.body().string();
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
@@ -326,111 +326,6 @@ public class UpdateTimeTableManager {
                 createTimeTableObject("<thclass=\"term\">3</th>","<thclass=\"term\">4</th>",mLastResponse,MondayList,TuesdayList,WednesdayList,ThursdayList,FridayList);
                 //4限目
                 createTimeTableObject("<thclass=\"term\">4</th>","<h2>担任からのお知らせ</h2>",mLastResponse,MondayList,TuesdayList,WednesdayList,ThursdayList,FridayList);
-
-//                //1時限目のHTMLソース
-//                weekCount = 0;
-//                result= getValuesBase.NarrowingValues("<tr><thclass=\"term\">1","<thclass=\"term\">2</th>",mLastResponse,true);
-//                CreateTimeTableLists createList = new CreateTimeTableLists();
-//                matcher1 = pattern1.matcher(result);
-//                while(matcher1.find()) {
-//                    TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
-//                    switch (weekCount) {
-//                        case 0:
-//                            MondayList.add(timeBlock);
-//                            break;
-//                        case 1:
-//                            TuesdayList.add(timeBlock);
-//                            break;
-//                        case 2:
-//                            WednesdayList.add(timeBlock);
-//                            break;
-//                        case 3:
-//                            ThursdayList.add(timeBlock);
-//                            break;
-//                        case 4:
-//                            FridayList.add(timeBlock);
-//                            break;
-//                    }
-//                    weekCount++;
-//                }
-//
-//                //2時限目のHTMLソース
-//                weekCount = 0;
-//                result= getValuesBase.NarrowingValues("<thclass=\"term\">2</th>","<thclass=\"term\">3</th>",mLastResponse,true);
-//                matcher1 = pattern1.matcher(result);
-//                while(matcher1.find()) {
-//                    TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
-//                    switch (weekCount) {
-//                        case 0:
-//                            MondayList.add(timeBlock);
-//                            break;
-//                        case 1:
-//                            TuesdayList.add(timeBlock);
-//                            break;
-//                        case 2:
-//                            WednesdayList.add(timeBlock);
-//                            break;
-//                        case 3:
-//                            ThursdayList.add(timeBlock);
-//                            break;
-//                        case 4:
-//                            FridayList.add(timeBlock);
-//                            break;
-//                    }
-//                    weekCount++;
-//                }
-//
-//                //3時限目のHTMLソース
-//                weekCount = 0;
-//                result= getValuesBase.NarrowingValues("<thclass=\"term\">3</th>","<thclass=\"term\">4</th>",mLastResponse,true);
-//                matcher1 = pattern1.matcher(result);
-//                while(matcher1.find()) {
-//                    TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
-//                    switch (weekCount) {
-//                        case 0:
-//                            MondayList.add(timeBlock);
-//                            break;
-//                        case 1:
-//                            TuesdayList.add(timeBlock);
-//                            break;
-//                        case 2:
-//                            WednesdayList.add(timeBlock);
-//                            break;
-//                        case 3:
-//                            ThursdayList.add(timeBlock);
-//                            break;
-//                        case 4:
-//                            FridayList.add(timeBlock);
-//                            break;
-//                    }
-//                    weekCount++;
-//                }
-//
-//                //4時限目のHTMLソース
-//                weekCount = 0;
-//                result= getValuesBase.NarrowingValues("<thclass=\"term\">4</th>","<h2>担任からのお知らせ</h2>",mLastResponse,true);
-//                matcher1 = pattern1.matcher(result);
-//                while(matcher1.find()) {
-//                    TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
-//                    switch (weekCount) {
-//                        case 0:
-//                            MondayList.add(timeBlock);
-//                            break;
-//                        case 1:
-//                            TuesdayList.add(timeBlock);
-//                            break;
-//                        case 2:
-//                            WednesdayList.add(timeBlock);
-//                            break;
-//                        case 3:
-//                            ThursdayList.add(timeBlock);
-//                            break;
-//                        case 4:
-//                            FridayList.add(timeBlock);
-//                            break;
-//                    }
-//                    weekCount++;
-//                }
 
                 /********************** 以上でリスト完成 **********************/
                 /******************* 以下データベース登録処理 ******************/
@@ -455,11 +350,8 @@ public class UpdateTimeTableManager {
                 progressDialog.dismiss();
 
                 Snackbar.make(v,"更新に失敗しました",Snackbar.LENGTH_SHORT).show();
-                //dialog.dismiss();
             }
-
         }).create().execute(null);
-
     }
 
     /******************************** ログイン時に使用   *********************************************************/
@@ -508,22 +400,15 @@ public class UpdateTimeTableManager {
             Log.d("okhttp::::","通信に失敗しました");
         }
 
-
-
         Promise.with(this,String.class).then(new Task<String,String>(){
             @Override
             public void run(String s, NextTask<String> nextTask) {
-                // ダイアログを表示
-//                dialog.setMessage("メッセージ");
-//                dialog.setTitle("タイトル");.
-//                dialog.show();
+
                 if(!getValuesBase.ConnectionCheck(context)){
                     Snackbar.make(v,"インターネットに接続されていません",Snackbar.LENGTH_LONG).show();
                     return;
                 }
                 nextTask.run(null);
-
-
 
             }
 
@@ -629,111 +514,6 @@ public class UpdateTimeTableManager {
                 createTimeTableObject("<thclass=\"term\">4</th>","<h2>担任からのお知らせ</h2>",mLastResponse,MondayList,TuesdayList,WednesdayList,ThursdayList,FridayList);
 
 
-                //1時限目のHTMLソース
-//                weekCount = 0;
-//                result= getValuesBase.NarrowingValues("<tr><thclass=\"term\">1","<thclass=\"term\">2</th>",mLastResponse,true);
-//                CreateTimeTableLists createList = new CreateTimeTableLists();
-//                matcher1 = pattern1.matcher(result);
-//                while(matcher1.find()) {
-//                    TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
-//                    switch (weekCount) {
-//                        case 0:
-//                            MondayList.add(timeBlock);
-//                            break;
-//                        case 1:
-//                            TuesdayList.add(timeBlock);
-//                            break;
-//                        case 2:
-//                            WednesdayList.add(timeBlock);
-//                            break;
-//                        case 3:
-//                            ThursdayList.add(timeBlock);
-//                            break;
-//                        case 4:
-//                            FridayList.add(timeBlock);
-//                            break;
-//                    }
-//                    weekCount++;
-//                }
-//
-//                //2時限目のHTMLソース
-//                weekCount = 0;
-//                result= getValuesBase.NarrowingValues("<thclass=\"term\">2</th>","<thclass=\"term\">3</th>",mLastResponse,true);
-//                matcher1 = pattern1.matcher(result);
-//                while(matcher1.find()) {
-//                    TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
-//                    switch (weekCount) {
-//                        case 0:
-//                            MondayList.add(timeBlock);
-//                            break;
-//                        case 1:
-//                            TuesdayList.add(timeBlock);
-//                            break;
-//                        case 2:
-//                            WednesdayList.add(timeBlock);
-//                            break;
-//                        case 3:
-//                            ThursdayList.add(timeBlock);
-//                            break;
-//                        case 4:
-//                            FridayList.add(timeBlock);
-//                            break;
-//                    }
-//                    weekCount++;
-//                }
-//
-//                //3時限目のHTMLソース
-//                weekCount = 0;
-//                result= getValuesBase.NarrowingValues("<thclass=\"term\">3</th>","<thclass=\"term\">4</th>",mLastResponse,true);
-//                matcher1 = pattern1.matcher(result);
-//                while(matcher1.find()) {
-//                    TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
-//                    switch (weekCount) {
-//                        case 0:
-//                            MondayList.add(timeBlock);
-//                            break;
-//                        case 1:
-//                            TuesdayList.add(timeBlock);
-//                            break;
-//                        case 2:
-//                            WednesdayList.add(timeBlock);
-//                            break;
-//                        case 3:
-//                            ThursdayList.add(timeBlock);
-//                            break;
-//                        case 4:
-//                            FridayList.add(timeBlock);
-//                            break;
-//                    }
-//                    weekCount++;
-//                }
-//
-//                //4時限目のHTMLソース
-//                weekCount = 0;
-//                result= getValuesBase.NarrowingValues("<thclass=\"term\">4</th>","<h2>担任からのお知らせ</h2>",mLastResponse,true);
-//                matcher1 = pattern1.matcher(result);
-//                while(matcher1.find()) {
-//                    TimeBlock timeBlock =createList.CreateTimeTableList(matcher1.group());
-//                    switch (weekCount) {
-//                        case 0:
-//                            MondayList.add(timeBlock);
-//                            break;
-//                        case 1:
-//                            TuesdayList.add(timeBlock);
-//                            break;
-//                        case 2:
-//                            WednesdayList.add(timeBlock);
-//                            break;
-//                        case 3:
-//                            ThursdayList.add(timeBlock);
-//                            break;
-//                        case 4:
-//                            FridayList.add(timeBlock);
-//                            break;
-//                    }
-//                    weekCount++;
-//                }
-
                 /********************** 以上でリスト完成 **********************/
                 /******************* 以下データベース登録処理 ******************/
 
@@ -766,7 +546,7 @@ public class UpdateTimeTableManager {
                     Response response;
                     try {
                         response = client.newCall(request).execute();
-                        Thread.sleep(100);
+                        Thread.sleep(200);
 
                         subjectResult = response.body().string();
                     } catch (IOException | InterruptedException e) {
@@ -813,7 +593,7 @@ public class UpdateTimeTableManager {
                 try {
                     // ログアウト
                     client.newCall(request).execute();
-                    Thread.sleep(1500);
+                    Thread.sleep(200);
                     //mLastResponse = response.body().string();
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
@@ -840,7 +620,7 @@ public class UpdateTimeTableManager {
                 Response response;
                 try{
                     response = client.newCall(request).execute();
-                    Thread.sleep(500);
+                    Thread.sleep(200);
 
                     mLastResponse = response.body().string();
                 }catch(IOException | InterruptedException e){
@@ -848,7 +628,6 @@ public class UpdateTimeTableManager {
                 }
 
                 String __LASTFOCUS = getValuesBase.GetValues("input type=\"hidden\" name=\"__LASTFOCUS\" id=\"__LASTFOCUS\" value=\"(.+?)\"",mLastResponse);
-                //Log.d("content:;::",__LASTFOCUS);
                 String __VIEWSTATE =  getValuesBase.GetValues("input type=\"hidden\" name=\"__VIEWSTATE\" id=\"__VIEWSTATE\" value=\"(.+?)\"",mLastResponse);
                 String __SCROLLPOSITIONX = getValuesBase.GetValues("input type=\"hidden\" name=\"__SCROLLPOSITIONX\" id=\"__SCROLLPOSITIONX\" value=\"(.+?)\"",mLastResponse);
                 String __SCROLLPOSITIONY = getValuesBase.GetValues("input type=\"hidden\" name=\"__SCROLLPOSITIONY\" id=\"__SCROLLPOSITIONY\" value=\"(.+?)\"",mLastResponse);
@@ -1041,8 +820,6 @@ public class UpdateTimeTableManager {
             @Override
             public void onSuccess(String result){
 
-                //dialog.dismiss();
-
                 //ユーザID：パスワードの保存
                 List<String> ipList = new ArrayList<String>();
                 ipList.add(userId2);
@@ -1050,11 +827,6 @@ public class UpdateTimeTableManager {
                 saveManager.saveMangerWithPreference(context,PREF_NAME_ID_PASS,ipList,"ip");
 
                 btn.setProgress(100);
-//
-//                viewStart =v.findViewById(R.id.ecclogo_0001);
-//                Intent intent = new Intent(context, MainActivity.class);
-//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)context, viewStart, "ecclogo");
-//                context.startActivity(intent,options.toBundle());
 
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
@@ -1070,7 +842,6 @@ public class UpdateTimeTableManager {
             public void onFailure(Bundle bundle, Exception e) {
                 btn.setProgress(-1);
                 btn.setClickable(true);
-                //Snackbar.make(v.getRootView(),"通信エラーが発生しました",Snackbar.LENGTH_SHORT).show();
 
                 //時間割のみ取得できている場合
                 if(getTimeTable == true){
@@ -1088,7 +859,6 @@ public class UpdateTimeTableManager {
                     saveManager = new SaveManager();
                     saveManager.saveMangerWithPreference(context,PREF_NAME_ID_PASS,ipList,"ip");
 
-
                     btn.setProgress(100);
                     Intent intent = new Intent(context, MainActivity.class);
                     intent.putExtra("notGetAttendanceRate",true);
@@ -1099,12 +869,8 @@ public class UpdateTimeTableManager {
                     //ログインしたことを記憶
                     getValuesBase.SetLoginState(context, true);
                 }
-
-
-        }
-
+            }
         }).create().execute(null);
-
     }
 
 

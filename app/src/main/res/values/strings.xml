@@ -135,4 +135,7 @@
     <string name="failed_get_attendancerate">出席照会データの取得に失敗しました</string>
     <string name="no_name">NO_NAME</string>
     <string name="kyoukamei">教科名</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
 </resources>

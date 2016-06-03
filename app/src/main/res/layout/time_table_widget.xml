@@ -1,0 +1,114 @@
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/time_table_root"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:background="#FFF">
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFF"
+        tools:context=".fragment.TimeTableFragment">
+
+        <LinearLayout
+            android:id="@+id/time_table_header"
+            android:layout_width="match_parent"
+            android:layout_height="40sp"
+            android:background="#f7f7f7"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            <TextView
+                android:id="@+id/mon_col_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/mon_string"
+                android:background="@drawable/week_header_right"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/tue_col_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/tue_string"
+                android:background="@drawable/week_header_right"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/wed_col_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/wed_string"
+                android:background="@drawable/week_header_right"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/thur_col_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/thur_string"
+                android:background="@drawable/week_header_right"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/fri_col_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/fri_string"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_below="@+id/time_table_header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            <ListView
+                android:id="@+id/mon_col"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+            <ListView
+                android:id="@+id/tue_col"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <ListView
+                android:id="@+id/wed_col"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+            <ListView
+                android:id="@+id/thur_col"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+            <ListView
+                android:id="@+id/fri_col"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        <!--</ScrollView>-->
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

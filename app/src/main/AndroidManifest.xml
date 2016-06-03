@@ -37,7 +37,23 @@
             android:name=".activity.SyllabusActivity"
             android:screenOrientation="portrait" />
         <!-- <activity android:name=".activity.TimeBlockClickActivity"></activity> -->
-        <activity android:name=".activity.LisenceActivity"></activity>
+        <activity android:name=".activity.LisenceActivity" />
+
+        <receiver android:name=".widget.TimeTableWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/time_table_widget_info" />
+        </receiver>
+
+        <activity android:name=".widget.TimeTableWidgetConfigureActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -228,8 +228,8 @@ public class LoginActivity extends AppCompatActivity{
                         @Override
                         public void onClick(View v) {
 
-                           LoginActivity.this.finish();
-
+                           finish();
+                            moveTaskToBack(true);
                         }
                     })
                     .setNegativeButton("NO", new View.OnClickListener() {

@@ -132,7 +132,7 @@ public class GetAttendanceRateManager {
                 Response response;
                 try{
                     response = client.newCall(request).execute();
-                    Thread.sleep(500);
+                    Thread.sleep(100);
 
                     mLastResponse = response.body().string();
                 }catch(IOException | InterruptedException e){
@@ -176,7 +176,7 @@ public class GetAttendanceRateManager {
                 try{
                     Log.d(TAG,"POST");
                     response = client.newCall(request).execute();
-                    Thread.sleep(500);
+                    Thread.sleep(100);
                     mLastResponse = response.body().string();
                 } catch (IOException |InterruptedException e) {
                     Log.d(TAG, "POST失敗");
@@ -229,7 +229,7 @@ public class GetAttendanceRateManager {
                 try{
                     Log.d(TAG,"POST");
                     response = client.newCall(request).execute();
-                    Thread.sleep(500);
+                    Thread.sleep(100);
                     //ここで出席照会のソースがmLastResponseに入っている
                     mLastResponse = response.body().string();
                     Log.d(TAG,mLastResponse);
@@ -260,7 +260,6 @@ public class GetAttendanceRateManager {
                 }
                 attendanceRateList = new ArrayList();
 
-//                html = html.replaceAll("align=\"right\"style=\"border-color:Black;border-width:1px;border-style:Solid;font-size:9pt;width:8%;\"","");
                 Log.d(TAG,html);
                 //値が一致する間ループ
                 //科目ごとにソースを抽出
@@ -327,25 +326,6 @@ public class GetAttendanceRateManager {
             @Override
             public void onSuccess(String result){
 
-                //dialog.dismiss();
-
-                //ユーザID：パスワードの保存
-//                List<String> ipList = new ArrayList<String>();
-//                ipList.add(userId2);
-//                ipList.add(password2);
-//                saveManager.saveMangerWithPreference(context,PREF_NAME_ID_PASS,ipList,"ip");
-
-//                viewStart =v.findViewById(R.id.ecclogo_0001);
-//                Intent intent = new Intent(context, MainActivity.class);
-//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)context, viewStart, "ecclogo");
-//                context.startActivity(intent,options.toBundle());
-
-//                Intent intent = new Intent(context, MainActivity.class);
-//                context.startActivity(intent);
-//                ((Activity)context).finish();
-
-                //ログインしたことを記憶
-//                getValuesBase.SetLoginState(context, true);
                 //リフレッシュを終了
                 mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
                 mSwipeRefreshLayout.setRefreshing(false);
@@ -353,15 +333,7 @@ public class GetAttendanceRateManager {
 
                 recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view);
                 List<AttendanceRateObject> rateObjectList = new ArrayList<>();
-//                adapter = new RecyclerViewAdapter(rateObjectList);
-//                recyclerView.setAdapter(adapter);
-//
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//
-//
-//                }
+
                 LoadManager loadManager = new LoadManager();
                 rateObjectList = loadManager.loadManagerWithPreferenceForAttendance(context,PREF_NAME,"attendanceList");
 
@@ -413,15 +385,6 @@ public class GetAttendanceRateManager {
 
                 adapter = new RecyclerViewAdapter(rateObjectList,context);
                 recyclerView.setAdapter(adapter);
-
-
-
-//                try {
-//                    Thread.sleep(1500);
-//                } catch (InterruptedException e1) {
-//                    e1.printStackTrace();
-//                }
-//                btn.setProgress(0);
 
             }
 
