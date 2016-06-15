@@ -1,18 +1,18 @@
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:id="@+id/time_table_root"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:fitsSystemWindows="true"
-    android:background="#FFF">
+    android:background="@color/colorPrimary"
+    android:paddingTop="8sp"
+    android:paddingRight="8sp"
+    android:paddingLeft="8sp"
+    android:paddingBottom="8sp"
+    >
 
-    <RelativeLayout
-
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFF"
-        tools:context=".fragment.TimeTableFragment">
+       >
 
         <LinearLayout
             android:id="@+id/time_table_header"
@@ -23,92 +23,118 @@
             android:weightSum="5">
 
             <TextView
-                android:id="@+id/mon_col_name"
+                android:id="@+id/mon_col_name_widget"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/week_header_right"
                 android:gravity="center"
                 android:text="@string/mon_string"
-                android:background="@drawable/week_header_right"
                 android:textColor="@android:color/black" />
 
             <TextView
-                android:id="@+id/tue_col_name"
+                android:id="@+id/tue_col_name_widget"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/week_header_right"
                 android:gravity="center"
                 android:text="@string/tue_string"
-                android:background="@drawable/week_header_right"
                 android:textColor="@android:color/black" />
 
             <TextView
-                android:id="@+id/wed_col_name"
+                android:id="@+id/wed_col_name_widget"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/week_header_right"
                 android:gravity="center"
                 android:text="@string/wed_string"
-                android:background="@drawable/week_header_right"
                 android:textColor="@android:color/black" />
 
             <TextView
-                android:id="@+id/thur_col_name"
+                android:id="@+id/thur_col_name_widget"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/week_header_right"
                 android:gravity="center"
                 android:text="@string/thur_string"
-                android:background="@drawable/week_header_right"
                 android:textColor="@android:color/black" />
 
             <TextView
-                android:id="@+id/fri_col_name"
+                android:id="@+id/fri_col_name_widget"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/fri_string"
+                android:background="@drawable/week_header_nonline"
                 android:textColor="@android:color/black" />
         </LinearLayout>
 
 
-
         <LinearLayout
-            android:layout_below="@+id/time_table_header"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/time_table_header"
+            android:background="#c7c7c7"
             android:baselineAligned="false"
             android:orientation="horizontal"
             android:weightSum="5">
 
-            <ListView
-                android:id="@+id/mon_col"
+            <LinearLayout
+                android:id="@+id/mon_col_widget"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
-            <ListView
-                android:id="@+id/tue_col"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:orientation="vertical" />
 
-            <ListView
-                android:id="@+id/wed_col"
+            <LinearLayout
+                android:id="@+id/tue_col_widget"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
-            <ListView
-                android:id="@+id/thur_col"
+                android:layout_weight="1"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/wed_col_widget"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
-            <ListView
-                android:id="@+id/fri_col"
+                android:layout_weight="1"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/thur_col_widget"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/fri_col_widget"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" />
         </LinearLayout>
         <!--</ScrollView>-->
     </RelativeLayout>
-</android.support.design.widget.CoordinatorLayout>
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="40sp"-->
+        <!--android:background="@color/colorPrimary"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:id="@+id/relativeLayout3">-->
+
+        <!--<Button-->
+            <!--android:layout_width="40sp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:id="@+id/widget_update_button"-->
+            <!--android:layout_alignParentRight="true"/>-->
+
+    <!--</RelativeLayout>-->
+</RelativeLayout>

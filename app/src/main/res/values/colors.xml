@@ -11,7 +11,7 @@
     <color name="tab_noFocus_color">#00729c</color>
 
     <color name="colorAccentLight">#baffcf</color>
-    <color name="colorPrimary1">#adceeefa</color>
+    <color name="colorPrimary1">#ceeefa</color>
     <color name="colorPrimary2">#7fd3f2</color>
     <color name="colorPrimary3">#4fcfff</color>
     <color name="colorPrimary4">#26c0fa</color>
@@ -48,5 +48,7 @@
     <color name="default_header_color">#445566</color>
 
     <color name="transparent">#00000000</color>
+
+    <color name="widget_cell_text_color">#545454</color>
 
 </resources>

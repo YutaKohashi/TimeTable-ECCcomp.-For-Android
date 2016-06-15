@@ -54,4 +54,18 @@ public class CustomProgressDialog {
         return dialog;
     }
 
+    public static android.app.ProgressDialog createProgressDialogForLoading(Context mContext) {
+        android.app.ProgressDialog dialog = new android.app.ProgressDialog(mContext);
+        try {
+            dialog.show();
+        } catch (WindowManager.BadTokenException e) {
+
+        }
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.progress_dialog_loading);
+        // dialog.setMessage(Message);
+        return dialog;
+    }
+
 }

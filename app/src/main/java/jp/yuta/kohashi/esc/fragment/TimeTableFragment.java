@@ -96,11 +96,6 @@ public class TimeTableFragment extends Fragment {
         WednesdayList = new ArrayList<>();
         ThursdayList = new ArrayList<>();
         FridayList = new ArrayList<>();
-//        monLayout = (LinearLayout)v.findViewById(R.id.mon_col);
-//        tueLayout =(LinearLayout)v.findViewById(R.id.tue_col);
-//        wedLayout = (LinearLayout)v.findViewById(R.id.wed_col);
-//        thurLayout = (LinearLayout)v.findViewById(R.id.thur_col);
-//        friLayout = (LinearLayout)v.findViewById(R.id.fri_col);
 
         loadManager = new LoadManager();
 
@@ -110,92 +105,7 @@ public class TimeTableFragment extends Fragment {
         ThursdayList = loadManager.loadManagerWithPreferenceForTimeBlock(getActivity(),prefName,"thurList");
         FridayList = loadManager.loadManagerWithPreferenceForTimeBlock(getActivity(),prefName,"friList");
 
-//        setBlockToTimeTabe(MondayList,monLayout,inflater);
-//        setBlockToTimeTabe(TuesdayList,tueLayout,inflater);
-//        setBlockToTimeTabe(WednesdayList,wedLayout,inflater);
-//        setBlockToTimeTabe(ThursdayList,thurLayout,inflater);
-//        setBlockToTimeTabe(FridayList,friLayout,inflater);
-//        monLayout.removeAllViews();
-//        for(int i = 0;i < MondayList.size();i++){
-//
-//            TimeBlock timeBlock = MondayList.get(i);
-//            String subStr =timeBlock.getSubject();
-//            String roomStr = timeBlock.getClassRoom();
-//            CardView cardView = (CardView)inflater.inflate(R.layout.time_table_block, monLayout, false);
-//            cardView.setMinimumHeight(300);
-//            TextView mSubjectTextView = (TextView)cardView.findViewById(R.id.text_subject);
-//            TextView mClassRoomTextView = (TextView)cardView.findViewById(R.id.text_classRoom);
-//            mSubjectTextView.setText(subStr);
-//            mClassRoomTextView.setText(roomStr);
-//
-//            monLayout.addView(cardView);
-//        }
-//
-//        tueLayout.removeAllViews();
-//        for(int i = 0;i < TuesdayList.size();i++){
-//
-//            TimeBlock timeBlock = TuesdayList.get(i);
-//            String subStr =timeBlock.getSubject();
-//            String roomStr = timeBlock.getClassRoom();
-//            CardView cardView = (CardView)inflater.inflate(R.layout.time_table_block, tueLayout, false);
-//            cardView.setMinimumHeight(300);
-//            TextView mSubjectTextView = (TextView)cardView.findViewById(R.id.text_subject);
-//            TextView mClassRoomTextView = (TextView)cardView.findViewById(R.id.text_classRoom);
-//            mSubjectTextView.setText(subStr);
-//            mClassRoomTextView.setText(roomStr);
-//
-//            tueLayout.addView(cardView);
-//        }
-//
-//        wedLayout.removeAllViews();
-//        for(int i = 0;i < WednesdayList.size();i++){
-//
-//            TimeBlock timeBlock = WednesdayList.get(i);
-//            String subStr =timeBlock.getSubject();
-//            String roomStr = timeBlock.getClassRoom();
-//            CardView cardView = (CardView)inflater.inflate(R.layout.time_table_block, wedLayout, false);
-//            cardView.setMinimumHeight(300);
-//            TextView mSubjectTextView = (TextView)cardView.findViewById(R.id.text_subject);
-//            TextView mClassRoomTextView = (TextView)cardView.findViewById(R.id.text_classRoom);
-//            mSubjectTextView.setText(subStr);
-//            mClassRoomTextView.setText(roomStr);
-//
-//            wedLayout.addView(cardView);
-//        }
-//
-//        thurLayout.removeAllViews();
-//        for(int i = 0;i < TuesdayList.size();i++){
-//
-//            TimeBlock timeBlock = ThursdayList.get(i);
-//            String subStr =timeBlock.getSubject();
-//            String roomStr = timeBlock.getClassRoom();
-//            CardView cardView = (CardView)inflater.inflate(R.layout.time_table_block, thurLayout, false);
-//            cardView.setMinimumHeight(300);
-//            TextView mSubjectTextView = (TextView)cardView.findViewById(R.id.text_subject);
-//            TextView mClassRoomTextView = (TextView)cardView.findViewById(R.id.text_classRoom);
-//            mSubjectTextView.setText(subStr);
-//            mClassRoomTextView.setText(roomStr);
-//
-//            thurLayout.addView(cardView);
-//        }
-//
-//        friLayout.removeAllViews();
-//        for(int i = 0;i < FridayList.size();i++){
-//
-//            TimeBlock timeBlock = FridayList.get(i);
-//            String subStr =timeBlock.getSubject();
-//            String roomStr = timeBlock.getClassRoom();
-//            CardView cardView = (CardView)inflater.inflate(R.layout.time_table_block, friLayout, false);
-//            cardView.setMinimumHeight(300);
-//            TextView mSubjectTextView = (TextView)cardView.findViewById(R.id.text_subject);
-//            TextView mClassRoomTextView = (TextView)cardView.findViewById(R.id.text_classRoom);
-//            mSubjectTextView.setText(subStr);
-//            mClassRoomTextView.setText(roomStr);
-//
-//            friLayout.addView(cardView);
-//        }
 
-        //タイトルの設定
         textView = (TextView)getActivity().findViewById(R.id.title_name_text);
         textView.setText("時間割");
 

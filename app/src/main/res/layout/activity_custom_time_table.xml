@@ -8,18 +8,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:id="@+id/view2"
+        android:id="@+id/view1"
         android:background="?attr/colorPrimary"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
         <ImageButton
-            android:paddingRight="6sp"
             android:paddingLeft="15sp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/lisence_back_button"
+            android:id="@+id/about_back_button"
             android:src="@drawable/ic_arrow_back_black_24dp"
-            android:background="@drawable/toolbar_back_button_bg"/>
+            android:background="@drawable/toolbar_back_button_bg"
+            android:paddingRight="6sp"/>
 
         <android.support.v7.widget.Toolbar
             android:paddingLeft="-10sp"
@@ -28,19 +29,22 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:title="ライセンス"
+            app:title="時間割データを変更する"
             app:titleTextColor="@color/white"
             />
 
     </LinearLayout>
 
-
-    <WebView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/webView2"
-        android:layout_below="@+id/view2"
-        android:layout_alignParentBottom="true" />
+        android:background="@color/white"
+        android:id="@+id/custom_time_table_container"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/view1" >
 
+
+
+  </RelativeLayout>
 
 </RelativeLayout>

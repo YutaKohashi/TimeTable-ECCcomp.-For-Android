@@ -19,11 +19,11 @@
             android:layout_height="match_parent"
             android:id="@+id/about_back_button"
             android:src="@drawable/ic_arrow_back_black_24dp"
-            android:background="@android:color/transparent"
+            android:background="@drawable/toolbar_back_button_bg"
             android:paddingRight="6sp"/>
 
         <android.support.v7.widget.Toolbar
-            android:layout_marginLeft="-10sp"
+            android:paddingLeft="-10sp"
             android:id="@+id/toolbar_lisence"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"

@@ -20,6 +20,7 @@ import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import jp.yuta.kohashi.esc.R;
+import jp.yuta.kohashi.esc.activity.CustomTimeTableActivity;
 import jp.yuta.kohashi.esc.activity.LoginActivity;
 import jp.yuta.kohashi.esc.http.UpdateTimeTableManager;
 import jp.yuta.kohashi.esc.preference.LoadManager;
@@ -46,6 +47,8 @@ public class PreferenceRelationFragment extends PreferenceFragment{
     Dialog mBottomSheetDialog;
     Toolbar toolbar;
 
+    PreferenceScreen custom_time_table;
+
     public PreferenceRelationFragment() {
         // Required empty public constructor
     }
@@ -60,6 +63,8 @@ public class PreferenceRelationFragment extends PreferenceFragment{
         view_tutorial = (PreferenceScreen)findPreference("view_tutorial");
         lisence = (PreferenceScreen)findPreference("license_screen");
         aboutApp = (PreferenceScreen)findPreference("about_screen");
+        custom_time_table = (PreferenceScreen)findPreference("custom_time_table");
+
 
         logout_item.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -149,6 +154,31 @@ public class PreferenceRelationFragment extends PreferenceFragment{
 
                 WebView webView = (WebView)view.findViewById(R.id.webView1);
                 webView.loadUrl( "file:///android_asset/about_html.html" );
+
+                mBottomSheetDialog = new Dialog (getActivity(), R.style.MaterialDialogSheet);
+                mBottomSheetDialog.setContentView (view);
+                mBottomSheetDialog.setCancelable (true);
+                mBottomSheetDialog.getWindow ().setLayout (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                mBottomSheetDialog.getWindow ().setGravity (Gravity.BOTTOM);
+                mBottomSheetDialog.show ();
+
+                //ツールバーの戻るボタンをタップした時finishメソッドを呼び出す
+                ImageButton imgButton = (ImageButton) view.findViewById(R.id.about_back_button);
+                imgButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mBottomSheetDialog.dismiss();
+                    }
+                });
+
+                return false;
+            }
+        });
+
+        custom_time_table.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                View view = getActivity().getLayoutInflater ().inflate (R.layout.activity_custom_time_table, null);
 
                 mBottomSheetDialog = new Dialog (getActivity(), R.style.MaterialDialogSheet);
                 mBottomSheetDialog.setContentView (view);

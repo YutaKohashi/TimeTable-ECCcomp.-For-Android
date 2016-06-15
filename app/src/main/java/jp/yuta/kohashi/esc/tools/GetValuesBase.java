@@ -79,7 +79,7 @@ public class GetValuesBase {
 
     public String NarrowingValues(String start,String end,String target){
         String keyStr = "";
-        String key = start + ".*?" + end;
+        String key = start + "(.+?)" + end;
         Pattern exp = Pattern.compile(key);
         Matcher matcher = exp.matcher(target);
         if(matcher.find()){
@@ -108,8 +108,11 @@ public class GetValuesBase {
         startIndex = target.lastIndexOf(start);
         endIndex = target.lastIndexOf(end);
 
-        returnStr = target.substring(startIndex,endIndex);
-
+        try {
+            returnStr = target.substring(startIndex, endIndex);
+        }catch(Exception ex){
+            returnStr = "";
+        }
         return returnStr;
     }
 

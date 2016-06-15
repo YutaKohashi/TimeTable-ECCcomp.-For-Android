@@ -14,7 +14,8 @@ import jp.yuta.kohashi.esc.R;
  */
 public class CustomTextView extends TextView {
 
-    private String mFont = "mplus-1p-heavy.ttf";
+    private String mFont;
+//    mFont = "mplus-1p-heavy.ttf";
  
     public CustomTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);

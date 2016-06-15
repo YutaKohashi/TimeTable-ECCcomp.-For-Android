@@ -11,6 +11,12 @@
             android:id="@+id/navigation_item_attendance_rate"
 
             android:title="出席照会" />
+
+        <item
+            android:id="@+id/navigation_item_news"
+
+            android:title="お知らせ" />
+
         <item
             android:id="@+id/navigation_item_schedule"
 

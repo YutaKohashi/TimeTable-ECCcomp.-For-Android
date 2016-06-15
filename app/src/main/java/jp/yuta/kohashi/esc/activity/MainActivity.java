@@ -36,6 +36,7 @@ import android.widget.TextView;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.chrome.CustomTabsHelper;
 import jp.yuta.kohashi.esc.fragment.AttendanceRateFragment;
+import jp.yuta.kohashi.esc.fragment.NewsFragment;
 import jp.yuta.kohashi.esc.fragment.TimeTableFragment;
 import jp.yuta.kohashi.esc.http.UpdateTimeTableManager;
 import jp.yuta.kohashi.esc.preference.LoadManager;
@@ -99,7 +100,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         Typeface font = Typeface.createFromAsset(getAssets(), "mplus-1p-medium.ttf");
         appTitle.setTypeface(font);
 
-        //TODO  buildを23にするとエラーが出る
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -115,6 +115,12 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         if(isUpdateFirst == "empty"){
 
             showDialog(0,MainActivity.this);
+        }
+
+        pref = getSharedPreferences("restart_fragment", Context.MODE_PRIVATE);
+        Boolean widgetVerUpdate = pref.getBoolean("RESTART_FRAGMENT_WIDGETVER",false);
+        if(!widgetVerUpdate){
+            showDialog(1,MainActivity.this);
         }
     }
 
@@ -176,6 +182,18 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 fragment1 = new AttendanceRateFragment();
                 break;
 
+            //お知らせ
+            case R.id.navigation_item_news:
+                // addを呼んでいるので、重なる
+                if(selectedItem == 2){
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    return;
+                }
+
+                selectedItem = 2;
+                fragment1 = new NewsFragment();
+                break;
+
             //年間スケジュール
             case R.id.navigation_item_schedule:
                 Intent intent2 = new Intent(MainActivity.this,SyllabusActivity.class);
@@ -183,6 +201,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 overridePendingTransition(R.anim.pull_in_up , R.anim.none_anim);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return;
+
 
             //設定
             case R.id.navigation_item_settings:
@@ -305,62 +324,6 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         }
         return false;
     }
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        super.onKeyDown(keyCode, event);
-//        // 戻るボタンが押されたとき
-////        if(keyCode == KeyEvent.KEYCODE_BACK){
-//            // ボタンが押されたとき
-////            mMaterialDialog = new MaterialDialog(this)
-////                    .setTitle("アプリケーションの終了")
-////                    .setMessage("アプリケーションを終了してよろしいですか？")
-////                    .setPositiveButton("OK", new View.OnClickListener() {
-////                        @Override
-////                        public void onClick(View v) {
-////                            mMaterialDialog.dismiss();
-////                            finish();
-////                        }
-////                    })
-////                    .setNegativeButton("CANCEL", new View.OnClickListener() {
-////                        @Override
-////                        public void onClick(View v) {
-////                            mMaterialDialog.dismiss();
-////
-//////
-////                            Snackbar.make(v,"キャンセルしました",Snackbar.LENGTH_SHORT).show();
-////                        }
-////                    });
-//
-//        //    mMaterialDialog.show();
-//            if (keyCode == KeyEvent.KEYCODE_BACK){
-//                new AlertDialog.Builder(this)
-//                        .setTitle("アプリケーションの終了")
-//                        .setMessage("アプリケーションを終了してよろしいですか？")
-//                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                // TODO 自動生成されたメソッド・スタブ
-//                                MainActivity.this.finish();
-//                            }
-//                        })
-//                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                // TODO 自動生成されたメソッド・スタブ
-//
-//                            }
-//                        })
-//                        .show();
-//
-//                return true;
-//            }
-//            return false;
-////        }
-////
-////        return false;
-//    }
 
     @Override
     public void onResume(){
@@ -442,6 +405,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     MaterialDialog mMaterialDialog;
     ProgressDialog prog;
     final int LOGOUT_DIALOG = 0;
+    final int UPDATE_WIDGET = 1;
     public void showDialog(int id, final Context context){
         prog = new ProgressDialog(context);
         switch(id){
@@ -481,12 +445,36 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                                         SharedPreferences preferences = MainActivity.this.getSharedPreferences("restart_fragment",MainActivity.this.MODE_PRIVATE);
                                         SharedPreferences.Editor editor = preferences.edit();
                                         editor.putBoolean("RESTART_FRAGMENT",true);
-                                        editor.apply();
+                                        editor.commit();
 
                                         mMaterialDialog.dismiss();
 
                                     }
                                 }.execute();
+                            }
+                        });
+
+                mMaterialDialog.show();
+                break;
+            case UPDATE_WIDGET:
+                mMaterialDialog = new MaterialDialog(context)
+                        .setTitle("UPDATE")
+                        .setMessage("*** 追加された機能 ***\n" +
+                                "◯ウィジェット\n" +
+                                "◯お知らせ\n\n" +
+                                "" +
+                                "ウィジェット機能が追加されました。\n" +
+                                "ぜひホーム画面に追加してみてください。\n"+
+                                "また「お知らせ」を閲覧することができるようになりました。\n" +
+                                "初めて利用する際は、下向きにスワイプして記事を取得してください。\n")
+                        .setPositiveButton("OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mMaterialDialog.dismiss();
+                                SharedPreferences preferences = MainActivity.this.getSharedPreferences("restart_fragment",MainActivity.this.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putBoolean("RESTART_FRAGMENT_WIDGETVER",true);
+                                editor.commit();
                             }
                         });
 
