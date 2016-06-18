@@ -147,8 +147,9 @@ public class UpdateTimeTableManager {
                             .build();
 
                     response = client.newCall(request).execute();
-                    Thread.sleep(500);
+                    Thread.sleep(200);
                     mLastResponse = response.body().string();
+                    response.body().close();
                 } catch (UnknownHostException e) {
                     Toast.makeText(context, "通信に失敗しました", Toast.LENGTH_LONG).show();
                     Log.d("okhttp::::", "通信に失敗しました");
@@ -202,7 +203,7 @@ public class UpdateTimeTableManager {
                     Thread.sleep(500);
 
                     mLastResponse = response.body().string();
-
+                    response.body().close();
                     //名前を保存
                     String name = getValuesBase.GetValues(" id=\"user_name\" class=\".*?\">(.+?)さん</li>",mLastResponse);
                     name = name.replaceAll("&nbsp;","");
@@ -424,6 +425,7 @@ public class UpdateTimeTableManager {
                     response = client.newCall(request).execute();
                     Thread.sleep(500);
                     mLastResponse = response.body().string();
+                    response.body().close();
                 } catch (UnknownHostException e) {
                     Toast.makeText(context, "通信に失敗しました", Toast.LENGTH_LONG).show();
                     Log.d("okhttp::::", "通信に失敗しました");
@@ -477,7 +479,7 @@ public class UpdateTimeTableManager {
                     Thread.sleep(500);
 
                     mLastResponse = response.body().string();
-
+                    response.body().close();
                     //名前を保存
                     name = getValuesBase.GetValues(" id=\"user_name\" class=\".*?\">(.+?)さん</li>",mLastResponse);
                     name = name.replaceAll("&nbsp;","");
@@ -549,6 +551,7 @@ public class UpdateTimeTableManager {
                         Thread.sleep(200);
 
                         subjectResult = response.body().string();
+                        response.body().close();
                     } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
 
@@ -593,6 +596,7 @@ public class UpdateTimeTableManager {
                 try {
                     // ログアウト
                     client.newCall(request).execute();
+
                     Thread.sleep(200);
                     //mLastResponse = response.body().string();
                 } catch (IOException | InterruptedException e) {
@@ -665,6 +669,7 @@ public class UpdateTimeTableManager {
                     response = client.newCall(request).execute();
                     Thread.sleep(500);
                     mLastResponse = response.body().string();
+                    response.body().close();
                 } catch (IOException |InterruptedException e) {
                     Log.d(TAG, "POST失敗");
                     e.printStackTrace();

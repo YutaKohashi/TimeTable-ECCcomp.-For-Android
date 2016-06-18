@@ -166,10 +166,8 @@ public class GetNewsManager {
                 try {
                     Log.d(TAG,"POST");
                     response = client.newCall(request).execute();
-
-
                     mLastResponse = response.body().string();
-
+                    response.body().close();
 
                 } catch (IOException  e) {
                     Log.d(TAG, "POST失敗");

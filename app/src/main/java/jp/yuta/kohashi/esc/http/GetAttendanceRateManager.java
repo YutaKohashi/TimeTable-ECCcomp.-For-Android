@@ -135,6 +135,7 @@ public class GetAttendanceRateManager {
                     Thread.sleep(100);
 
                     mLastResponse = response.body().string();
+                    response.body().close();
                 }catch(IOException | InterruptedException e){
                     e.printStackTrace();
                 }
@@ -178,6 +179,7 @@ public class GetAttendanceRateManager {
                     response = client.newCall(request).execute();
                     Thread.sleep(100);
                     mLastResponse = response.body().string();
+                    response.body().close();
                 } catch (IOException |InterruptedException e) {
                     Log.d(TAG, "POST失敗");
                     e.printStackTrace();
@@ -232,6 +234,7 @@ public class GetAttendanceRateManager {
                     Thread.sleep(100);
                     //ここで出席照会のソースがmLastResponseに入っている
                     mLastResponse = response.body().string();
+                    response.body().close();
                     Log.d(TAG,mLastResponse);
                 } catch (IOException |InterruptedException e) {
                     Log.d(TAG, "POST失敗");

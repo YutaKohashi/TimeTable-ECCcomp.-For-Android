@@ -89,7 +89,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/Passwored"
                         android:imeOptions="actionNext"
-                        android:inputType="numberPassword"
+                        android:inputType="textPassword"
                         android:nextFocusDown="@+id/login_btn"
                         android:singleLine="true" />
 

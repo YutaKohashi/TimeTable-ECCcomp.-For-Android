@@ -303,6 +303,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
                             Intent intent = new Intent((Activity)context, NewsWebViewActivity.class);
                             intent.putExtra("html",html);
                             intent.putExtra("title",childItems.get(position).getTitle());
+                            intent.putExtra("date",childItems.get(position).getTime());
                             context.startActivity(intent);
                             progressDialog.dismiss();
 //                            Snackbar.make(v,"更新しました",Snackbar.LENGTH_SHORT).show();

@@ -88,6 +88,7 @@ public class GetTeacherNameManager {
                         Thread.sleep(200);
 
                         mLastResponse = response.body().string();
+                        response.body().close();
                     } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
                     }

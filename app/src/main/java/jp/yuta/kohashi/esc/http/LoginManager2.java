@@ -96,6 +96,7 @@ public class LoginManager2 {
                     response = client.newCall(request).execute();
                     Thread.sleep(200);
                     mLastResponse = response.body().string();
+                    response.body().close();
                 } catch (IOException |InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -136,6 +137,7 @@ public class LoginManager2 {
                     Thread.sleep(200);
 
                     mLastResponse = response.body().string();
+                    response.body().close();
                 } catch (IOException |InterruptedException e) {
                     Log.d(TAG, "POST失敗");
                     e.printStackTrace();
