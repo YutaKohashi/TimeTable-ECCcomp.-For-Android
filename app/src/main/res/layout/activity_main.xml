@@ -18,10 +18,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
+            app:elevation="0dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
+                app:elevation="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
 
@@ -48,36 +50,36 @@
             </android.support.v7.widget.Toolbar>
 
             <!--タイトル部分-->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                android:saveEnabled="false"
-                app:layout_scrollFlags="enterAlways">
-
-                <TextView
-                    android:id="@+id/title_name_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:gravity="center"
-                    android:text="@string/title"
-                    android:textColor="#FFF"
-                    android:textSize="20sp" />
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="?attr/actionBarSize"-->
+                <!--android:background="?attr/colorPrimary"-->
+                <!--android:saveEnabled="false"-->
+                <!--app:layout_scrollFlags="enterAlways">-->
 
                 <!--<TextView-->
+                    <!--android:id="@+id/title_name_text"-->
                     <!--android:layout_width="wrap_content"-->
                     <!--android:layout_height="wrap_content"-->
-                    <!--android:textSize="10sp"-->
-                    <!--android:id="@+id/latest_update"-->
-                    <!--android:text="2016/04/01"-->
-                    <!--android:layout_below="@+id/title_name_text"-->
-                    <!--android:layout_alignParentBottom="true"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_marginBottom="2sp"-->
-                    <!--android:layout_marginRight="2sp"/>-->
-            </RelativeLayout>
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:gravity="center"-->
+                    <!--android:text="@string/title"-->
+                    <!--android:textColor="#FFF"-->
+                    <!--android:textSize="20sp" />-->
+
+                <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textSize="10sp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/latest_update"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:text="2016/04/01"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_below="@+id/title_name_text"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_alignParentBottom="true"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_alignParentRight="true"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_marginBottom="2sp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_marginRight="2sp"/>&ndash;&gt;-->
+            <!--</RelativeLayout>-->
 
 
         </android.support.design.widget.AppBarLayout>

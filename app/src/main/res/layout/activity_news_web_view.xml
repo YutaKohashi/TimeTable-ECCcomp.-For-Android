@@ -134,20 +134,22 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/white">
 
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:padding="15sp"
-                    android:scrollbars="vertical">
+                    android:scrollbars="vertical"
+                    >
 
                     <WebView
                         android:id="@+id/webView3"
                         android:layout_width="match_parent"
-
-                        android:layout_height="match_parent" />
+                        android:background="@color/white"
+                        android:layout_height="wrap_content" />
 
                 </ScrollView>
 

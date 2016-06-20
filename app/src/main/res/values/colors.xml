@@ -4,6 +4,7 @@
     <!--<color name="colorPrimary">#00AAEA</color>-->
     <color name="colorPrimary">#014964</color>
     <color name="colorAccent">#02008f</color>
+    <color name="colorAccent2">#de005c</color>
     <color name="toolbar_title">#FFF</color>
     <color name="toolbar_icon">#ffffff</color>
 

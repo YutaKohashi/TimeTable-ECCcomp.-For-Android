@@ -11,7 +11,7 @@
             android:key="custom_time_table"
             android:title="時間割データを変更する"
             android:summary="次期バージョンで対応予定"
-            android:enabled="false"/>
+            android:enabled="true"/>
 
     </PreferenceCategory>
 

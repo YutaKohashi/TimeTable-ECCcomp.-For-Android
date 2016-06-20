@@ -4,9 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import jp.yuta.kohashi.esc.fragment.AttendanceRateFragment;
-import jp.yuta.kohashi.esc.fragment.NewsFragment;
-import jp.yuta.kohashi.esc.fragment.TimeTableFragment;
+import jp.yuta.kohashi.esc.fragment.NewsSchoolFragment;
+import jp.yuta.kohashi.esc.fragment.NewsTeacherFragment;
 
 /**
  * Created by Yuta on 2016/06/18.
@@ -24,7 +23,7 @@ public class DesignPagerAdapter extends FragmentPagerAdapter {
      */
     private int flag;
 
-    public DesignPagerAdapter(FragmentManager fm, int flag) {
+    public DesignPagerAdapter(FragmentManager fm) {
         super(fm);
 
         this.flag = flag;
@@ -35,45 +34,37 @@ public class DesignPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
 //            return DesignFragment.newInstance(position);
 
-        Fragment fragment = new Fragment();
-        if(flag == TIME_TABLE_FLAG){
-            fragment =  new TimeTableFragment();
-        }else if (flag == ATTENDANCE_RATE__FLAG){
-            fragment =  new AttendanceRateFragment();
+        Fragment fragment = null;
 
-        }else if (flag == NEWS_FLAG){
-            switch(position){
-                case 0:
-                    fragment =   new NewsFragment();
-                    break;
-                case 1:
-                    fragment =  new NewsFragment();
-                    break;
-                case 2:
-                    fragment =  new NewsFragment();
-                    break;
-            }
+        switch(position){
+            case 0:
+                fragment =   new NewsSchoolFragment();
+                break;
+            case 1:
+                fragment =  new NewsTeacherFragment();
+                break;
         }
+
         return fragment;
     }
 
     @Override
     public int getCount() {
-        switch(flag){
-            case TIME_TABLE_FLAG:
-                return 1;
-            case ATTENDANCE_RATE__FLAG:
-                return 1;
-            case NEWS_FLAG:
-                return 3;
-
-        }
         return 2;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return "Tab " + position;
+        String title = "";
+
+        switch (position){
+            case 0:
+                title = "学校から";
+                break;
+            case 1:
+                title = "担任から";
+        }
+        return title;
     }
 }
 

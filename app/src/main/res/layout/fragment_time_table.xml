@@ -1,17 +1,40 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/time_table_root"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF"
-    android:fitsSystemWindows="true">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    tools:context=".fragment.TimeTableFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:saveEnabled="false"
+        app:layout_scrollFlags="enterAlways"
+        android:id="@+id/relativeLayout3">
+
+        <TextView
+            android:id="@+id/title_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/title"
+            android:textColor="#FFF"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
 
     <RelativeLayout
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFF"
-        tools:context=".fragment.TimeTableFragment">
+        android:layout_below="@+id/relativeLayout3"
+        >
 
         <LinearLayout
             android:id="@+id/time_table_header"
@@ -110,4 +133,4 @@
                 android:layout_weight="1" />
         </LinearLayout>
     </RelativeLayout>
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

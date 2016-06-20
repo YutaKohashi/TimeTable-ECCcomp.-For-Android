@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +22,7 @@ import jp.yuta.kohashi.esc.object.NewsChildListItem;
 import jp.yuta.kohashi.esc.object.NewsParentListItem;
 import jp.yuta.kohashi.esc.preference.LoadManager;
 
-public class NewsFragment extends Fragment{
+public class NewsSchoolFragment extends Fragment{
 
     static final String PREF_NAME_ID_PASS = "ip";
     static final String PREF_NAME ="sample";
@@ -44,11 +43,11 @@ public class NewsFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final View v = inflater.inflate(R.layout.fragment_news_part2, container, false);
+        final View v = inflater.inflate(R.layout.fragment_news_school, container, false);
 
         //タイトルの設定
-        textView = (TextView)getActivity().findViewById(R.id.title_name_text);
-        textView.setText("お知らせ");
+//        textView = (TextView)getActivity().findViewById(R.id.title_name_text);
+//        textView.setText("お知らせ");
 
         loadmanager = new LoadManager();
         expListItems = new ArrayList<>();

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.Space;
 import android.support.v7.widget.CardView;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,12 +52,6 @@ public class TimeTableFragment extends Fragment {
     List<TimeBlock> ThursdayList;
     List<TimeBlock> FridayList;
 
-//    LinearLayout monLayout;
-//    LinearLayout tueLayout;
-//    LinearLayout wedLayout;
-//    LinearLayout thurLayout;
-//    LinearLayout friLayout;
-
     RecyclerView monList;
     RecyclerView tueList;
     RecyclerView wedList;
@@ -83,14 +79,6 @@ public class TimeTableFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_time_table, container, false);
 
-        //getActivity().findViewById(R.id.toolbar).scrollf
-//
-//        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-//        if(actionBar != null){
-//            actionBar.hide();
-//
-//        }
-
         MondayList = new ArrayList<>();
         TuesdayList = new ArrayList<>();
         WednesdayList = new ArrayList<>();
@@ -106,7 +94,7 @@ public class TimeTableFragment extends Fragment {
         FridayList = loadManager.loadManagerWithPreferenceForTimeBlock(getActivity(),prefName,"friList");
 
 
-        textView = (TextView)getActivity().findViewById(R.id.title_name_text);
+        textView = (TextView)v.findViewById(R.id.title_name_text);
         textView.setText("時間割");
 
         //曜日ごとにRecyclerViewを配置

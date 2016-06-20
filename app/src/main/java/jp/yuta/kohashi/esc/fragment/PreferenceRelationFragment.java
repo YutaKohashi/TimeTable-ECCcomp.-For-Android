@@ -178,27 +178,34 @@ public class PreferenceRelationFragment extends PreferenceFragment{
         custom_time_table.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                View view = getActivity().getLayoutInflater ().inflate (R.layout.activity_custom_time_table, null);
+//                View view = getActivity().getLayoutInflater ().inflate (R.layout.activity_custom_time_table, null);
+//
+//                mBottomSheetDialog = new Dialog (getActivity(), R.style.MaterialDialogSheet);
+//                mBottomSheetDialog.setContentView (view);
+//                mBottomSheetDialog.setCancelable (true);
+//                mBottomSheetDialog.getWindow ().setLayout (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//                mBottomSheetDialog.getWindow ().setGravity (Gravity.BOTTOM);
+//                mBottomSheetDialog.show ();
+//
+//                //ツールバーの戻るボタンをタップした時finishメソッドを呼び出す
+//                ImageButton imgButton = (ImageButton) view.findViewById(R.id.about_back_button);
+//                imgButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        mBottomSheetDialog.dismiss();
+//                    }
+//                });
 
-                mBottomSheetDialog = new Dialog (getActivity(), R.style.MaterialDialogSheet);
-                mBottomSheetDialog.setContentView (view);
-                mBottomSheetDialog.setCancelable (true);
-                mBottomSheetDialog.getWindow ().setLayout (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                mBottomSheetDialog.getWindow ().setGravity (Gravity.BOTTOM);
-                mBottomSheetDialog.show ();
-
-                //ツールバーの戻るボタンをタップした時finishメソッドを呼び出す
-                ImageButton imgButton = (ImageButton) view.findViewById(R.id.about_back_button);
-                imgButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mBottomSheetDialog.dismiss();
-                    }
-                });
-
+                Intent intent = new Intent(getActivity(),CustomTimeTableActivity.class);
+                startActivity(intent);
                 return false;
             }
         });
+
+        //時間割データを変更する
+
+
+        //ログを確認する
 
     }
 

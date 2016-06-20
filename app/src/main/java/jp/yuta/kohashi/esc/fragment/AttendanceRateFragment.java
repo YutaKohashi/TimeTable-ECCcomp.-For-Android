@@ -128,7 +128,7 @@ public class AttendanceRateFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         //タイトルの設定
-        textView = (TextView)getActivity().findViewById(R.id.title_name_text);
+        textView = (TextView)v.findViewById(R.id.title_name_text);
         textView.setText("出席照会");
 
         //通常はonCreateViewでチュートリアルを表示する

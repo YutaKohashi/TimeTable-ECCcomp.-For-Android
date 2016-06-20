@@ -34,9 +34,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.chrome.CustomTabsHelper;
 import jp.yuta.kohashi.esc.fragment.AttendanceRateFragment;
-import jp.yuta.kohashi.esc.fragment.NewsFragment;
+import jp.yuta.kohashi.esc.fragment.NewsParentFragment;
 import jp.yuta.kohashi.esc.fragment.TimeTableFragment;
 import jp.yuta.kohashi.esc.http.UpdateTimeTableManager;
 import jp.yuta.kohashi.esc.preference.LoadManager;
@@ -71,6 +70,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        selectedItem = 0;
+
         //ツールバーをActionBarとして扱う
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -78,6 +79,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         }
 
         initView();
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            getActionBar().setElevation(0f);
+//        }
 
         Intent intent = getIntent();
         boolean notGetAttendanceRate = intent.getBooleanExtra("notGetAttendanceRate", false);
@@ -191,7 +196,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 }
 
                 selectedItem = 2;
-                fragment1 = new NewsFragment();
+                fragment1 = new NewsParentFragment();
                 break;
 
             //年間スケジュール

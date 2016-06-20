@@ -20,6 +20,8 @@ public class NewsWebViewActivity extends AppCompatActivity {
     ImageButton imgButton;
     TextView titleTextView;
     TextView dateTextView;
+
+    WebView webView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +35,10 @@ public class NewsWebViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String html = intent.getStringExtra("html");
 
-        WebView webview = (WebView)findViewById(R.id.webView3);
-        webview.getSettings().setJavaScriptEnabled(true);
-        webview.loadDataWithBaseURL("", html, "text/html", "UTF-8", "");
+        webView = (WebView)findViewById(R.id.webView3);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadDataWithBaseURL("", html, "text/html", "UTF-8", "");
+        webView.setHorizontalScrollBarEnabled(false);
 
         String title = intent.getStringExtra("title");
         toolbar.setTitle(title);
@@ -53,12 +56,13 @@ public class NewsWebViewActivity extends AppCompatActivity {
         });
 
         // disable scroll on touch
-        webview.setOnTouchListener(new View.OnTouchListener() {
+        webView.setOnTouchListener(new View.OnTouchListener() {
 
             public boolean onTouch(View v, MotionEvent event) {
                 return (event.getAction() == MotionEvent.ACTION_MOVE);
             }
         });
+
 
     }
 

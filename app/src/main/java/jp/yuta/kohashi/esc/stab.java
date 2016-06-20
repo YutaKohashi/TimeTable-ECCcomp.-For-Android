@@ -45,4 +45,32 @@ public class stab {
         }
         return returnStr;
     }
+
+    public String FireLoadMain(Context context) {
+        String returnStr = "";
+
+        try {
+            //ファイルを読み込む
+            Resources res = context.getResources();
+            InputStream inputStream = res.openRawResource(R.raw.mainwithtannin);
+            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+
+
+            //読み込んだファイルを１行ずつ画面出力する
+            String line;
+            int count = 0;
+            while ((line = br.readLine()) != null) {
+                returnStr += line;
+            }
+
+            //終了処理
+            br.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return returnStr;
+    }
 }
