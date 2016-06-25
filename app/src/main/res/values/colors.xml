@@ -53,4 +53,6 @@
 
     <color name="widget_cell_text_color">#545454</color>
 
+    <color name="dialog_bg">#f2f2f2</color>
+
 </resources>

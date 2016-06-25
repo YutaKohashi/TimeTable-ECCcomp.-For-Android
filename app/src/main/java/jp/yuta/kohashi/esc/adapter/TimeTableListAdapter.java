@@ -70,7 +70,6 @@ public class TimeTableListAdapter extends RecyclerView.Adapter<TimeTableListAdap
         viewHolder.roomName.setText(items.get(position).getClassRoom());
 
         //色の指定
-//        TODO --- 出席率に応じて各セルの背景を変更
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,13 +103,13 @@ public class TimeTableListAdapter extends RecyclerView.Adapter<TimeTableListAdap
                 //時間の設定
                 switch(position){
                     case 0: time = "09:15〜10:45";
-                            break;
+                        break;
                     case 1: time = "11:00〜12:30";
-                            break;
+                        break;
                     case 2: time = "13:30〜15:00";
-                            break;
+                        break;
                     case 3: time = "15:15〜16:45";
-                            break;
+                        break;
 
                 }
 
@@ -170,7 +169,7 @@ public class TimeTableListAdapter extends RecyclerView.Adapter<TimeTableListAdap
      * @return
      */
     private static String searchTeacherName(String subjectName, List<TeacherNameObject> list){
-        String teacherName = "null";
+        String teacherName = " ";
         for(int i = 0; i < list.size();i++){
             TeacherNameObject teacherNameObject = new TeacherNameObject();
             teacherNameObject=list.get(i);

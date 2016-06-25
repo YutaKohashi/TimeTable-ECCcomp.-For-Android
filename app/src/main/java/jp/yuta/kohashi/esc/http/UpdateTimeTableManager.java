@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anprosit.android.promise.Callback;
@@ -61,7 +62,7 @@ public class UpdateTimeTableManager {
     static final String PREF_NAME_ID_PASS = "ip";
     static final String PREF_KEY_LATAST_UP = "latestUp";
     static final String PREF_TEACHERS_KEY = "teachers";
-//
+    //
     final String TAG ="error:::";
 
     //月曜日から金曜日の曜日ごとのリスト
@@ -79,7 +80,7 @@ public class UpdateTimeTableManager {
     SharedPreferences pref;
 
     CookieManager cookieManager;
-   CookieJar cookieJar;
+    CookieJar cookieJar;
     GetValuesBase getValuesBase;
 
     SaveManager saveManager;
@@ -116,11 +117,11 @@ public class UpdateTimeTableManager {
                 .cookieJar(cookieJar)
                 .build();
 
-       customDialog = new CustomProgressDialog();
+        customDialog = new CustomProgressDialog();
         Promise.with(this,String.class).then(new Task<String,String>(){
             @Override
             public void run(String s, NextTask<String> nextTask) {
-               //  ダイアログを表示
+                //  ダイアログを表示
                 if (progressDialog == null) {
                     progressDialog = customDialog.createProgressDialogForTimeTableUpdate(context);
                     progressDialog.show();
@@ -441,7 +442,7 @@ public class UpdateTimeTableManager {
 
             @Override
             public void run(String s, NextTask<String> nextTask) {
-            // トークンの抽出処理
+                // トークンの抽出処理
                 String token = getValuesBase.GetToken(mLastResponse);
                 Log.d(TAG,token);
                 if("ERROR".equals(token)){
@@ -449,7 +450,7 @@ public class UpdateTimeTableManager {
                     Log.d(TAG,"トークン取得失敗");
                 }
                 nextTask.run(token);
-        }
+            }
 
         }).thenOnAsyncThread(new Task<String, String>() {
 
@@ -525,6 +526,8 @@ public class UpdateTimeTableManager {
                 saveManager.saveMangerWithPreference(context, PREF_NAME,WednesdayList,"wedList");
                 saveManager.saveMangerWithPreference(context, PREF_NAME,ThursdayList,"thurList");
                 saveManager.saveMangerWithPreference(context, PREF_NAME,FridayList,"friList");
+
+
 
                 nextTask.run(mLastResponse);
             }
@@ -639,7 +642,7 @@ public class UpdateTimeTableManager {
                 String __EVENTARGUMENT = getValuesBase.GetValues("input type=\"hidden\" name=\"__EVENTARGUMENT\" id=\"__EVENTARGUMENT\" value=\"(.+?)\"",mLastResponse);
                 String __EVENTVALIDATION = getValuesBase.GetValues("input type=\"hidden\" name=\"__EVENTVALIDATION\" id=\"__EVENTVALIDATION\" value=\"(.+?)\"",mLastResponse);
                 String ctl00$ContentPlaceHolder1$txtUserId = userId2;
-               String ctl00$ContentPlaceHolder1$txtPassword = password2;
+                String ctl00$ContentPlaceHolder1$txtPassword = password2;
 //                String ctl00$ContentPlaceHolder1$txtPassword = "3333";
                 String ctl00$ContentPlaceHolder1$btnLogin = "ログイン";
 
@@ -740,14 +743,14 @@ public class UpdateTimeTableManager {
 
                 //**************スタブ****************************
 //                stab stub = new stab();
-  //              mLastResponse = stub.FireLoad(context);
+                //              mLastResponse = stub.FireLoad(context);
                 //**************スタブ****************************
 
                 String html ="";
                 html = getValuesBase.NarrowingValues("<tableclass=\"GridVeiwTable\"","<tablecellspacing=\"0\"border=\"0\"id=\"ctl00_ContentPlaceHolder1_fmvSyuseki\"",mLastResponse,true);
 
                 if (html == "") {
-                   // throw new Exception();
+                    // throw new Exception();
                     Toast.makeText(context,"解析に失敗しました",Toast.LENGTH_LONG).show();
                 }
                 attendanceRateList = new ArrayList();
@@ -847,6 +850,12 @@ public class UpdateTimeTableManager {
             public void onFailure(Bundle bundle, Exception e) {
                 btn.setProgress(-1);
                 btn.setClickable(true);
+
+                TextView username = (TextView)((Activity)context).findViewById(R.id.username);
+                username.setEnabled(true);
+                TextView pass = (TextView) ((Activity)context).findViewById(R.id.password);
+                pass.setEnabled(true);
+
 
                 //時間割のみ取得できている場合
                 if(getTimeTable == true){

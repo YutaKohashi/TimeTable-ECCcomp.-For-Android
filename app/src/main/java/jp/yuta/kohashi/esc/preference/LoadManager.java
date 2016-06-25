@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import jp.yuta.kohashi.esc.object.AttendanceRateObject;
+import jp.yuta.kohashi.esc.object.CustomTimeTableCell;
 import jp.yuta.kohashi.esc.object.NewsChildListItem;
 import jp.yuta.kohashi.esc.object.TeacherNameObject;
 import jp.yuta.kohashi.esc.object.TimeBlock;
@@ -90,6 +91,19 @@ public class LoadManager {
         Gson gson = new Gson();
         arrayList = new ArrayList<>();
         arrayList = gson.fromJson(sharedPreferences.getString(key,""),new TypeToken<List<NewsChildListItem>>(){}.getType());
+
+
+        return arrayList;
+    }
+
+    public List<CustomTimeTableCell> loadManagerWithPreferenceForCustomTimeTable(Context context, String prefName, String key){
+        SharedPreferences sharedPreferences;
+        List<CustomTimeTableCell> arrayList;
+
+        sharedPreferences = context.getSharedPreferences(prefName,context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        arrayList = new ArrayList<>();
+        arrayList = gson.fromJson(sharedPreferences.getString(key,""),new TypeToken<List<CustomTimeTableCell>>(){}.getType());
 
 
         return arrayList;

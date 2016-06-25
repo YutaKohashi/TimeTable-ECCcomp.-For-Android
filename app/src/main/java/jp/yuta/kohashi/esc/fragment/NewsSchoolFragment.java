@@ -28,9 +28,9 @@ public class NewsSchoolFragment extends Fragment{
     static final String PREF_NAME ="sample";
 
     TextView textView;
-//    private ExpadableListAdapter expAdapter;
+    //    private ExpadableListAdapter expAdapter;
     private List<NewsChildListItem> expListItems;
-//    private AnimatedExpandableListView mExpandList;
+    //    private AnimatedExpandableListView mExpandList;
     SwipeRefreshLayout mSwipeRefreshLayout;
     GetNewsManager getNewsManager;
 

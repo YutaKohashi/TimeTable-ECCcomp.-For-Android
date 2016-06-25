@@ -8,8 +8,8 @@ android {
         applicationId "jp.yuta.kohashi.esc"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 15
-        versionName "1.6.1"
+        versionCode 16
+        versionName "1.6.2"
     }
     buildTypes {
         release {

@@ -30,11 +30,11 @@ public class CreateTimeTableLists {
             while (matcher.find()) {
                 switch (count) {
                     case 0:
-                        timeBlock.setSubject(matcher.group().replaceAll("<.+?>", " "));
+                        timeBlock.setSubject(matcher.group().replaceAll("<.+?>", " ").trim());
                         //Log.d("regex::::", matcher.group().replaceAll("<.+?>", " "));
                         break;
                     case 1:
-                        timeBlock.setClassRoom(matcher.group().replaceAll("<.+?>", " "));
+                        timeBlock.setClassRoom(matcher.group().replaceAll("<.+?>", " ").trim());
                         //Log.d("regex::::", matcher.group().replaceAll("<.+?>", " "));
                         break;
                 }

@@ -1,54 +1,36 @@
 package jp.yuta.kohashi.esc.fragment;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Point;
+
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.Space;
-import android.support.v7.widget.CardView;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.adapter.TimeTableListAdapter;
-import jp.yuta.kohashi.esc.object.CustomTimeTableCell;
-import jp.yuta.kohashi.esc.object.TimeBlock;
-import jp.yuta.kohashi.esc.preference.LoadManager;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
-import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.yuta.kohashi.esc.R;
+import jp.yuta.kohashi.esc.activity.CustomTimeTableActivity;
+import jp.yuta.kohashi.esc.adapter.CustomTimeTableListAdapter;
+import jp.yuta.kohashi.esc.object.CustomTimeTableCell;
+import jp.yuta.kohashi.esc.object.TimeBlock;
+import jp.yuta.kohashi.esc.preference.LoadManager;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TimeTableFragment extends Fragment {
-
+public class CustomFragmentFragment extends Fragment {
     static final String prefName ="sample";
-    private static final String SHOWCASE_ID = "sequence4";
+
+    /******        カスタム定数      *******/
     static final String CUSTOM_CELL_PREF_NAME ="customCell";
     private static final String KEY = "CUSTOM_TIME_TABLE";
+    /**********************************/
 
-    private static int count = 0;
-
-    //月曜日から金曜日の曜日ごとのリスト
     List<TimeBlock> MondayList;
     List<TimeBlock> TuesdayList;
     List<TimeBlock> WednesdayList;
@@ -64,25 +46,19 @@ public class TimeTableFragment extends Fragment {
 
     LoadManager loadManager;
 
-    TextView textView;
-
     List<CustomTimeTableCell> customTimeList;
-    TextView latestUpText;
-    //   LayoutInflater inflater;
 
-    public TimeTableFragment() {
+
+    public CustomFragmentFragment() {
         // Required empty public constructor
     }
 
-    public TimeTableFragment newInstance() {
-        TimeTableFragment frag = new TimeTableFragment();
-        return frag;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_time_table, container, false);
+        // Inflate the layout for this fragment
+        View v =  inflater.inflate(R.layout.fragment_custom, container, false);
 
         MondayList = new ArrayList<>();
         TuesdayList = new ArrayList<>();
@@ -92,16 +68,15 @@ public class TimeTableFragment extends Fragment {
 
         loadManager = new LoadManager();
 
-        MondayList = loadManager.loadManagerWithPreferenceForTimeBlock(getActivity(),prefName,"monList");
+        MondayList = loadManager.loadManagerWithPreferenceForTimeBlock(getActivity() ,prefName,"monList");
         TuesdayList = loadManager.loadManagerWithPreferenceForTimeBlock(getActivity(),prefName,"tueList");
         WednesdayList = loadManager.loadManagerWithPreferenceForTimeBlock(getActivity(),prefName,"wedList");
         ThursdayList = loadManager.loadManagerWithPreferenceForTimeBlock(getActivity(),prefName,"thurList");
         FridayList = loadManager.loadManagerWithPreferenceForTimeBlock(getActivity(),prefName,"friList");
 
-
-        textView = (TextView)v.findViewById(R.id.title_name_text);
-        textView.setText("時間割");
-
+        /**************************************************************************/
+        /*カスタム処理
+        /**************************************************************************/
         customTimeList = new ArrayList<>();
         customTimeList = loadManager.loadManagerWithPreferenceForCustomTimeTable(getActivity(),CUSTOM_CELL_PREF_NAME,KEY);
         try{
@@ -189,6 +164,10 @@ public class TimeTableFragment extends Fragment {
             }
         }
 
+        /**************************************************************************/
+        /*
+        /**************************************************************************/
+
         //曜日ごとにRecyclerViewを配置
         monList = (RecyclerView)v.findViewById(R.id.mon_col);
         tueList = (RecyclerView)v.findViewById(R.id.tue_col);
@@ -196,33 +175,32 @@ public class TimeTableFragment extends Fragment {
         thurList = (RecyclerView)v.findViewById(R.id.thur_col);
         friList = (RecyclerView)v.findViewById(R.id.fri_col);
 
-
         //月曜日
-        TimeTableListAdapter monAdapter = new TimeTableListAdapter(MondayList,getActivity());
+        CustomTimeTableListAdapter monAdapter = new CustomTimeTableListAdapter(MondayList,getActivity(),0);
         monList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         monList.setLayoutManager(layoutManager);
         monList.setAdapter(monAdapter);
         //火曜日
-        TimeTableListAdapter tueAdapter = new TimeTableListAdapter(TuesdayList,getActivity());
+        CustomTimeTableListAdapter tueAdapter = new CustomTimeTableListAdapter(TuesdayList,getActivity(),1);
         tueList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         tueList.setLayoutManager(layoutManager);
         tueList.setAdapter(tueAdapter);
         //水曜日
-        TimeTableListAdapter wedAdapter = new TimeTableListAdapter(WednesdayList,getActivity());
+        CustomTimeTableListAdapter wedAdapter = new CustomTimeTableListAdapter(WednesdayList,getActivity(),2);
         wedList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         wedList.setLayoutManager(layoutManager);
         wedList.setAdapter(wedAdapter);
         //木曜日
-        TimeTableListAdapter thurAdapter = new TimeTableListAdapter(ThursdayList,getActivity());
+        CustomTimeTableListAdapter thurAdapter = new CustomTimeTableListAdapter(ThursdayList,getActivity(),3);
         thurList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         thurList.setLayoutManager(layoutManager);
         thurList.setAdapter(thurAdapter);
         //金曜日
-        TimeTableListAdapter friAdapter = new TimeTableListAdapter(FridayList,getActivity());
+        CustomTimeTableListAdapter friAdapter = new CustomTimeTableListAdapter(FridayList,getActivity(),4);
         friList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         friList.setLayoutManager(layoutManager);
@@ -230,121 +208,8 @@ public class TimeTableFragment extends Fragment {
 
 
 
-
-//        SharedPreferences prefs = getActivity().getSharedPreferences("material_showcaseview_prefs", Context.MODE_PRIVATE);
-//
-        //チュートリアル
-        //通常はonCreateviewでチュートリアルを表示する
-        TextView view = (TextView)getActivity().findViewById(R.id.dummy_edit);
-        ShowcaseConfig config = new ShowcaseConfig();
-        config.setDelay(500);
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
-        sequence.setConfig(config);
-        sequence.addSequenceItem(view,
-                "各ブロックをタップすと詳細情報が表示されます。", "次へ");
-        sequence.addSequenceItem(getNavButtonView((Toolbar) getActivity().findViewById(R.id.toolbar)),
-                "トグルをタップ、または右にスワイプすることでコンテンツを選択できます。", "開始する");
-        sequence.start();
-
-        SharedPreferences preferences = getActivity().getSharedPreferences("material_showcaseview_prefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("enableTutorial", false);
-        editor.commit();
-
         return v;
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        //設定画面から「チュートリアルをもう一度表示する」をタップぷした場合のみこのメソッドを通す
-        if(true){
-
-        }
-        //プリファレンスからチュートリアルを表示、非表示
-        SharedPreferences data = getActivity().getSharedPreferences("material_showcaseview_prefs", Context.MODE_PRIVATE);
-        boolean bool = data.getBoolean("enableTutorial",true);
-
-        //設定画面からこのFragmentに来た時のみonStartメソッドでチュートリアルを表示する
-        if(bool){
-            TextView view = (TextView)getActivity().findViewById(R.id.dummy_edit);
-            Log.d("TimeTableFragment::","onCreate" + String.valueOf(count));
-            ShowcaseConfig config = new ShowcaseConfig();
-            config.setDelay(500);
-            MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
-            sequence.setConfig(config);
-            sequence.addSequenceItem(view,
-                    "各ブロックをタップすと詳細情報が表示されます。", "次へ");
-            sequence.addSequenceItem(getNavButtonView((Toolbar) getActivity().findViewById(R.id.toolbar)),
-                    "トグルをタップ、または右にスワイプすることでコンテンツを選択できます。", "開始する");
-            sequence.start();
-
-            SharedPreferences.Editor editor = data.edit();
-            editor.putBoolean("enableTutorial", false);
-            editor.commit();
-
-        }
-
-    }
-
-
-    //時間割の各ブロックのレイアウトを設定するクラス
-    /**
-     *
-     * @param list
-     * @param containerLayout
-     * @param inflater
-     */
-    CardView cardView;
-    private void setBlockToTimeTabe(List<TimeBlock> list, LinearLayout containerLayout,LayoutInflater inflater){
-        containerLayout.removeAllViews();
-        for(int i = 0;i < list.size();i++){
-
-            TimeBlock timeBlock = list.get(i);
-            String subStr =timeBlock.getSubject();
-            String roomStr = timeBlock.getClassRoom();
-            cardView = (CardView)inflater.inflate(R.layout.time_table_block, containerLayout, false);
-            cardView.setMinimumHeight(300);
-            TextView mSubjectTextView = (TextView)cardView.findViewById(R.id.text_subject);
-            TextView mClassRoomTextView = (TextView)cardView.findViewById(R.id.text_classRoom);
-            mSubjectTextView.setText(subStr);
-            mClassRoomTextView.setText(roomStr);
-
-            containerLayout.addView(cardView);
-
-            //各ブロックのClickイベント
-            cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ViewParent parentLayout =  cardView.getParent();
-//                    parentLayout
-
-                    TextView mSubjectTextView = (TextView)cardView.findViewById(R.id.text_subject);
-                    String subjectName = mSubjectTextView.getText().toString();
-
-                    Toast.makeText(getActivity(),subjectName,Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
-
-    private static Point getDisplaySize(Activity activity){
-        Display display = activity.getWindowManager().getDefaultDisplay();
-        Point point = new Point();
-        display.getSize(point);
-        return point;
-    }
-
-    private static ImageButton getNavButtonView(Toolbar toolbar)
-    {
-        for (int i = 0; i < toolbar.getChildCount(); i++)
-            if(toolbar.getChildAt(i) instanceof ImageButton)
-                return (ImageButton) toolbar.getChildAt(i);
-
-        return null;
-    }
-
 
 
 }

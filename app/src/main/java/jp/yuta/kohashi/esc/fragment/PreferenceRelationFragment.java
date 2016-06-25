@@ -42,7 +42,7 @@ public class PreferenceRelationFragment extends PreferenceFragment{
     PreferenceScreen sbout_app;
     PreferenceScreen lisence;
     PreferenceScreen aboutApp;
-//    static WebView webView;
+    //    static WebView webView;
 //    static View view;
     Dialog mBottomSheetDialog;
     Toolbar toolbar;
@@ -254,8 +254,14 @@ public class PreferenceRelationFragment extends PreferenceFragment{
                                         editor.commit();
 
                                         //チュートリアルのフラグ
-                                       sharedPreferences =getActivity().getSharedPreferences("material_showcaseview_prefs",getActivity().MODE_PRIVATE);
-                                         editor = sharedPreferences.edit();
+                                        sharedPreferences =getActivity().getSharedPreferences("material_showcaseview_prefs",getActivity().MODE_PRIVATE);
+                                        editor = sharedPreferences.edit();
+                                        editor.clear();
+                                        editor.commit();
+
+                                        //カスタムタイムテーブルをクリア
+                                        sharedPreferences =getActivity().getSharedPreferences("customCell",getActivity().MODE_PRIVATE);
+                                        editor = sharedPreferences.edit();
                                         editor.clear();
                                         editor.commit();
 

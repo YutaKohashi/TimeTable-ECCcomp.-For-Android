@@ -43,9 +43,10 @@
                 android:resource="@xml/time_table_widget_info" />
         </receiver>
 
-        <activity android:name=".activity.CustomTimeTableActivity">
-            </activity>
-        <activity android:name=".activity.NewsWebViewActivity"></activity>
+        <activity android:name=".activity.CustomTimeTableActivity"></activity>
+        <activity android:name=".activity.NewsWebViewActivity" />
+        <activity android:name=".activity.OrizinalBottomSheetActivity"
+            android:theme="@style/OriginalBottomSheet"></activity>
     </application>
 
 </manifest>

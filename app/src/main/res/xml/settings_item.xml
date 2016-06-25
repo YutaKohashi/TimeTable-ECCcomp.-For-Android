@@ -10,7 +10,7 @@
         <PreferenceScreen
             android:key="custom_time_table"
             android:title="時間割データを変更する"
-            android:summary="次期バージョンで対応予定"
+            android:summary="時間割のデータを変更することができます。"
             android:enabled="true"/>
 
     </PreferenceCategory>
@@ -50,7 +50,7 @@
 
         <Preference
             android:key="view_tutorial"
-            android:summary="ver.1.6.0"
+            android:summary="ver.1.6.2"
             android:title="アプリバージョン"/>
 
     </PreferenceCategory>

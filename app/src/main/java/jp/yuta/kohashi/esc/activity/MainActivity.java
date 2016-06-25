@@ -38,7 +38,9 @@ import jp.yuta.kohashi.esc.fragment.AttendanceRateFragment;
 import jp.yuta.kohashi.esc.fragment.NewsParentFragment;
 import jp.yuta.kohashi.esc.fragment.TimeTableFragment;
 import jp.yuta.kohashi.esc.http.UpdateTimeTableManager;
+import jp.yuta.kohashi.esc.object.CustomTimeTableCell;
 import jp.yuta.kohashi.esc.preference.LoadManager;
+import jp.yuta.kohashi.esc.preference.SaveManager;
 import jp.yuta.kohashi.esc.tools.CustomProgressDialog;
 import java.io.File;
 import java.io.IOException;
@@ -52,6 +54,9 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class MainActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
     static final String PREF_NAME_ID_PASS = "ip";
     static final String PDF_FILE_NAME = "handbook2015.pdf";
+
+    //バージョンアップごとに番号を足していく（ダイアログ表示）
+    static final String RESTART_FRAGMENT_WIDGETVER = "RESTART_FRAGMENT_WIDGETVER1";
 
     Toolbar toolbar;
     TextView textView;
@@ -73,7 +78,11 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         selectedItem = 0;
 
         //ツールバーをActionBarとして扱う
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        try {
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
+        }catch(ClassCastException ex){
+
+        }
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
@@ -119,14 +128,27 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         String isUpdateFirst = pref.getString("teachers","empty");
         if(isUpdateFirst == "empty"){
 
+            final  String CUSTOM_TIME_TABLE_NAME = "customTimeTable";
             showDialog(0,MainActivity.this);
+
         }
 
         pref = getSharedPreferences("restart_fragment", Context.MODE_PRIVATE);
-        Boolean widgetVerUpdate = pref.getBoolean("RESTART_FRAGMENT_WIDGETVER",false);
+        Boolean widgetVerUpdate = pref.getBoolean(RESTART_FRAGMENT_WIDGETVER,false);
         if(!widgetVerUpdate){
             showDialog(1,MainActivity.this);
         }
+    }
+
+    public void onStart(){
+        super.onStart();
+
+        Fragment fragment = new TimeTableFragment();
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction()
+                .replace(R.id.fragment_container, fragment, "dd")
+                .addToBackStack(null)
+                .commit();
     }
 
     //NavigationDrawerに名前、学籍番号をセットする
@@ -159,6 +181,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     }
 
     Fragment fragment1;
+
+    Fragment TimeFragment = new TimeTableFragment();
+    Fragment AttendanceFragment = new AttendanceRateFragment();;
+
     private void itemSelection(int mSelectedId) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -171,7 +197,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                     drawerLayout.closeDrawer(GravityCompat.START);
                     return;
                 }
-                fragment1 = new TimeTableFragment();
+                fragment1 = TimeFragment;
                 selectedItem = 0;
                 break;
 
@@ -184,7 +210,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 }
 
                 selectedItem = 1;
-                fragment1 = new AttendanceRateFragment();
+                fragment1 = AttendanceFragment;
                 break;
 
             //お知らせ
@@ -197,6 +223,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
                 selectedItem = 2;
                 fragment1 = new NewsParentFragment();
+
                 break;
 
             //年間スケジュール
@@ -362,7 +389,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         //  ダイアログを表示
         prog = cProg.createProgressDialogForFileRead(context);
         prog.show();
-;
+        ;
         new AsyncTask<String,String,String>(){
 
             @Override
@@ -464,7 +491,17 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             case UPDATE_WIDGET:
                 mMaterialDialog = new MaterialDialog(context)
                         .setTitle("UPDATE")
-                        .setMessage("*** 追加された機能 ***\n" +
+                        .setMessage("ver1.6.2\n" +
+                                "*** 追加された機能 ***\n" +
+                                "◯時間割編集機能\n" +
+                                "◯担任からのお知らせ\n\n" +
+                                "" +
+                                "時間割を編集することができるようになりました。\n" +
+                                "編集した内容がウィジェットに反映されるのは再配置するか再起動した時です。\n"+
+                                "また担任からのお知らせが閲覧できるようになりました。\n" +
+                                "その他アプリの高速化、軽微なバグを修正いたしました。\n\n\n\n" +
+                                "ver1.6.1\n" +
+                                "*** 追加された機能 ***\n" +
                                 "◯ウィジェット\n" +
                                 "◯お知らせ\n\n" +
                                 "" +
@@ -478,7 +515,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                                 mMaterialDialog.dismiss();
                                 SharedPreferences preferences = MainActivity.this.getSharedPreferences("restart_fragment",MainActivity.this.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = preferences.edit();
-                                editor.putBoolean("RESTART_FRAGMENT_WIDGETVER",true);
+                                editor.putBoolean(RESTART_FRAGMENT_WIDGETVER,true);
                                 editor.commit();
                             }
                         });
@@ -487,6 +524,19 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 break;
 
         }
+    }
+
+    private void customTimeTable(Context context,String prefName,String key){
+
+        List<CustomTimeTableCell> list = new ArrayList<>();
+        for(int i = 0;i < 4 ;i++){
+            CustomTimeTableCell cell = new CustomTimeTableCell();
+            list.add(cell);
+
+        }
+
+        SaveManager saveManager = new SaveManager();
+        saveManager.saveMangerWithPreference(context,prefName,list,key);
     }
 
 

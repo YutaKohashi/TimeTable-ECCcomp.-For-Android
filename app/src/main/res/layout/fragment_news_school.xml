@@ -11,6 +11,7 @@
         android:background="#FFF"
         android:fitsSystemWindows="true"
         android:layout_marginBottom="5sp"
+        android:layout_marginTop="5sp"
         >
 
     <android.support.v7.widget.RecyclerView

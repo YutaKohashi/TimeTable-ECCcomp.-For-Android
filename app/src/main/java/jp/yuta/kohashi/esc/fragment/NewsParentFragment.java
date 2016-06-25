@@ -51,5 +51,9 @@ public class NewsParentFragment extends Fragment {
         viewPager.setAdapter(adapter);
     }
 
+    public void setNum(){
+
+    }
+
 
 }

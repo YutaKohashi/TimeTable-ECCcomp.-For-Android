@@ -2,17 +2,13 @@ package jp.yuta.kohashi.esc.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -20,14 +16,13 @@ import android.widget.TextView;
 import com.dd.CircularProgressButton;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.http.LoginManager;
-import jp.yuta.kohashi.esc.http.LoginManager2;
 import jp.yuta.kohashi.esc.tools.GetValuesBase;
 import me.drakeet.materialdialog.MaterialDialog;
 
 import org.w3c.dom.Text;
 
 public class LoginActivity extends AppCompatActivity{
-   // Button mLoginButton;
+    // Button mLoginButton;
     LoginManager loginManager;
 
     EditText id;
@@ -37,7 +32,7 @@ public class LoginActivity extends AppCompatActivity{
 
     String userId;
     String password;
-  //  EditText editText;
+    //  EditText editText;
     TextView textView;
     CircularProgressButton circularButton1;
     TextView dummy;
@@ -67,16 +62,12 @@ public class LoginActivity extends AppCompatActivity{
         }
         loginTitle = (TextView) findViewById(R.id.login_title);
         Typeface font = Typeface.createFromAsset(getAssets(), "mplus-1p-medium.ttf");
-        loginTitle.setTypeface(font);
+        try {
+            loginTitle.setTypeface(font);
+        }catch(NullPointerException ex){
 
-//        dummy = (TextView)findViewById(R.id.dummy);
-//        dummy.clearFocus();
-//        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(getBaseContext().INPUT_METHOD_SERVICE);
-//        inputMethodManager.hideSoftInputFromWindow(dummy.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-//        inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//        mainLayout = (ScrollView) findViewById(R.id.login_scroll_view);
+        }
 
-     //   mLoginButton = (Button)findViewById(R.id.login_btn);
         id = (EditText) findViewById(R.id.username);
         pss = (EditText)findViewById(R.id.password);
 
@@ -129,6 +120,11 @@ public class LoginActivity extends AppCompatActivity{
                 circularButton1.setProgress(1);
                 //クリックイベントを発生させない
                 circularButton1.setClickable(false);
+
+
+                //TextViewを無効化する
+                id.setEnabled(false);
+                pss.setEnabled(false);
 
             }
         });
@@ -205,7 +201,7 @@ public class LoginActivity extends AppCompatActivity{
                         @Override
                         public void onClick(View v) {
 
-                           finish();
+                            finish();
                             moveTaskToBack(true);
                         }
                     })
