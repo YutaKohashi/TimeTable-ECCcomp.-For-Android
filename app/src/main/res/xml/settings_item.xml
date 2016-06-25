@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="時間割">
+        <PreferenceScreen
+            android:key="update_time_table"
+            android:summary="時間割のデータを更新します。"
+            android:title="時間割を更新" />
+
+        <PreferenceScreen
+            android:key="custom_time_table"
+            android:title="時間割データを変更する"
+            android:summary="時間割のデータを変更することができます。"
+            android:enabled="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="出席照会">
+        <CheckBoxPreference
+            android:key="enable_color_attendance_rate"
+            android:summary="チェックが入っている場合有効になります。"
+            android:title="出席照会の色分けを有効にする" />
+
+        <PreferenceScreen
+            android:enabled="false"
+            android:key="log_attendance_rate"
+            android:title="ログを確認する"
+            android:summary="次期バージョンで対応予定"/>
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="その他">
+        <PreferenceScreen
+            android:key="view_tutorial"
+            android:summary="タップするともう一度チュートリアルを見ることができます。"
+            android:title="チュートリアルをもう一度見る" />
+
+        <PreferenceScreen
+            android:key="logout_button"
+            android:summary="このアプリケーションからアカウントを消去します。"
+            android:title="ログアウト" />
+        <PreferenceScreen
+            android:key="about_screen"
+            android:title="このアプリについて" />
+
+        <PreferenceScreen
+            android:key="license_screen"
+            android:title="ライセンス" />
+
+        <Preference
+            android:key="view_tutorial"
+            android:summary="ver.1.6.2"
+            android:title="アプリバージョン"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

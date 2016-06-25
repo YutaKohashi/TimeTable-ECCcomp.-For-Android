@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryDark">#002938</color>
+    <!--<color name="colorPrimary">#00AAEA</color>-->
+    <color name="colorPrimary">#014964</color>
+    <color name="colorAccent">#02008f</color>
+    <color name="colorAccent2">#de005c</color>
+    <color name="toolbar_title">#FFF</color>
+    <color name="toolbar_icon">#ffffff</color>
+
+    <color name="tab_focus_color">#eaeaea</color>
+    <color name="tab_noFocus_color">#00729c</color>
+
+    <color name="colorAccentLight">#baffcf</color>
+    <color name="colorPrimary0">#def1f9</color>
+    <color name="colorPrimary1">#ceeefa</color>
+    <color name="colorPrimary2">#7fd3f2</color>
+    <color name="colorPrimary3">#4fcfff</color>
+    <color name="colorPrimary4">#26c0fa</color>
+    <color name="colorPrimary5">#06bbff</color>
+    <color name="colorPrimary6">#008dc2</color>
+    <color name="colorPrimary7">#0077a4</color>
+    <color name="colorPrimary8">#014964</color>
+    <color name="colorPrimary9">#002938</color>
+
+    <color name="blue">#0099ff</color>
+    <color name="white">#FFF</color>
+
+    <color name="header_bg_color">#9e002f3b</color>
+    <color name="dark">#ecebeb</color>
+
+
+    <color name="red">#ff0000</color>
+    <color name="green">#00d262</color>
+    <color name="yellow">#fff700</color>
+
+
+    <color name="calendar_hedder">#eaeaea</color>
+
+
+    <color name="cardView_shuseki_rate_out">#666666</color>
+    <!--単位が非常に危ない時のCardViewの背景色-->
+    <color name="cardView_bg_golor_end">#a90303</color>
+    <!--単位が危ないの時のCardViewの背景色-->
+    <color name="cardView_bg_golor_warning">#ffff00</color>
+
+
+
+    <!--RecyclerView with headderの色-->
+    <color name="default_header_color">#445566</color>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="widget_cell_text_color">#545454</color>
+
+    <color name="dialog_bg">#f2f2f2</color>
+
+</resources>

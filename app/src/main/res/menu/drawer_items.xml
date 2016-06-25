@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/group_feature"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_item_time_table"
+
+            android:title="時間割" />
+        <item
+            android:id="@+id/navigation_item_attendance_rate"
+
+            android:title="出席照会" />
+
+        <item
+            android:id="@+id/navigation_item_news"
+
+            android:title="お知らせ" />
+
+        <item
+            android:id="@+id/navigation_item_schedule"
+
+            android:title="スケジュール" />
+    </group>
+
+    <group
+        android:id="@+id/group_bottom"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_item_web"
+            android:title="Web版にアクセス" />
+        <item
+            android:id="@+id/navigation_item_settings"
+            android:title="設定" />
+        <!--<item-->
+            <!--android:id="@+id/navigation_item_6"-->
+            <!--android:title="このアプリについて" />-->
+    </group>
+    <!--<item-->
+    <!--android:title="その他"-->
+    <!--android:id="@+id/settings_group">-->
+    <!--<menu>-->
+    <!---->
+
+    <!--</menu>-->
+    <!--</item>-->
+</menu>

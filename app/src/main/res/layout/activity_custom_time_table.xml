@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/view1"
+        android:background="?attr/colorPrimary"
+        >
+
+        <ImageButton
+            android:paddingLeft="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/custom_time_table_back"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            android:background="@drawable/toolbar_back_button_bg"
+            android:paddingRight="6sp"/>
+
+        <android.support.v7.widget.Toolbar
+
+            android:id="@+id/toolbar_lisence"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:title="時間割データを変更する"
+            app:titleTextColor="@color/white"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/custom_time_table_back"
+            android:layout_toEndOf="@+id/custom_time_table_back" />
+
+        <ImageButton
+            android:paddingLeft="10sp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/reset_button"
+            android:src="@drawable/ic_settings_backup_restore_black_24dp"
+            android:background="@drawable/toolbar_back_button_bg"
+            android:paddingRight="10sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/view1"
+        android:id="@+id/custom_table_fragment_container">
+
+        <!--<fragment-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:name="jp.yuta.kohashi.esc.fragment.CustomFragmentFragment"-->
+            <!--tools:layout="@layout/fragment_custom" />-->
+    </FrameLayout>
+
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50sp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:id="@+id/linearLayout"-->
+        <!--android:paddingBottom="5sp"-->
+        <!--android:paddingTop="5sp"-->
+        <!--android:paddingRight="10sp"-->
+        <!--android:paddingLeft="10sp">-->
+
+        <!--<Button-->
+            <!--android:layout_width="0sp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:id="@+id/exit_btn"-->
+            <!--android:text="デフォルトに戻す"/>-->
+    <!--</LinearLayout>-->
+
+</RelativeLayout>
