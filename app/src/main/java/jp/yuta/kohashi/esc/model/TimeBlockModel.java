@@ -9,31 +9,19 @@ import lombok.Setter;
 @Setter
 @Getter
 public class TimeBlockModel{
-    String classRoom;
-    String subject;
-    //TODO:先生名をTimeBlockオブジェクトに加える
-    String teacherName;
+    private String classRoom;
+    private String subject;
+    private String teacherName;
+    private int rowNum;
+    private int colNum;
 
     //コンストラクタ
     public TimeBlockModel(){
         classRoom = "";
         subject = "";
         teacherName = "";
+        rowNum = -1;
+        colNum = -1;
     }
-//
-//    public String getClassRoom(){
-//        return classRoom;
-//    }
-//
-//    public String getSubject(){
-//        return subject;
-//    }
-//
-//    public void setClassRoom(String name){
-//        classRoom = name;
-//    }
-//
-//    public void setSubject(String name){
-//        subject = name;
-//    }
+
 }

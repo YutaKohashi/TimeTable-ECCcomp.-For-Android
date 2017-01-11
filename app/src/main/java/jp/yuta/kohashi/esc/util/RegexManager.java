@@ -1,5 +1,6 @@
 package jp.yuta.kohashi.esc.util;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -57,22 +58,44 @@ public class RegexManager {
      */
     public static String narrowingValues(String start,String end,String target){
         String keyStr = "";
-        String key = start + "(.+?)" + end;
-        Pattern exp = Pattern.compile(key);
-        Matcher matcher = exp.matcher(target);
-        if(matcher.find()){
-            keyStr = matcher.group();
+        try {
+            String key = start + "(.+?)" + end;
+            Pattern exp = Pattern.compile(key);
+            Matcher matcher = exp.matcher(target);
+            if (matcher.find()) {
+                keyStr = matcher.group(1);
+            }
+        }catch(Exception e){
+            Log.d(TAG,e.toString());
+            keyStr = "";
         }
         return  keyStr;
     }
 
     /***
-     *
+     * 文字が含まれているかチェック
+     * @param string
+     * @param target
+     * @return
+     */
+    public static boolean containsCheck(String string,String target){
+        if(TextUtils.isEmpty(string)) return false;
+
+        if(target.indexOf(string) != -1){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /***
+     * 改行、タブを削除するメソッド
      * @param target
      * @param tab
      * @return
      */
     public static String replaceCRLF(String target,boolean tab){
+
         String after;
         try{
             after = target.replaceAll("[\r\n]", "");
@@ -83,8 +106,6 @@ public class RegexManager {
                 //タブを消去
                 after = after.replaceAll("\t", "");
             }
-//            //スペースを消去
-//            after = after.replaceAll(" ","");
         }catch(Exception e){
             Log.d(TAG,e.toString());
             after = "";
@@ -93,8 +114,18 @@ public class RegexManager {
         return after;
     }
 
+    /**
+     * %を削除するメソッド
+     * @param str
+     * @return
+     */
     public static String deletePercent(String str){
-        str = str.replaceAll("%","");
+        try{
+            str = str.replaceAll("%","");
+        }catch(Exception e){
+            Log.d(TAG,e.toString());
+            str = "";
+        }
         return str;
     }
 
@@ -104,7 +135,13 @@ public class RegexManager {
      * @return
      */
     public static String deleteNBSPTo0(String str){
-        str = str.replaceAll("&nbsp;","0");
+        try{
+            str = str.replaceAll("&nbsp;","0");
+        }catch(Exception e){
+            Log.d(TAG,e.toString());
+            str = "";
+        }
+
         return str;
     }
 }

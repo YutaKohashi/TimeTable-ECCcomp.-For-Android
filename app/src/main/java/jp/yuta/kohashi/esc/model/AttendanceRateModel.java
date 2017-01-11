@@ -13,15 +13,15 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AttendanceRateModel {
 
-    String subjectName;         //教科
-    String unit;                //単位
-    String attendanceNumber;    //出席数
-    String absentNumber;        //欠席数
-    String lateNumber;          //遅刻数
-    String publicAbsentNumber1; //公欠１
-    String publicAbsentNumber2; //公欠２
-    String attendanceRate;      //出席率
-    String shortageseNumber;      //
+    private String subjectName;         //教科
+    private String unit;                //単位
+    private String attendanceNumber;    //出席数
+    private String absentNumber;        //欠席数
+    private String lateNumber;          //遅刻数
+    private String publicAbsentNumber1; //公欠１
+    private String publicAbsentNumber2; //公欠２
+    private String attendanceRate;      //出席率
+    private String shortageseNumber;      //
 
     public AttendanceRateModel(){
         subjectName = "";

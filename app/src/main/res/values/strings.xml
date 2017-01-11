@@ -49,4 +49,5 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
+    <string name="string_text_view_error">入力してください</string>
 </resources>

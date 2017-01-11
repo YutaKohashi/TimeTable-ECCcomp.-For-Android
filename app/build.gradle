@@ -7,8 +7,8 @@ android {
         applicationId "jp.yuta.kohashi.esc"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 20
+        versionName "2.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

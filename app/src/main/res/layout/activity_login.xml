@@ -13,10 +13,13 @@
         android:orientation="vertical"
         android:paddingLeft="30sp"
         android:paddingRight="30sp"
+        android:paddingTop="30sp">
 
-        android:paddingTop="30sp"
-        >
-
+        <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_width="0px"
+            android:layout_height="0px"/>
 
         <TextView
             android:id="@+id/login_title"
@@ -26,41 +29,41 @@
             android:text="ECCコンピュータ\n専門学校"
             android:textAlignment="center"
             android:textColor="@color/white"
-
             android:textSize="30sp" />
 
         <LinearLayout
-            android:layout_gravity="center"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_gravity="center"
             android:layout_marginTop="10sp"
-            android:paddingRight="5sp"
-            android:paddingLeft="5sp"
+            android:background="@drawable/bg_login_text"
+            android:orientation="vertical"
             android:paddingBottom="15sp"
-            android:paddingTop="15sp"
-            android:background="@drawable/bg_login_text">
+            android:paddingLeft="5sp"
+            android:paddingRight="5sp"
+            android:paddingTop="15sp">
 
             <!--学籍番号-->
             <android.support.design.widget.TextInputLayout
-                app:counterMaxLength="10"
                 android:id="@+id/usernameWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="@+id/login_title"
+                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="25sp"
                 android:layout_marginRight="25sp"
-                android:layout_marginBottom="5dp">
+                app:counterMaxLength="10">
+
                 <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/username"
+                    android:id="@+id/text_view_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/usernameWrapper"
                     android:layout_alignStart="@+id/usernameWrapper"
+                    android:background="@drawable/bg_login_edit_text"
                     android:hint="学籍番号"
                     android:imeOptions="actionNext"
                     android:inputType="number"
-                    android:background="@drawable/bg_login_edit_text"
                     android:nextFocusDown="@+id/password"
                     android:singleLine="true" />
 
@@ -68,20 +71,20 @@
 
             <!--パスワード-->
             <android.support.design.widget.TextInputLayout
-                app:counterMaxLength="15"
                 android:id="@+id/passwordWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25sp"
                 android:layout_marginRight="25sp"
-                android:layout_marginTop="4dp">
+                android:layout_marginTop="4dp"
+                app:counterMaxLength="15">
 
                 <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/password"
+                    android:id="@+id/text_view_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/Passwored"
                     android:background="@drawable/bg_login_edit_text"
+                    android:hint="@string/Passwored"
                     android:imeOptions="actionNext"
                     android:inputType="textPassword"
                     android:nextFocusDown="@+id/btn_login"
@@ -94,15 +97,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5sp"
-            >
+            android:layout_marginTop="5sp">
 
             <com.dd.CircularProgressButton
+                android:id="@+id/btn_login"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:id="@+id/btn_login"
-                android:layout_width="150sp"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:textColor="#FFF"
@@ -117,9 +119,8 @@
                 app:cpb_textError="@string/Error"
                 app:cpb_textIdle="@string/Login" />
         </RelativeLayout>
-        <requestFocus/>
+
 
 
     </LinearLayout>
-
 </ScrollView>

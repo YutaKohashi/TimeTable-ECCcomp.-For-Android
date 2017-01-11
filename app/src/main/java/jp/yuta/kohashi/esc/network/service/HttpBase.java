@@ -1,4 +1,9 @@
-package jp.yuta.kohashi.esc.network;
+package jp.yuta.kohashi.esc.network.service;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.CookieManager;
@@ -18,24 +23,30 @@ import okhttp3.Response;
 
 public class HttpBase {
 
-    private OkHttpClient mClient;
-    private CookieManager cookieManager;
-    private CookieJar cookieJar;
+    private static String TAG = HttpBase.class.getSimpleName();
 
-    //コンストラクタ
-    //クライアントを共有
-    public HttpBase(){
-        cookieManager = new CookieManager();
-        cookieJar = new JavaNetCookieJar(cookieManager);
-        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+    private static OkHttpClient mClient;
+    private static CookieManager cookieManager;
+    private static CookieJar cookieJar;
 
+    protected static void init(){
+        if(cookieManager ==null )cookieManager = new CookieManager();
+        if(cookieJar == null) cookieJar = new JavaNetCookieJar(cookieManager);
+        if(cookieManager == null) cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+
+        if(mClient == null)
         mClient = new OkHttpClient.Builder()
                 .cookieJar(cookieJar)
                 .build();
     }
 
-    // Getメソッド（sync）
-    public HttpResultClass httpGet(String url, String referer){
+    /***
+     * GET method
+     * @param url
+     * @param referer
+     * @return
+     */
+    protected static HttpResultClass httpGet(String url, String referer){
         HttpResultClass result = new HttpResultClass();
 
         Request request = new Request.Builder()
@@ -58,17 +69,23 @@ public class HttpBase {
             result.setBool(true);
             response.body().close();
         }catch(IOException | InterruptedException e){
-            e.printStackTrace();
+            Log.d(TAG,e.toString());
             result.setBool(false);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.d(TAG,e.toString());
             result.setBool(false);
         }
         return result;
     }
 
-    // Postメソッド (sync)
-    public HttpResultClass httpPost(String url, Map<String,String> requestBody, String referer){
+    /**
+     * POST method
+     * @param url
+     * @param requestBody
+     * @param referer
+     * @return
+     */
+    protected static HttpResultClass httpPost(String url, Map<String,String> requestBody, String referer){
         HttpResultClass result = new HttpResultClass();
 
         Request request = new Request.Builder()
@@ -92,35 +109,38 @@ public class HttpBase {
             result.setBool(true);
             response.body().close();
         }catch(IOException | InterruptedException e){
-            e.printStackTrace();
+            Log.d(TAG,e.toString());
             result.setBool(false);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.d(TAG,e.toString());
             result.setBool(false);
         }
 
         return result;
     }
 
-    //コールバック
-//    private  boolean _bool;
-//    private  String  _html;
-//    public interface AccessCallbacks {
-//        public void callback(boolean bool,String html);
-//    }
-////    public void setCallbacks(boolean bool ,String html){
-////        _bool = bool;
-////        _html = html;
-////    }
-//    public interface SuccessCallbacks {
-//        public void callback(boolean bool);
-//    }
-//    public void setSuccessCallbacks(boolean bool){
-//        _issuccess = bool;
-//    }
+    /**
+     * ネットワーク接続チェック
+     * @param context
+     * @return
+     */
+    public static boolean netWorkCheck(Context context){
+        ConnectivityManager cm =  (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = cm.getActiveNetworkInfo();
+        if( info != null ){
+            return info.isConnected();
+        } else {
+            return false;
+        }
+    }
 
-    // リクエストボディを作成するメソッド
-    private RequestBody createRequestBody(Map<String,String> body){
+
+    /***
+     * リクエストボディを作成するメソッド
+     * @param body
+     * @return
+     */
+    private static  RequestBody createRequestBody(Map<String,String> body){
         FormBody.Builder builder = new FormBody.Builder();
 
         for ( Map.Entry<String, String> entry : body.entrySet() ) {

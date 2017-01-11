@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import jp.yuta.kohashi.esc.preference.PrefManager;
+import jp.yuta.kohashi.esc.network.service.HttpHelper;
+import jp.yuta.kohashi.esc.util.Util;
+import jp.yuta.kohashi.esc.util.preference.PrefManager;
 
 
 /***
@@ -16,12 +18,29 @@ public class LoginCheckActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(!PrefManager.isLogin(this)){
-            Intent intent = new Intent(LoginCheckActivity.this,LoginActivity.class);
+        init();
+
+        if (!PrefManager.isLogin()) {
+            // ログインしていない
+            Intent intent = new Intent(LoginCheckActivity.this, LoginActivity.class);
             startActivity(intent);
         } else {
-            Intent intent = new Intent(LoginCheckActivity.this,MainActivity.class);
+            //ログインしている
+            Intent intent = new Intent(LoginCheckActivity.this, MainActivity.class);
             startActivity(intent);
         }
+        finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
+
+    private void init() {
+        HttpHelper.init(this);
+        PrefManager.init(this);
+        Util.init(getApplicationContext());
     }
 }

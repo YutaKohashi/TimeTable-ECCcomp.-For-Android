@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.network;
+package jp.yuta.kohashi.esc.network.service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,9 +9,15 @@ import jp.yuta.kohashi.esc.util.RegexManager;
  */
 
 public class CreateRequestBody {
-    
-    // 山口学園学生サービスログイン時のリクエストボディ
-    public static Map<String,String> createPostDataForEscLogin(String userId, String password, String html){
+
+    /**
+     * 山口学園学生サービスログイン時のリクエストボディ
+     * @param userId
+     * @param password
+     * @param html
+     * @return
+     */
+    protected static Map<String,String> createPostDataForEscLogin(String userId, String password, String html){
         Map<String,String> body = new HashMap<>();
 
         // トークンを取得
@@ -23,8 +29,14 @@ public class CreateRequestBody {
         return body;
     }
 
-    // 山口学園学生サービスログイン時のリクエストボディ
-    public static Map<String,String> createPostDataForYSLogin(String userId, String password, String html){
+    /**
+     * 山口学園学生サービスログイン時のリクエストボディ
+     * @param userId
+     * @param password
+     * @param html
+     * @return
+     */
+    protected static Map<String,String> createPostDataForYSLogin(String userId, String password, String html){
         String __LASTFOCUS = RegexManager.getValues("input type=\"hidden\" name=\"__LASTFOCUS\" id=\"__LASTFOCUS\" value=\"(.+?)\"",html);
         String __VIEWSTATE =  RegexManager.getValues("input type=\"hidden\" name=\"__VIEWSTATE\" id=\"__VIEWSTATE\" value=\"(.+?)\"",html);
         String __SCROLLPOSITIONX = RegexManager.getValues("input type=\"hidden\" name=\"__SCROLLPOSITIONX\" id=\"__SCROLLPOSITIONX\" value=\"(.+?)\"",html);
@@ -51,8 +63,12 @@ public class CreateRequestBody {
         return body;
     }
 
-    // 出席率画面遷移時のリクエストボディ
-    public static Map<String,String> createPostDataForRatePage(String html){
+    /**
+     * 出席率画面遷移時のリクエストボディ
+     * @param html
+     * @return
+     */
+    protected static Map<String,String> createPostDataForRatePage(String html){
         Map<String,String> body = new HashMap<>();
 
         String __EVENTTARGET2 = "ctl00$btnSyuseki";
