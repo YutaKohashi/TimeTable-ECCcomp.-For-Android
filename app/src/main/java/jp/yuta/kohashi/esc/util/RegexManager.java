@@ -3,8 +3,6 @@ package jp.yuta.kohashi.esc.util;
 import android.text.TextUtils;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

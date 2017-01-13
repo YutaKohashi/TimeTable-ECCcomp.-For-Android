@@ -3,6 +3,7 @@ package jp.yuta.kohashi.esc.network.service;
 /**
  * Created by YutaThinkPad on 2016/03/21.
  */
+
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.HttpCookie;
@@ -14,9 +15,7 @@ import java.util.Map;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
-import okhttp3.internal.Internal;
 
-import static java.util.logging.Level.WARNING;
 import static okhttp3.internal.Util.delimiterOffset;
 import static okhttp3.internal.Util.trimSubstring;
 

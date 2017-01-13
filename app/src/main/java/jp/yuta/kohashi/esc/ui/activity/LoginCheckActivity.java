@@ -1,8 +1,8 @@
 package jp.yuta.kohashi.esc.ui.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import jp.yuta.kohashi.esc.network.service.HttpHelper;
 import jp.yuta.kohashi.esc.util.Util;
@@ -20,7 +20,7 @@ public class LoginCheckActivity extends AppCompatActivity {
 
         init();
 
-        if (!PrefManager.isLogin()) {
+        if (PrefManager.isLogin()) {
             // ログインしていない
             Intent intent = new Intent(LoginCheckActivity.this, LoginActivity.class);
             startActivity(intent);

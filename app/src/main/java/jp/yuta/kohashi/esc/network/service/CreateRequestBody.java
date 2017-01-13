@@ -2,6 +2,7 @@ package jp.yuta.kohashi.esc.network.service;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import jp.yuta.kohashi.esc.util.RegexManager;
 
 /**

@@ -2,6 +2,7 @@ package jp.yuta.kohashi.esc.util.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -22,6 +23,7 @@ import jp.yuta.kohashi.esc.util.RegexManager;
  */
 
 public class PrefManager {
+    private static final String TAG = PrefManager.class.getSimpleName();
 
     private static Context mContext;
 
@@ -34,6 +36,18 @@ public class PrefManager {
     //**
     //region Load
     //**
+
+    public static List<List<TimeBlockModel>> loadTimeBlockList(){
+        List<List<TimeBlockModel>> lists = new ArrayList<>();
+
+        lists.add(loadTimeBlockList(PrefConst.KEY_MON_LIST));
+        lists.add(loadTimeBlockList(PrefConst.KEY_TUE_LIST));
+        lists.add(loadTimeBlockList(PrefConst.KEY_WED_LIST));
+        lists.add(loadTimeBlockList(PrefConst.KEY_THUR_LIST));
+        lists.add(loadTimeBlockList(PrefConst.KEY_FRI_LIST));
+
+        return lists;
+    }
 
     /***
      * 曜日ごとの時間割をロードするメソッド
@@ -68,10 +82,10 @@ public class PrefManager {
         SharedPreferences sharedPreferences;
         List<AttendanceRateModel> arrayList;
         sharedPreferences = mContext.getSharedPreferences(PrefConst.FILE_ATTEND, mContext.MODE_PRIVATE);
-        arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_ATTEND, ""), new TypeToken<List<AttendanceRateModel>>() {
-        }.getType());
 
         try {
+            arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_ATTEND, ""), new TypeToken<List<AttendanceRateModel>>() {
+            }.getType());
             if (arrayList.size() == 0) {
                 arrayList = new ArrayList<>();
             }
@@ -82,10 +96,21 @@ public class PrefManager {
         return arrayList;
     }
 
-    public static AttendanceRateModel loadAttendanceAllRateData() {
+    public static AttendanceRateModel loadAttendanceTotalData() {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(PrefConst.FILE_ATTEND, mContext.MODE_PRIVATE);
-        return new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_ATTEND_ALL_RATE, ""), new TypeToken<AttendanceRateModel>() {
-        }.getType());
+        AttendanceRateModel model = null;
+        try {
+            model = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_ATTEND_ALL_RATE, ""), new TypeToken<AttendanceRateModel>() {
+            }.getType());
+            if (model == null) {
+                model = new AttendanceRateModel();
+            }
+        }catch(Exception e){
+            model = new AttendanceRateModel();
+            Log.d(TAG,e.toString());
+        }
+
+        return model;
     }
 
     /***
@@ -97,10 +122,11 @@ public class PrefManager {
         SharedPreferences sharedPreferences;
         List<NewsModel> arrayList;
         sharedPreferences = mContext.getSharedPreferences(PrefConst.FILE_NEWS, mContext.MODE_PRIVATE);
-        arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_SCHOOL_NEWS, ""), new TypeToken<List<NewsModel>>() {
-        }.getType());
 
         try {
+            arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_SCHOOL_NEWS, ""), new TypeToken<List<NewsModel>>() {
+            }.getType());
+
             if (arrayList.size() == 0) {
                 arrayList = new ArrayList<>();
             }
@@ -123,6 +149,8 @@ public class PrefManager {
         }.getType());
 
         try {
+            arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_TANNIN_NEWS, ""), new TypeToken<List<NewsModel>>() {
+            }.getType());
             if (arrayList.size() == 0) {
                 arrayList = new ArrayList<>();
             }
@@ -230,7 +258,7 @@ public class PrefManager {
      */
     public static void saveAttendanceAllRateData(String html) {
         AttendanceRateModel attendanceRateModel = createAllRateData(html);
-        save(attendanceRateModel, PrefConst.KEY_ATTEND, PrefConst.FILE_ATTEND);
+        save(attendanceRateModel, PrefConst.KEY_ATTEND_ALL_RATE, PrefConst.FILE_ATTEND);
     }
 
 
@@ -477,7 +505,7 @@ public class PrefManager {
         html = RegexManager.replaceCRLF(html, true);
         String narrowHtml = RegexManager.narrowingValues("<div id=\"timetable_col\" class=\"col\">", "<div class=\"col\">", html);
 
-        int rowNum = 0;
+        int rowNum = 1; //1〜
         int teacherIndex = 0;
         boolean flg = true;
 
@@ -491,7 +519,7 @@ public class PrefManager {
             }
 
             Matcher col = RegexManager.getGroupValues("<td>(.+?)</td>", row.group());
-            int colNum = 0;
+            int colNum = 1; //1〜
             while (col.find()) {
                 String colHtml = col.group();
 

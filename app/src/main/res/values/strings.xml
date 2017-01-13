@@ -50,4 +50,11 @@
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
     <string name="string_text_view_error">入力してください</string>
+
+    <string name="time_zero_class">7:30 ~ 9:00</string>
+    <string name="time_one_class">9:15 ~ 10:45</string>
+    <string name="time_two_class">11:00 ~ 12:30</string>
+    <string name="time_three_class">13:30 ~ 15:00</string>
+    <string name="time_four_class">15:15 ~ 16:45</string>
+    <string name="time_five_class">17:00 ~ 18:30</string>
 </resources>

@@ -1,0 +1,260 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.fragment.TimeTableFragment">
+
+    <!--<FrameLayout-->
+        <!--android:id="@+id/close_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_above="@+id/bottom_sheet_view"-->
+        <!--android:background="#915b5b5b">-->
+        <!--<Button-->
+            <!--android:id="@+id/close_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_above="@+id/bottom_sheet_view"/>-->
+    <!--</FrameLayout>-->
+
+    <LinearLayout
+        android:id="@+id/time_table_header"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:background="#f7f7f7"
+        android:orientation="horizontal"
+        android:weightSum="5">
+
+        <TextView
+            android:id="@+id/mon_col_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/week_header_right"
+            android:gravity="center"
+            android:text="@string/mon_string"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/tue_col_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/week_header_right"
+            android:gravity="center"
+            android:text="@string/tue_string"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/wed_col_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/week_header_right"
+            android:gravity="center"
+            android:text="@string/wed_string"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/thur_col_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/week_header_right"
+            android:gravity="center"
+            android:text="@string/thur_string"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/fri_col_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/fri_string"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/time_table_header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+            android:fadeScrollbars="false"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mon_col"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/tue_col"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/wed_col"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/thur_col"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fri_col"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!--BottomSheetを閉じるためのView-->
+    <FrameLayout
+        android:id="@+id/close_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_bottom_sheet_close"
+        android:visibility="invisible"/>
+
+    <!--BottomSheetView
+    セルタップ時に詳細情報を表示する-->
+    <RelativeLayout
+        android:id="@+id/bottom_sheet_view"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="invisible">
+
+        <RelativeLayout
+            android:id="@+id/bottom_sheet_view_title"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorPrimary">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="詳細情報"
+                android:textColor="@android:color/white"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/bottom_sheet_view_title"
+            android:background="@color/bg_bottom_sheet"
+            android:orientation="vertical"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_bottom_line">
+
+                <TextView
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:drawablePadding="15sp"
+                    android:gravity="center_vertical"
+                    android:padding="15sp"
+                    android:text="教科名"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/txt_subject"
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:drawablePadding="15sp"
+                    android:gravity="center_vertical"
+                    android:padding="15dp"
+                    android:text="SAMPLE"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_bottom_line">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:drawablePadding="15sp"
+                    android:gravity="center_vertical"
+                    android:padding="15dp"
+                    android:text="担当教師"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/txt_teacher"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:drawablePadding="15sp"
+                    android:gravity="center_vertical"
+                    android:padding="15dp"
+                    android:text="SAMPLE"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:background="@android:color/transparent">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:drawablePadding="15sp"
+                    android:gravity="center_vertical"
+                    android:padding="15dp"
+                    android:text="時間"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/txt_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:drawablePadding="15sp"
+                    android:gravity="center_vertical"
+                    android:padding="15dp"
+                    android:text="SAMPLE"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>
