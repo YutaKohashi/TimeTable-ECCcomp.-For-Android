@@ -1,0 +1,15 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/fragment_news_list"
+    tools:context="jp.yuta.kohashi.esc.ui.fragment.news.NewsListFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <!--<jp.yuta.kohashi.esc.ui.view.CalendarView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/calendar_view"-->
+        <!--/>-->
+
+</FrameLayout>

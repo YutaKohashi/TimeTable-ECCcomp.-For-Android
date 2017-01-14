@@ -14,7 +14,8 @@
         android:layout_height="match_parent">
     <include
         android:id="@+id/appbar"
-        layout="@layout/include_appbar" />
+        layout="@layout/include_appbar"
+        />
 
         <LinearLayout
         android:id="@+id/container_bottom_navigation_view"

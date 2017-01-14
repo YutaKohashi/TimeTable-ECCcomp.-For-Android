@@ -14,10 +14,15 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateFragment;
 import jp.yuta.kohashi.esc.ui.fragment.TimeTableFragment;
+import jp.yuta.kohashi.esc.ui.fragment.calendar.CalendarParentFragment;
+import jp.yuta.kohashi.esc.ui.fragment.news.NewsParentFragment;
 
 
 /***
@@ -34,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private BottomNavigationView mBottomNavView;
 //    private FragmentManager fragmentManager;
     private Fragment transitionFragment;
+    private View appBar;
 
 
     @Override
@@ -81,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void initBottomNavView() {
         mBottomNavView = (BottomNavigationView) findViewById(R.id.bottom_nav_view);
         mBottomNavView.setOnNavigationItemSelectedListener(this);
+        appBar = findViewById(R.id.appbar);
     }
 
 
@@ -93,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+        Animation in = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_bottom_sheet_in);
 
         switch (item.getItemId()) {
             case R.id.nav_item_time_table: // 時間割
@@ -102,8 +110,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 transitionFragment  = new AttendanceRateFragment();
                 break;
             case R.id.nav_item_news: // お知らせ
+                transitionFragment  = new NewsParentFragment();
                 break;
             case R.id.nav_item_schedule: //スケジュール
+                transitionFragment  = new CalendarParentFragment();
                 break;
             case R.id.nav_item_web: //WEB版
                 break;

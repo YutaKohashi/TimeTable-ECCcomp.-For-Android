@@ -21,6 +21,4 @@ public class CustomTimeTableCell {
         room = "";
         teacherName = "";
     }
-
-
 }

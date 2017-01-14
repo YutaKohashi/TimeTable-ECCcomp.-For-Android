@@ -16,4 +16,12 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
+    <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Toolbar Title Color-->
+        <item name="android:textColorPrimary">@color/toolbar_title</item>
+        <!-- Toolbar menu overflow icon color -->
+        <item name="android:textColorSecondary">@color/toolbar_icon</item>
+    </style>
+
+    <attr name="customAttr" format="reference"/>
 </resources>
