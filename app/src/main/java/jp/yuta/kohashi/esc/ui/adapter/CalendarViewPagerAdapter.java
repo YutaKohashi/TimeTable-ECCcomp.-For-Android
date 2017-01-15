@@ -7,7 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import jp.yuta.kohashi.esc.Const;
+import jp.yuta.kohashi.esc.model.schedule.CalendarItemModel;
+import jp.yuta.kohashi.esc.model.schedule.CalendarListModel;
 import jp.yuta.kohashi.esc.ui.view.CalendarView;
 import jp.yuta.kohashi.esc.util.Util;
 
@@ -21,16 +25,18 @@ public class CalendarViewPagerAdapter extends PagerAdapter {
     //    private ClickPagerImgListener listener;
     LayoutInflater _inflater = null;
     private Context mContext;
+    private CalendarListModel calendarListModel;
 
-    public CalendarViewPagerAdapter(Context context) {
+    public CalendarViewPagerAdapter(Context context, CalendarListModel model) {
         _inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mContext = context;
+        calendarListModel = model;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         CalendarView calendarView = new CalendarView(mContext, null);
-        calendarView.setMonth(Const.YEAR,getMonth(position));
+        calendarView.setMonth(Const.YEAR,getMonth(position),calendarListModel.get(Util.getTabPositionToMonth(position)));
         container.addView(calendarView);
         return calendarView;
     }
@@ -66,51 +72,6 @@ public class CalendarViewPagerAdapter extends PagerAdapter {
      */
     @Override
     public CharSequence getPageTitle(int position) {
-        return String.valueOf(Util.getTabPositionToMonth(position));
+        return String.valueOf(Util.getTabPositionToMonth(position)) + "月";
     }
-//
-//    public void setListener( ClickPagerImgListener listener )
-//    {
-//        this.listener = listener;
-//    }
-//
-//    public interface ChangePage
-//    {
-//        public void change( int position );
-//    }
-
-//    private final List<Fragment> fragmentList = new ArrayList<>();
-//    private final List<String> fragmentTitleList = new ArrayList<>();
-//
-//    public CalendarViewPagerAdapter(FragmentManager manager){
-//        super(manager);
-//    }
-//
-//    @Override
-//    public Fragment getItem(int position){
-//        return fragmentList.get(position);
-//    }
-//
-//    @Override
-//    public boolean isViewFromObject(View view, Object object) {
-//        return false;
-//    }
-//
-//    @Override
-//    public int getCount() {
-//        return fragmentList.size();
-//    }
-//
-//
-//
-//
-//    public void addFrag(Fragment fragment, String title){
-//        fragmentList.add(fragment);
-//        fragmentTitleList.add(title);
-//    }
-//
-//    @Override
-//    public CharSequence getPageTitle(int position) {
-//        return fragmentTitleList.get(position);
-//    }
 }

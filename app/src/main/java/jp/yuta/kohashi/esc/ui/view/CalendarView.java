@@ -1,6 +1,8 @@
 package jp.yuta.kohashi.esc.ui.view;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -9,10 +11,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
+import jp.yuta.kohashi.esc.model.schedule.CalendarItemModel;
 import jp.yuta.kohashi.esc.util.Util;
 
 /**
@@ -44,11 +49,16 @@ public class CalendarView extends LinearLayout {
      * @param year
      * @param month
      */
-    public void setMonth(int year, int month) {
+    public void setMonth(int year, int month, List<CalendarItemModel> scheduleList) {
         this.year = year;
         this.month = month;
-//        ((TextView)(view.findViewById(R.id.textView))).setText(String.valueOf(month));
         //get root calender View
+
+        List<String> dayList = new ArrayList<>(); //　バッジを付けるリスト
+        for(CalendarItemModel model:scheduleList){
+            dayList.add(model.getDate());
+        }
+
         Calendar calendar = Calendar.getInstance();
 
         //現在の月が４月から１２月のとき
@@ -152,17 +162,18 @@ public class CalendarView extends LinearLayout {
                     textView1.setTextColor(getContext().getResources().getColor(R.color.red));
                 }
 
-                //dateListに含まれる場合
-//                if(dateList.contains(String.format("%02d",dayCount))){
-//                    // btn1.setBackground(context.getResources().getDrawable(R.drawable.event_mark_bg));
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//                        //APIレベルがJELLEYBEAN以上の時
-//                        btn1.setBackground(ContextCompat.getDrawable(context, R.drawable.event_drwable_main));
-//                    }else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-//                        //APIレベルがICSの時
-//                        btn1.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.event_drwable_main));
-//                    }
-//                }
+
+//                dateListに含まれる場合
+                if(dayList.contains(String.format("%02d",dayCount))){
+                    // btn1.setBackground(context.getResources().getDrawable(R.drawable.event_mark_bg));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        //APIレベルがJELLEYBEAN以上の時
+                        textView1.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_calendar_budge));
+                    }else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                        //APIレベルがICSの時
+                        textView1.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.bg_calendar_budge));
+                    }
+                }
 
                 rowLayout.addView(root);
 

@@ -21,7 +21,7 @@ import android.view.animation.AnimationUtils;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateFragment;
 import jp.yuta.kohashi.esc.ui.fragment.TimeTableFragment;
-import jp.yuta.kohashi.esc.ui.fragment.calendar.CalendarParentFragment;
+import jp.yuta.kohashi.esc.ui.fragment.CalendarFragment;
 import jp.yuta.kohashi.esc.ui.fragment.news.NewsParentFragment;
 
 
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 transitionFragment  = new NewsParentFragment();
                 break;
             case R.id.nav_item_schedule: //スケジュール
-                transitionFragment  = new CalendarParentFragment();
+                transitionFragment  = new CalendarFragment();
                 break;
             case R.id.nav_item_web: //WEB版
                 break;

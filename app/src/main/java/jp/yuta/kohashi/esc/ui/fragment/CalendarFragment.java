@@ -1,5 +1,6 @@
-package jp.yuta.kohashi.esc.ui.fragment.calendar;
+package jp.yuta.kohashi.esc.ui.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.google.gson.Gson;
 
@@ -29,8 +31,8 @@ import jp.yuta.kohashi.esc.util.Util;
  * Created by yutakohashi on 2017/01/14.
  */
 
-public class CalendarParentFragment extends Fragment {
-    private static final String TAG = CalendarParentFragment.class.getSimpleName();
+public class CalendarFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener {
+    private static final String TAG = CalendarFragment.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
 
@@ -40,24 +42,26 @@ public class CalendarParentFragment extends Fragment {
     private CalendarRecyclerAdapter mRecyclerAdapter;
     int currentPage;
     private CalendarListModel calendarListModel;
+    private boolean flag = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_calendar_parent, container, false);
+        calendarListModel = getSchedule(); //スケジュールを取得
 
         mViewPager = (ViewPager) view.findViewById(R.id.calendar_viewpager);
-        mPagerAdapter = new CalendarViewPagerAdapter(getContext());
+        mTabLayout = (TabLayout) view.findViewById(R.id.tab_calendar);
+        mPagerAdapter = new CalendarViewPagerAdapter(getContext(),calendarListModel);
         mViewPager.addOnPageChangeListener(new PageChangeListener());
         mViewPager.setAdapter(mPagerAdapter);
-
-        mTabLayout = (TabLayout) view.findViewById(R.id.tab_calendar);
         mTabLayout.setupWithViewPager(mViewPager);
 
-        currentPage = 0;
+        //ViewTreeObserverをフック
+        mTabLayout.getViewTreeObserver().addOnGlobalLayoutListener(this);
 
-        calendarListModel = getSchedule(); //スケジュールを取得
+        currentPage = 0;
 
         mRecyclerAdapter = new CalendarRecyclerAdapter(new ArrayList<CalendarItemModel>(), getContext());
 
@@ -66,20 +70,15 @@ public class CalendarParentFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mRecyclerAdapter);
 
-        int i = Util.getMonthToTabPosition(Const.MONTH);
-        selectPage(i);
-
         return view;
     }
-    private void selectPage(int pageIndex){
-        mViewPager.setCurrentItem(pageIndex);
-        mTabLayout.setupWithViewPager(mViewPager);
-    }
 
+    /**
+     * ViewPagerのページが変わったときに呼び出される
+     */
     class PageChangeListener extends ViewPager.SimpleOnPageChangeListener {
         @Override
         public void onPageSelected(int position) {
-            // Page change Operation!
             super.onPageSelected(position);
             currentPage = position;
 
@@ -88,10 +87,42 @@ public class CalendarParentFragment extends Fragment {
         }
     }
 
+    /**
+     * フラグメント起動時にタブをスクロール
+     */
+    @Override
+    public void onGlobalLayout() {
+        if (flag) {
+            flag = false;
+            int position = Util.getMonthToTabPosition(Const.MONTH);
+            mViewPager.setCurrentItem(position, false);
+            mTabLayout.setScrollPosition(position, 0, true); // 注
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mTabLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+        }
+    }
+
+    /**
+     * 引数の月からスケジュールをを取得
+     *
+     * @param month
+     * @return
+     */
     private List<CalendarItemModel> getMonthSchedule(int month) {
         return calendarListModel.get(month);
     }
 
+    /**
+     * Asettsからスケジュールを取得
+     *
+     * @return
+     */
     private CalendarListModel getSchedule() {
         String jsonText = "";
         Gson gson = new Gson();
@@ -105,4 +136,5 @@ public class CalendarParentFragment extends Fragment {
 
         return listModel;
     }
+
 }
