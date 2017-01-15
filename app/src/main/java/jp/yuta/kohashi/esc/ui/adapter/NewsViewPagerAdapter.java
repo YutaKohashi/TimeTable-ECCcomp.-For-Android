@@ -4,6 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import java.util.List;
+
+import jp.yuta.kohashi.esc.model.NewsModel;
 import jp.yuta.kohashi.esc.ui.fragment.news.NewsListFragment;
 
 /**
@@ -11,36 +14,29 @@ import jp.yuta.kohashi.esc.ui.fragment.news.NewsListFragment;
  */
 //タブに関するアダプタ
 public class NewsViewPagerAdapter extends FragmentPagerAdapter {
-    private static final int TIME_TABLE_FLAG = 1;
-    private static final int ATTENDANCE_RATE__FLAG = 2;
-    private static final int NEWS_FLAG = 3;
 
-    /**
-     * １：時間割
-     * ２：出席照会
-     * ３：お知らせ
-     */
-    private int flag;
+    private static final int TAB_COUNT = 2;
+    private List<NewsModel> schoolNews;
+    private List<NewsModel> tanninNews;
 
-    public NewsViewPagerAdapter(FragmentManager fm) {
+    public NewsViewPagerAdapter(FragmentManager fm, List<NewsModel> schoolNews, List<NewsModel> tanninNews) {
         super(fm);
-
-        this.flag = flag;
+        this.schoolNews = schoolNews;
+        this.tanninNews = tanninNews;
     }
 
     //フラグメントによって変更する
     @Override
     public Fragment getItem(int position) {
-//            return DesignFragment.newInstance(position);
-
-        Fragment fragment = null;
-
+        NewsListFragment fragment = null;
         switch(position){
             case 0:
                 fragment =   new NewsListFragment();
+                fragment.setItems(schoolNews);
                 break;
             case 1:
                 fragment =  new NewsListFragment();
+                fragment.setItems(tanninNews);
                 break;
         }
 
@@ -49,7 +45,7 @@ public class NewsViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return TAB_COUNT;
     }
 
     @Override

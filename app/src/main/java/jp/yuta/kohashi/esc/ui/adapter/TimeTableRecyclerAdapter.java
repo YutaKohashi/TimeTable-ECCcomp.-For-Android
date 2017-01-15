@@ -24,7 +24,7 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
     private Context mContext;
     private LayoutInflater mLayoutInflater;
 
-    // タップされたときに呼び出されるメソッドを定義
+    // タップされたときに呼び出されるメソッド
     protected void onItemClicked(@NonNull TimeBlockModel model) {
     }
 
@@ -34,19 +34,15 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
         this.mContext = context;
     }
 
-//    TimeTableRecyclerAdapter.TimeViewHolder holder;
     @Override
     public TimeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-//        holder = TimeTableRecyclerAdapter.TimeViewHolder.create(inflater, parent);
-//        mLayoutInflater = LayoutInflater.from(context);
         View v = mLayoutInflater.inflate(R.layout.cell_time_table, parent, false);
         final TimeViewHolder holder = new TimeViewHolder(v);
         // onCreateViewHolder でリスナーをセット
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final int position = holder.getAdapterPosition();
+                int position = holder.getAdapterPosition();
                 onItemClicked(items.get(position));
             }
         });

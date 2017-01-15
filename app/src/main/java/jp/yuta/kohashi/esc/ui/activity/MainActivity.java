@@ -20,8 +20,8 @@ import android.view.animation.AnimationUtils;
 
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateFragment;
-import jp.yuta.kohashi.esc.ui.fragment.TimeTableFragment;
 import jp.yuta.kohashi.esc.ui.fragment.CalendarFragment;
+import jp.yuta.kohashi.esc.ui.fragment.TimeTableFragment;
 import jp.yuta.kohashi.esc.ui.fragment.news.NewsParentFragment;
 
 
@@ -48,29 +48,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        setContentView(R.layout.activity_main_nav_drawer);
         setContentView(R.layout.activity_main_nav_bottom);
 
-        //ツールバーをActionBarとして扱う
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolbar != null) {
-            setSupportActionBar(mToolbar);
-        }
+        initToolbar();
 
 //        ドロワーの時
 //        initDrawer();
         initBottomNavView();
 
+        replaceFragment(new TimeTableFragment());
     }
 
+    @Override
     public void onStart(){
         super.onStart();
-
-        Fragment fragment = new TimeTableFragment();
-        FragmentManager manager = getSupportFragmentManager();
-        manager.beginTransaction()
-                .replace(R.id.fragment_container, fragment, "dd")
-                .addToBackStack(null)
-                .commit();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
 
     /**
      * ツールバー、ナビゲーションドロワーを初期化
@@ -88,6 +83,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mBottomNavView = (BottomNavigationView) findViewById(R.id.bottom_nav_view);
         mBottomNavView.setOnNavigationItemSelectedListener(this);
         appBar = findViewById(R.id.appbar);
+    }
+
+    private void initToolbar(){
+        //ツールバーをActionBarとして扱う
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
+        }
     }
 
 
@@ -122,26 +125,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         try {
-            FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction()
-                    .replace(R.id.fragment_container, transitionFragment, "")
-                    .addToBackStack(null)
-                    .commit();
-        }catch(NullPointerException e){
+            replaceFragment(transitionFragment);
+        }catch(Exception e){
             Log.d(TAG,e.toString());
         }
 
         return true;
     }
 
-    private void drawerOpen(){
-
+    /**
+     * フラグメントreplaceメソッド
+     * @param fragment
+     */
+    private void replaceFragment(Fragment fragment){
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction()
+                .replace(R.id.fragment_container, fragment, "")
+                .addToBackStack(null)
+                .commit();
     }
+
+    private void drawerOpen(){mDrawerLayout.closeDrawer(GravityCompat.END);}
 
     private void closeDrawer(){
         mDrawerLayout.closeDrawer(GravityCompat.START);
     }
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){

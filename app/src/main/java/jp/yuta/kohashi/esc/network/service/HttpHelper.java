@@ -98,7 +98,7 @@ public class HttpHelper {
                             successCallBacks.callback(bool);
                         }
                     });
-                } else{
+                } else {
                     successCallBacks.callback(false);
                 }
             }
@@ -165,6 +165,22 @@ public class HttpHelper {
                 } else {
                     successCallbacks.callback(false);
                 }
+            }
+        });
+    }
+
+    /**
+     * ニュース詳細を取得
+     * @param userId
+     * @param password
+     * @param url
+     * @param accessCallbacks
+     */
+    public static void getNewsDetail(final String userId, final String password, String url, final AccessCallbacks accessCallbacks) {
+        requestNewsDetail(userId, password, url, new AccessCallbacks() {
+            @Override
+            public void callback(String html, boolean bool) {
+                accessCallbacks.callback(html,bool);
             }
         });
     }
@@ -341,6 +357,38 @@ public class HttpHelper {
 
                 mLastResponseHtml = result.getString();
 
+                Log.d(TAG, mLastResponseHtml);
+                nextTask.run(null);
+            }
+        }).setCallback(new Callback<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                accessCallbacks.callback(mLastResponseHtml, true);
+            }
+
+            @Override
+            public void onFailure(Bundle bundle, Exception e) {
+                log(e);
+                accessCallbacks.callback(mLastResponseHtml, false);
+            }
+        }).create().execute(null);
+    }
+
+    private static void requestNewsDetail(final String userId, final String password, final String url, final AccessCallbacks accessCallbacks) {
+        Promise.with(mContext, Void.class).thenOnAsyncThread(new Task<Void, Void>() {
+            @Override
+            public void run(Void aVoid, NextTask<Void> nextTask) {
+
+                //ログイン
+                HttpResultClass result = loginToESC(userId, password);
+                if (!result.getBool()) nextTask.fail(new Bundle(), new Exception());
+
+                mLastResponseHtml = result.getString();
+
+                result = HttpBase.httpGet(url,RequestURL.ESC_TO_PAGE);
+                if (!result.getBool()) nextTask.fail(new Bundle(), new Exception());
+
+                mLastResponseHtml = result.getString();
                 Log.d(TAG, mLastResponseHtml);
                 nextTask.run(null);
             }

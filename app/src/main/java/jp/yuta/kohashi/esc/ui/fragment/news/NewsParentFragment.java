@@ -10,8 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import jp.yuta.kohashi.esc.R;
+import jp.yuta.kohashi.esc.model.NewsModel;
 import jp.yuta.kohashi.esc.ui.adapter.NewsViewPagerAdapter;
+import jp.yuta.kohashi.esc.util.preference.PrefManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,13 +23,17 @@ import jp.yuta.kohashi.esc.ui.adapter.NewsViewPagerAdapter;
 public class NewsParentFragment extends Fragment {
 
     ViewPager mViewPager;
+    List<NewsModel> schoolNews;
+    List<NewsModel> tanninNews;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.fragment_news_parent, container, false);
 
-        NewsViewPagerAdapter adapter = new NewsViewPagerAdapter(getChildFragmentManager());
+        schoolNews = PrefManager.loadSchoolNewsList();
+        tanninNews = PrefManager.loadTanninNewsList();
+        NewsViewPagerAdapter adapter = new NewsViewPagerAdapter(getChildFragmentManager(),schoolNews,tanninNews);
         mViewPager = (ViewPager)v.findViewById(R.id.news_viewpager);
         mViewPager.setAdapter(adapter);
         TabLayout tabLayout = (TabLayout)v.findViewById(R.id.tablayout);
@@ -39,9 +47,7 @@ public class NewsParentFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        NewsViewPagerAdapter adapter = new NewsViewPagerAdapter(getChildFragmentManager());
+        NewsViewPagerAdapter adapter = new NewsViewPagerAdapter(getChildFragmentManager(),schoolNews,tanninNews);
         mViewPager.setAdapter(adapter);
     }
-
-
 }

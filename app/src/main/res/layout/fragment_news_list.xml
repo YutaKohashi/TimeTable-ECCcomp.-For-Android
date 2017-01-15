@@ -1,15 +1,23 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_news_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_news_list"
     tools:context="jp.yuta.kohashi.esc.ui.fragment.news.NewsListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <!--<jp.yuta.kohashi.esc.ui.view.CalendarView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:id="@+id/calendar_view"-->
-        <!--/>-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/container_news_recycler_view"
+        android:background="#FFF"
+        android:fitsSystemWindows="true">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/news_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </FrameLayout>

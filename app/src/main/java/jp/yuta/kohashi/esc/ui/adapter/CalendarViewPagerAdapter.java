@@ -7,10 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import jp.yuta.kohashi.esc.Const;
-import jp.yuta.kohashi.esc.model.schedule.CalendarItemModel;
 import jp.yuta.kohashi.esc.model.schedule.CalendarListModel;
 import jp.yuta.kohashi.esc.ui.view.CalendarView;
 import jp.yuta.kohashi.esc.util.Util;

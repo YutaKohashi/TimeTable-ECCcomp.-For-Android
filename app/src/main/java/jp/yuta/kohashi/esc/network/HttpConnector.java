@@ -89,4 +89,13 @@ public class HttpConnector {
                 });
         }
     }
+
+    public void requestNewsDetail(String userId, String password, String url , final HttpHelper.AccessCallbacks accessCallbacks){
+        HttpHelper.getNewsDetail(userId, password, url, new HttpHelper.AccessCallbacks() {
+            @Override
+            public void callback(String html, boolean bool) {
+                accessCallbacks.callback(html,bool);
+            }
+        });
+    }
 }

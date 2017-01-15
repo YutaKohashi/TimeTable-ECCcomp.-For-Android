@@ -1,5 +1,7 @@
 package jp.yuta.kohashi.esc.model;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class NewsModel {
+public class NewsModel implements Serializable{
 
     private String title;
     private String date;

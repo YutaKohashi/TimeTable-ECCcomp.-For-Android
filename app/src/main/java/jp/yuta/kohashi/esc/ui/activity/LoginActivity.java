@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         id = "2140257";
         pass = "455478";
-        new HttpConnector().request(HttpConnector.Type.TIME_ATTEND, id, pass, new HttpConnector.Callback() {
+        new HttpConnector().request(HttpConnector.Type.NEWS_SCHOOL_TEACHER, id, pass, new HttpConnector.Callback() {
             @Override
             public void callback(boolean bool) {
                 if (bool) {
