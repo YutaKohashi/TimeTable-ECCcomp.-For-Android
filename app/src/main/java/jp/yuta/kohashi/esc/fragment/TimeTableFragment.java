@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -91,6 +92,7 @@ public class TimeTableFragment extends Fragment {
         FridayList = new ArrayList<>();
 
         loadManager = new LoadManager();
+
 
         MondayList = loadManager.loadManagerWithPreferenceForTimeBlock(getActivity(),prefName,"monList");
         TuesdayList = loadManager.loadManagerWithPreferenceForTimeBlock(getActivity(),prefName,"tueList");
@@ -235,21 +237,21 @@ public class TimeTableFragment extends Fragment {
 //
         //チュートリアル
         //通常はonCreateviewでチュートリアルを表示する
-        TextView view = (TextView)getActivity().findViewById(R.id.dummy_edit);
-        ShowcaseConfig config = new ShowcaseConfig();
-        config.setDelay(500);
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
-        sequence.setConfig(config);
-        sequence.addSequenceItem(view,
-                "各ブロックをタップすと詳細情報が表示されます。", "次へ");
-        sequence.addSequenceItem(getNavButtonView((Toolbar) getActivity().findViewById(R.id.toolbar)),
-                "トグルをタップ、または右にスワイプすることでコンテンツを選択できます。", "開始する");
-        sequence.start();
-
-        SharedPreferences preferences = getActivity().getSharedPreferences("material_showcaseview_prefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("enableTutorial", false);
-        editor.commit();
+//        TextView view = (TextView)getActivity().findViewById(R.id.dummy_edit);
+//        ShowcaseConfig config = new ShowcaseConfig();
+//        config.setDelay(500);
+//        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
+//        sequence.setConfig(config);
+//        sequence.addSequenceItem(view,
+//                "各ブロックをタップすと詳細情報が表示されます。", "次へ");
+//        sequence.addSequenceItem(getNavButtonView((Toolbar) getActivity().findViewById(R.id.toolbar)),
+//                "トグルをタップ、または右にスワイプすることでコンテンツを選択できます。", "開始する");
+//        sequence.start();
+//
+//        SharedPreferences preferences = getActivity().getSharedPreferences("material_showcaseview_prefs", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = preferences.edit();
+//        editor.putBoolean("enableTutorial", false);
+//        editor.commit();
 
         return v;
     }
@@ -268,22 +270,24 @@ public class TimeTableFragment extends Fragment {
 
         //設定画面からこのFragmentに来た時のみonStartメソッドでチュートリアルを表示する
         if(bool){
-            TextView view = (TextView)getActivity().findViewById(R.id.dummy_edit);
-            Log.d("TimeTableFragment::","onCreate" + String.valueOf(count));
-            ShowcaseConfig config = new ShowcaseConfig();
-            config.setDelay(500);
-            MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
-            sequence.setConfig(config);
-            sequence.addSequenceItem(view,
-                    "各ブロックをタップすと詳細情報が表示されます。", "次へ");
-            sequence.addSequenceItem(getNavButtonView((Toolbar) getActivity().findViewById(R.id.toolbar)),
-                    "トグルをタップ、または右にスワイプすることでコンテンツを選択できます。", "開始する");
-            sequence.start();
+            if(bool){
+                TextView view = (TextView)getActivity().findViewById(R.id.dummy_edit);
+                Log.d("TimeTableFragment::","onCreate" + String.valueOf(count++));
+                ShowcaseConfig config = new ShowcaseConfig();
+                config.setDelay(500);
+                MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
+                sequence.setConfig(config);
+                sequence.addSequenceItem(view,
+                        "各ブロックをタップすと詳細情報が表示されます。", "次へ");
+                sequence.addSequenceItem(getNavButtonView((Toolbar) getActivity().findViewById(R.id.toolbar)),
+                        "トグルをタップ、または右にスワイプすることでコンテンツを選択できます。", "開始する");
+                sequence.start();
 
-            SharedPreferences.Editor editor = data.edit();
-            editor.putBoolean("enableTutorial", false);
-            editor.commit();
-
+                //プリファレンスの内容をfalseに変更
+                SharedPreferences.Editor editor = data.edit();
+                editor.putBoolean("enableTutorial", false);
+                editor.commit();
+            }
         }
 
     }

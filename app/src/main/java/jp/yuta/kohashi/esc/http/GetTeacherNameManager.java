@@ -110,7 +110,7 @@ public class GetTeacherNameManager {
         }
 
         //作成された先生の名前のコレクションをプリファレンスに保存
-        saveManager = new SaveManager();
+        saveManager = new SaveManager(context);
         saveManager.saveMangerWithPreference(context,PREF_NAME,teacherNames,PREF_TEACHERS_KEY);
     }
 

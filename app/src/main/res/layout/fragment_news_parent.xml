@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         app:tabBackground="@drawable/cusotm_tab_color"
         app:tabIndicatorColor="@color/colorAccent2"
-
         app:tabGravity="fill"/>
 
 

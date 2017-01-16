@@ -17,15 +17,6 @@
         android:paddingTop="30sp"
        >
 
-        <!--<jp.yuta.kohashi.esc.object.CustomTextView-->
-            <!--android:id="@+id/login_title"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:padding="10sp"-->
-            <!--android:text="ECCコンピュータ\n専門学校"-->
-            <!--android:textAlignment="center"-->
-            <!--android:textColor="@color/white"-->
-            <!--android:textSize="30sp" />-->
 
         <TextView
             android:id="@+id/login_title"

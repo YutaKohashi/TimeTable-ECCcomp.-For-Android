@@ -93,7 +93,7 @@ public class GetAttendanceRateManager {
         cookieJar = new JavaNetCookieJar(cookieManager);
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
         getValuesBase = new GetValuesBase();
-        saveManager = new SaveManager();
+        saveManager = new SaveManager(context);
         attendanceRateList = new ArrayList();
 
         client = new OkHttpClient.Builder()
@@ -103,10 +103,6 @@ public class GetAttendanceRateManager {
         Promise.with(this,String.class).then(new Task<String, String>() {
             @Override
             public void run(String s, NextTask<String> nextTask) {
-//                // ダイアログを表示
-//                prg.setMessage("メッセージ");
-//                prg.setTitle("タイトル");
-//                prg.show();
                 if(!getValuesBase.ConnectionCheck(context)){
                     mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
                     mSwipeRefreshLayout.setRefreshing(false);
@@ -165,6 +161,7 @@ public class GetAttendanceRateManager {
                         .add("ctl00$ContentPlaceHolder1$txtPassword",ctl00$ContentPlaceHolder1$txtPassword)
                         .add("ctl00$ContentPlaceHolder1$btnLogin",ctl00$ContentPlaceHolder1$btnLogin)
                         .build();
+
 
                 request = new Request.Builder()
                         .url(URL2)
@@ -319,7 +316,7 @@ public class GetAttendanceRateManager {
 
                 //出席率画面のリスト完成
                 /******************* 以下データベース登録処理 ******************/
-                saveManager = new SaveManager();
+                saveManager = new SaveManager(context);
                 saveManager.saveMangerWithPreference(context,PREF_NAME,attendanceRateList,"attendanceList");
 
                 nextTask.run(mLastResponse);

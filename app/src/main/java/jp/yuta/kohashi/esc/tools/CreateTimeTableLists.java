@@ -13,13 +13,13 @@ import java.util.regex.Pattern;
  */
 public class CreateTimeTableLists {
 
-    public TimeBlock CreateTimeTableList(String result){
+    public TimeBlock CreateTimeTableList(String result) {
         TimeBlock timeBlock = new TimeBlock();
 
         //曜日ごとに切り出し
         Pattern pattern1 = Pattern.compile("<td>(.+?)</td>");
         Matcher matcher1 = pattern1.matcher(result);
-        while(matcher1.find()) {
+        while (matcher1.find()) {
             //Log.d("regex::::", matcher1.group());
 
             int count = 0;
