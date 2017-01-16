@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/group_feature"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_item_time_table"
+            android:icon="@drawable/ic_time_table_black"
+            android:title="時間割" />
+        <item
+            android:id="@+id/nav_item_attendance_rate"
+            android:icon="@drawable/ic_attendance_black"
+            android:title="出席照会" />
+
+        <item
+            android:id="@+id/nav_item_news"
+            android:icon="@drawable/ic_news_black"
+            android:title="お知らせ" />
+
+        <item
+            android:id="@+id/nav_item_schedule"
+            android:icon="@drawable/ic_schedule_black"
+            android:title="スケジュール" />
+    </group>
+
+    <group
+        android:id="@+id/group_bottom"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_item_web"
+            android:title="Web版にアクセス" />
+        <item
+            android:id="@+id/nav_item_settings"
+            android:title="設定" />
+    </group>
+</menu>

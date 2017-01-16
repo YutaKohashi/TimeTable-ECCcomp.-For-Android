@@ -45,14 +45,37 @@
     <color name="cardView_bg_golor_warning">#ffff00</color>
 
 
-
     <!--RecyclerView with headderの色-->
     <color name="default_header_color">#445566</color>
-
     <color name="transparent">#00000000</color>
-
     <color name="widget_cell_text_color">#545454</color>
 
-    <color name="dialog_bg">#f2f2f2</color>
 
+    <color name="nav_icon_black">#565656</color>
+    <color name="stroke_bottom_sheet">#f7f7f7</color>
+    <color name="bg_bottom_sheet">#f2f2f2</color>
+    <color name="bg_bottom_sheet_close">#8e000000</color>
+
+
+    //Color Swatches provided by http://designmodo.github.io/Flat-UI/
+    <color name="fbutton_color_turquoise">#1abc9c</color>
+    <color name="fbutton_color_green_sea">#16a085</color>
+    <color name="fbutton_color_emerald">#2ecc71</color>
+    <color name="fbutton_color_nephritis">#27ae60</color>
+    <color name="fbutton_color_peter_river">#3498db</color>
+    <color name="fbutton_color_belize_hole">#2980b9</color>
+    <color name="fbutton_color_amethyst">#9b59b6</color>
+    <color name="fbutton_color_wisteria">#8e44ad</color>
+    <color name="fbutton_color_wet_asphalt">#34495e</color>
+    <color name="fbutton_color_midnight_blue">#2c3e50</color>
+    <color name="fbutton_color_sun_flower">#f1c40f</color>
+    <color name="fbutton_color_orange">#f39c12</color>
+    <color name="fbutton_color_carrot">#e67e22</color>
+    <color name="fbutton_color_pumpkin">#d35400</color>
+    <color name="fbutton_color_alizarin">#e74c3c</color>
+    <color name="fbutton_color_pomegranate">#c0392b</color>
+    <color name="fbutton_color_clouds">#ecf0f1</color>
+    <color name="fbutton_color_silver">#bdc3c7</color>
+    <color name="fbutton_color_concrete">#95a5a6</color>
+    <color name="fbutton_color_asbestos">#7f8c8d</color>
 </resources>

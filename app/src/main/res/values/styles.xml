@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -6,13 +6,15 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <!-- remove shadow below action bar -->
-
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!-- Base application theme. -->
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
 
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Toolbar Title Color-->
@@ -21,36 +23,5 @@
         <item name="android:textColorSecondary">@color/toolbar_icon</item>
     </style>
 
-    <style name="CustomTabPageIndicator" parent="android:TextAppearance.Medium">
-        <item name="android:textColor">@drawable/tab_text_color</item>
-    </style>
-
-    <style name="Theme.Transparent" parent="android:Theme">
-    <!-- 背景を透明にする -->
-    <item name="android:windowIsTranslucent">true</item>
-    <!--タイトルバーを失くす -->
-    <item name="android:windowNoTitle">true</item>
-    </style>
-
-    <style name="MaterialDialogSheet" parent="@android:style/Theme.Dialog">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowAnimationStyle">@style/MaterialDialogSheetAnimation</item>
-    </style>
-
-    <style name="OriginalBottomSheet" parent="@style/AppTheme">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-    </style>
-
-    <style name="MaterialDialogSheetAnimation">
-        <item name="android:windowEnterAnimation">@anim/popup_show</item>
-        <item name="android:windowExitAnimation">@anim/popup_hide</item>
-    </style>
-
+    <attr name="customAttr" format="reference"/>
 </resources>
