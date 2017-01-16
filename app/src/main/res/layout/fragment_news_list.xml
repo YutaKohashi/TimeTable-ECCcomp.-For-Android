@@ -1,23 +1,25 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_news_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="jp.yuta.kohashi.esc.ui.fragment.news.NewsListFragment">
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <com.baoyz.widget.PullRefreshLayout
+        android:layout_below="@+id/container_total_data"
         android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/container_news_recycler_view"
-        android:background="#FFF"
-        android:fitsSystemWindows="true">
+        android:background="@android:color/white"
+        android:fitsSystemWindows="true"
+        app:refreshType="circles">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/news_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </com.baoyz.widget.PullRefreshLayout>
 
 </FrameLayout>

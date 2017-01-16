@@ -20,7 +20,7 @@ public class LoginCheckActivity extends AppCompatActivity {
 
         init();
 
-        if (PrefManager.isLogin()) {
+        if (!PrefManager.isLogin()) {
             // ログインしていない
             Intent intent = new Intent(LoginCheckActivity.this, LoginActivity.class);
             startActivity(intent);
@@ -41,6 +41,6 @@ public class LoginCheckActivity extends AppCompatActivity {
     private void init() {
         HttpHelper.init(this);
         PrefManager.init(this);
-        Util.init(getApplicationContext());
+        Util.init(this);
     }
 }

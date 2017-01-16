@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/fragment_attendance_rate"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -128,44 +129,21 @@
 
     </LinearLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <com.baoyz.widget.PullRefreshLayout
         android:layout_below="@+id/container_total_data"
         android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFF"
-        android:fitsSystemWindows="true">
-
+        android:background="@android:color/white"
+        android:fitsSystemWindows="true"
+        app:refreshType="circles">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/attendance_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
 
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="20sp"-->
-        <!--android:background="@color/colorPrimary"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:id="@+id/relativeLayout">-->
-
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:gravity="center"-->
-            <!--android:textSize="10sp"-->
-            <!--android:text="@string/latest_up"-->
-            <!--android:id="@+id/latest_update"-->
-            <!--android:textColor="#FFF"-->
-            <!--android:paddingRight="5sp"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_alignParentEnd="true" />-->
-
-    <!--</RelativeLayout>-->
+    </com.baoyz.widget.PullRefreshLayout>
 </RelativeLayout>
 
 

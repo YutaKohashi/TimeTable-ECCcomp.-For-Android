@@ -63,6 +63,12 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
         return items.size();
     }
 
+    public void swap(List<AttendanceRateModel> items){
+        this.items.clear();
+        this.items.addAll(items);
+        notifyDataSetChanged();
+    }
+
     //ViewHolder
     public static class AttendanceViewHolder extends RecyclerView.ViewHolder {
 

@@ -33,10 +33,12 @@ public class NewsViewPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 fragment =   new NewsListFragment();
                 fragment.setItems(schoolNews);
+                fragment.setContains(0);
                 break;
             case 1:
                 fragment =  new NewsListFragment();
                 fragment.setItems(tanninNews);
+                fragment.setContains(1);
                 break;
         }
 

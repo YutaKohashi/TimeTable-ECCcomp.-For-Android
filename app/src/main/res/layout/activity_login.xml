@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary9">
+    android:background="@color/colorPrimary9"
+    android:id="@+id/login_activity">
 
     <LinearLayout
         android:id="@+id/root_linear_layout"
@@ -65,7 +65,8 @@
                     android:imeOptions="actionNext"
                     android:inputType="number"
                     android:nextFocusDown="@+id/password"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:text="2140257"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -88,7 +89,8 @@
                     android:imeOptions="actionNext"
                     android:inputType="textPassword"
                     android:nextFocusDown="@+id/btn_login"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:text="455478"/>
 
             </android.support.design.widget.TextInputLayout>
 

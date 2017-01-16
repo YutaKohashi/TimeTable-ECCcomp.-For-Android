@@ -86,6 +86,12 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         return items.size();
     }
 
+    public void swap(List<NewsModel> items){
+        this.items.clear();
+        this.items.addAll(items);
+        notifyDataSetChanged();
+    }
+
     //複数レイアウト
     @Override
     public int getItemViewType(int position) {

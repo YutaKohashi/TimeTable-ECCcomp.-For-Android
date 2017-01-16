@@ -1,16 +1,20 @@
 package jp.yuta.kohashi.esc.ui.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -18,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
+import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.NewsModel;
 import jp.yuta.kohashi.esc.util.RegexManager;
@@ -26,6 +31,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
 
     public static final String NEWS_MODEL = "newsModel";
     public static final String NEWS_HTML = "newsHtml";
+    private static final int FONT_SIZE_WEB_VIEW = 16; //webView font size
     private String html;
     private Toolbar mToolbar;
     private Button mDownloadBtn;
@@ -37,7 +43,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
-        if(downloadTitles == null){
+        if (downloadTitles == null) {
             downloadUrls = new ArrayList<>();
             downloadTitles = new ArrayList<>();
         } else {
@@ -58,17 +64,19 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         getDownloadTitleUrl(html);
 
         WebView webView = (WebView) findViewById(R.id.webView);
-        webView.getSettings().setDefaultFontSize(16);
+        webView.getSettings().setDefaultFontSize(FONT_SIZE_WEB_VIEW);
 
         TextView titleTextView = (TextView) findViewById(R.id.title_text_view);
         TextView dateTextView = (TextView) findViewById(R.id.date_text_view);
         mDownloadBtn = (Button) findViewById(R.id.btn_download);
         mDownloadBtn.setOnClickListener(this);
 
-        if(downloadCount() == 0){
+        if (downloadCount() == 0) {
             mDownloadBtn.setText("添付ファイルはありません");
-        } else{
+            mDownloadBtn.setEnabled(false);
+        } else {
             mDownloadBtn.setText("添付ファイル " + downloadCount() + " 件あります");
+            mDownloadBtn.setEnabled(true);
         }
 
         webView.getSettings().setJavaScriptEnabled(true);
@@ -128,26 +136,48 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     /**
      * ダウンロードリストをダイアログで表示
      */
-    private void showListDialog(){
+    private void showListDialog() {
         new MaterialDialog.Builder(this)
                 .title("添付ファイルをダウンロード")
                 .items(downloadTitles)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(downloadUrls.get(which)));
-                        startActivity(i);
+                        downloadFile(downloadUrls.get(which));
                     }
                 })
                 .show();
     }
 
     /**
+     *　添付ファイルをダウンロード
+     * @param url
+     */
+    private void downloadFile(String url) {
+        Uri uri = Uri.parse(url);
+        CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+                .setShowTitle(true)
+                .setToolbarColor(ContextCompat.getColor(NewsDetailActivity.this, R.color.colorPrimary))
+                .build();
+        customTabsIntent.intent.setData(uri);
+        PackageManager packageManager = getPackageManager();
+        List<ResolveInfo> resolveInfoList = packageManager.queryIntentActivities(customTabsIntent.intent, PackageManager.MATCH_DEFAULT_ONLY);
+
+        for (ResolveInfo resolveInfo : resolveInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            if (TextUtils.equals(packageName, Const.CHROME_PACKAGE_NAME))
+                customTabsIntent.intent.setPackage(Const.CHROME_PACKAGE_NAME);
+        }
+        customTabsIntent.launchUrl(NewsDetailActivity.this, uri);
+}
+
+
+    /**
      * ダウンロード数を返す
+     *
      * @return
      */
-    private int downloadCount(){
+    private int downloadCount() {
         return downloadTitles.size();
     }
 }
