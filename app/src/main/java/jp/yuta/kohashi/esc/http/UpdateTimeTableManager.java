@@ -287,7 +287,7 @@ public class UpdateTimeTableManager {
             public void run(String result, NextTask<String> nextTask) {
 
                 //teacherNamesコレクションを保存
-                saveManager = new SaveManager();
+                saveManager = new SaveManager(context);
                 saveManager.saveMangerWithPreference(context,PREF_NAME,teacherNames,PREF_TEACHERS_KEY);
                 nextTask.run(mLastResponse);
             }
@@ -332,7 +332,7 @@ public class UpdateTimeTableManager {
                 /********************** 以上でリスト完成 **********************/
                 /******************* 以下データベース登録処理 ******************/
 
-                saveManager = new SaveManager();
+                saveManager = new SaveManager(context);
                 saveManager.saveMangerWithPreference(context, PREF_NAME,MondayList,"monList");
                 saveManager.saveMangerWithPreference(context, PREF_NAME,TuesdayList,"tueList");
                 saveManager.saveMangerWithPreference(context, PREF_NAME,WednesdayList,"wedList");
@@ -520,7 +520,7 @@ public class UpdateTimeTableManager {
                 /********************** 以上でリスト完成 **********************/
                 /******************* 以下データベース登録処理 ******************/
 
-                saveManager = new SaveManager();
+                saveManager = new SaveManager(context);
                 saveManager.saveMangerWithPreference(context, PREF_NAME,MondayList,"monList");
                 saveManager.saveMangerWithPreference(context, PREF_NAME,TuesdayList,"tueList");
                 saveManager.saveMangerWithPreference(context, PREF_NAME,WednesdayList,"wedList");
@@ -580,7 +580,7 @@ public class UpdateTimeTableManager {
             public void run(String result, NextTask<String> nextTask) {
 
                 //teacherNamesコレクションを保存
-                saveManager = new SaveManager();
+                saveManager = new SaveManager(context);
                 saveManager.saveMangerWithPreference(context,PREF_NAME,teacherNames,PREF_TEACHERS_KEY);
                 nextTask.run(mLastResponse);
             }
@@ -811,7 +811,7 @@ public class UpdateTimeTableManager {
 
                 //出席率画面のリスト完成
                 /******************* 以下データベース登録処理 ******************/
-                saveManager = new SaveManager();
+                saveManager = new SaveManager(context);
                 saveManager.saveMangerWithPreference(context,PREF_NAME,attendanceRateList,"attendanceList");
 
                 //最終更新日時を保存
@@ -870,7 +870,7 @@ public class UpdateTimeTableManager {
                     List<String> ipList = new ArrayList<String>();
                     ipList.add(userId2);
                     ipList.add(password2);
-                    saveManager = new SaveManager();
+                    saveManager = new SaveManager(context);
                     saveManager.saveMangerWithPreference(context,PREF_NAME_ID_PASS,ipList,"ip");
 
                     btn.setProgress(100);

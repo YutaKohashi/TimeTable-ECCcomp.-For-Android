@@ -163,7 +163,7 @@ public class CustomTimeTableDialog extends DialogFragment {
                 list.add(cell);
 
                 //保存
-                SaveManager saveManager = new SaveManager();
+                SaveManager saveManager = new SaveManager(getContext());
                 saveManager.saveMangerWithPreference(getActivity(),CUSTOM_CELL_PREF_NAME,list,KEY);
 
                 List<TeacherNameObject> teacherNames = new ArrayList();

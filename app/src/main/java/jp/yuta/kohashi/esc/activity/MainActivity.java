@@ -535,7 +535,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
         }
 
-        SaveManager saveManager = new SaveManager();
+        SaveManager saveManager = new SaveManager(this);
         saveManager.saveMangerWithPreference(context,prefName,list,key);
     }
 

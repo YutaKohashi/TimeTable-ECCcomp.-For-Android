@@ -126,8 +126,6 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
                 holder.time.setText("");
                 holder.uri.setText("");
             }
-
-
         }
 
         LoadManager loadManager = new LoadManager();

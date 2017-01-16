@@ -56,13 +56,6 @@ public class AprilFragment extends Fragment {
         //該当の月を取り出し
         String jsonText = getValuesBase.NarrowingValuesforJson("\"April\":[","]",text,false);
 
-        //
-//        Log.d("json:::",jsonText);
-
-        //＊＊＊＊＊＊＊＊＊この時点でAprilのJsonデータがjsonTExtに入っている＊＊＊＊＊＊＊＊＊
-        //カスタムオブジェクトScheduleJsonObjectを作成
-
-
 
         Gson gson = new Gson();
         ScheduleJJsonObject[] objects = gson.fromJson(jsonText,ScheduleJJsonObject[].class);

@@ -224,7 +224,7 @@ public class GetNewsManager {
 
                 /********************** 以上でリスト完成 **********************/
                 /******************* 以下データベース登録処理 ******************/
-                saveManager = new SaveManager();
+                saveManager = new SaveManager(context);
                 saveManager.saveMangerWithPreference(context, PREF_NAME, expListItems, "newsList");
 
 
@@ -430,7 +430,7 @@ public class GetNewsManager {
 
                 /********************** 以上でリスト完成 **********************/
                 /******************* 以下データベース登録処理 ******************/
-                saveManager = new SaveManager();
+                saveManager = new SaveManager(context);
                 saveManager.saveMangerWithPreference(context, PREF_NAME, expListItems, "newsTeacherList");
 
 

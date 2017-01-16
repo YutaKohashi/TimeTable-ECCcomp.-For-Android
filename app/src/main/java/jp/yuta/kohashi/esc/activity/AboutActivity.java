@@ -7,9 +7,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.Button;
 
 import jp.yuta.kohashi.esc.R;
+
+import static android.support.v7.appcompat.R.styleable.View;
 
 public class AboutActivity extends AppCompatActivity {
     Toolbar toolbar;
@@ -23,8 +27,6 @@ public class AboutActivity extends AppCompatActivity {
 
         webView = (WebView)findViewById(R.id.webView1);
         webView.loadUrl( "file:///android_asset/about_html.html" );
-
-
 
     }
     @Override

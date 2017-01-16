@@ -42,6 +42,7 @@ public class NewsWebViewActivity extends AppCompatActivity {
 
         String title = intent.getStringExtra("title");
         toolbar.setTitle(title);
+
         titleTextView = (TextView)findViewById(R.id.title_name);
         titleTextView.setText(title);
         dateTextView = (TextView)findViewById(R.id.date_text_news);
@@ -65,6 +66,4 @@ public class NewsWebViewActivity extends AppCompatActivity {
 
 
     }
-
-
 }

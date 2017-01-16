@@ -48,7 +48,7 @@ public class CustomTimeTableActivity extends AppCompatActivity {
 
 
         //ツールバーの戻るボタンをタップした時finishメソッドを呼び出す
-        ImageButton imgButton = (ImageButton)findViewById(R.id.custom_time_table_back);
+        ImageButton imgButton = (ImageButton) findViewById(R.id.custom_time_table_back);
         imgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,8 +57,8 @@ public class CustomTimeTableActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton cleaBtn = (ImageButton)findViewById(R.id.reset_button);
-        root = (FrameLayout)findViewById(R.id.custom_time_table_container);
+        ImageButton cleaBtn = (ImageButton) findViewById(R.id.reset_button);
+        root = (FrameLayout) findViewById(R.id.custom_time_table_container);
         cleaBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +71,7 @@ public class CustomTimeTableActivity extends AppCompatActivity {
                         .setPositiveButton("OK", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                sharedPreferences =getSharedPreferences("customCell",MODE_PRIVATE);
+                                sharedPreferences = getSharedPreferences("customCell", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor = sharedPreferences.edit();
                                 editor.clear();
@@ -100,8 +100,6 @@ public class CustomTimeTableActivity extends AppCompatActivity {
                 mMaterialDialog.show();
             }
         });
-
-
     }
 
     @Override
@@ -116,8 +114,8 @@ public class CustomTimeTableActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event){
-        if (keyCode == KeyEvent.KEYCODE_BACK){
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
 
             finish();
             return false;
