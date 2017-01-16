@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,8 +18,6 @@ import android.view.WindowManager;
 
 import com.baoyz.widget.PullRefreshLayout;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
@@ -29,6 +26,8 @@ import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.network.service.HttpHelper;
 import jp.yuta.kohashi.esc.ui.activity.NewsDetailActivity;
 import jp.yuta.kohashi.esc.ui.adapter.NewsRecyclerAdapter;
+import jp.yuta.kohashi.esc.ui.fragment.ScrollController;
+import jp.yuta.kohashi.esc.util.ToastManager;
 import jp.yuta.kohashi.esc.util.preference.PrefManager;
 
 /**
@@ -43,14 +42,16 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
     private String password;
     private PullRefreshLayout mPullrefreshLayout;
     private NewsRecyclerAdapter mRecyclerAdapter;
-    ProgressDialog mDialog;
+    private ProgressDialog mDialog;
     private int contains;  //0:school,  1:teacher
+    private ScrollController controller;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_list, container, false);
 
+        controller = new ScrollController();
         userId = PrefManager.getId();
         password = PrefManager.getPss();
 
@@ -63,6 +64,7 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
         mPullrefreshLayout.setOnRefreshListener(this);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.news_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.addOnItemTouchListener(controller);
 
         mRecyclerAdapter = new NewsRecyclerAdapter(items, getContext()) {
             @Override
@@ -112,6 +114,7 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
 
     @Override
     public void onRefresh() {
+        controller.disableScroll();
         switch (contains) {
             case 0: // 学校からのお知らせ
                 new HttpConnector().request(HttpConnector.Type.NEWS_SCHOOL, userId, password, new HttpConnector.Callback() {
@@ -120,11 +123,12 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
                         if (bool) {
                             mRecyclerAdapter.swap(PrefManager.loadSchoolNewsList());
                             mPullrefreshLayout.setRefreshing(false);
-                            Snackbar.make(getView().findViewById(R.id.refresh), "更新しました", Snackbar.LENGTH_SHORT).show();
+                            ToastManager.successUpdate();
                         } else {
                             mPullrefreshLayout.setRefreshing(false);
-                            Snackbar.make(getView().findViewById(R.id.refresh), "更新に失敗しました", Snackbar.LENGTH_SHORT).show();
+                            ToastManager.failureUpdate();
                         }
+                        controller.enableScroll();
                     }
                 });
                 break;
@@ -135,11 +139,12 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
                         if (bool) {
                             mRecyclerAdapter.swap(PrefManager.loadTanninNewsList());
                             mPullrefreshLayout.setRefreshing(false);
-                            Snackbar.make(mRecyclerView, "更新しました", Snackbar.LENGTH_SHORT).show();
+                            ToastManager.successUpdate();
                         } else {
                             mPullrefreshLayout.setRefreshing(false);
-                            Snackbar.make(getActivity().findViewById(R.id.bottom_nav_view), "更新に失敗しました", Snackbar.LENGTH_SHORT).show();
+                            ToastManager.failureUpdate();
                         }
+                        controller.enableScroll();
                     }
                 });
         }

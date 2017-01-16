@@ -98,8 +98,8 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
     }
 
 
-    private void createRecyclerView(RecyclerView view, List<TimeBlockModel> list) {
-        view.setLayoutManager(new CustomLinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+    private void createRecyclerView(RecyclerView recyclerView, List<TimeBlockModel> list) {
+        recyclerView.setLayoutManager(new CustomLinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
         TimeTableRecyclerAdapter adapter = new TimeTableRecyclerAdapter(list, getActivity()) {
 
             @Override
@@ -118,7 +118,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
 
             }
         };
-        view.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
     }
 
     @NonNull
@@ -171,4 +171,5 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
             return false;
         }
     }
+
 }

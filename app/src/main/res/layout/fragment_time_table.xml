@@ -4,20 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".ui.fragment.TimeTableFragment">
-
-    <!--<FrameLayout-->
-        <!--android:id="@+id/close_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_above="@+id/bottom_sheet_view"-->
-        <!--android:background="#915b5b5b">-->
-        <!--<Button-->
-            <!--android:id="@+id/close_view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_above="@+id/bottom_sheet_view"/>-->
-    <!--</FrameLayout>-->
-
     <LinearLayout
         android:id="@+id/time_table_header"
         android:layout_width="match_parent"
@@ -177,7 +163,7 @@
                     android:layout_weight="3"
                     android:drawablePadding="15sp"
                     android:gravity="center_vertical"
-                    android:padding="15sp"
+                    android:layout_gravity="center_vertical"
                     android:text="教科名"
                     android:textSize="13sp" />
 
@@ -188,7 +174,7 @@
                     android:layout_weight="7"
                     android:drawablePadding="15sp"
                     android:gravity="center_vertical"
-                    android:padding="15dp"
+                    android:layout_gravity="center_vertical"
                     android:text="SAMPLE"
                     android:textSize="15sp" />
 
@@ -207,7 +193,7 @@
                     android:layout_weight="3"
                     android:drawablePadding="15sp"
                     android:gravity="center_vertical"
-                    android:padding="15dp"
+                    android:layout_gravity="center_vertical"
                     android:text="担当教師"
                     android:textSize="13sp" />
 
@@ -218,9 +204,9 @@
                     android:layout_weight="7"
                     android:drawablePadding="15sp"
                     android:gravity="center_vertical"
-                    android:padding="15dp"
                     android:text="SAMPLE"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:layout_gravity="center_vertical"/>
 
             </LinearLayout>
 
@@ -238,7 +224,7 @@
                     android:layout_weight="3"
                     android:drawablePadding="15sp"
                     android:gravity="center_vertical"
-                    android:padding="15dp"
+                    android:layout_gravity="center_vertical"
                     android:text="時間"
                     android:textSize="13sp" />
 
@@ -249,7 +235,7 @@
                     android:layout_weight="7"
                     android:drawablePadding="15sp"
                     android:gravity="center_vertical"
-                    android:padding="15dp"
+                    android:layout_gravity="center_vertical"
                     android:text="SAMPLE"
                     android:textSize="15sp" />
             </LinearLayout>

@@ -4,33 +4,29 @@
         android:id="@+id/group_feature"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_item_time_table"
-            android:icon="@drawable/ic_time_table_black"
-            android:title="時間割" />
+            android:id="@+id/nav_item_profile"
+            android:icon="@drawable/ic_person"
+            android:title="プロフィール"
+            android:checkable = "false"/>
         <item
-            android:id="@+id/nav_item_attendance_rate"
-            android:icon="@drawable/ic_attendance_black"
-            android:title="出席照会" />
-
-        <item
-            android:id="@+id/nav_item_news"
-            android:icon="@drawable/ic_news_black"
-            android:title="お知らせ" />
-
-        <item
-            android:id="@+id/nav_item_schedule"
-            android:icon="@drawable/ic_schedule_black"
-            android:title="スケジュール" />
+            android:id="@+id/nav_item_web"
+            android:icon="@drawable/ic_web"
+            android:title="Web版にアクセス"
+            android:checkable = "false"/>
     </group>
 
     <group
         android:id="@+id/group_bottom"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_item_web"
-            android:title="Web版にアクセス" />
-        <item
+            android:icon="@drawable/ic_settings"
             android:id="@+id/nav_item_settings"
+            android:checkable = "false"
             android:title="設定" />
+        <item
+            android:id="@+id/nav_item_feedback"
+            android:icon="@drawable/ic_mode_comment"
+            android:checkable = "false"
+            android:title="フィードバック" />
     </group>
 </menu>

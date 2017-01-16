@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/widget_cell_text_color"
+    android:orientation="horizontal"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <ImageView
+        android:id="@+id/toast_imdge_view"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:padding="20dp"/>
+
+    <TextView
+        android:id="@+id/toast_text_View"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="10dp"
+        android:padding="20dp"
+        android:layout_weight="7"
+        android:gravity="center"
+        android:text="成功しました"
+        android:textColor="@android:color/white"
+        android:textSize="19sp" />
+</LinearLayout>

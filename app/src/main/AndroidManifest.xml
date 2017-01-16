@@ -13,7 +13,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.activity.LoginCheckActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,16 +23,12 @@
         </activity>
         <activity
             android:name=".ui.activity.LoginActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan|stateAlwaysHidden" />
+            android:windowSoftInputMode="stateVisible|adjustPan|stateAlwaysHidden"
+            android:configChanges="orientation|screenSize"/>
 
         <activity android:name=".ui.activity.MainActivity"/>
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        <!--</activity>-->
-        <activity android:name=".ui.activity.NewsDetailActivity" />
+        <activity android:name=".ui.activity.NewsDetailActivity"
+            android:configChanges="orientation|screenSize"/>
     </application>
 
 </manifest>

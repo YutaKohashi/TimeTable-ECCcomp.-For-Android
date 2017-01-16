@@ -2,7 +2,6 @@ package jp.yuta.kohashi.esc.ui.fragment;
 
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +18,7 @@ import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.AttendanceRateModel;
 import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.ui.adapter.AttendanceRateRecyclerAdapter;
+import jp.yuta.kohashi.esc.util.ToastManager;
 import jp.yuta.kohashi.esc.util.preference.PrefManager;
 
 /**
@@ -38,8 +38,9 @@ public class AttendanceRateFragment extends Fragment implements PullRefreshLayou
 
     private PullRefreshLayout mPullrefreshLayout;
 
-    String userId;
-    String password;
+    private String userId;
+    private String password;
+    private ScrollController controller;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,7 +49,7 @@ public class AttendanceRateFragment extends Fragment implements PullRefreshLayou
         View view = inflater.inflate(R.layout.fragment_attendance_rate, container, false);
         userId = PrefManager.getId();
         password = PrefManager.getPss();
-
+        controller =  new ScrollController();
         initView(view);
 
         return view;
@@ -60,6 +61,7 @@ public class AttendanceRateFragment extends Fragment implements PullRefreshLayou
         mRecyclerView = (RecyclerView)view.findViewById(R.id.attendance_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.addOnItemTouchListener(controller);
         mRecyclerAdapter = new AttendanceRateRecyclerAdapter(list,getActivity());
         mRecyclerView.setAdapter(mRecyclerAdapter);
 
@@ -96,20 +98,24 @@ public class AttendanceRateFragment extends Fragment implements PullRefreshLayou
     //　Pull To Refresh
     @Override
     public void onRefresh() {
+        controller.disableScroll();
         new HttpConnector().request(HttpConnector.Type.ATTENDANCE_RATE, userId, password, new HttpConnector.Callback() {
             @Override
             public void callback(boolean bool) {
                 if(bool){
+                    //更新処理
                     mRecyclerAdapter.swap(PrefManager.loadAttendanceRateModelList());
                     mPullrefreshLayout.setRefreshing(false);
-                    Snackbar.make(getView().findViewById(R.id.refresh),"更新しました",Snackbar.LENGTH_SHORT).show();
+                    //合計データ
+                    setTotalData();
+                    ToastManager.successUpdate();
                 } else{
                     mPullrefreshLayout.setRefreshing(false);
-                    Snackbar.make(getView().findViewById(R.id.refresh),"更新に失敗しました",Snackbar.LENGTH_SHORT).show();
+                    ToastManager.failureUpdate();
                 }
+                controller.enableScroll();
             }
         });
     }
-
 
 }
