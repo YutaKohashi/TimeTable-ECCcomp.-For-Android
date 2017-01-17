@@ -36,6 +36,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:layout_marginTop="20dp"
+            android:textColor="@color/diag_text_color"
             android:text="@string/read_file_dialog_text"
             android:textSize="18sp" />
     </RelativeLayout>

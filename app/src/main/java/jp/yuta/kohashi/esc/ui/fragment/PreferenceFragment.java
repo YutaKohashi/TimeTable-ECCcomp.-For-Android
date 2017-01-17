@@ -1,8 +1,12 @@
 package jp.yuta.kohashi.esc.ui.fragment;
 
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,10 +17,14 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.yuta.kohashi.esc.App;
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
+import jp.yuta.kohashi.esc.manager.NotifyManager;
+import jp.yuta.kohashi.esc.manager.preference.PrefManager;
 import jp.yuta.kohashi.esc.model.PrefItemModel;
 import jp.yuta.kohashi.esc.model.enums.PrefViewType;
+import jp.yuta.kohashi.esc.ui.activity.LoginCheckActivity;
 import jp.yuta.kohashi.esc.ui.adapter.PrefRecyclerAdapter;
 
 /**
@@ -60,15 +68,36 @@ public class PreferenceFragment extends Fragment {
         items.add(new PrefItemModel(PrefViewType.EMPTY));
     }
 
-    private void initView(View view){
+    private void initView(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.pref_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerAdapter = new PrefRecyclerAdapter(items, getContext()){
+        mRecyclerAdapter = new PrefRecyclerAdapter(items, getContext()) {
             @Override
             protected void onItemClicked(@NonNull PrefItemModel model) {
                 super.onItemClicked(model);
+                switch(model.getItemName()){
+                    case "ログアウト":
+                        logout();
+                        break;
+
+                }
             }
         };
         mRecyclerView.setAdapter(mRecyclerAdapter);
+    }
+
+    private void logout() {
+        NotifyManager.showLogoutingDiag(getActivity());
+        Handler mHandler = new Handler();
+        Runnable runnable = new Runnable() {
+            public void run() {
+                PrefManager.deleteAll();
+                NotifyManager.dismiss();
+                Intent intent = new Intent(getContext().getApplicationContext(), LoginCheckActivity.class);
+                startActivity(intent);
+                ActivityCompat.finishAffinity(getActivity());
+            }
+        };
+        mHandler.postDelayed(runnable, 2000);
     }
 }

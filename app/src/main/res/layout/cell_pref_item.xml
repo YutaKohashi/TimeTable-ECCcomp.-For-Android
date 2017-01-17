@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/bg_pref_item"
     android:orientation="vertical"
     android:id="@+id/container_view"
     android:paddingLeft="20dp"

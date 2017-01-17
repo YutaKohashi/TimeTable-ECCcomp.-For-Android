@@ -53,18 +53,18 @@ public class NotifyManager {
     }
 
     private static ProgressDialog mDialog;
-    public static void showLoadingDiag(){
-        mDialog = createProgressDialog("読み込み中...");
+    public static void showLoadingDiag(Context context){
+        mDialog = createProgressDialog(context,"読み込み中...");
         mDialog.show();
     }
 
-    public static void showLogoutingDiag(){
-        mDialog = createProgressDialog("ログアウトしています...");
+    public static void showLogoutingDiag(Context context){
+        mDialog = createProgressDialog(context, "ログアウトしています...");
         mDialog.show();
     }
 
-    public static void showUpdatingDiag(){
-        mDialog = createProgressDialog("更新中...");
+    public static void showUpdatingDiag(Context context){
+        mDialog = createProgressDialog(context ,"更新中...");
         mDialog.show();
     }
 
@@ -72,8 +72,8 @@ public class NotifyManager {
         mDialog.dismiss();
     }
 
-    private static ProgressDialog createProgressDialog(String string) {
-        ProgressDialog dialog = new ProgressDialog(App.getAppContext());
+    private static ProgressDialog createProgressDialog(Context context, String string) {
+        ProgressDialog dialog = new ProgressDialog(context);
         try {
             dialog.show(); //　必須
         } catch (WindowManager.BadTokenException e) {

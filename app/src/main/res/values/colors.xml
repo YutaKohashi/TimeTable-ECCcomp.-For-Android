@@ -80,4 +80,5 @@
     <color name="fbutton_color_asbestos">#7f8c8d</color>
 
     <color name="bg_toast">#545454</color>
+    <color name="diag_text_color">#545454</color>
 </resources>

@@ -68,7 +68,7 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
                 if(!Util.netWorkCheck()){
                     NotifyManager.failureNetworkConnection(); return;}
 
-                NotifyManager.showLoadingDiag();
+                NotifyManager.showLoadingDiag(getActivity());
 
                 new HttpConnector().requestNewsDetail(userId, password, model.getUri(), new HttpHelper.AccessCallbacks() {
                     @Override

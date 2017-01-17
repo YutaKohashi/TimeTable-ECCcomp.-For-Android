@@ -24,14 +24,15 @@ import jp.yuta.kohashi.esc.manager.RegexManager;
 
 public class PrefManager {
     private static final String TAG = PrefManager.class.getSimpleName();
-    
-    /************************************   public   ********************************************************/
+
+    /************************************
+     * public
+     ********************************************************/
 
     //**
     //region Load
     //**
-
-    public static List<List<TimeBlockModel>> loadTimeBlockList(){
+    public static List<List<TimeBlockModel>> loadTimeBlockList() {
         List<List<TimeBlockModel>> lists = new ArrayList<>();
 
         lists.add(loadTimeBlockList(PrefConst.KEY_MON_LIST));
@@ -99,9 +100,9 @@ public class PrefManager {
             if (model == null) {
                 model = new AttendanceRateModel();
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             model = new AttendanceRateModel();
-            Log.d(TAG,e.toString());
+            Log.d(TAG, e.toString());
         }
 
         return model;
@@ -362,6 +363,38 @@ public class PrefManager {
     //endregion
     //**
 
+    //**
+    //region delete
+    //**
+
+    /**
+     * すべてのデータを削除
+     */
+    public static void deleteAll() {
+        SharedPreferences pref = App.getAppContext().getSharedPreferences(PrefConst.FILE_ATTEND, App.getAppContext().MODE_PRIVATE);
+        clear(pref);
+        pref = App.getAppContext().getSharedPreferences(PrefConst.FILE_TIME_TABLE, App.getAppContext().MODE_PRIVATE);
+        clear(pref);
+        pref = App.getAppContext().getSharedPreferences(PrefConst.FILE_STATE, App.getAppContext().MODE_PRIVATE);
+        clear(pref);
+        pref = App.getAppContext().getSharedPreferences(PrefConst.FILE_NEWS, App.getAppContext().MODE_PRIVATE);
+        clear(pref);
+        pref = App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, App.getAppContext().MODE_PRIVATE);
+        clear(pref);
+        pref = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, App.getAppContext().MODE_PRIVATE);
+        clear(pref);
+    }
+
+    private static void clear(SharedPreferences prefs) {
+        // here you get your prefrences by either of two methods
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.commit();
+    }
+
+    //**
+    //endregion
+    //**
 
     /************************************* private *******************************************************/
 

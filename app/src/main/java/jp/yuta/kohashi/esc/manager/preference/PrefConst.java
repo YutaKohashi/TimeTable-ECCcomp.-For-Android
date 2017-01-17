@@ -6,7 +6,7 @@ package jp.yuta.kohashi.esc.manager.preference;
 
 public final class PrefConst {
     // File Name
-    protected static final  String FILE_ATTEND = "FILE_ATTEND";
+    protected static final String FILE_ATTEND = "FILE_ATTEND";
     protected static final String FILE_TIME_TABLE = "FILE_TIME_TABLE";
     protected static final String FILE_STATE = "FILE_STATE";
     protected static final String FILE_NEWS = "FILE_NEWS";
