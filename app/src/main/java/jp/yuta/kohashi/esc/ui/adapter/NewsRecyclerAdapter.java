@@ -46,14 +46,15 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         }
 
         final NewsRecyclerViewHolder holder = new NewsRecyclerViewHolder(v, viewType);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int position = holder.getAdapterPosition();
-                onItemClicked(items.get(position));
-            }
-        });
-
+        if(viewType != -1){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = holder.getAdapterPosition();
+                    onItemClicked(items.get(position));
+                }
+            });
+        }
         return holder;
     }
 

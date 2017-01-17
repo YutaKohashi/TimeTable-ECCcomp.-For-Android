@@ -35,8 +35,9 @@ public class ToastManager {
         showToast("ログインに失敗しました",R.drawable.ic_error);
     }
 
-    public static void failureAttendanceRate(){showToast("出席情報の取得に失敗しました",R.drawable.ic_error);}
+    public static void failureAttendanceRate(){showToast("出席情報の取得に\n失敗しました",R.drawable.ic_error);}
 
+    public static void failureNetworkConnection(){showToast("インターネットに\n接続されていません",R.drawable.ic_error);}
 
     public static void showToast(String string,int icon){
         LayoutInflater _inflater = (LayoutInflater) _context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );;

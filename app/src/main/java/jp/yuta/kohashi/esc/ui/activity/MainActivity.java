@@ -3,6 +3,7 @@ package jp.yuta.kohashi.esc.ui.activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -94,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //ツールバーをActionBarとして扱う
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar != null) {
+            mToolbar.setTitleTextColor(Color.WHITE);
+            mToolbar.setTitle((getResources().getString(R.string.toolbar_default_title)));
             setSupportActionBar(mToolbar);
         }
     }
@@ -138,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 closeDrawer();
                 break;
             case R.id.nav_item_settings: // 設定
+                showSettings();
                 closeDrawer();
                 break;
             case R.id.nav_item_feedback: //フィードバック
@@ -213,6 +217,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 customTabsIntent.intent.setPackage(Const.CHROME_PACKAGE_NAME);
         }
         customTabsIntent.launchUrl(MainActivity.this, uri);
+    }
+
+    /**
+     * 設定Activityを表示
+     */
+    private void showSettings(){
+        Intent intent = new Intent(MainActivity.this, PreferenceActivity.class);
+        startActivity(intent);
     }
 
 

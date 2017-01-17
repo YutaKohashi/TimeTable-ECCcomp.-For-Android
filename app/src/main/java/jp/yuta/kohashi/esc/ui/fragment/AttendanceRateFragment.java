@@ -19,6 +19,7 @@ import jp.yuta.kohashi.esc.model.AttendanceRateModel;
 import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.ui.adapter.AttendanceRateRecyclerAdapter;
 import jp.yuta.kohashi.esc.util.ToastManager;
+import jp.yuta.kohashi.esc.util.Util;
 import jp.yuta.kohashi.esc.util.preference.PrefManager;
 
 /**
@@ -98,6 +99,12 @@ public class AttendanceRateFragment extends Fragment implements PullRefreshLayou
     //　Pull To Refresh
     @Override
     public void onRefresh() {
+        if(!Util.netWorkCheck()){
+            ToastManager.failureNetworkConnection();
+            endRefresh();
+            return;
+        }
+
         controller.disableScroll();
         new HttpConnector().request(HttpConnector.Type.ATTENDANCE_RATE, userId, password, new HttpConnector.Callback() {
             @Override
@@ -105,17 +112,23 @@ public class AttendanceRateFragment extends Fragment implements PullRefreshLayou
                 if(bool){
                     //更新処理
                     mRecyclerAdapter.swap(PrefManager.loadAttendanceRateModelList());
-                    mPullrefreshLayout.setRefreshing(false);
                     //合計データ
                     setTotalData();
                     ToastManager.successUpdate();
                 } else{
-                    mPullrefreshLayout.setRefreshing(false);
                     ToastManager.failureUpdate();
                 }
+                endRefresh();
                 controller.enableScroll();
             }
         });
+    }
+
+    /**
+     * リフレッシュを終了するメソッド
+     */
+    private void endRefresh(){
+        mPullrefreshLayout.setRefreshing(false);
     }
 
 }

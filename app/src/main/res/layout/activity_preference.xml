@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_preference"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="jp.yuta.kohashi.esc.ui.activity.PreferenceActivity"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/appbar"
+        layout="@layout/include_appbar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container_fragment">
+
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="jp.yuta.kohashi.esc.ui.fragment.PreferenceFragment"
+            android:id="@+id/fragment_preference"
+            tools:layout="@layout/fragment_preference" />
+
+    </FrameLayout>
+</LinearLayout>

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">ECC</string>
+    <string name="toolbar_default_title">ECCcomp.</string>
+    <string name="toolbar_settings_title">設定</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

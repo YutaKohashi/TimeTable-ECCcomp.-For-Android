@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         public void callback(boolean bool) {
                             if(bool){
                                 // 出席照会
-                                connector.request(HttpConnector.Type.ATTENDANCE_RATE, userId + "d", password, new HttpConnector.Callback() {
+                                connector.request(HttpConnector.Type.ATTENDANCE_RATE, userId, password, new HttpConnector.Callback() {
                                     @Override
                                     public void callback(boolean bool) {
                                        successLogin(bool);
@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 enableBtn();
             }
         };
-        mHandler.postDelayed(runnable, 1200);
+        mHandler.postDelayed(runnable, 1000);
     }
 
     /**

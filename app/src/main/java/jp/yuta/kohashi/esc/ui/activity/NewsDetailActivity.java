@@ -3,10 +3,10 @@ package jp.yuta.kohashi.esc.ui.activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -51,12 +51,11 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
             downloadTitles.clear();
         }
 
-        initToolbar();
-
         Intent intent = getIntent();
         newsModel = (NewsModel) intent.getSerializableExtra(NEWS_MODEL);
         html = intent.getStringExtra(NEWS_HTML);
 
+        initToolbar();
         initView();
     }
 
@@ -99,10 +98,13 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         //ツールバーをActionBarとして扱う
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar != null) {
+            mToolbar.setTitle(newsModel.getTitle());
+            mToolbar.setTitleTextColor(Color.WHITE);
             setSupportActionBar(mToolbar);
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
     }
 
     private String getMainText(String html) {
@@ -150,14 +152,17 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     /**
-     *　添付ファイルをダウンロード
+     * 　添付ファイルをダウンロード
+     *
      * @param url
      */
     private void downloadFile(String url) {
         Uri uri = Uri.parse(url);
         CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
-                .setShowTitle(true)
-                .setToolbarColor(ContextCompat.getColor(NewsDetailActivity.this, R.color.colorPrimary))
+                .setShowTitle(false)
+                .enableUrlBarHiding()
+                .setCloseButtonIcon(null)
+                .setToolbarColor(getResources().getColor(android.R.color.white))
                 .build();
         customTabsIntent.intent.setData(uri);
         PackageManager packageManager = getPackageManager();
@@ -169,7 +174,7 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
                 customTabsIntent.intent.setPackage(Const.CHROME_PACKAGE_NAME);
         }
         customTabsIntent.launchUrl(NewsDetailActivity.this, uri);
-}
+    }
 
 
     /**

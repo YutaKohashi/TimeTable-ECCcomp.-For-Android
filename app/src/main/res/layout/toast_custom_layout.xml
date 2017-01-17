@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:background="@color/widget_cell_text_color"
+    android:background="@color/bg_toast"
     android:orientation="horizontal"
     android:paddingLeft="20dp"
     android:paddingRight="20dp">
@@ -11,8 +11,7 @@
         android:id="@+id/toast_imdge_view"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:padding="20dp"/>
+        android:layout_weight="3" />
 
     <TextView
         android:id="@+id/toast_text_View"
