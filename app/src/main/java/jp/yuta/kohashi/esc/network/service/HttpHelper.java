@@ -1,6 +1,5 @@
 package jp.yuta.kohashi.esc.network.service;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -14,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
+import jp.yuta.kohashi.esc.App;
 import jp.yuta.kohashi.esc.util.RegexManager;
 import jp.yuta.kohashi.esc.util.preference.PrefManager;
 
@@ -27,15 +27,8 @@ import jp.yuta.kohashi.esc.util.preference.PrefManager;
 public class HttpHelper {
     private static final String TAG = HttpHelper.class.getSimpleName();
 
-    private static String mLastResponseHtml;
-    private static Context mContext;
+    private static String mLastResponseHtml = "";
     private static List<String> teacherHtmls;
-
-    public static void init(Context context) {
-        HttpBase.init();
-        mLastResponseHtml = "";
-        mContext = context;
-    }
 
     /************************************   public   ********************************************************/
 
@@ -205,7 +198,7 @@ public class HttpHelper {
 
         if (teacherHtmls != null) teacherHtmls.clear();
 
-        Promise.with(mContext, Void.class).thenOnAsyncThread(new Task<Void, Void>() {
+        Promise.with(App.getAppContext(), Void.class).thenOnAsyncThread(new Task<Void, Void>() {
             @Override
             public void run(Void aVoid, NextTask<Void> nextTask) {
                 try {
@@ -298,7 +291,7 @@ public class HttpHelper {
      */
     private static void requestAttendanceRate(final String userId, final String password, final AccessCallbacks accessCallbacks) {
 
-        Promise.with(mContext, Void.class).thenOnAsyncThread(new Task<Void, Void>() {
+        Promise.with(App.getAppContext(), Void.class).thenOnAsyncThread(new Task<Void, Void>() {
             @Override
             public void run(Void aVoid, NextTask<Void> nextTask) {
                 try {
@@ -354,7 +347,7 @@ public class HttpHelper {
 
     private static void requestNews(final String userId, final String password, final AccessCallbacks accessCallbacks) {
 
-        Promise.with(mContext, Void.class).thenOnAsyncThread(new Task<Void, Void>() {
+        Promise.with(App.getAppContext(), Void.class).thenOnAsyncThread(new Task<Void, Void>() {
             @Override
             public void run(Void aVoid, NextTask<Void> nextTask) {
                 try{
@@ -386,7 +379,7 @@ public class HttpHelper {
     }
 
     private static void requestNewsDetail(final String userId, final String password, final String url, final AccessCallbacks accessCallbacks) {
-        Promise.with(mContext, Void.class).thenOnAsyncThread(new Task<Void, Void>() {
+        Promise.with(App.getAppContext(), Void.class).thenOnAsyncThread(new Task<Void, Void>() {
             @Override
             public void run(Void aVoid, NextTask<Void> nextTask) {
                 try{

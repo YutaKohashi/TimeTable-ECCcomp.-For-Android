@@ -4,9 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import jp.yuta.kohashi.esc.network.service.HttpHelper;
-import jp.yuta.kohashi.esc.util.ToastManager;
-import jp.yuta.kohashi.esc.util.Util;
 import jp.yuta.kohashi.esc.util.preference.PrefManager;
 
 
@@ -18,8 +15,6 @@ public class LoginCheckActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        init();
 
         if (!PrefManager.isLogin()) {
             // ログインしていない
@@ -39,12 +34,7 @@ public class LoginCheckActivity extends AppCompatActivity {
         finish();
     }
 
-    private void init() {
-        HttpHelper.init(this);
-        PrefManager.init(this);
-        Util.init(this);
-        ToastManager.init(this);
-    }
+
 
     @Override
     protected void onStop() {

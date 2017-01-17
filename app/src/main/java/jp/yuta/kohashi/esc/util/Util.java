@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
+import jp.yuta.kohashi.esc.App;
 import jp.yuta.kohashi.esc.R;
 
 /**
@@ -23,19 +24,13 @@ import jp.yuta.kohashi.esc.R;
 
 public class Util {
 
-    private static Context mContext;
-
-    public static void init(Context context) {
-        mContext = context;
-    }
-
     /**
      * ネットワーク接続確認
      *
      * @return
      */
     public static boolean netWorkCheck() {
-        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) App.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cm.getActiveNetworkInfo();
         if (info != null) {
             return info.isConnected();
@@ -53,7 +48,7 @@ public class Util {
     public static boolean checkTextField(TextView view) {
         String text = view.getText().toString();
         if (TextUtils.isEmpty(text)) {
-            view.setError(mContext.getString(R.string.string_text_view_error));
+            view.setError(App.getAppContext().getString(R.string.string_text_view_error));
             return false;
         } else {
             return true;
@@ -64,7 +59,7 @@ public class Util {
      * @return
      */
     public static float getDisplayScale() {
-        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) App.getAppContext().getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
         return dm.scaledDensity;
@@ -99,8 +94,8 @@ public class Util {
     //region assets フォルダから、テキストファイルを読み込む(Android 用)
     //**
 
-    public static String loadTextAsset(String fileName, Context context) throws IOException {
-        final AssetManager assetManager = context.getAssets();
+    public static String loadTextAsset(String fileName) throws IOException {
+        final AssetManager assetManager = App.getAppContext().getAssets();
         InputStream is = assetManager.open(fileName);
         return loadText(is, "UTF-8");
     }

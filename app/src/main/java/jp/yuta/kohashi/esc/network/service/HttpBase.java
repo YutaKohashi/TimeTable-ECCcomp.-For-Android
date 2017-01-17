@@ -30,7 +30,7 @@ public class HttpBase {
     private static CookieManager cookieManager;
     private static CookieJar cookieJar;
 
-    protected static void init(){
+    public static void init(){
         if(cookieManager ==null )cookieManager = new CookieManager();
         if(cookieJar == null) cookieJar = new JavaNetCookieJar(cookieManager);
         if(cookieManager == null) cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);

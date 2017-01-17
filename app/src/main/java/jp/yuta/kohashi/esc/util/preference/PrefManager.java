@@ -1,6 +1,5 @@
 package jp.yuta.kohashi.esc.util.preference;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
+import jp.yuta.kohashi.esc.App;
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.model.AttendanceRateModel;
 import jp.yuta.kohashi.esc.model.NewsModel;
@@ -24,13 +24,7 @@ import jp.yuta.kohashi.esc.util.RegexManager;
 
 public class PrefManager {
     private static final String TAG = PrefManager.class.getSimpleName();
-
-    private static Context mContext;
-
-    public static void init(Context context) {
-        mContext = context;
-    }
-
+    
     /************************************   public   ********************************************************/
 
     //**
@@ -58,7 +52,7 @@ public class PrefManager {
     public static List<TimeBlockModel> loadTimeBlockList(String key) {
         SharedPreferences sharedPreferences;
         List<TimeBlockModel> arrayList;
-        sharedPreferences = mContext.getSharedPreferences(PrefConst.FILE_TIME_TABLE, mContext.MODE_PRIVATE);
+        sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_TIME_TABLE, App.getAppContext().MODE_PRIVATE);
         arrayList = new Gson().fromJson(sharedPreferences.getString(key, ""), new TypeToken<List<TimeBlockModel>>() {
         }.getType());
 
@@ -81,7 +75,7 @@ public class PrefManager {
     public static List<AttendanceRateModel> loadAttendanceRateModelList() {
         SharedPreferences sharedPreferences;
         List<AttendanceRateModel> arrayList;
-        sharedPreferences = mContext.getSharedPreferences(PrefConst.FILE_ATTEND, mContext.MODE_PRIVATE);
+        sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_ATTEND, App.getAppContext().MODE_PRIVATE);
 
         try {
             arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_ATTEND, ""), new TypeToken<List<AttendanceRateModel>>() {
@@ -97,7 +91,7 @@ public class PrefManager {
     }
 
     public static AttendanceRateModel loadAttendanceTotalData() {
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PrefConst.FILE_ATTEND, mContext.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_ATTEND, App.getAppContext().MODE_PRIVATE);
         AttendanceRateModel model = null;
         try {
             model = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_ATTEND_ALL_RATE, ""), new TypeToken<AttendanceRateModel>() {
@@ -121,7 +115,7 @@ public class PrefManager {
     public static List<NewsModel> loadSchoolNewsList() {
         SharedPreferences sharedPreferences;
         List<NewsModel> arrayList;
-        sharedPreferences = mContext.getSharedPreferences(PrefConst.FILE_NEWS, mContext.MODE_PRIVATE);
+        sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_NEWS, App.getAppContext().MODE_PRIVATE);
 
         try {
             arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_SCHOOL_NEWS, ""), new TypeToken<List<NewsModel>>() {
@@ -144,7 +138,7 @@ public class PrefManager {
     public static List<NewsModel> loadTanninNewsList() {
         SharedPreferences sharedPreferences;
         List<NewsModel> arrayList;
-        sharedPreferences = mContext.getSharedPreferences(PrefConst.FILE_NEWS, mContext.MODE_PRIVATE);
+        sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_NEWS, App.getAppContext().MODE_PRIVATE);
         arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_TANNIN_NEWS, ""), new TypeToken<List<NewsModel>>() {
         }.getType());
 
@@ -167,7 +161,7 @@ public class PrefManager {
      * @return
      */
     public static String getId() {
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PrefConst.FILE_ID_PASS, mContext.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, App.getAppContext().MODE_PRIVATE);
         return sharedPreferences.getString(PrefConst.KEY_ID, null);
     }
 
@@ -177,7 +171,7 @@ public class PrefManager {
      * @return
      */
     public static String getPss() {
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PrefConst.FILE_ID_PASS, mContext.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, App.getAppContext().MODE_PRIVATE);
         return sharedPreferences.getString(PrefConst.KEY_PASS, null);
     }
 
@@ -187,7 +181,7 @@ public class PrefManager {
      * @return
      */
     public static boolean getLoginState() {
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PrefConst.FILE_STATE, mContext.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_STATE, App.getAppContext().MODE_PRIVATE);
         return sharedPreferences.getBoolean(PrefConst.KEY_LOGIN_STATE, false); //default:false
     }
 
@@ -197,12 +191,12 @@ public class PrefManager {
      * @return
      */
     public static boolean getFirstTime() {
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PrefConst.FILE_STATE, mContext.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_STATE, App.getAppContext().MODE_PRIVATE);
         return sharedPreferences.getBoolean(PrefConst.KEY_FIRST_TIME, false);
     }
 
     public static String getAppVersion() {
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PrefConst.FILE_UTIL, mContext.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, App.getAppContext().MODE_PRIVATE);
         return sharedPreferences.getString(PrefConst.KEY_APP_VERSION, "-1");
     }
 
@@ -333,7 +327,7 @@ public class PrefManager {
      * @return
      */
     public static boolean isLogin() {
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PrefConst.FILE_STATE, mContext.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_STATE, App.getAppContext().MODE_PRIVATE);
         return sharedPreferences.getBoolean(PrefConst.KEY_LOGIN_STATE, false);
     }
 
@@ -343,7 +337,7 @@ public class PrefManager {
      * @return
      */
     public static boolean isFirstTime() {
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(PrefConst.FILE_STATE, mContext.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_STATE, App.getAppContext().MODE_PRIVATE);
         return sharedPreferences.getBoolean(PrefConst.KEY_FIRST_TIME, false);
     }
 
@@ -692,7 +686,7 @@ public class PrefManager {
      * @param fileName
      */
     private static void save(Object obj, String key, String fileName) {
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(fileName, mContext.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(fileName, App.getAppContext().MODE_PRIVATE);
         sharedPreferences.edit().putString(key, new Gson().toJson(obj)).commit();
     }
 
@@ -704,7 +698,7 @@ public class PrefManager {
      * @param fileName
      */
     private static void save(boolean bool, String key, String fileName) {
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(fileName, mContext.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(fileName, App.getAppContext().MODE_PRIVATE);
         sharedPreferences.edit().putBoolean(key, bool).commit();
     }
 
@@ -716,7 +710,7 @@ public class PrefManager {
      * @param fileName
      */
     private static void save(String string, String key, String fileName) {
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(fileName, mContext.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(fileName, App.getAppContext().MODE_PRIVATE);
         sharedPreferences.edit().putString(key, string).commit();
     }
 

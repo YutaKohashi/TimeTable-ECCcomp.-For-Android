@@ -127,7 +127,7 @@ public class CalendarFragment extends Fragment implements ViewTreeObserver.OnGlo
         String jsonText = "";
         Gson gson = new Gson();
         try {
-            jsonText = Util.loadTextAsset(Const.SCHEDULE_FILE_NAME, getContext());
+            jsonText = Util.loadTextAsset(Const.SCHEDULE_FILE_NAME);
         } catch (IOException e) {
             Log.d(TAG, e.toString());
         }
