@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import jp.yuta.kohashi.esc.util.preference.PrefManager;
+import jp.yuta.kohashi.esc.manager.preference.PrefManager;
 
 
 /***

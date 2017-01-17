@@ -10,6 +10,7 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
@@ -25,7 +26,7 @@ import java.util.regex.Matcher;
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.NewsModel;
-import jp.yuta.kohashi.esc.util.RegexManager;
+import jp.yuta.kohashi.esc.manager.RegexManager;
 
 public class NewsDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -176,7 +177,6 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         customTabsIntent.launchUrl(NewsDetailActivity.this, uri);
     }
 
-
     /**
      * ダウンロード数を返す
      *
@@ -185,10 +185,11 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     private int downloadCount() {
         return downloadTitles.size();
     }
-//
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        finish();
-//    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) finish();
+        return super.onOptionsItemSelected(item);
+    }
 }

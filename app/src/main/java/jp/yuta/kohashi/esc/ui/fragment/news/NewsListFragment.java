@@ -1,10 +1,7 @@
 package jp.yuta.kohashi.esc.ui.fragment.news;
 
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import com.baoyz.widget.PullRefreshLayout;
 
@@ -26,9 +22,9 @@ import jp.yuta.kohashi.esc.network.service.HttpHelper;
 import jp.yuta.kohashi.esc.ui.activity.NewsDetailActivity;
 import jp.yuta.kohashi.esc.ui.adapter.NewsRecyclerAdapter;
 import jp.yuta.kohashi.esc.ui.fragment.ScrollController;
-import jp.yuta.kohashi.esc.util.ToastManager;
+import jp.yuta.kohashi.esc.manager.NotifyManager;
 import jp.yuta.kohashi.esc.util.Util;
-import jp.yuta.kohashi.esc.util.preference.PrefManager;
+import jp.yuta.kohashi.esc.manager.preference.PrefManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,7 +38,6 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
     private String password;
     private PullRefreshLayout mPullrefreshLayout;
     private NewsRecyclerAdapter mRecyclerAdapter;
-    private ProgressDialog mDialog;
     private int contains;  //0:school,  1:teacher
     private ScrollController controller;
 
@@ -70,14 +65,10 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
             @Override
             protected void onItemClicked(@NonNull final NewsModel model) {
                 super.onItemClicked(model);
-                if(!Util.netWorkCheck()){ToastManager.failureNetworkConnection(); return;}
+                if(!Util.netWorkCheck()){
+                    NotifyManager.failureNetworkConnection(); return;}
 
-                if (mDialog != null) {
-                    mDialog.show();
-                } else{
-                    mDialog = createProgressDialog(getContext());
-                    mDialog.show();
-                }
+                NotifyManager.showLoadingDiag();
 
                 new HttpConnector().requestNewsDetail(userId, password, model.getUri(), new HttpHelper.AccessCallbacks() {
                     @Override
@@ -89,7 +80,7 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
 
                             startActivity(intent);
                         }
-                        mDialog.dismiss();
+                        NotifyManager.dismiss();
                     }
                 });
             }
@@ -116,7 +107,7 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
     @Override
     public void onRefresh() {
         if(!Util.netWorkCheck()){
-            ToastManager.failureNetworkConnection();
+            NotifyManager.failureNetworkConnection();
             endRefresh();
             return;
         }
@@ -128,9 +119,9 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
                     public void callback(boolean bool) {
                         if (bool) {
                             mRecyclerAdapter.swap(PrefManager.loadSchoolNewsList());
-                            ToastManager.successUpdate();
+                            NotifyManager.successUpdate();
                         } else {
-                            ToastManager.failureUpdate();
+                            NotifyManager.failureUpdate();
                         }
                         endRefresh();
                         controller.enableScroll();
@@ -143,9 +134,9 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
                     public void callback(boolean bool) {
                         if (bool) {
                             mRecyclerAdapter.swap(PrefManager.loadTanninNewsList());
-                            ToastManager.successUpdate();
+                            NotifyManager.successUpdate();
                         } else {
-                            ToastManager.failureUpdate();
+                            NotifyManager.failureUpdate();
                         }
                         endRefresh();
                         controller.enableScroll();
@@ -161,16 +152,4 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
         mPullrefreshLayout.setRefreshing(false);
     }
 
-    public static ProgressDialog createProgressDialog(Context context) {
-        ProgressDialog dialog = new ProgressDialog(context);
-        try {
-            dialog.show(); //　必須
-        } catch (WindowManager.BadTokenException e) {
-
-        }
-        dialog.setCancelable(false);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.setContentView(R.layout.dialog_news_loading);
-        return dialog;
-    }
 }

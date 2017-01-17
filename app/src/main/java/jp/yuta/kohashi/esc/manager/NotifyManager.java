@@ -1,9 +1,12 @@
-package jp.yuta.kohashi.esc.util;
+package jp.yuta.kohashi.esc.manager;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,7 +18,7 @@ import jp.yuta.kohashi.esc.R;
  * Created by yutakohashi on 2017/01/16.
  */
 
-public class ToastManager {
+public class NotifyManager {
     
 
     public static void successUpdate(){
@@ -47,5 +50,40 @@ public class ToastManager {
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.setView(toastLayout);
         toast.show();
+    }
+
+    private static ProgressDialog mDialog;
+    public static void showLoadingDiag(){
+        mDialog = createProgressDialog("読み込み中...");
+        mDialog.show();
+    }
+
+    public static void showLogoutingDiag(){
+        mDialog = createProgressDialog("ログアウトしています...");
+        mDialog.show();
+    }
+
+    public static void showUpdatingDiag(){
+        mDialog = createProgressDialog("更新中...");
+        mDialog.show();
+    }
+
+    public static void dismiss(){
+        mDialog.dismiss();
+    }
+
+    private static ProgressDialog createProgressDialog(String string) {
+        ProgressDialog dialog = new ProgressDialog(App.getAppContext());
+        try {
+            dialog.show(); //　必須
+        } catch (WindowManager.BadTokenException e) {
+
+        }
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        View view = LayoutInflater.from(App.getAppContext()).inflate(R.layout.dialog_loading,null,false);
+        ((TextView)view.findViewById(R.id.dialog_text_view)).setText(string);
+        dialog.setContentView(view);
+        return dialog;
     }
 }

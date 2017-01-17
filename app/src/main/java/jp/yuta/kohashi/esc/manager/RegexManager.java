@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.util;
+package jp.yuta.kohashi.esc.manager;
 
 import android.text.TextUtils;
 import android.util.Log;

@@ -15,7 +15,7 @@ import java.util.List;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.NewsModel;
 import jp.yuta.kohashi.esc.ui.adapter.NewsViewPagerAdapter;
-import jp.yuta.kohashi.esc.util.preference.PrefManager;
+import jp.yuta.kohashi.esc.manager.preference.PrefManager;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import jp.yuta.kohashi.esc.App;
-import jp.yuta.kohashi.esc.util.RegexManager;
-import jp.yuta.kohashi.esc.util.preference.PrefManager;
+import jp.yuta.kohashi.esc.manager.RegexManager;
+import jp.yuta.kohashi.esc.manager.preference.PrefManager;
 
 /**
  * Created by yutakohashi on 2016/11/15.

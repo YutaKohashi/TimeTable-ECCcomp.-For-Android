@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.util.preference;
+package jp.yuta.kohashi.esc.manager.preference;
 
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -15,7 +15,7 @@ import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.model.AttendanceRateModel;
 import jp.yuta.kohashi.esc.model.NewsModel;
 import jp.yuta.kohashi.esc.model.TimeBlockModel;
-import jp.yuta.kohashi.esc.util.RegexManager;
+import jp.yuta.kohashi.esc.manager.RegexManager;
 
 
 /**

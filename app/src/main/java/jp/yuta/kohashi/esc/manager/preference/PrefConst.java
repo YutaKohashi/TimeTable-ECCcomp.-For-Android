@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.util.preference;
+package jp.yuta.kohashi.esc.manager.preference;
 
 /**
  * Created by yutakohashi on 2017/01/06.

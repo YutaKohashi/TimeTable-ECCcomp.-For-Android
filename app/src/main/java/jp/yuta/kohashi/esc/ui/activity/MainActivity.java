@@ -31,7 +31,7 @@ import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateFragment;
 import jp.yuta.kohashi.esc.ui.fragment.CalendarFragment;
 import jp.yuta.kohashi.esc.ui.fragment.TimeTableFragment;
 import jp.yuta.kohashi.esc.ui.fragment.news.NewsParentFragment;
-import jp.yuta.kohashi.esc.util.ToastManager;
+import jp.yuta.kohashi.esc.manager.NotifyManager;
 
 
 /***
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //取得に失敗
         if(!bool){
-            ToastManager.failureAttendanceRate();
+            NotifyManager.failureAttendanceRate();
         }
     }
 
