@@ -1,8 +1,8 @@
 package jp.yuta.kohashi.esc.ui.activity;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import jp.yuta.kohashi.esc.R;

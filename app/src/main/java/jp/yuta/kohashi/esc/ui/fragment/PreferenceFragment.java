@@ -13,8 +13,10 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.PrefItemModel;
+import jp.yuta.kohashi.esc.model.enums.PrefViewType;
 import jp.yuta.kohashi.esc.ui.adapter.PrefRecyclerAdapter;
 
 /**
@@ -39,23 +41,23 @@ public class PreferenceFragment extends Fragment {
     /**
      * 表示する項目を作成
      */
-    private void createItems(){
+    private void createItems() {
         items = new ArrayList<>();
-        items.add(new PrefItemModel("時間割", PrefItemModel.ViewType.ITEM_GROUP_TITLE));
-        items.add(new PrefItemModel("時間割を更新",R.drawable.ic_error, PrefItemModel.ViewType.ITEM));
-        items.add(new PrefItemModel("時間割データを変更",R.drawable.ic_error, PrefItemModel.ViewType.ITEM));
-        items.add(new PrefItemModel(PrefItemModel.ViewType.EMPTY));
-        items.add(new PrefItemModel("出席照会", PrefItemModel.ViewType.ITEM_GROUP_TITLE));
-        items.add(new PrefItemModel("出席照会を色分けする",R.drawable.ic_error, PrefItemModel.ViewType.ITEM));
-        items.add(new PrefItemModel("ログを確認する",R.drawable.ic_error, PrefItemModel.ViewType.ITEM));
-        items.add(new PrefItemModel(PrefItemModel.ViewType.EMPTY));
-        items.add(new PrefItemModel("その他", PrefItemModel.ViewType.ITEM_GROUP_TITLE));
-        items.add(new PrefItemModel("著作権情報",R.drawable.ic_error, PrefItemModel.ViewType.ITEM));
-        items.add(new PrefItemModel("このアプリについて",R.drawable.ic_error, PrefItemModel.ViewType.ITEM));
-        items.add(new PrefItemModel("アプリバージョン",R.drawable.ic_error, PrefItemModel.ViewType.ITEM));
-        items.add(new PrefItemModel(PrefItemModel.ViewType.EMPTY));
-        items.add(new PrefItemModel("ログアウト", PrefItemModel.ViewType.ITEM_CENTER_TXT));
-        items.add(new PrefItemModel(PrefItemModel.ViewType.EMPTY));
+        items.add(new PrefItemModel("時間割", PrefViewType.ITEM_GROUP_TITLE));
+        items.add(new PrefItemModel("時間割を更新", R.drawable.ic_refresh, PrefViewType.ITEM));
+        items.add(new PrefItemModel("時間割データを変更", R.drawable.ic_create, PrefViewType.ITEM_RIGHT_ARROW));
+        items.add(new PrefItemModel(PrefViewType.EMPTY));
+        items.add(new PrefItemModel("出席照会", PrefViewType.ITEM_GROUP_TITLE));
+        items.add(new PrefItemModel("出席照会を色分けする", R.drawable.ic_brush, PrefViewType.ITEM_SWITCH));
+        items.add(new PrefItemModel("ログを確認する", R.drawable.ic_folder_open, PrefViewType.ITEM_RIGHT_ARROW));
+        items.add(new PrefItemModel(PrefViewType.EMPTY));
+        items.add(new PrefItemModel("その他", PrefViewType.ITEM_GROUP_TITLE));
+        items.add(new PrefItemModel("著作権情報", R.drawable.ic_business, PrefViewType.ITEM_RIGHT_ARROW));
+        items.add(new PrefItemModel("このアプリについて", R.drawable.ic_error, PrefViewType.ITEM_RIGHT_ARROW));
+        items.add(new PrefItemModel("アプリバージョン", Const.APP_VERSION, R.drawable.ic_android, PrefViewType.ITEM_RIGHT_TXT));
+        items.add(new PrefItemModel(PrefViewType.EMPTY));
+        items.add(new PrefItemModel("ログアウト", PrefViewType.ITEM_CENTER_TXT));
+        items.add(new PrefItemModel(PrefViewType.EMPTY));
     }
 
     private void initView(View view){

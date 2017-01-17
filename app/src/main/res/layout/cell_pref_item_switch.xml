@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
     android:id="@+id/container_view"
@@ -27,5 +28,15 @@
         android:textColor="@android:color/white"
         android:layout_marginLeft="20dp"
         android:textSize="18sp" />
+
+
+    <android.support.v7.widget.SwitchCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/switch_view"
+        android:background="@null"
+        android:src="@drawable/ic_keyboard_arrow_right"/>
 
 </RelativeLayout>

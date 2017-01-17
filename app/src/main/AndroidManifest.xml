@@ -29,7 +29,8 @@
         <activity
             android:name=".ui.activity.NewsDetailActivity"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".ui.activity.PreferenceActivity"></activity>
+        <activity android:name=".ui.activity.PreferenceActivity"
+            android:theme="@style/PrefTheme"></activity>
     </application>
 
 </manifest>

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/bg_pref_item"
     android:orientation="vertical"
     android:id="@+id/container_view"
     android:paddingLeft="20dp"
@@ -27,5 +27,12 @@
         android:textColor="@android:color/white"
         android:layout_marginLeft="20dp"
         android:textSize="18sp" />
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_keyboard_arrow_right"/>
 
 </RelativeLayout>
