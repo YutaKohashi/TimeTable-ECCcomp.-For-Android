@@ -3,8 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="100sp"
-    >
+    android:layout_height="100dp">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view_time_block"
@@ -27,8 +26,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:textColor="@color/widget_cell_text_color"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textColor="@color/widget_cell_text_color" />
 
             <TextView
                 android:id="@+id/text_classRoom"
@@ -37,9 +36,9 @@
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="bottom"
                 android:background="@color/colorAccentLight"
-                android:textColor="@color/widget_cell_text_color"
                 android:gravity="center|bottom"
-                android:paddingTop="2sp" />
+                android:paddingTop="4dp"
+                android:textColor="@color/widget_cell_text_color" />
 
         </RelativeLayout>
 

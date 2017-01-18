@@ -18,9 +18,9 @@ import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.AttendanceRateModel;
 import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.ui.adapter.AttendanceRateRecyclerAdapter;
-import jp.yuta.kohashi.esc.manager.NotifyManager;
+import jp.yuta.kohashi.esc.util.NotifyUtil;
 import jp.yuta.kohashi.esc.util.Util;
-import jp.yuta.kohashi.esc.manager.preference.PrefManager;
+import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,8 +48,8 @@ public class AttendanceRateFragment extends Fragment implements PullRefreshLayou
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_attendance_rate, container, false);
-        userId = PrefManager.getId();
-        password = PrefManager.getPss();
+        userId = PrefUtil.getId();
+        password = PrefUtil.getPss();
         controller =  new ScrollController();
         initView(view);
 
@@ -57,7 +57,7 @@ public class AttendanceRateFragment extends Fragment implements PullRefreshLayou
     }
 
     private void initView(View view) {
-        List<AttendanceRateModel> list = PrefManager.loadAttendanceRateModelList();
+        List<AttendanceRateModel> list = PrefUtil.loadAttendanceRateModelList();
 
         mRecyclerView = (RecyclerView)view.findViewById(R.id.attendance_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -81,7 +81,7 @@ public class AttendanceRateFragment extends Fragment implements PullRefreshLayou
      * 合計データをViewに反映
      */
     private void setTotalData() {
-        AttendanceRateModel model = PrefManager.loadAttendanceTotalData();
+        AttendanceRateModel model = PrefUtil.loadAttendanceTotalData();
         mTotalUnitNumTextView.setText(model.getUnit());
         mTotalAttendanceRateTextView.setText(model.getAttendanceRate());
         mTotalShortageUnitTextView.setText(model.getShortageseNumber());
@@ -100,7 +100,7 @@ public class AttendanceRateFragment extends Fragment implements PullRefreshLayou
     @Override
     public void onRefresh() {
         if(!Util.netWorkCheck()){
-            NotifyManager.failureNetworkConnection();
+            NotifyUtil.failureNetworkConnection();
             endRefresh();
             return;
         }
@@ -111,12 +111,12 @@ public class AttendanceRateFragment extends Fragment implements PullRefreshLayou
             public void callback(boolean bool) {
                 if(bool){
                     //更新処理
-                    mRecyclerAdapter.swap(PrefManager.loadAttendanceRateModelList());
+                    mRecyclerAdapter.swap(PrefUtil.loadAttendanceRateModelList());
                     //合計データ
                     setTotalData();
-                    NotifyManager.successUpdate();
+                    NotifyUtil.successUpdate();
                 } else{
-                    NotifyManager.failureUpdate();
+                    NotifyUtil.failureUpdate();
                 }
                 endRefresh();
                 controller.enableScroll();

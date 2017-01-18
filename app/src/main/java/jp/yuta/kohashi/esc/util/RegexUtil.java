@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.manager;
+package jp.yuta.kohashi.esc.util;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
  * Created by yutakohashi on 2017/01/05.
  */
 
-public class RegexManager {
-    static final String TAG = RegexManager.class.getSimpleName();
+public class RegexUtil {
+    static final String TAG = RegexUtil.class.getSimpleName();
 
     /***
      *

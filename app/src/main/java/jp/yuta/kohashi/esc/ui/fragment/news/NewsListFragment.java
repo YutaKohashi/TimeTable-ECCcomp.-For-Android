@@ -22,9 +22,9 @@ import jp.yuta.kohashi.esc.network.service.HttpHelper;
 import jp.yuta.kohashi.esc.ui.activity.NewsDetailActivity;
 import jp.yuta.kohashi.esc.ui.adapter.NewsRecyclerAdapter;
 import jp.yuta.kohashi.esc.ui.fragment.ScrollController;
-import jp.yuta.kohashi.esc.manager.NotifyManager;
+import jp.yuta.kohashi.esc.util.NotifyUtil;
 import jp.yuta.kohashi.esc.util.Util;
-import jp.yuta.kohashi.esc.manager.preference.PrefManager;
+import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,8 +47,8 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
         View view = inflater.inflate(R.layout.fragment_news_list, container, false);
 
         controller = new ScrollController();
-        userId = PrefManager.getId();
-        password = PrefManager.getPss();
+        userId = PrefUtil.getId();
+        password = PrefUtil.getPss();
 
         initView(view);
         return view;
@@ -66,9 +66,9 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
             protected void onItemClicked(@NonNull final NewsModel model) {
                 super.onItemClicked(model);
                 if(!Util.netWorkCheck()){
-                    NotifyManager.failureNetworkConnection(); return;}
+                    NotifyUtil.failureNetworkConnection(); return;}
 
-                NotifyManager.showLoadingDiag(getActivity());
+                NotifyUtil.showLoadingDiag(getActivity());
 
                 new HttpConnector().requestNewsDetail(userId, password, model.getUri(), new HttpHelper.AccessCallbacks() {
                     @Override
@@ -80,7 +80,7 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
 
                             startActivity(intent);
                         }
-                        NotifyManager.dismiss();
+                        NotifyUtil.dismiss();
                     }
                 });
             }
@@ -107,7 +107,7 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
     @Override
     public void onRefresh() {
         if(!Util.netWorkCheck()){
-            NotifyManager.failureNetworkConnection();
+            NotifyUtil.failureNetworkConnection();
             endRefresh();
             return;
         }
@@ -118,10 +118,10 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
                     @Override
                     public void callback(boolean bool) {
                         if (bool) {
-                            mRecyclerAdapter.swap(PrefManager.loadSchoolNewsList());
-                            NotifyManager.successUpdate();
+                            mRecyclerAdapter.swap(PrefUtil.loadSchoolNewsList());
+                            NotifyUtil.successUpdate();
                         } else {
-                            NotifyManager.failureUpdate();
+                            NotifyUtil.failureUpdate();
                         }
                         endRefresh();
                         controller.enableScroll();
@@ -133,10 +133,10 @@ public class NewsListFragment extends Fragment implements PullRefreshLayout.OnRe
                     @Override
                     public void callback(boolean bool) {
                         if (bool) {
-                            mRecyclerAdapter.swap(PrefManager.loadTanninNewsList());
-                            NotifyManager.successUpdate();
+                            mRecyclerAdapter.swap(PrefUtil.loadTanninNewsList());
+                            NotifyUtil.successUpdate();
                         } else {
-                            NotifyManager.failureUpdate();
+                            NotifyUtil.failureUpdate();
                         }
                         endRefresh();
                         controller.enableScroll();

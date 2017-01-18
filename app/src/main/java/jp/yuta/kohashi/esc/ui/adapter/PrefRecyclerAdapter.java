@@ -78,8 +78,8 @@ public class PrefRecyclerAdapter extends RecyclerView.Adapter<PrefRecyclerAdapte
 
         final PrefRecyclerAdapter.PrefViewHolder holder = new PrefRecyclerAdapter.PrefViewHolder(v, viewType);
         if (viewType == PrefViewType.ITEM.getId() ||
-                viewType != PrefViewType.ITEM_RIGHT_ARROW.getId() ||
-                viewType != PrefViewType.ITEM_CENTER_TXT.getId()) {
+                viewType == PrefViewType.ITEM_RIGHT_ARROW.getId() ||
+                viewType == PrefViewType.ITEM_CENTER_TXT.getId()) {
             // onCreateViewHolder でリスナーをセット
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

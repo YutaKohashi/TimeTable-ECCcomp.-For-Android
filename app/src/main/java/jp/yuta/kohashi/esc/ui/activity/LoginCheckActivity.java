@@ -1,22 +1,22 @@
 package jp.yuta.kohashi.esc.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
-import jp.yuta.kohashi.esc.manager.preference.PrefManager;
+import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 
 /***
  * このActivityを経由してログイン済みかどうかの判定を行う
  */
-public class LoginCheckActivity extends AppCompatActivity {
+public class LoginCheckActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!PrefManager.isLogin()) {
+        if (!PrefUtil.isLogin()) {
             // ログインしていない
             Intent intent = new Intent(LoginCheckActivity.this, LoginActivity.class);
             startActivity(intent);

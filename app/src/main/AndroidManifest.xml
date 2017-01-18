@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="jp.yuta.kohashi.esc.App"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
@@ -30,8 +30,12 @@
         <activity
             android:name=".ui.activity.NewsDetailActivity"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".ui.activity.PreferenceActivity"
-            android:theme="@style/PrefTheme"></activity>
+        <activity
+            android:name=".ui.activity.PreferenceActivity"
+            android:theme="@style/PrefTheme" />
+        <activity android:name=".ui.activity.AboutActivity" />
+        <activity android:name=".ui.activity.LisenceActivity" />
+        <activity android:name=".ui.activity.base.WebViewActivity"></activity>
     </application>
 
 </manifest>

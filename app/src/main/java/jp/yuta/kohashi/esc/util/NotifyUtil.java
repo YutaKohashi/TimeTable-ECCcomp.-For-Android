@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.manager;
+package jp.yuta.kohashi.esc.util;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -18,7 +18,7 @@ import jp.yuta.kohashi.esc.R;
  * Created by yutakohashi on 2017/01/16.
  */
 
-public class NotifyManager {
+public class NotifyUtil {
     
 
     public static void successUpdate(){
@@ -36,6 +36,10 @@ public class NotifyManager {
     public static void failureAttendanceRate(){showToast("出席情報の取得に\n失敗しました",R.drawable.ic_error);}
 
     public static void failureNetworkConnection(){showToast("インターネットに\n接続されていません",R.drawable.ic_portable_wifi_off);}
+
+    public static void failureFileLoad(){
+        showToast("ファイルのロードに失敗しました。",R.drawable.ic_error);
+    }
 
     public static void showToast(String string,int icon){
         LayoutInflater _inflater = (LayoutInflater) App.getAppContext().getSystemService( Context.LAYOUT_INFLATER_SERVICE );;

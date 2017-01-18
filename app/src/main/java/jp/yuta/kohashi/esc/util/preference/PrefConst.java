@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.manager.preference;
+package jp.yuta.kohashi.esc.util.preference;
 
 /**
  * Created by yutakohashi on 2017/01/06.
@@ -31,6 +31,7 @@ public final class PrefConst {
 
     protected static final String KEY_ID = "KEY_ID";
     protected static final String KEY_PASS = "KEY_PASS";
+    protected  static final String KEY_USER_NAME = "KEY_USER_NAME";
 
     protected static final String KEY_APP_VERSION = "KEY_APP_VERSION";
 }

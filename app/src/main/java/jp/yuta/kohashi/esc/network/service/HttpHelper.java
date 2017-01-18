@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import jp.yuta.kohashi.esc.App;
-import jp.yuta.kohashi.esc.manager.RegexManager;
-import jp.yuta.kohashi.esc.manager.preference.PrefManager;
+import jp.yuta.kohashi.esc.util.RegexUtil;
+import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
  * Created by yutakohashi on 2016/11/15.
@@ -33,7 +33,7 @@ public class HttpHelper {
     /************************************   public   ********************************************************/
 
     /***
-     * 時間割を取得,保存
+     * 時間割を取得,保存(ユーザ名も)
      *
      * @param userId
      * @param password
@@ -44,7 +44,8 @@ public class HttpHelper {
             @Override
             public void callback(String html, List<String> htmls, boolean bool) {
                 if (bool) {
-                    PrefManager.saveTimeTable(html, htmls);
+                    PrefUtil.saveTimeTable(html, htmls);
+                    PrefUtil.saveUserName(html);
                 }
                 successCallbacks.callback(bool);
             }
@@ -64,8 +65,8 @@ public class HttpHelper {
             @Override
             public void callback(String html, boolean bool) {
                 if (bool) {
-                    PrefManager.saveAttendanceRate(html);
-                    PrefManager.saveAttendanceAllRateData(html);
+                    PrefUtil.saveAttendanceRate(html);
+                    PrefUtil.saveAttendanceAllRateData(html);
                 }
                 successCallbacks.callback(bool);
             }
@@ -111,7 +112,7 @@ public class HttpHelper {
             @Override
             public void callback(String html, boolean bool) {
                 if (bool) {
-                    PrefManager.saveSchoolNews(html);
+                    PrefUtil.saveSchoolNews(html);
                 }
                 successCallbacks.callback(bool);
             }
@@ -130,7 +131,7 @@ public class HttpHelper {
             @Override
             public void callback(String html, boolean bool) {
                 if (bool) {
-                    PrefManager.saveTanninNews(html);
+                    PrefUtil.saveTanninNews(html);
                 }
                 successCallbacks.callback(bool);
             }
@@ -244,8 +245,8 @@ public class HttpHelper {
     private static List<String> getTeacherNameUrls(String html) {
         List<String> urls = new ArrayList<>();
 
-        html = RegexManager.replaceCRLF(html, true);
-        Matcher m = RegexManager.getGroupValues("<li class=\"letter\"><a href=\"(.+?)\">投書</a>", html);
+        html = RegexUtil.replaceCRLF(html, true);
+        Matcher m = RegexUtil.getGroupValues("<li class=\"letter\"><a href=\"(.+?)\">投書</a>", html);
         while (m.find()) {
             String url = m.group(1);
             urls.add(url);
@@ -311,7 +312,7 @@ public class HttpHelper {
 
                     mLastResponseHtml = result.getString();
                     Log.d(TAG, mLastResponseHtml);
-                    if (!RegexManager.containsCheck(">個人別出席率表<", mLastResponseHtml)) {
+                    if (!RegexUtil.containsCheck(">個人別出席率表<", mLastResponseHtml)) {
                         throw new Exception("出席率ページへの遷移に失敗しました");
                     }
 
@@ -445,7 +446,7 @@ public class HttpHelper {
 
         if (!result.getBool()) return result;
         mLastResponseHtml = result.getString();
-        if (!RegexManager.containsCheck(">ログアウト<", mLastResponseHtml)) {
+        if (!RegexUtil.containsCheck(">ログアウト<", mLastResponseHtml)) {
             result.setBool(false);
         }
 
@@ -475,7 +476,7 @@ public class HttpHelper {
         if (!result.getBool()) return result;
 
         mLastResponseHtml = result.getString();
-        if (!RegexManager.containsCheck("ログオフ", mLastResponseHtml)) {
+        if (!RegexUtil.containsCheck("ログオフ", mLastResponseHtml)) {
             result.setBool(false);
         }
 

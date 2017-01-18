@@ -22,7 +22,7 @@ import java.util.List;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.TimeBlockModel;
 import jp.yuta.kohashi.esc.ui.adapter.TimeTableRecyclerAdapter;
-import jp.yuta.kohashi.esc.manager.preference.PrefManager;
+import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -140,7 +140,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
     }
 
     private void loadLists() {
-        List<List<TimeBlockModel>> lists = PrefManager.loadTimeBlockList();
+        List<List<TimeBlockModel>> lists = PrefUtil.loadTimeBlockList();
         monList = lists.get(0);
         tueList = lists.get(1);
         wedList = lists.get(2);

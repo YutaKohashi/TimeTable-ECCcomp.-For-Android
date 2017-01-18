@@ -2,7 +2,6 @@ package jp.yuta.kohashi.esc.ui.fragment;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -17,15 +16,16 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.yuta.kohashi.esc.App;
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.manager.NotifyManager;
-import jp.yuta.kohashi.esc.manager.preference.PrefManager;
 import jp.yuta.kohashi.esc.model.PrefItemModel;
 import jp.yuta.kohashi.esc.model.enums.PrefViewType;
+import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.ui.activity.LoginCheckActivity;
 import jp.yuta.kohashi.esc.ui.adapter.PrefRecyclerAdapter;
+import jp.yuta.kohashi.esc.util.NotifyUtil;
+import jp.yuta.kohashi.esc.util.Util;
+import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
  * 設定画面
@@ -79,6 +79,9 @@ public class PreferenceFragment extends Fragment {
                     case "ログアウト":
                         logout();
                         break;
+                    case "時間割を更新":
+                        updateTimeTable();
+                        break;
 
                 }
             }
@@ -86,13 +89,54 @@ public class PreferenceFragment extends Fragment {
         mRecyclerView.setAdapter(mRecyclerAdapter);
     }
 
+    /**
+     * 時間割を更新
+     */
+    private void updateTimeTable(){
+        if(!Util.netWorkCheck()) {
+            NotifyUtil.failureNetworkConnection();
+            return;
+        }
+
+        NotifyUtil.showUpdatingDiag(getActivity());
+        String userId = PrefUtil.getId();
+        String password = PrefUtil.getPss();
+        new HttpConnector().request(HttpConnector.Type.TIME_TABLE, userId, password, new HttpConnector.Callback() {
+            @Override
+            public void callback(boolean bool) {
+                NotifyUtil.dismiss();
+                if(bool){
+                    NotifyUtil.successUpdate();
+                }else{
+                    NotifyUtil.failureUpdate();
+                }
+            }
+        });
+    }
+
+    /**
+     * ログアウト
+     */
     private void logout() {
-        NotifyManager.showLogoutingDiag(getActivity());
+//        new MaterialDialog.Builder(getActivity())
+//                .title("タイトル")
+//                .content("内容")
+//                .itemsCallback(new)
+//                .setNegativeButton("はい", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Toast.makeText(getApplication(), "クリックイベント", Toast.LENGTH_LONG).show();
+//                        dialog.dismiss();
+//
+//                    }
+//                }).show();
+
+        NotifyUtil.showLogoutingDiag(getActivity());
         Handler mHandler = new Handler();
         Runnable runnable = new Runnable() {
             public void run() {
-                PrefManager.deleteAll();
-                NotifyManager.dismiss();
+                PrefUtil.deleteAll();
+                NotifyUtil.dismiss();
                 Intent intent = new Intent(getContext().getApplicationContext(), LoginCheckActivity.class);
                 startActivity(intent);
                 ActivityCompat.finishAffinity(getActivity());

@@ -15,7 +15,7 @@ import java.util.List;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.NewsModel;
 import jp.yuta.kohashi.esc.ui.adapter.NewsViewPagerAdapter;
-import jp.yuta.kohashi.esc.manager.preference.PrefManager;
+import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,8 +31,8 @@ public class NewsParentFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.fragment_news_parent, container, false);
 
-        schoolNews = PrefManager.loadSchoolNewsList();
-        tanninNews = PrefManager.loadTanninNewsList();
+        schoolNews = PrefUtil.loadSchoolNewsList();
+        tanninNews = PrefUtil.loadTanninNewsList();
         NewsViewPagerAdapter adapter = new NewsViewPagerAdapter(getChildFragmentManager(),schoolNews,tanninNews);
         mViewPager = (ViewPager)v.findViewById(R.id.news_viewpager);
         mViewPager.setAdapter(adapter);

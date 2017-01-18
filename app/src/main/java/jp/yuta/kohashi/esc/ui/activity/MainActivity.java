@@ -3,7 +3,6 @@ package jp.yuta.kohashi.esc.ui.activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,33 +15,33 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import java.util.List;
 
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.network.service.RequestURL;
+import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
 import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateFragment;
 import jp.yuta.kohashi.esc.ui.fragment.CalendarFragment;
 import jp.yuta.kohashi.esc.ui.fragment.TimeTableFragment;
 import jp.yuta.kohashi.esc.ui.fragment.news.NewsParentFragment;
-import jp.yuta.kohashi.esc.manager.NotifyManager;
+import jp.yuta.kohashi.esc.util.NotifyUtil;
+import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 
 /***
  * このActivityに時間割や出席照会のFragmentがのる
  */
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final String GET_ATTENDANCE_RATE = "get_attendance_rate";
 
     /*ツールバー・ナビゲーションドロワー・トグル・レイアウト*/
-    private Toolbar mToolbar;
     private NavigationView mNavDrawer;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -52,11 +51,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int currentTab;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_nav);
 
         initToolbar();
+        setToolbarTitle(getResources().getString(R.string.toolbar_default_title));
 
 //        ドロワーの時
         initDrawer();
@@ -65,12 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         replaceFragment(new TimeTableFragment());
 
         isGetAttendanceRate(); //ログイン時のみ
-        currentTab =  -1;
-    }
-
-    @Override
-    public void onStart(){
-        super.onStart();
+        currentTab = -1;
     }
 
 
@@ -91,16 +86,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mBottomNavView.setOnNavigationItemSelectedListener(this);
     }
 
-    private void initToolbar(){
-        //ツールバーをActionBarとして扱う
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolbar != null) {
-            mToolbar.setTitleTextColor(Color.WHITE);
-            mToolbar.setTitle((getResources().getString(R.string.toolbar_default_title)));
-            setSupportActionBar(mToolbar);
-        }
-    }
-
     /*
      * NavigationViewのClickイベント
      *
@@ -110,26 +95,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        if(currentTab == item.getItemId()) return true;
+        if (currentTab == item.getItemId()) return true;
 
         switch (item.getItemId()) {
             case R.id.nav_item_time_table: // 時間割
-                transitionFragment  = new TimeTableFragment();
+                transitionFragment = new TimeTableFragment();
                 replaceFragment(transitionFragment);
                 currentTab = item.getItemId();
                 break;
             case R.id.nav_item_attendance_rate: // 出席照会
-                transitionFragment  = new AttendanceRateFragment();
+                transitionFragment = new AttendanceRateFragment();
                 replaceFragment(transitionFragment);
                 currentTab = item.getItemId();
                 break;
             case R.id.nav_item_news: // お知らせ
-                transitionFragment  = new NewsParentFragment();
+                transitionFragment = new NewsParentFragment();
                 replaceFragment(transitionFragment);
                 currentTab = item.getItemId();
                 break;
             case R.id.nav_item_schedule: //スケジュール
-                transitionFragment  = new CalendarFragment();
+                transitionFragment = new CalendarFragment();
                 replaceFragment(transitionFragment);
                 currentTab = item.getItemId();
                 break;
@@ -154,11 +139,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     /**
      * フラグメントreplaceメソッド
+     *
      * @param fragment
      */
-    private void replaceFragment(Fragment fragment){
+    private void replaceFragment(Fragment fragment) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, fragment,"");
+        ft.replace(R.id.fragment_container, fragment, "");
         ft.addToBackStack(null);
         ft.commit();
     }
@@ -166,12 +152,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /**
      * ドロワーを開く
      */
-    private void drawerOpen(){mDrawerLayout.closeDrawer(GravityCompat.END);}
+    private void drawerOpen() {
+        mDrawerLayout.closeDrawer(GravityCompat.END);
+    }
 
     /**
      * ドロワーを閉じる
      */
-    private void closeDrawer(){
+    private void closeDrawer() {
         mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
@@ -179,19 +167,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * ログイン時に出席照会の取得に失敗した時
      * スナックバーを表示する
      */
-    private void isGetAttendanceRate(){
+    private void isGetAttendanceRate() {
         Intent intent = getIntent();
-        boolean bool = intent.getBooleanExtra(GET_ATTENDANCE_RATE,true);
+        boolean bool = intent.getBooleanExtra(GET_ATTENDANCE_RATE, true);
 
         //取得に失敗
-        if(!bool){
-            NotifyManager.failureAttendanceRate();
+        if (!bool) {
+            NotifyUtil.failureAttendanceRate();
         }
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event){
-        if (keyCode == KeyEvent.KEYCODE_BACK){
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             this.finish();
             return true;
         }
@@ -201,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /**
      * ChoromeCustomTabsを表示
      */
-    private void showWeb(){
+    private void showWeb() {
         Uri uri = Uri.parse(RequestURL.ESC_TO_PAGE);
         CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                 .setShowTitle(true)
@@ -222,10 +210,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /**
      * 設定Activityを表示
      */
-    private void showSettings(){
+    private void showSettings() {
         Intent intent = new Intent(MainActivity.this, PreferenceActivity.class);
         startActivity(intent);
     }
 
-
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        //ドロワーに名前と学籍番号を入れる
+        String userId = PrefUtil.getId();
+        String name = PrefUtil.getUserName();
+        ((TextView) findViewById(R.id.name_text)).setText(name);
+        ((TextView) findViewById(R.id.num_text)).setText(userId);
+    }
 }

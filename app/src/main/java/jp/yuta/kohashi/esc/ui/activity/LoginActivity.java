@@ -11,9 +11,9 @@ import com.dd.CircularProgressButton;
 
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.network.HttpConnector;
-import jp.yuta.kohashi.esc.manager.NotifyManager;
+import jp.yuta.kohashi.esc.util.NotifyUtil;
 import jp.yuta.kohashi.esc.util.Util;
-import jp.yuta.kohashi.esc.manager.preference.PrefManager;
+import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -53,8 +53,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         if(view.getId() == R.id.btn_login){
             //テキストフィールドとネットワークのチェック
-            if (!Util.checkTextField(mIdTextView) & !Util.checkTextField(mPasswordTextView)) return;
-            if (!Util.netWorkCheck()) return;
+            if (!Util.checkTextField(mIdTextView) & !Util.checkTextField(mPasswordTextView)) {
+                defaultProgBtn();
+                return;
+            }
+            if (!Util.netWorkCheck()) {
+                NotifyUtil.failureNetworkConnection();
+                defaultProgBtn();
+                return;
+            }
 
             userId = mIdTextView.getText().toString();
             password = mPasswordTextView.getText().toString();
@@ -105,7 +112,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * ログイン失敗時
      */
     private void failureLogin() {
-        NotifyManager.failureLogin();
+        NotifyUtil.failureLogin();
         failureProgBtn();
         enableTextViews();
 
@@ -127,8 +134,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void successLogin(Boolean bool){
         successProgBtn();
         // ログイン状態を保存
-        PrefManager.saveLoginState(true);
-        PrefManager.saveIdPass(userId,password);
+        PrefUtil.saveLoginState(true);
+        PrefUtil.saveIdPass(userId,password);
         // 画面遷移
         final Intent intent = new Intent(LoginActivity.this,MainActivity.class);
         intent.putExtra(MainActivity.GET_ATTENDANCE_RATE,bool);  //出席照会を取得できたか
@@ -198,6 +205,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void defaultProgBtn(){
         mLoginButton.setProgress(0);
+        mLoginButton.setIndeterminateProgressMode(true);
     }
 
     //**

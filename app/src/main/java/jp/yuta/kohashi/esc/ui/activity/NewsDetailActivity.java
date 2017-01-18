@@ -3,14 +3,10 @@ package jp.yuta.kohashi.esc.ui.activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
@@ -26,22 +22,22 @@ import java.util.regex.Matcher;
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.NewsModel;
-import jp.yuta.kohashi.esc.manager.RegexManager;
+import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
+import jp.yuta.kohashi.esc.util.RegexUtil;
 
-public class NewsDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class NewsDetailActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String NEWS_MODEL = "newsModel";
     public static final String NEWS_HTML = "newsHtml";
     private static final int FONT_SIZE_WEB_VIEW = 16; //webView font size
     private String html;
-    private Toolbar mToolbar;
     private Button mDownloadBtn;
     private NewsModel newsModel;
     private List<String> downloadUrls;
     private List<String> downloadTitles;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public  void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
         if (downloadTitles == null) {
@@ -57,6 +53,9 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         html = intent.getStringExtra(NEWS_HTML);
 
         initToolbar();
+        enableBackBtn();
+        setToolbarTitle(newsModel.getTitle());
+
         initView();
     }
 
@@ -95,33 +94,20 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         });
     }
 
-    private void initToolbar() {
-        //ツールバーをActionBarとして扱う
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolbar != null) {
-            mToolbar.setTitle(newsModel.getTitle());
-            mToolbar.setTitleTextColor(Color.WHITE);
-            setSupportActionBar(mToolbar);
-        }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-    }
-
     private String getMainText(String html) {
-        html = RegexManager.replaceCRLF(html, true);
-        return RegexManager.narrowingValues("<p class=\"body clear\">", "</p>", html);
+        html = RegexUtil.replaceCRLF(html, true);
+        return RegexUtil.narrowingValues("<p class=\"body clear\">", "</p>", html);
     }
 
     private void getDownloadTitleUrl(String html) {
-        html = RegexManager.replaceCRLF(html, true);
-        String narrowHtml = RegexManager.narrowingValues("<h3>添付ファイル</h3>", "<li class=\"clear\">", html);
-        Matcher match = RegexManager.getGroupValues("<a href=\"(.+?)\">", narrowHtml);
+        html = RegexUtil.replaceCRLF(html, true);
+        String narrowHtml = RegexUtil.narrowingValues("<h3>添付ファイル</h3>", "<li class=\"clear\">", html);
+        Matcher match = RegexUtil.getGroupValues("<a href=\"(.+?)\">", narrowHtml);
         while (match.find()) {
             downloadUrls.add(match.group(1));
         }
 
-        Matcher match2 = RegexManager.getGroupValues("<a href=\"[^\"]*\">(.+?)</a>", narrowHtml);
+        Matcher match2 = RegexUtil.getGroupValues("<a href=\"[^\"]*\">(.+?)</a>", narrowHtml);
         while (match2.find()) {
             downloadTitles.add(match2.group(1));
         }
@@ -186,10 +172,4 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         return downloadTitles.size();
     }
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) finish();
-        return super.onOptionsItemSelected(item);
-    }
 }

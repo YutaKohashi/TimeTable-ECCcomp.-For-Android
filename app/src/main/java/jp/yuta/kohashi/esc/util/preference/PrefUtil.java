@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.manager.preference;
+package jp.yuta.kohashi.esc.util.preference;
 
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -15,15 +15,15 @@ import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.model.AttendanceRateModel;
 import jp.yuta.kohashi.esc.model.NewsModel;
 import jp.yuta.kohashi.esc.model.TimeBlockModel;
-import jp.yuta.kohashi.esc.manager.RegexManager;
+import jp.yuta.kohashi.esc.util.RegexUtil;
 
 
 /**
  * Created by yutakohashi on 2017/01/06.
  */
 
-public class PrefManager {
-    private static final String TAG = PrefManager.class.getSimpleName();
+public class PrefUtil {
+    private static final String TAG = PrefUtil.class.getSimpleName();
 
     /************************************
      * public
@@ -201,6 +201,15 @@ public class PrefManager {
         return sharedPreferences.getString(PrefConst.KEY_APP_VERSION, "-1");
     }
 
+    /**
+     * ユーザ名を保存
+     */
+    public static String getUserName(){
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, App.getAppContext().MODE_PRIVATE);
+        return sharedPreferences.getString(PrefConst.KEY_USER_NAME, "NO_NAME");
+    }
+
+
     //**
     //endregion
     //**
@@ -313,6 +322,13 @@ public class PrefManager {
         save(Const.APP_VERSION, PrefConst.KEY_APP_VERSION, PrefConst.FILE_UTIL);
     }
 
+    public static void saveUserName(String html){
+        String name = RegexUtil.getValues("<li id=\"user_name\" class=\"floatLeft\">(.+?)さん</li>",html);
+        name = name.replace("&nbsp;"," ").trim();
+
+        save(name,PrefConst.KEY_USER_NAME,PrefConst.FILE_ID_PASS);
+    }
+
     //**
     //endregion
     //**
@@ -415,24 +431,24 @@ public class PrefManager {
     private static List<AttendanceRateModel> createAttendanceList(String html) {
         List<AttendanceRateModel> attendanceRateList = new ArrayList();
 
-        html = RegexManager.replaceCRLF(html, true);
-        html = RegexManager.narrowingValues("<table class=\"GridVeiwTable\"", "<table cellspacing=\"0\" border=\"0\" id=\"ctl00_ContentPlaceHolder1_fmvSyuseki\"", html);
+        html = RegexUtil.replaceCRLF(html, true);
+        html = RegexUtil.narrowingValues("<table class=\"GridVeiwTable\"", "<table cellspacing=\"0\" border=\"0\" id=\"ctl00_ContentPlaceHolder1_fmvSyuseki\"", html);
 
-        Matcher m = RegexManager.getGroupValues("<tr>.*?</tr>", html);
+        Matcher m = RegexUtil.getGroupValues("<tr>.*?</tr>", html);
         while (m.find()) {
             AttendanceRateModel attendanceRateModel = new AttendanceRateModel();
 
             String narrowHtml = m.group();
 
-            String subject = RegexManager.getValues("<img(?:\\\".*?\\\"|\\'.*?\\'|[^\\'\\\"])*?>(.+?)</a>", narrowHtml);
+            String subject = RegexUtil.getValues("<img(?:\\\".*?\\\"|\\'.*?\\'|[^\\'\\\"])*?>(.+?)</a>", narrowHtml);
             attendanceRateModel.setSubjectName(subject);
 
             int count = 0;
-            Matcher m2 = RegexManager.getGroupValues("<td(?:\\\".*?\\\"|\\'.*?\\'|[^\\'\\\"])*?>(.*?)</td>", narrowHtml);
+            Matcher m2 = RegexUtil.getGroupValues("<td(?:\\\".*?\\\"|\\'.*?\\'|[^\\'\\\"])*?>(.*?)</td>", narrowHtml);
             while (m2.find()) {
                 String str = m2.group(1);
-                str = RegexManager.deletePercent(str);
-                str = RegexManager.deleteNBSPTo0(str);
+                str = RegexUtil.deletePercent(str);
+                str = RegexUtil.deleteNBSPTo0(str);
                 switch (count) {
                     case 0:
                         break;
@@ -477,16 +493,16 @@ public class PrefManager {
      */
     private static AttendanceRateModel createAllRateData(String html) {
         AttendanceRateModel model = new AttendanceRateModel();
-        html = RegexManager.replaceCRLF(html, true);
+        html = RegexUtil.replaceCRLF(html, true);
 
-        model.setUnit(RegexManager.getValues("id=\"ctl00_ContentPlaceHolder1_fmvSyuseki_lblTotalTani\">(.+?)</span>", html));
-        model.setAttendanceNumber(RegexManager.getValues("id=\"ctl00_ContentPlaceHolder1_fmvSyuseki_lblTotalShuseki\">(.+?)<", html));
-        model.setAbsentNumber(RegexManager.getValues("id=\"ctl00_ContentPlaceHolder1_fmvSyuseki_lblTotalKesski\">(.+?)<", html));
-        model.setLateNumber(RegexManager.getValues("id=\"ctl00_ContentPlaceHolder1_fmvSyuseki_lblTotalChikoku\">(.+?)<", html));
-        model.setPublicAbsentNumber1(RegexManager.getValues("id=\"ctl00_ContentPlaceHolder1_fmvSyuseki_lblTotalKouketsu1\">(.+?)<", html));
-        model.setPublicAbsentNumber2(RegexManager.getValues("id=\"ctl00_ContentPlaceHolder1_fmvSyuseki_lblTotalKouketsu2\">(.+?)<", html));
-        model.setAttendanceRate(RegexManager.getValues("id=\"ctl00_ContentPlaceHolder1_fmvSyuseki_lblTotalShutsuritsu\">(.+?)%<", html));
-        model.setShortageseNumber(RegexManager.getValues("id=\"ctl00_ContentPlaceHolder1_fmvSyuseki_lblTotalFusoku\">(.+?)<", html));
+        model.setUnit(RegexUtil.getValues("id=\"ctl00_ContentPlaceHolder1_fmvSyuseki_lblTotalTani\">(.+?)</span>", html));
+        model.setAttendanceNumber(RegexUtil.getValues("id=\"ctl00_ContentPlaceHolder1_fmvSyuseki_lblTotalShuseki\">(.+?)<", html));
+        model.setAbsentNumber(RegexUtil.getValues("id=\"ctl00_ContentPlaceHolder1_fmvSyuseki_lblTotalKesski\">(.+?)<", html));
+        model.setLateNumber(RegexUtil.getValues("id=\"ctl00_ContentPlaceHolder1_fmvSyuseki_lblTotalChikoku\">(.+?)<", html));
+        model.setPublicAbsentNumber1(RegexUtil.getValues("id=\"ctl00_ContentPlaceHolder1_fmvSyuseki_lblTotalKouketsu1\">(.+?)<", html));
+        model.setPublicAbsentNumber2(RegexUtil.getValues("id=\"ctl00_ContentPlaceHolder1_fmvSyuseki_lblTotalKouketsu2\">(.+?)<", html));
+        model.setAttendanceRate(RegexUtil.getValues("id=\"ctl00_ContentPlaceHolder1_fmvSyuseki_lblTotalShutsuritsu\">(.+?)%<", html));
+        model.setShortageseNumber(RegexUtil.getValues("id=\"ctl00_ContentPlaceHolder1_fmvSyuseki_lblTotalFusoku\">(.+?)<", html));
 
         return model;
     }
@@ -529,14 +545,14 @@ public class PrefManager {
     private static List<TimeBlockModel> createTempList(String html, List<String> names) {
         List<TimeBlockModel> temp = new ArrayList<>();
 
-        html = RegexManager.replaceCRLF(html, true);
-        String narrowHtml = RegexManager.narrowingValues("<div id=\"timetable_col\" class=\"col\">", "<div class=\"col\">", html);
+        html = RegexUtil.replaceCRLF(html, true);
+        String narrowHtml = RegexUtil.narrowingValues("<div id=\"timetable_col\" class=\"col\">", "<div class=\"col\">", html);
 
         int rowNum = 1; //1〜
         int teacherIndex = 0;
         boolean flg = true;
 
-        Matcher row = RegexManager.getGroupValues("<th class=\"term\">.*?</tr>", narrowHtml);
+        Matcher row = RegexUtil.getGroupValues("<th class=\"term\">.*?</tr>", narrowHtml);
         while (row.find()) {
 
             //１行目はヘッダのため無視
@@ -545,7 +561,7 @@ public class PrefManager {
                 continue;
             }
 
-            Matcher col = RegexManager.getGroupValues("<td>(.+?)</td>", row.group());
+            Matcher col = RegexUtil.getGroupValues("<td>(.+?)</td>", row.group());
             int colNum = 1; //1〜
             while (col.find()) {
                 String colHtml = col.group();
@@ -553,9 +569,9 @@ public class PrefManager {
                 String subject = "";
                 String room = "";
                 String teacherName = "";
-                if (RegexManager.containsCheck("<li>", colHtml)) {
-                    subject = RegexManager.getValues("<td>\\s*<ul>\\s*<li>(.+?)</li>", colHtml);
-                    room = RegexManager.getValues("</li>\\s*<li>(.+?)</li>", colHtml);
+                if (RegexUtil.containsCheck("<li>", colHtml)) {
+                    subject = RegexUtil.getValues("<td>\\s*<ul>\\s*<li>(.+?)</li>", colHtml);
+                    room = RegexUtil.getValues("</li>\\s*<li>(.+?)</li>", colHtml);
                     teacherName = names.get(teacherIndex++);
                 }
 
@@ -615,8 +631,8 @@ public class PrefManager {
      * @return
      */
     private static String getTeacherName(String html) {
-        html = RegexManager.replaceCRLF(html, true);
-        String teacherName = RegexManager.getValues("<h3>受信者</h3>    <p>(.+?)</p>", html);
+        html = RegexUtil.replaceCRLF(html, true);
+        String teacherName = RegexUtil.getValues("<h3>受信者</h3>    <p>(.+?)</p>", html);
         teacherName = fixTeacherName(teacherName);
         return teacherName;
     }
@@ -652,14 +668,14 @@ public class PrefManager {
      * @return
      */
     private static List<NewsModel> createSchoolNewsList(String html) {
-        html = RegexManager.replaceCRLF(html, true);
-        String narrowHtml = RegexManager.narrowingValues("<div id=\"school_news_col\" class=\"col\">", "<div id=\"shcool_event_col\"", html);
+        html = RegexUtil.replaceCRLF(html, true);
+        String narrowHtml = RegexUtil.narrowingValues("<div id=\"school_news_col\" class=\"col\">", "<div id=\"shcool_event_col\"", html);
         List<NewsModel> schoolNewsList = new ArrayList<>();
 
-        Matcher m = RegexManager.getGroupValues("<div class=\"wrapper\">(.+?)</div>", narrowHtml);
+        Matcher m = RegexUtil.getGroupValues("<div class=\"wrapper\">(.+?)</div>", narrowHtml);
         while (m.find()) {
             String groupHtml = m.group(1);
-            String groupTitle = RegexManager.getValues("<h3>(.+?)</h3>", groupHtml);
+            String groupTitle = RegexUtil.getValues("<h3>(.+?)</h3>", groupHtml);
 
             schoolNewsList.add(new NewsModel(groupTitle));
             schoolNewsList.addAll(createNewsList(groupHtml));
@@ -674,8 +690,8 @@ public class PrefManager {
      * @return
      */
     private static List<NewsModel> createTanninNewsList(String html) {
-        html = RegexManager.replaceCRLF(html, true);
-        String narrowHtml = RegexManager.narrowingValues("<h2>担任からのお知らせ</h2>", "</div>", html);
+        html = RegexUtil.replaceCRLF(html, true);
+        String narrowHtml = RegexUtil.narrowingValues("<h2>担任からのお知らせ</h2>", "</div>", html);
         List<NewsModel> tanninNewsList = createNewsList(narrowHtml);
         return tanninNewsList;
     }
@@ -689,12 +705,12 @@ public class PrefManager {
     private static List<NewsModel> createNewsList(String narrowHtml) {
         List<NewsModel> list = new ArrayList<>();
 
-        Matcher m = RegexManager.getGroupValues("<li>(.*?)</li>", narrowHtml);
+        Matcher m = RegexUtil.getGroupValues("<li>(.*?)</li>", narrowHtml);
         while (m.find()) {
             String news = m.group();
-            String date = RegexManager.getValues("class=\"date\">(.+?)<", news);
-            String uri = RegexManager.getValues("<a href=\"(.+?)\">", news);
-            String title = RegexManager.getValues("<a href=\"[^\"]*\">(.+?)</a>", news);
+            String date = RegexUtil.getValues("class=\"date\">(.+?)<", news);
+            String uri = RegexUtil.getValues("<a href=\"(.+?)\">", news);
+            String title = RegexUtil.getValues("<a href=\"[^\"]*\">(.+?)</a>", news);
 
             list.add(new NewsModel(title, date, uri));
         }
