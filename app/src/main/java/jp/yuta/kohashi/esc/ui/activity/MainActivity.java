@@ -174,6 +174,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         //取得に失敗
         if (!bool) {
             NotifyUtil.failureAttendanceRate();
+            intent.removeExtra(GET_ATTENDANCE_RATE);
         }
     }
 

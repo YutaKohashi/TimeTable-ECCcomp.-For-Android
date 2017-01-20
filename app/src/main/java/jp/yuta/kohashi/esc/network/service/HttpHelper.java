@@ -44,7 +44,8 @@ public class HttpHelper {
             @Override
             public void callback(String html, List<String> htmls, boolean bool) {
                 if (bool) {
-                    PrefUtil.saveTimeTable(html, htmls);
+                    PrefUtil.saveTimeTable(html, htmls);        //表示する方はこっち
+                    PrefUtil.saveTimeTableOriginal(html,htmls); //オリジナルを別で保存 変更の取り消しの際に必要
                     PrefUtil.saveUserName(html);
                 }
                 successCallbacks.callback(bool);

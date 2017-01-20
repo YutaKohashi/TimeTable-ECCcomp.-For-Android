@@ -5,19 +5,22 @@ import android.util.Log;
 
 import java.io.IOException;
 
+import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.ui.activity.base.WebViewActivity;
 import jp.yuta.kohashi.esc.util.NotifyUtil;
 import jp.yuta.kohashi.esc.util.Util;
 
-public class LisenceActivity extends WebViewActivity {
+public class LicenceActivity extends WebViewActivity {
 
-    private static final String TAG = LisenceActivity.class.getSimpleName();
-    private static final String FILE_NAME ="lisence.html";
+    private static final String TAG = LicenceActivity.class.getSimpleName();
+    private static final String FILE_NAME = "licence.html";
     private String html;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setToolbarTitle(getResources().getString(R.string.pref_lisence) );
 
         try {
             html =  Util.loadTextAsset(FILE_NAME);

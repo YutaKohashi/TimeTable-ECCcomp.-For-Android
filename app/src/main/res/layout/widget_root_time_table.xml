@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_widget"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:paddingBottom="8sp"
+    android:paddingLeft="8sp"
+    android:paddingRight="8sp"
+    android:paddingTop="8sp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFF">
+
+        <LinearLayout
+            android:id="@+id/time_table_header"
+            android:layout_width="match_parent"
+            android:layout_height="40sp"
+            android:background="#f7f7f7"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            <TextView
+                android:id="@+id/mon_col_name_widget"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/week_header_right"
+                android:gravity="center"
+                android:text="@string/mon_string"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/tue_col_name_widget"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/week_header_right"
+                android:gravity="center"
+                android:text="@string/tue_string"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/wed_col_name_widget"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/week_header_right"
+                android:gravity="center"
+                android:text="@string/wed_string"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/thur_col_name_widget"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/week_header_right"
+                android:gravity="center"
+                android:text="@string/thur_string"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/fri_col_name_widget"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/fri_string"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/time_table_header"
+            android:background="#c7c7c7"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            <LinearLayout
+                android:id="@+id/mon_col_widget"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/tue_col_widget"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/wed_col_widget"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/thur_col_widget"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/fri_col_widget"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" />
+        </LinearLayout>
+        <!--</ScrollView>-->
+    </RelativeLayout>
+</RelativeLayout>

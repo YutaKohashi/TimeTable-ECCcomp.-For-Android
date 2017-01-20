@@ -1,0 +1,171 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    android:layout_width="350sp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/bg_bottom_sheet"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/custom_cell_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="10sp"
+        android:text="月曜日 ４限目"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white" />
+
+
+    <LinearLayout
+        android:id="@+id/popup_window"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_bottom_line"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@android:color/transparent"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:text="教科名"
+                android:textSize="13sp">
+
+                <requestFocus />
+            </TextView>
+
+
+            <EditText
+                android:id="@+id/edit_subject"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="7"
+                android:background="@android:color/transparent"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:text="SAMPLE"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_bottom_line"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@android:color/transparent"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:text="担当教師"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/edit_teacher"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+
+                android:layout_weight="7"
+                android:background="@android:color/transparent"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:text="SAMPLE"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_bottom_line"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@android:color/transparent"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:text="教室"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/edit_room"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="7"
+                android:background="@android:color/transparent"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical"
+                android:inputType="number"
+                android:padding="15dp"
+                android:text="SAMPLE"
+                android:textSize="15sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/bg_bottom_line"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:text="@string/dialog_negative_cancel"
+                android:textAlignment="center"
+                android:textSize="13sp" />
+
+
+            <Button
+                android:id="@+id/ok_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical"
+                android:padding="15dp"
+                android:text="@string/dialog_positive_ok"
+                android:textAlignment="center"
+                android:textColor="#0088ff"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

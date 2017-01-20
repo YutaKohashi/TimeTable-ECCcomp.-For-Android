@@ -17,22 +17,5 @@
         app:popupTheme="@style/Theme.AppCompat.Light"
         app:layout_scrollFlags="scroll|enterAlways">
 
-        <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingBottom="15sp"-->
-            <!--android:paddingRight="60sp"-->
-            <!--android:paddingTop="15sp">-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/main_title"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:text="ECCcomp."-->
-                <!--android:textColor="@color/white"-->
-                <!--android:textSize="22sp" />-->
-        <!--</RelativeLayout>-->
-
     </android.support.v7.widget.Toolbar>
 </android.support.design.widget.AppBarLayout>

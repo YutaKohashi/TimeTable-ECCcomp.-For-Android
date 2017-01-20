@@ -23,15 +23,18 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
     private List<TimeBlockModel> items;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
+    private int color;
+
 
     // タップされたときに呼び出されるメソッド
-    protected void onItemClicked(@NonNull TimeBlockModel model) {
+    protected void onItemClicked(@NonNull List<TimeBlockModel> items, TimeBlockModel model) {
     }
 
-    public TimeTableRecyclerAdapter(List<TimeBlockModel> items, Context context) {
+    public TimeTableRecyclerAdapter(List<TimeBlockModel> items, int color, Context context) {
         mLayoutInflater = LayoutInflater.from(context);
         this.items = items;
         this.mContext = context;
+        this.color = color;
     }
 
     @Override
@@ -43,7 +46,7 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
             @Override
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
-                onItemClicked(items.get(position));
+                onItemClicked(items, items.get(position));
             }
         });
 
@@ -54,6 +57,7 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
     public void onBindViewHolder(TimeViewHolder holder, int position) {
         holder.subjectName.setText(items.get(position).getSubject());
         holder.roomName.setText(items.get(position).getClassRoom());
+        holder.roomName.setBackgroundColor(mContext.getResources().getColor(color));
     }
 
     @Override
@@ -61,6 +65,11 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
         return items.size();
     }
 
+    public void swap(List<TimeBlockModel> items){
+        this.items.clear();
+        this.items.addAll(items);
+        notifyDataSetChanged();
+    }
 
     //ViewHolder
     public static class TimeViewHolder extends RecyclerView.ViewHolder {

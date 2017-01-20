@@ -100,11 +100,10 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
 
     private void createRecyclerView(RecyclerView recyclerView, List<TimeBlockModel> list) {
         recyclerView.setLayoutManager(new CustomLinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
-        TimeTableRecyclerAdapter adapter = new TimeTableRecyclerAdapter(list, getActivity()) {
-
+        TimeTableRecyclerAdapter adapter = new TimeTableRecyclerAdapter(list, R.color.bg_classroom_green ,getActivity()) {
             @Override
-            protected void onItemClicked(@NonNull TimeBlockModel model) {
-                super.onItemClicked(model);
+            protected void onItemClicked(@NonNull List<TimeBlockModel> items, TimeBlockModel model) {
+                super.onItemClicked(items, model);
                 if(TextUtils.isEmpty(model.getSubject())) return;
                 mSubjectTextView.setText(model.getSubject());
                 mTeacherTextView.setText(model.getTeacherName());
@@ -115,8 +114,8 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
                 mBottomSheet.startAnimation(inAnim);
                 mCloseView.setVisibility(View.VISIBLE);
                 mCloseView.startAnimation(fadeInAnim);
-
             }
+
         };
         recyclerView.setAdapter(adapter);
     }
@@ -125,14 +124,16 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
     private String getRoom(int i){
         switch(i){
             case 0:
-                return getResources().getString(R.string.time_one_class);
+                return getResources().getString(R.string.time_zero_class);
             case 1:
-                return getResources().getString(R.string.time_two_class);
+                return getResources().getString(R.string.time_one_class);
             case 2:
-                return getResources().getString(R.string.time_three_class);
+                return getResources().getString(R.string.time_two_class);
             case 3:
-                return getResources().getString(R.string.time_four_class);
+                return getResources().getString(R.string.time_three_class);
             case 4:
+                return getResources().getString(R.string.time_four_class);
+            case 5:
                 return getResources().getString(R.string.time_five_class);
             default:
                 return "";

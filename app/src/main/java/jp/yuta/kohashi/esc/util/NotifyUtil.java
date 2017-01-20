@@ -38,7 +38,15 @@ public class NotifyUtil {
     public static void failureNetworkConnection(){showToast("インターネットに\n接続されていません",R.drawable.ic_portable_wifi_off);}
 
     public static void failureFileLoad(){
-        showToast("ファイルのロードに失敗しました。",R.drawable.ic_error);
+        showToast("ファイルのロードに失敗しました",R.drawable.ic_error);
+    }
+
+    public static void saveData(){
+        showToast("保存されました。",R.drawable.ic_error);
+    }
+
+    public static void notChangeData(){
+        showToast("データが変更されていません",R.drawable.ic_error);
     }
 
     public static void showToast(String string,int icon){

@@ -13,11 +13,11 @@ import jp.yuta.kohashi.esc.R;
  * Created by yutakohashi on 2017/01/18.
  */
 
-public class BaseActivity extends AppCompatActivity{
+public class BaseActivity extends AppCompatActivity {
 
     public Toolbar mToolbar;
 
-    public void initToolbar(){
+    public void initToolbar() {
         //ツールバーをActionBarとして扱う
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar != null) {
@@ -29,16 +29,20 @@ public class BaseActivity extends AppCompatActivity{
     /**
      * ツールバーのバックボタンを有効に
      */
-    public void enableBackBtn(){
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    public void enableBackBtn() {
+        ActionBar actionbar = getSupportActionBar();
+        if (actionbar != null) {
+            actionbar.setDisplayHomeAsUpEnabled(true);
+            actionbar.setDisplayShowHomeEnabled(true);
+        }
     }
 
-    public void setToolbarTitle(String title){
-       ActionBar actionbar = getSupportActionBar();
-        if(actionbar != null) {
+    public void setToolbarTitle(String title) {
+        ActionBar actionbar = getSupportActionBar();
+        if (actionbar != null) {
             actionbar.setTitle(title);
-            Log.d(BaseActivity.class.getSimpleName(),"toolbar is null");
+        }else {
+            Log.d(BaseActivity.class.getSimpleName(), "toolbar is null");
         }
     }
 

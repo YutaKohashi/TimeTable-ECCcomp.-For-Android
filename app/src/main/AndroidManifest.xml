@@ -34,8 +34,20 @@
             android:name=".ui.activity.PreferenceActivity"
             android:theme="@style/PrefTheme" />
         <activity android:name=".ui.activity.AboutActivity" />
-        <activity android:name=".ui.activity.LisenceActivity" />
-        <activity android:name=".ui.activity.base.WebViewActivity"></activity>
+        <activity android:name=".ui.activity.LicenceActivity" />
+        <activity android:name=".ui.activity.base.WebViewActivity" />
+
+        <receiver android:name=".ui.widget.TimeTableWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/time_table_widget_info" />
+        </receiver>
+
+        <activity android:name=".ui.activity.TimeTableChangeActivity"></activity>
     </application>
 
 </manifest>

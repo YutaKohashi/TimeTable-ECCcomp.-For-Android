@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:gravity="center"
+                android:layout_margin="4dp"
                 android:textColor="@color/widget_cell_text_color" />
 
             <TextView
@@ -41,6 +42,5 @@
                 android:textColor="@color/widget_cell_text_color" />
 
         </RelativeLayout>
-
     </android.support.v7.widget.CardView>
 </RelativeLayout>
