@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ECC</string>
+    <string name="app_name">ecc</string>
 
     <!--ツールバー-->
     <string name="toolbar_default_title">ECCcomp.</string>
@@ -51,6 +51,12 @@
     <string name="pref_about">このアプリについて</string>
     <string name="pref_app_version">アプリバージョン</string>
     <string name="pref_logout">ログアウト</string>
+    <!--出席照会を色分けする-->
+    <string name="pref_enable_change_color">色分けを有効にする</string>
+    <string name="pref_set_color">色を設定する</string>
+    <string name="pref_rate_u75">出席率75％未満</string>
+    <string name="pref_rate_u81">出席率81％未満</string>
+    <string name="pref_rate_u90">出席率90%未満</string>
 
     <!--ダイアログ-->
     <string name="dialog_positive_ok">OK</string>
@@ -63,4 +69,5 @@
     <!--ドロワー-->
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+
 </resources>

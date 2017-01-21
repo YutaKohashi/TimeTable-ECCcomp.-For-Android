@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
@@ -52,11 +53,14 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
     private Animation fadeOutAnim;
     private FrameLayout mCloseView;
 
+    private List<TimeTableRecyclerAdapter> mAdapters;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_time_table, container, false);
 
+        mAdapters = new ArrayList<>();
         initView(view);
 
         return view;
@@ -94,9 +98,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
         outAnim = AnimationUtils.loadAnimation(getContext(), R.anim.anim_bottom_sheet_out);
         fadeInAnim = AnimationUtils.loadAnimation(getContext(),R.anim.anim_bottom_sheet_fade_in);
         fadeOutAnim = AnimationUtils.loadAnimation(getContext(),R.anim.anim_bottom_sheet_fade_out);
-
     }
-
 
     private void createRecyclerView(RecyclerView recyclerView, List<TimeBlockModel> list) {
         recyclerView.setLayoutManager(new CustomLinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
@@ -117,7 +119,15 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
             }
 
         };
+        mAdapters.add(adapter);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void swapAll() {
+        List<List<TimeBlockModel>> lists = PrefUtil.loadTimeBlockList();
+        for (int i = 0; i < 5; i++) {
+            mAdapters.get(i).swap(lists.get(i));
+        }
     }
 
     @NonNull
@@ -173,4 +183,9 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        swapAll();
+    }
 }

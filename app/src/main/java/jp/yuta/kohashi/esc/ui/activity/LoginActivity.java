@@ -41,14 +41,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         connector = new HttpConnector();
     }
 
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        finish();
-//    }
-
-
-
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.btn_login){

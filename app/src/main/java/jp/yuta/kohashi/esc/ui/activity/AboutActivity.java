@@ -6,7 +6,6 @@ import android.util.Log;
 import java.io.IOException;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.ui.activity.base.WebViewActivity;
 import jp.yuta.kohashi.esc.util.NotifyUtil;
 import jp.yuta.kohashi.esc.util.Util;
 

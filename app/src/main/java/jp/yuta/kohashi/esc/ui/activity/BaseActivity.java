@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.ui.activity.base;
+package jp.yuta.kohashi.esc.ui.activity;
 
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;

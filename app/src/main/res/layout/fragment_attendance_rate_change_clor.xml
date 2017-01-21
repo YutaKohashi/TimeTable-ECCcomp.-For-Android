@@ -3,11 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary9"
-    tools:context="jp.yuta.kohashi.esc.ui.fragment.PreferenceFragment">
+    tools:context="jp.yuta.kohashi.esc.ui.fragment.AttendanceRateChangeColorFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/pref_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:id="@+id/recycler_view">
+
+    </android.support.v7.widget.RecyclerView>
 
 </FrameLayout>

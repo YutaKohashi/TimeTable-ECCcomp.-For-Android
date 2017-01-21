@@ -8,12 +8,16 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.color.CircleView;
+
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.PrefItemModel;
 import jp.yuta.kohashi.esc.model.enums.PrefViewType;
@@ -29,8 +33,11 @@ public class PrefRecyclerAdapter extends RecyclerView.Adapter<PrefRecyclerAdapte
     private LayoutInflater mLayoutInflater;
 
     // タップされたときに呼び出されるメソッド
-    protected void onItemClicked(@NonNull PrefItemModel model) {
+    protected void onItemClicked(CircleImageView view ,@NonNull PrefItemModel model) {
     }
+    protected void onItemClicked(@NonNull PrefItemModel model) {}
+
+    protected void onItemCheckedChange(@NonNull boolean bool) {}
 
     public PrefRecyclerAdapter(List<PrefItemModel> items, Context context) {
         mLayoutInflater = LayoutInflater.from(context);
@@ -71,6 +78,10 @@ public class PrefRecyclerAdapter extends RecyclerView.Adapter<PrefRecyclerAdapte
                 v = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.cell_pref_item_right_txt, parent, false);
                 break;
+            case ITEM_COLOR_PICK:
+                v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.cell_pref_item_color_picker, parent, false);
+                break;
             default:
                 v = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.cell_pref_empty, parent, false);
@@ -86,6 +97,21 @@ public class PrefRecyclerAdapter extends RecyclerView.Adapter<PrefRecyclerAdapte
                 public void onClick(View v) {
                     int position = holder.getAdapterPosition();
                     onItemClicked(items.get(position));
+                }
+            });
+        } else if(viewType == PrefViewType.ITEM_COLOR_PICK.getId()){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = holder.getAdapterPosition();
+                    onItemClicked((CircleImageView) v.findViewById(R.id.circle_image_view),items.get(position));
+                }
+            });
+        } else if(viewType == PrefViewType.ITEM_SWITCH.getId()){
+            holder.switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    onItemCheckedChange(b);
                 }
             });
         }
@@ -121,6 +147,8 @@ public class PrefRecyclerAdapter extends RecyclerView.Adapter<PrefRecyclerAdapte
                 } else {
                     holder.imageView.setImageDrawable(mContext.getResources().getDrawable(items.get(position).getResourceId()));
                 }
+
+                holder.switchCompat.setChecked(items.get(position).isBool());
                 break;
             case ITEM_CENTER_TXT:
                 holder.leftTextView.setText(items.get(position).getItemName());
@@ -136,6 +164,16 @@ public class PrefRecyclerAdapter extends RecyclerView.Adapter<PrefRecyclerAdapte
                 } else {
                     holder.imageView.setImageDrawable(mContext.getResources().getDrawable(items.get(position).getResourceId()));
                 }
+                break;
+            case ITEM_COLOR_PICK:
+                holder.leftTextView.setText(items.get(position).getItemName());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    holder.imageView.setImageDrawable(mContext.getResources().getDrawable(items.get(position).getResourceId(), null));
+                } else {
+                    holder.imageView.setImageDrawable(mContext.getResources().getDrawable(items.get(position).getResourceId()));
+                }
+                holder.circleView.setColorFilter(items.get(position).getColor());
+                break;
         }
     }
 
@@ -161,6 +199,7 @@ public class PrefRecyclerAdapter extends RecyclerView.Adapter<PrefRecyclerAdapte
         public TextView rightTextView;
         public ImageView imageView;
         public SwitchCompat switchCompat;
+        public CircleImageView circleView;
 
 
         public PrefViewHolder(View v, int viewType) {
@@ -193,6 +232,11 @@ public class PrefRecyclerAdapter extends RecyclerView.Adapter<PrefRecyclerAdapte
                     imageView = (ImageView) v.findViewById(R.id.image_view);
                     leftTextView = (TextView) v.findViewById(R.id.title_text_view);
                     rightTextView = (TextView) v.findViewById(R.id.right_text_view);
+                    break;
+                case ITEM_COLOR_PICK:
+                    leftTextView = (TextView) v.findViewById(R.id.title_text_view);
+                    circleView = (CircleImageView)v.findViewById(R.id.circle_image_view);
+                    imageView = (ImageView) v.findViewById(R.id.image_view);
                 default:
             }
         }

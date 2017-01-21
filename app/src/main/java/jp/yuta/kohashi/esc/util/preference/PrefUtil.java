@@ -234,6 +234,25 @@ public class PrefUtil {
     }
 
 
+    /**
+     * 出席率色分け
+     */
+
+    public static int loadColorU90() {
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(PrefConst.KEY_COLOR_U90,-1);
+    }
+
+    public static int loadColorU81() {
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(PrefConst.KEY_COLOR_U81,-1);
+    }
+
+    public static int loadColorU75() {
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(PrefConst.KEY_COLOR_U75,-1);
+    }
+
     //**
     //endregion
     //**
@@ -270,11 +289,11 @@ public class PrefUtil {
         List<String> names = getTeacherNames(htmls);
         List<TimeBlockModel> tempList = createTempList(html, names);
 
-        save(createWeekList(tempList, 0), PrefConst.KEY_MON_LIST, PrefConst.FILE_TIME_TABLE);
-        save(createWeekList(tempList, 1), PrefConst.KEY_TUE_LIST, PrefConst.FILE_TIME_TABLE);
-        save(createWeekList(tempList, 2), PrefConst.KEY_WED_LIST, PrefConst.FILE_TIME_TABLE);
-        save(createWeekList(tempList, 3), PrefConst.KEY_THUR_LIST, PrefConst.FILE_TIME_TABLE);
-        save(createWeekList(tempList, 4), PrefConst.KEY_FRI_LIST, PrefConst.FILE_TIME_TABLE);
+        save(createWeekList(tempList, 0), PrefConst.KEY_MON_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
+        save(createWeekList(tempList, 1), PrefConst.KEY_TUE_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
+        save(createWeekList(tempList, 2), PrefConst.KEY_WED_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
+        save(createWeekList(tempList, 3), PrefConst.KEY_THUR_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
+        save(createWeekList(tempList, 4), PrefConst.KEY_FRI_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
     }
 
     public static void saveTimeTableMon(List<TimeBlockModel> list) {
@@ -382,6 +401,22 @@ public class PrefUtil {
         save(name, PrefConst.KEY_USER_NAME, PrefConst.FILE_ID_PASS);
     }
 
+    public static void saveEnableColorChange(boolean bool) {
+        save(bool, PrefConst.KEY_ENABLE_COLOR_CHANGE, PrefConst.FILE_UTIL);
+    }
+
+    public static void saveColorU90(int color) {
+        save(color, PrefConst.KEY_COLOR_U90, PrefConst.FILE_UTIL);
+    }
+
+    public static void saveColorU81(int color) {
+        save(color, PrefConst.KEY_COLOR_U81, PrefConst.FILE_UTIL);
+    }
+
+    public static void saveColorU75(int color) {
+        save(color, PrefConst.KEY_COLOR_U75, PrefConst.FILE_UTIL);
+    }
+
     //**
     //endregion
     //**
@@ -428,9 +463,15 @@ public class PrefUtil {
         }
     }
 
+    public static boolean isChangeColor(){
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(PrefConst.KEY_ENABLE_COLOR_CHANGE, false);
+    }
+
     //**
     //endregion
     //**
+
 
     //**
     //region delete
@@ -814,6 +855,11 @@ public class PrefUtil {
     private static void save(String string, String key, String fileName) {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(fileName, Context.MODE_PRIVATE);
         sharedPreferences.edit().putString(key, string).commit();
+    }
+
+    private static void save(int num, String key, String fileName) {
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(fileName, Context.MODE_PRIVATE);
+        sharedPreferences.edit().putInt(key, num).commit();
     }
 
     //**

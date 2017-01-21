@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.ui.fragment.news;
+package jp.yuta.kohashi.esc.ui.fragment;
 
 
 import android.content.Intent;

@@ -15,11 +15,27 @@ public class PrefItemModel {
     private String rightText;
     private int resourceId;
     private PrefViewType viewType;
+    private boolean bool;
+    private int color;
+
+    public PrefItemModel(String itemName,Integer resourceId,PrefViewType viewType,boolean bool){
+        this.itemName = itemName;
+        this.resourceId = resourceId;
+        this.viewType = viewType;
+        this.bool = bool;
+    }
 
     public PrefItemModel(String itemName, Integer resourceId,PrefViewType viewType){
         this.itemName = itemName;
         this.resourceId = resourceId;
         this.viewType = viewType;
+    }
+
+    public PrefItemModel(String itemName, Integer resourceId,PrefViewType viewType,int color){
+        this.itemName = itemName;
+        this.resourceId = resourceId;
+        this.viewType = viewType;
+        this.color = color;
     }
 
     public PrefItemModel(String itemName,String rightText ,Integer resourceId,PrefViewType viewType){
@@ -37,4 +53,6 @@ public class PrefItemModel {
     public PrefItemModel(PrefViewType viewType){
         this.viewType = viewType;
     }
+
+
 }

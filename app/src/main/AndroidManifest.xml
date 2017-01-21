@@ -32,10 +32,10 @@
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".ui.activity.PreferenceActivity"
-            android:theme="@style/PrefTheme" />
+            />
         <activity android:name=".ui.activity.AboutActivity" />
         <activity android:name=".ui.activity.LicenceActivity" />
-        <activity android:name=".ui.activity.base.WebViewActivity" />
+        <activity android:name=".ui.activity.WebViewActivity" />
 
         <receiver android:name=".ui.widget.TimeTableWidget">
             <intent-filter>
@@ -47,7 +47,9 @@
                 android:resource="@xml/time_table_widget_info" />
         </receiver>
 
-        <activity android:name=".ui.activity.TimeTableChangeActivity"></activity>
+        <activity android:name=".ui.activity.TimeTableChangeActivity" />
+        <activity android:name=".ui.activity.AttendanceRateChangeColorActivity"
+            android:theme="@style/PrefTheme"></activity>
     </application>
 
 </manifest>

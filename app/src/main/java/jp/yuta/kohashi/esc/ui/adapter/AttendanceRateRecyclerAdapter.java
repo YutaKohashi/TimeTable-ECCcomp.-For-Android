@@ -1,6 +1,8 @@
 package jp.yuta.kohashi.esc.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.AttendanceRateModel;
+import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
  * Created by yutakohashi on 2017/01/14.
@@ -55,6 +58,25 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
         holder.kouketsuNum1.setText(items.get(position).getPublicAbsentNumber1());
         //公欠２
         holder.kouketsuNum2.setText(items.get(position).getPublicAbsentNumber2());
+
+        if(PrefUtil.isChangeColor()) {
+            int color = -1;
+            int rate = Integer.valueOf(items.get(position).getAttendanceRate());
+            if (rate < 75) {
+                color = PrefUtil.loadColorU75();
+            } else if (rate < 81) {
+                color = PrefUtil.loadColorU81();
+            } else if (rate < 90) {
+                color = PrefUtil.loadColorU90();
+            } else {
+                color = -1;
+            }
+            if (color != -1) {
+                holder.attendanceRate.setTextColor(color);
+            } else {
+                holder.attendanceRate.setTextColor(holder.subjectName.getCurrentTextColor());
+            }
+        }
 
     }
 

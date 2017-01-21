@@ -44,4 +44,7 @@ dependencies {
     compile 'com.afollestad.material-dialogs:commons:0.9.2.3'
     testCompile 'junit:junit:4.12'
     provided 'org.projectlombok:lombok:1.16.10'
+    compile 'petrov.kristiyan.colorpicker:colorpicker-library:1.1.2'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.thebluealliance:spectrum:0.7.1'
 }

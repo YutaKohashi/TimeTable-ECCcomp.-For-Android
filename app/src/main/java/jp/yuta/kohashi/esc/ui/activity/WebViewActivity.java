@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.ui.activity.base;
+package jp.yuta.kohashi.esc.ui.activity;
 
 import android.os.Bundle;
 import android.webkit.WebView;

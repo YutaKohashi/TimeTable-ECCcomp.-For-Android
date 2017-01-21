@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 
 import com.google.gson.Gson;
 
@@ -31,11 +32,12 @@ import jp.yuta.kohashi.esc.util.Util;
  * Created by yutakohashi on 2017/01/14.
  */
 
-public class CalendarFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener {
+public class CalendarFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener , View.OnClickListener {
     private static final String TAG = CalendarFragment.class.getSimpleName();
 
+    private Button mPrevBtn;
+    private Button mNextBtn;
     private RecyclerView mRecyclerView;
-
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private CalendarViewPagerAdapter mPagerAdapter;
@@ -51,6 +53,10 @@ public class CalendarFragment extends Fragment implements ViewTreeObserver.OnGlo
         View view = inflater.inflate(R.layout.fragment_calendar_parent, container, false);
         calendarListModel = getSchedule(); //スケジュールを取得
 
+        mPrevBtn = (Button) view.findViewById(R.id.prev_btn);
+        mNextBtn = (Button)view.findViewById(R.id.next_btn);
+        mPrevBtn.setOnClickListener(this);
+        mNextBtn.setOnClickListener(this);
         mViewPager = (ViewPager) view.findViewById(R.id.calendar_viewpager);
         mTabLayout = (TabLayout) view.findViewById(R.id.tab_calendar);
         mPagerAdapter = new CalendarViewPagerAdapter(getContext(),calendarListModel);
@@ -71,6 +77,20 @@ public class CalendarFragment extends Fragment implements ViewTreeObserver.OnGlo
         mRecyclerView.setAdapter(mRecyclerAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.prev_btn:
+                if(--currentPage < 0) currentPage++;
+                else movePage(currentPage);
+                break;
+            case R.id.next_btn:
+                if(++currentPage < 12)  movePage(currentPage);
+                else currentPage--;
+                break;
+        }
     }
 
     /**
@@ -95,8 +115,7 @@ public class CalendarFragment extends Fragment implements ViewTreeObserver.OnGlo
         if (flag) {
             flag = false;
             int position = Util.getMonthToTabPosition(Const.MONTH);
-            mViewPager.setCurrentItem(position, false);
-            mTabLayout.setScrollPosition(position, 0, true); // 注
+            movePage(position);
         }
     }
 
@@ -135,6 +154,11 @@ public class CalendarFragment extends Fragment implements ViewTreeObserver.OnGlo
         CalendarListModel listModel = gson.fromJson(jsonText, CalendarListModel.class);
 
         return listModel;
+    }
+
+    private void movePage(int position){
+        mViewPager.setCurrentItem(position, false);
+        mTabLayout.setScrollPosition(position, 0, true); // 注
     }
 
 }

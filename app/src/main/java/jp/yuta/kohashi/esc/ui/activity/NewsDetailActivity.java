@@ -22,7 +22,6 @@ import java.util.regex.Matcher;
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.NewsModel;
-import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
 import jp.yuta.kohashi.esc.util.RegexUtil;
 
 public class NewsDetailActivity extends BaseActivity implements View.OnClickListener {

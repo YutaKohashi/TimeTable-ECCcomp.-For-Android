@@ -25,27 +25,7 @@
                 android:id="@+id/calendar_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            </android.support.v4.view.ViewPager>
-
-            <!--<FrameLayout-->
-            <!--android:id="@+id/container_calendar"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@color/colorPrimary"-->
-            <!--app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"-->
-            <!--app:layout_collapseMode="parallax"/>-->
-            _
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/schedule"-->
-            <!--android:textColor="@color/white"-->
-            <!--android:textSize="20sp" />-->
-
-            <!--</android.support.v7.widget.Toolbar>-->
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -63,23 +43,35 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <!--<android.support.v4.view.ViewPager-->
-    <!--android:id="@+id/calendar_viewpager"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/calendar_recycler_view"
+    <FrameLayout
+        android:id="@+id/container_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </android.support.v7.widget.RecyclerView>
-    <!--<FrameLayout-->
-    <!--android:id="@+id/container_calendar"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
-    <!--/>-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/calendar_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/prev_btn"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_calendar_next_prev" />
+
+            <Button
+                android:id="@+id/next_btn"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:background="@drawable/bg_calendar_next_prev" />
+
+        </FrameLayout>
+    </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

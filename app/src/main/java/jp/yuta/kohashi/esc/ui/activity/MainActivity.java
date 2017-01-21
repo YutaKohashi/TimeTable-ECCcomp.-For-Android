@@ -25,11 +25,10 @@ import java.util.List;
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.network.service.RequestURL;
-import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
 import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateFragment;
 import jp.yuta.kohashi.esc.ui.fragment.CalendarFragment;
 import jp.yuta.kohashi.esc.ui.fragment.TimeTableFragment;
-import jp.yuta.kohashi.esc.ui.fragment.news.NewsParentFragment;
+import jp.yuta.kohashi.esc.ui.fragment.NewsParentFragment;
 import jp.yuta.kohashi.esc.util.NotifyUtil;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 

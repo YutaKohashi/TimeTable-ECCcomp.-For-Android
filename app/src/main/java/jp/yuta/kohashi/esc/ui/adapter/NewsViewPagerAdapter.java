@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.model.NewsModel;
-import jp.yuta.kohashi.esc.ui.fragment.news.NewsListFragment;
+import jp.yuta.kohashi.esc.ui.fragment.NewsListFragment;
 
 /**
  * Created by Yuta on 2016/06/18.

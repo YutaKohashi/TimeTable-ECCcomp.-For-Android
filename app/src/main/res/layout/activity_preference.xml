@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:name="jp.yuta.kohashi.esc.ui.fragment.PreferenceFragment"
             android:id="@+id/fragment_preference"
-            tools:layout="@layout/fragment_preference" />
+            tools:layout="@layout/fragment_recycler_view" />
 
     </FrameLayout>
 </LinearLayout>

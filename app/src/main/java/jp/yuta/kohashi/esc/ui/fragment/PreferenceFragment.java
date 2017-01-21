@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +14,13 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.PrefItemModel;
 import jp.yuta.kohashi.esc.model.enums.PrefViewType;
 import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.ui.activity.AboutActivity;
+import jp.yuta.kohashi.esc.ui.activity.AttendanceRateChangeColorActivity;
 import jp.yuta.kohashi.esc.ui.activity.LicenceActivity;
 import jp.yuta.kohashi.esc.ui.activity.LoginCheckActivity;
 import jp.yuta.kohashi.esc.ui.activity.TimeTableChangeActivity;
@@ -37,47 +33,40 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
  * 設定画面
  * PrefrenceFragmentを継承しない
  */
-public class PreferenceFragment extends Fragment {
-
-    RecyclerView mRecyclerView;
-    PrefRecyclerAdapter mRecyclerAdapter;
-    List<PrefItemModel> items;
+public class PreferenceFragment extends PrefRecyclerViewFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_preference, container, false);
-        createItems();
-        initView(view);
-        return view;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     /**
      * 表示する項目を作成
      */
-    private void createItems() {
-        items = new ArrayList<>();
-        items.add(new PrefItemModel(getResources().getString(R.string.pref_group_title_time_table), PrefViewType.ITEM_GROUP_TITLE));
-        items.add(new PrefItemModel(getResources().getString(R.string.pref_update_time_table), R.drawable.ic_refresh, PrefViewType.ITEM));
-        items.add(new PrefItemModel(getResources().getString(R.string.pref_change_time_table), R.drawable.ic_create, PrefViewType.ITEM_RIGHT_ARROW));
-        items.add(new PrefItemModel(PrefViewType.EMPTY));
-        items.add(new PrefItemModel(getResources().getString(R.string.pref_group_title_time_attendance), PrefViewType.ITEM_GROUP_TITLE));
-        items.add(new PrefItemModel(getResources().getString(R.string.pref_attendance_color), R.drawable.ic_brush, PrefViewType.ITEM_SWITCH));
-        items.add(new PrefItemModel(getResources().getString(R.string.pref_attendance_log), R.drawable.ic_folder_open, PrefViewType.ITEM_RIGHT_ARROW));
-        items.add(new PrefItemModel(PrefViewType.EMPTY));
-        items.add(new PrefItemModel(getResources().getString(R.string.pref_group_title_time_other), PrefViewType.ITEM_GROUP_TITLE));
-        items.add(new PrefItemModel(getResources().getString(R.string.pref_lisence), R.drawable.ic_business, PrefViewType.ITEM_RIGHT_ARROW));
-        items.add(new PrefItemModel(getResources().getString(R.string.pref_about), R.drawable.ic_error, PrefViewType.ITEM_RIGHT_ARROW));
-        items.add(new PrefItemModel(getResources().getString(R.string.pref_app_version), Const.APP_VERSION, R.drawable.ic_android, PrefViewType.ITEM_RIGHT_TXT));
-        items.add(new PrefItemModel(PrefViewType.EMPTY));
-        items.add(new PrefItemModel(getResources().getString(R.string.pref_logout), PrefViewType.ITEM_CENTER_TXT));
-        items.add(new PrefItemModel(PrefViewType.EMPTY));
+    @Override
+    public void createItems() {
+        addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_time_table), PrefViewType.ITEM_GROUP_TITLE));
+        addItem(new PrefItemModel(getResources().getString(R.string.pref_update_time_table), R.drawable.ic_refresh, PrefViewType.ITEM));
+        addItem(new PrefItemModel(getResources().getString(R.string.pref_change_time_table), R.drawable.ic_create, PrefViewType.ITEM_RIGHT_ARROW));
+        addItem(new PrefItemModel(PrefViewType.EMPTY));
+        addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_time_attendance), PrefViewType.ITEM_GROUP_TITLE));
+        addItem(new PrefItemModel(getResources().getString(R.string.pref_attendance_color), R.drawable.ic_brush, PrefViewType.ITEM_RIGHT_ARROW));
+        addItem(new PrefItemModel(getResources().getString(R.string.pref_attendance_log), R.drawable.ic_folder_open, PrefViewType.ITEM_RIGHT_ARROW));
+        addItem(new PrefItemModel(PrefViewType.EMPTY));
+        addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_time_other), PrefViewType.ITEM_GROUP_TITLE));
+        addItem(new PrefItemModel(getResources().getString(R.string.pref_lisence), R.drawable.ic_business, PrefViewType.ITEM_RIGHT_ARROW));
+        addItem(new PrefItemModel(getResources().getString(R.string.pref_about), R.drawable.ic_error, PrefViewType.ITEM_RIGHT_ARROW));
+        addItem(new PrefItemModel(getResources().getString(R.string.pref_app_version), Const.APP_VERSION, R.drawable.ic_android, PrefViewType.ITEM_RIGHT_TXT));
+        addItem(new PrefItemModel(PrefViewType.EMPTY));
+        addItem(new PrefItemModel(getResources().getString(R.string.pref_logout), PrefViewType.ITEM_CENTER_TXT));
+        addItem(new PrefItemModel(PrefViewType.EMPTY));
     }
 
-    private void initView(View view) {
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.pref_recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerAdapter = new PrefRecyclerAdapter(items, getContext()) {
+    @Override
+    public void initView(View view) {
+        getRecyclerView().setLayoutManager(new LinearLayoutManager(getContext()));
+        createAdapter(new PrefRecyclerAdapter(getItems(), getContext()) {
             @Override
             protected void onItemClicked(@NonNull PrefItemModel model) {
                 super.onItemClicked(model);
@@ -86,6 +75,8 @@ public class PreferenceFragment extends Fragment {
                     updateTimeTable();
                 } else if (name.equals(getResources().getString(R.string.pref_change_time_table))) {
                     changeTimeTable();
+                } else if (name.equals(getResources().getString(R.string.pref_attendance_color))) {
+                    changeColorAttendance();
                 } else if (name.equals(getResources().getString(R.string.pref_lisence))) {
                     showLicence();
                 } else if (name.equals(getResources().getString(R.string.pref_about))) {
@@ -94,8 +85,8 @@ public class PreferenceFragment extends Fragment {
                     logout();
                 }
             }
-        };
-        mRecyclerView.setAdapter(mRecyclerAdapter);
+        });
+        getRecyclerView().setAdapter(getAdapter());
     }
 
     /**
@@ -161,7 +152,7 @@ public class PreferenceFragment extends Fragment {
      * 出席照会を色分け
      */
     private void changeColorAttendance() {
-
+        startActivity(new Intent(getActivity(), AttendanceRateChangeColorActivity.class));
     }
 
     /**

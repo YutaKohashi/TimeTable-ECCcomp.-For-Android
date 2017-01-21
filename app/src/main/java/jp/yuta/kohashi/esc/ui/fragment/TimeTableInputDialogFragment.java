@@ -9,13 +9,16 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import java.util.EventListener;
+import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.TimeBlockModel;
+import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
  * Created by yutakohashi on 2017/01/19.
@@ -27,11 +30,12 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
     private Dialog mDialog;
     private TimeBlockModel beforeModel;
 
-    private TextView mSubjectTextView;
-    private TextView mRoomTextView;
-    private TextView mTeacherTextView;
-    private Button mOkBtn;
-    private Button mCancelBtn;
+    private EditText mSubjectTextView;
+    private EditText mRoomTextView;
+    private EditText mTeacherTextView;
+    private LinearLayout mOkBtn;
+    private LinearLayout mCancelBtn;
+    private ImageButton mUndoBtn;
 
     public interface Callback extends EventListener {
         void positive(TimeBlockModel before,TimeBlockModel after);
@@ -69,7 +73,6 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.ok_button:
-//                save();
                 TimeBlockModel afterModel = createAfterModel();
                 callback.positive(beforeModel,afterModel);
                 dismiss();
@@ -78,21 +81,30 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
                 dismiss();
                 callback.negative();
                 break;
+            case R.id.undo_button:
+                try{
+                    undoItem();
+                } catch (IndexOutOfBoundsException e){
+//                    Log.d()
+                }
+                break;
         }
     }
 
     private void initView(){
-        mSubjectTextView = (TextView)mDialog.findViewById(R.id.edit_subject);
-        mTeacherTextView = (TextView)mDialog.findViewById(R.id.edit_teacher);
-        mRoomTextView = (TextView)mDialog.findViewById(R.id.edit_room);
+        mSubjectTextView = (EditText)mDialog.findViewById(R.id.edit_subject);
+        mTeacherTextView = (EditText)mDialog.findViewById(R.id.edit_teacher);
+        mRoomTextView = (EditText)mDialog.findViewById(R.id.edit_room);
         mSubjectTextView.setText(beforeModel.getSubject());
         mTeacherTextView.setText(beforeModel.getTeacherName());
         mRoomTextView.setText(beforeModel.getClassRoom());
+        mUndoBtn = (ImageButton)mDialog.findViewById(R.id.undo_button);
 
-        mOkBtn = (Button)mDialog.findViewById(R.id.ok_button);
-        mCancelBtn = (Button)mDialog.findViewById(R.id.cancel_button);
+        mOkBtn = (LinearLayout)mDialog.findViewById(R.id.ok_button);
+        mCancelBtn = (LinearLayout)mDialog.findViewById(R.id.cancel_button);
         mOkBtn.setOnClickListener(this);
         mCancelBtn.setOnClickListener(this);
+        mUndoBtn.setOnClickListener(this);
     }
 
     private TimeBlockModel createAfterModel(){
@@ -109,67 +121,18 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
         return afterModel;
     }
 
-//
-//    private void save(){
-//        // 保存処理
-//        String subject = mSubjectTextView.getText().toString();
-//        String teacher = mTeacherTextView.getText().toString();
-//        String room = mRoomTextView.getText().toString();
-//
-//        // データが変更されている場合のみ
-//        if(!beforeModel.getSubject().equals(subject) ||
-//                !beforeModel.getTeacherName().equals(teacher) ||
-//                !beforeModel.getClassRoom().equals(room)){
-//
-//            List<TimeBlockModel> saveModels = createSaveList(subject,teacher, room);
-//
-//            // 曜日別
-//            switch(beforeModel.getColNum()){
-//                case 1:
-//                    PrefUtil.saveTimeTableMon(saveModels);
-//                    break;
-//                case 2:
-//                    PrefUtil.saveTimeTableTue(saveModels);
-//                    break;
-//                case 3:
-//                    PrefUtil.saveTimeTableWed(saveModels);
-//                    break;
-//                case 4:
-//                    PrefUtil.saveTimeTableThur(saveModels);
-//                    break;
-//                case 5:
-//                    PrefUtil.saveTimeTableFri(saveModels);
-//                    break;
-//            }
-//            NotifyUtil.saveData();
-//        } else {
-//            NotifyUtil.notChangeData();
-//        }
-//    }
-//
-//    /**
-//     * 保存するリストを作成
-//     * @param subject
-//     * @param teacher
-//     * @param room
-//     * @return
-//     */
-//    private List<TimeBlockModel> createSaveList(String subject, String teacher, String room){
-//        List<TimeBlockModel> saveModels = new ArrayList<>();
-//        for(TimeBlockModel m:items){
-//            if(beforeModel.getRowNum() == m.getRowNum()){
-//                TimeBlockModel saveModel = new TimeBlockModel();
-//                saveModel.setSubject(subject);
-//                saveModel.setTeacherName(teacher);
-//                saveModel.setClassRoom(room);
-//                saveModel.setRowNum(m.getRowNum());
-//                saveModel.setColNum(m.getColNum());
-//                saveModels.add(saveModel);
-//            } else{
-//                saveModels.add(m);
-//            }
-//        }
-//        return saveModels;
-//    }
-//
+    /**
+     * 変更前に戻す
+     */
+    private void undoItem() throws IndexOutOfBoundsException{
+        List<List<TimeBlockModel>> lists =  PrefUtil.loadOriginalTimeBlockList();
+        List<TimeBlockModel> list = lists.get(beforeModel.getColNum() - 1);
+        TimeBlockModel original = list.get(beforeModel.getRowNum()-1);
+        mSubjectTextView.setText(original.getSubject());
+        mTeacherTextView.setText(original.getTeacherName());
+        mRoomTextView.setText(original.getClassRoom());
+        mSubjectTextView.setSelection(mSubjectTextView.getText().length());
+        mTeacherTextView.setSelection(mTeacherTextView.getText().length());
+        mRoomTextView.setSelection(mRoomTextView.getText().length());
+    }
 }

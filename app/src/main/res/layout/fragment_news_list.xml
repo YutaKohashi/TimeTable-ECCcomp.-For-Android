@@ -4,7 +4,7 @@
     android:id="@+id/fragment_news_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="jp.yuta.kohashi.esc.ui.fragment.news.NewsListFragment">
+    tools:context="jp.yuta.kohashi.esc.ui.fragment.NewsListFragment">
 
     <com.baoyz.widget.PullRefreshLayout
         android:layout_below="@+id/container_total_data"
