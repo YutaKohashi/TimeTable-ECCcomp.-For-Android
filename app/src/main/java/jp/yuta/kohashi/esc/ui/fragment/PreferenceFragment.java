@@ -61,6 +61,7 @@ public class PreferenceFragment extends PrefRecyclerViewFragment {
         addItem(new PrefItemModel(PrefViewType.EMPTY));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_logout), PrefViewType.ITEM_CENTER_TXT));
         addItem(new PrefItemModel(PrefViewType.EMPTY));
+        addItem(new PrefItemModel(PrefViewType.EMPTY));
     }
 
     @Override

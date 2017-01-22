@@ -41,7 +41,7 @@ public class HttpConnector {
     public void request(Type type, final String userId, final String password, final Callback callback) {
         switch (type) {
             case TIME_TABLE:
-                HttpHelper.getTImeTable(userId, password, new HttpHelper.SuccessCallbacks() {
+                HttpHelper.getTimeTable(userId, password, new HttpHelper.SuccessCallbacks() {
                     @Override
                     public void callback(boolean bool) {
                         callback.callback(bool);

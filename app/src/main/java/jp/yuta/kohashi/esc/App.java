@@ -4,6 +4,8 @@ package jp.yuta.kohashi.esc;
 import android.app.Application;
 import android.content.Context;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import jp.yuta.kohashi.esc.network.service.HttpBase;
 /**
  * Created by yutakohashi on 2017/01/17.

@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import com.thebluealliance.spectrum.SpectrumDialog;
 
@@ -41,12 +40,15 @@ public class AttendanceRateChangeColorFragment extends PrefRecyclerViewFragment 
         addItem(new PrefItemModel(getResources().getString(R.string.pref_rate_u90), R.drawable.ic_color_lens, PrefViewType.ITEM_COLOR_PICK, PrefUtil.loadColorU90()));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_rate_u81), R.drawable.ic_color_lens, PrefViewType.ITEM_COLOR_PICK, PrefUtil.loadColorU81()));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_rate_u75), R.drawable.ic_color_lens, PrefViewType.ITEM_COLOR_PICK, PrefUtil.loadColorU75()));
+        addItem(new PrefItemModel(PrefViewType.EMPTY));
+        addItem(new PrefItemModel(getResources().getString(R.string.pref_blackout), R.drawable.ic_visibility_off, PrefViewType.ITEM_SWITCH, PrefUtil.isBlackout()));
     }
 
     @Override
     public void initView(View v) {
         getRecyclerView().setLayoutManager(new LinearLayoutManager(getContext()));
         createAdapter(new PrefRecyclerAdapter(getItems(), getContext()) {
+            // clickイベント
             @Override
             protected void onItemClicked(final CircleImageView view, @NonNull final PrefItemModel model) {
                 super.onItemClicked(view, model);
@@ -54,21 +56,27 @@ public class AttendanceRateChangeColorFragment extends PrefRecyclerViewFragment 
                     @Override
                     public void selected(int color) {
                         view.setColorFilter(color);
-                        if(model.getItemName() == getResources().getString(R.string.pref_rate_u90)){
+                        if(model.getItemName().equals(getResources().getString(R.string.pref_rate_u90))){
                             PrefUtil.saveColorU90(color);
-                        } else if(model.getItemName() == getResources().getString(R.string.pref_rate_u81)){
+                        } else if(model.getItemName().equals(getResources().getString(R.string.pref_rate_u81))){
                             PrefUtil.saveColorU81(color);
-                        } else if(model.getItemName() == getResources().getString(R.string.pref_rate_u75)){
+                        } else if(model.getItemName().equals(getResources().getString(R.string.pref_rate_u75))){
                             PrefUtil.saveColorU75(color);
                         }
                     }
                 });
             }
 
+            // スイッチのcheckedChanged
             @Override
-            protected void onItemCheckedChange(@NonNull boolean bool) {
-                super.onItemCheckedChange(bool);
-                PrefUtil.saveEnableColorChange(bool);
+            protected void onItemCheckedChange(@NonNull boolean bool, @NonNull PrefItemModel model) {
+                super.onItemCheckedChange(bool, model);
+                if(model.getItemName().equals(getResources().getString(R.string.pref_enable_change_color))){
+                    PrefUtil.saveEnableColorChange(bool);
+                } else if (model.getItemName().equals(getResources().getString(R.string.pref_blackout))){
+                    PrefUtil.saveBlackout(bool);
+                }
+
             }
         });
         getRecyclerView().setAdapter(getAdapter());
@@ -78,7 +86,7 @@ public class AttendanceRateChangeColorFragment extends PrefRecyclerViewFragment 
     private void showColorPicker(int nowColor, final Callback callback) {
         new SpectrumDialog.Builder(getContext())
                 .setTitle("色を選択してください")
-                .setColors(R.array.demo_colors)
+                .setColors(R.array.diag_colors)
                 .setSelectedColorRes(nowColor)
                 .setDismissOnColorSelected(true)
                 .setOutlineWidth(2)

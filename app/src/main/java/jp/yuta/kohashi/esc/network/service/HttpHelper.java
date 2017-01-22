@@ -39,7 +39,7 @@ public class HttpHelper {
      * @param password
      * @param successCallbacks
      */
-    public static void getTImeTable(String userId, String password, final SuccessCallbacks successCallbacks) {
+    public static void getTimeTable(String userId, String password, final SuccessCallbacks successCallbacks) {
         requestTimeTable(userId, password, new AccessListCallbacks() {
             @Override
             public void callback(String html, List<String> htmls, boolean bool) {
@@ -68,6 +68,7 @@ public class HttpHelper {
                 if (bool) {
                     PrefUtil.saveAttendanceRate(html);
                     PrefUtil.saveAttendanceAllRateData(html);
+                    PrefUtil.saveStudentInfo(html);
                 }
                 successCallbacks.callback(bool);
             }
@@ -83,7 +84,7 @@ public class HttpHelper {
      * @param successCallBacks
      */
     public static void getTimeAttend(final String userId, final String password, final SuccessCallbacks successCallBacks) {
-        getTImeTable(userId, password, new SuccessCallbacks() {
+        getTimeTable(userId, password, new SuccessCallbacks() {
             @Override
             public void callback(boolean bool) {
                 if (bool) {

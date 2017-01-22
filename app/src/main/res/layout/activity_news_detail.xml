@@ -23,7 +23,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:background="@color/colorPrimary1"
+                android:background="@color/bg_title"
                 android:orientation="vertical"
                 android:paddingBottom="10dp"
                 android:paddingLeft="20dp"

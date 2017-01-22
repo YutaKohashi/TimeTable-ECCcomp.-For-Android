@@ -230,14 +230,33 @@ public class PrefUtil {
      */
     public static String getUserName() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(PrefConst.KEY_USER_NAME, "NO_NAME");
+        return sharedPreferences.getString(PrefConst.KEY_USER_NAME, "");
+    }
+
+    public static String getCourse(){
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(PrefConst.KEY_COURSE, "");
+    }
+
+    public static String getGakka(){
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(PrefConst.KEY_GAKKA, "");
+    }
+
+    public static String getClassTxt(){
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(PrefConst.KEY_CLASS, "");
+    }
+
+    public static String getShusekiNum(){
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(PrefConst.KEY_SHUSEKI_NUM, "");
     }
 
 
     /**
      * 出席率色分け
      */
-
     public static int loadColorU90() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
         return sharedPreferences.getInt(PrefConst.KEY_COLOR_U90,-1);
@@ -337,6 +356,16 @@ public class PrefUtil {
         save(attendanceRateModel, PrefConst.KEY_ATTEND_ALL_RATE, PrefConst.FILE_ATTEND);
     }
 
+    public static void saveStudentInfo(String html){
+        String classTxt = RegexUtil.getValues("id=\"ctl00_lblClass\" style=\"[^\"]*\">(.+?)</span>",html);
+        String gakka = RegexUtil.getValues("id=\"ctl00_lblGakka\" style=\"[^\"]*\">(.+?)</span>",html);
+        String course = RegexUtil.getValues("id=\"ctl00_lblCourse\" style=\"[^\"]*\">(.+?)</span>",html);
+        String shusekiNum =  RegexUtil.getValues("id=\"ctl00_lblSyuseki\" style=\"[^\"]*\">(.+?)</span>",html);
+        save(classTxt, PrefConst.KEY_CLASS, PrefConst.FILE_ID_PASS);
+        save(gakka, PrefConst.KEY_GAKKA, PrefConst.FILE_ID_PASS);
+        save(course, PrefConst.KEY_COURSE, PrefConst.FILE_ID_PASS);
+        save(shusekiNum, PrefConst.KEY_SHUSEKI_NUM, PrefConst.FILE_ID_PASS);
+    }
 
     /**
      * 学校からのお知らせを保存するメソッド
@@ -401,6 +430,22 @@ public class PrefUtil {
         save(name, PrefConst.KEY_USER_NAME, PrefConst.FILE_ID_PASS);
     }
 
+    public static void saveClassTxt(String string){
+        save(string, PrefConst.KEY_CLASS, PrefConst.FILE_ID_PASS);
+    }
+
+    public static void saveGakka(String string){
+        save(string, PrefConst.KEY_GAKKA, PrefConst.FILE_ID_PASS);
+    }
+
+    public static void saveCourse(String string){
+        save(string, PrefConst.KEY_COURSE, PrefConst.FILE_ID_PASS);
+    }
+
+    public static void saveShusekiNum(String string){
+        save(string, PrefConst.KEY_SHUSEKI_NUM, PrefConst.FILE_ID_PASS);
+    }
+
     public static void saveEnableColorChange(boolean bool) {
         save(bool, PrefConst.KEY_ENABLE_COLOR_CHANGE, PrefConst.FILE_UTIL);
     }
@@ -415,6 +460,10 @@ public class PrefUtil {
 
     public static void saveColorU75(int color) {
         save(color, PrefConst.KEY_COLOR_U75, PrefConst.FILE_UTIL);
+    }
+
+    public static void saveBlackout(boolean bool) {
+        save(bool, PrefConst.KEY_BLACKOUT, PrefConst.FILE_UTIL);
     }
 
     //**
@@ -466,6 +515,11 @@ public class PrefUtil {
     public static boolean isChangeColor(){
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(PrefConst.KEY_ENABLE_COLOR_CHANGE, false);
+    }
+
+    public static boolean isBlackout(){
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(PrefConst.KEY_BLACKOUT, false);
     }
 
     //**

@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="bottom"
-                android:background="@color/colorAccentLight"
+                android:background="@color/bg_time_table_room"
                 android:gravity="center|bottom"
                 android:paddingTop="4dp"
                 android:textColor="@color/widget_cell_text_color" />

@@ -57,6 +57,7 @@
     <string name="pref_rate_u75">出席率75％未満</string>
     <string name="pref_rate_u81">出席率81％未満</string>
     <string name="pref_rate_u90">出席率90%未満</string>
+    <string name="pref_blackout">単位を落とした教科をブラックアウトする</string>
 
     <!--ダイアログ-->
     <string name="dialog_positive_ok">OK</string>

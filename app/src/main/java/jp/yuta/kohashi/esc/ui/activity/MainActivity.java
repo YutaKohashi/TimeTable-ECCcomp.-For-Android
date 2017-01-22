@@ -27,8 +27,8 @@ import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.network.service.RequestURL;
 import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateFragment;
 import jp.yuta.kohashi.esc.ui.fragment.CalendarFragment;
-import jp.yuta.kohashi.esc.ui.fragment.TimeTableFragment;
 import jp.yuta.kohashi.esc.ui.fragment.NewsParentFragment;
+import jp.yuta.kohashi.esc.ui.fragment.TimeTableFragment;
 import jp.yuta.kohashi.esc.util.NotifyUtil;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
@@ -118,6 +118,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 currentTab = item.getItemId();
                 break;
             case R.id.nav_item_profile: //プロフィール
+                showProfile();
                 closeDrawer();
                 break;
             case R.id.nav_item_web: //WEB版
@@ -205,6 +206,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 customTabsIntent.intent.setPackage(Const.CHROME_PACKAGE_NAME);
         }
         customTabsIntent.launchUrl(MainActivity.this, uri);
+    }
+
+    private void showProfile(){
+        startActivity(new Intent(MainActivity.this,ProfileActivity.class));
     }
 
     /**

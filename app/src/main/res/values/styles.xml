@@ -19,9 +19,9 @@
 
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Toolbar Title Color-->
-        <item name="android:textColorPrimary">@color/toolbar_title</item>
+        <item name="android:textColorPrimary">@color/white</item>
         <!-- Toolbar menu overflow icon color -->
-        <item name="android:textColorSecondary">@color/toolbar_icon</item>
+        <item name="android:textColorSecondary">@color/white</item>
     </style>
 
     <attr name="customAttr" format="reference"/>

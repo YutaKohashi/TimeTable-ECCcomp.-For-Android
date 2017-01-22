@@ -6,7 +6,7 @@
         <item
             android:id="@+id/nav_item_profile"
             android:icon="@drawable/ic_person"
-            android:title="プロフィール"
+            android:title="学生情報"
             android:checkable = "false"/>
         <item
             android:id="@+id/nav_item_web"

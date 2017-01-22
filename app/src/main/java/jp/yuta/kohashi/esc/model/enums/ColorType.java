@@ -8,7 +8,7 @@ import jp.yuta.kohashi.esc.R;
 
 public enum ColorType {
     RED(R.color.red),
-    BLUE(R.color.blue),
+//    BLUE(R.color.blue),
     GREEN(2),;
 
     ColorType(int color) {

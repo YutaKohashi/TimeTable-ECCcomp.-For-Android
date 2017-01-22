@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:background="@color/colorAccentLight"
+        android:background="@color/bg_time_table_room"
         android:gravity="center|bottom"
         android:paddingTop="3sp"
         android:layout_marginRight="2sp"

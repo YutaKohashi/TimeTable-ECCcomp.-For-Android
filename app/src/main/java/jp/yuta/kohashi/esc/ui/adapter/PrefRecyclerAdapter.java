@@ -13,8 +13,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.color.CircleView;
-
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -37,7 +35,7 @@ public class PrefRecyclerAdapter extends RecyclerView.Adapter<PrefRecyclerAdapte
     }
     protected void onItemClicked(@NonNull PrefItemModel model) {}
 
-    protected void onItemCheckedChange(@NonNull boolean bool) {}
+    protected void onItemCheckedChange(@NonNull boolean bool,@NonNull PrefItemModel model) {}
 
     public PrefRecyclerAdapter(List<PrefItemModel> items, Context context) {
         mLayoutInflater = LayoutInflater.from(context);
@@ -111,7 +109,8 @@ public class PrefRecyclerAdapter extends RecyclerView.Adapter<PrefRecyclerAdapte
             holder.switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    onItemCheckedChange(b);
+                    int position = holder.getAdapterPosition();
+                    onItemCheckedChange(b,items.get(position));
                 }
             });
         }

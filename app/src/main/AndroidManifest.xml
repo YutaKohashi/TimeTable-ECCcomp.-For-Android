@@ -30,9 +30,7 @@
         <activity
             android:name=".ui.activity.NewsDetailActivity"
             android:configChanges="orientation|screenSize" />
-        <activity
-            android:name=".ui.activity.PreferenceActivity"
-            />
+        <activity android:name=".ui.activity.PreferenceActivity" />
         <activity android:name=".ui.activity.AboutActivity" />
         <activity android:name=".ui.activity.LicenceActivity" />
         <activity android:name=".ui.activity.WebViewActivity" />
@@ -48,8 +46,10 @@
         </receiver>
 
         <activity android:name=".ui.activity.TimeTableChangeActivity" />
-        <activity android:name=".ui.activity.AttendanceRateChangeColorActivity"
-            android:theme="@style/PrefTheme"></activity>
+        <activity
+            android:name=".ui.activity.AttendanceRateChangeColorActivity"
+            android:theme="@style/PrefTheme" />
+        <activity android:name=".ui.activity.ProfileActivity"></activity>
     </application>
 
 </manifest>

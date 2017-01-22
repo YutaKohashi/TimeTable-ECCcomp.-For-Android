@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimaryDark">#002938</color>
-    <!--<color name="colorPrimary">#00AAEA</color>-->
     <color name="colorPrimary">#014964</color>
     <color name="colorAccent">#02008f</color>
     <color name="colorAccent2">#de005c</color>
-    <color name="toolbar_title">#FFF</color>
-    <color name="toolbar_icon">#ffffff</color>
     <color name="tab_focus_color">#eaeaea</color>
     <color name="tab_noFocus_color">#00729c</color>
-    <color name="colorAccentLight">#baffcf</color>
+
     <color name="colorPrimary0">#def1f9</color>
     <color name="colorPrimary1">#ceeefa</color>
     <color name="colorPrimary2">#7fd3f2</color>
@@ -21,96 +18,89 @@
     <color name="colorPrimary8">#014964</color>
     <color name="colorPrimary9">#002938</color>
 
-    <color name="blue">#0099ff</color>
     <color name="white">#FFF</color>
 
-    <color name="header_bg_color">#9e002f3b</color>
-    <color name="dark">#ecebeb</color>
+    <!--カレンダーの曜日部分のテキストカラー-->
+    <color name="calendar_header">#eaeaea</color>
 
-
-    <color name="red">#ff0000</color>
-    <color name="green">#00d262</color>
-    <color name="yellow">#fff700</color>
-
-
-    <color name="calendar_hedder">#eaeaea</color>
-
-
-    <color name="cardView_shuseki_rate_out">#666666</color>
-    <!--単位が非常に危ない時のCardViewの背景色-->
-    <color name="cardView_bg_golor_end">#a90303</color>
-    <!--単位が危ないの時のCardViewの背景色-->
-    <color name="cardView_bg_golor_warning">#ffff00</color>
-
-
-    <!--RecyclerView with headderの色-->
-    <color name="default_header_color">#445566</color>
-    <color name="transparent">#00000000</color>
+    <!--ウィジェットのテキスト-->
     <color name="widget_cell_text_color">#545454</color>
 
-
+    <!--ナビゲーションバーのアイコン色-->
     <color name="nav_icon_black">#565656</color>
     <color name="stroke_bottom_sheet">#f7f7f7</color>
     <color name="bg_bottom_sheet">#f2f2f2</color>
     <color name="bg_bottom_sheet_close">#8e000000</color>
 
+    <!--ナビゲーションバー-->
+    <color name="header_bg_color">#9e002f3b</color>
 
-    //Color Swatches provided by http://designmodo.github.io/Flat-UI/
-    <color name="fbutton_color_turquoise">#1abc9c</color>
-    <color name="fbutton_color_green_sea">#16a085</color>
-    <color name="fbutton_color_emerald">#2ecc71</color>
-    <color name="fbutton_color_nephritis">#27ae60</color>
-    <color name="fbutton_color_peter_river">#3498db</color>
-    <color name="fbutton_color_belize_hole">#2980b9</color>
-    <color name="fbutton_color_amethyst">#9b59b6</color>
-    <color name="fbutton_color_wisteria">#8e44ad</color>
-    <color name="fbutton_color_wet_asphalt">#34495e</color>
-    <color name="fbutton_color_midnight_blue">#2c3e50</color>
-    <color name="fbutton_color_sun_flower">#f1c40f</color>
-    <color name="fbutton_color_orange">#f39c12</color>
-    <color name="fbutton_color_carrot">#e67e22</color>
-    <color name="fbutton_color_pumpkin">#d35400</color>
-    <color name="fbutton_color_alizarin">#e74c3c</color>
-    <color name="fbutton_color_pomegranate">#c0392b</color>
-    <color name="fbutton_color_clouds">#ecf0f1</color>
-    <color name="fbutton_color_silver">#bdc3c7</color>
-    <color name="fbutton_color_concrete">#95a5a6</color>
-    <color name="fbutton_color_asbestos">#7f8c8d</color>
+    <!--出席照会-->
+    <color name="bg_title">#c6edfc</color>
+    <color name="bg_blackout">#5b5b5b</color>
+    <color name="bg_default_card_view">#f9f9f9</color>
 
+    <!--トースト-->
     <color name="bg_toast">#545454</color>
-    <color name="diag_text_color">#545454</color>
+
+    <!--ダイアログ-->
+   <color name="diag_text_color">#545454</color>　 <!--読み込み中などのテキスト色-->
     <color name="diag_text_color_cancel">#8e8e8e</color>
-
-
 
     <!--時間割-->
     <color name="bg_classroom_green">#baffcf</color>
     <color name="bg_classroom_blue">#badeff</color>
+    <color name="bg_time_table_room">#baffcf</color>
 
     <!--カレンダー-->
     <color name="bg_calendar_next_prev">#09000000</color>
     <color name="bg_calendar_dialog_ok">#1b000000</color>
 
-    <array name="demo_colors">
-        <item>#1abc9c</item>
-        <item>#16a085</item>
-        <item>#2ecc71</item>
-        <item>#27ae60</item>
-        <item>#3498db</item>
-        <item>#2980b9</item>
-        <item>#9b59b6</item>
-        <item>#8e44ad</item>
-        <item>#34495e</item>
-        <item>#2c3e50</item>
-        <item>#f1c40f</item>
-        <item>#f39c12</item>
-        <item>#e67e22</item>
-        <item>#d35400</item>
-        <item>#e74c3c</item>
-        <item>#c0392b</item>
-        <item>#ecf0f1</item>
-        <item>#bdc3c7</item>
-        <item>#95a5a6</item>
-        <item>#7f8c8d</item>
+    <!--カラーピッカーダイアログ-->
+    <array name="diag_colors">
+        <item>@color/red</item>
+        <item>@color/pink</item>
+        <item>@color/purple</item>
+        <item>@color/deep_purple</item>
+        <item>@color/indigo</item>
+        <item>@color/blue</item>
+        <item>@color/light_blue</item>
+        <item>@color/bg_title</item>
+        <item>@color/teal</item>
+        <item>@color/green</item>
+        <item>@color/light_green</item>
+        <item>@color/lime</item>
+        <item>@color/yellow</item>
+        <item>@color/amber</item>
+        <item>@color/orange</item>
+        <item>@color/deep_orange</item>
+        <item>@color/brown</item>
+        <item>@color/grey</item>
+        <item>@color/blue_grey</item>
     </array>
+
+    <color name="red">#F6402C</color>
+    <color name="pink">#EB1460</color>
+    <color name="purple">#9C1AB1</color>
+    <color name="deep_purple">#6633B9</color>
+    <color name="indigo">#3D4DB7</color>
+    <color name="blue">#1093F5</color>
+    <color name="light_blue">#00A6F6</color>
+    <color name="cyan">#00BBD5</color>
+    <color name="teal">#009687</color>
+    <color name="green">#46AF4A</color>
+    <color name="light_green">#88C440</color>
+    <color name="lime">#CCDD1E</color>
+    <color name="yellow">#FFEC16</color>
+    <color name="amber">#FFC100</color>
+    <color name="orange">#FF9800</color>
+    <color name="deep_orange">#FF5505</color>
+    <color name="brown">#7A5547</color>
+    <color name="grey">#9D9D9D</color>
+    <color name="blue_grey">#5E7C8B</color>
+
+
+    <!--学生情報-->
+    <color name="info_group_title">#dedede</color>
+    <color name="info_content">#eaeaea</color>
 </resources>

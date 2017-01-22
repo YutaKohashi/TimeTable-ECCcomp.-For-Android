@@ -37,12 +37,18 @@ public final class PrefConst {
 
     protected static final String KEY_ID = "KEY_ID";
     protected static final String KEY_PASS = "KEY_PASS";
-    protected  static final String KEY_USER_NAME = "KEY_USER_NAME";
+    protected static final String KEY_USER_NAME = "KEY_USER_NAME";
 
     protected static final String KEY_APP_VERSION = "KEY_APP_VERSION";
 
     protected static final String KEY_COLOR_U75 = "KEY_COLOR_U75";
     protected static final String KEY_COLOR_U90 = "KEY_COLOR_U90";
-    protected  static final String KEY_COLOR_U81 = "KEY_COLOR_U81";
-    protected  static final String KEY_ENABLE_COLOR_CHANGE = "KEY_ENABLE_COLOR_CHANGE";
+    protected static final String KEY_COLOR_U81 = "KEY_COLOR_U81";
+    protected static final String KEY_ENABLE_COLOR_CHANGE = "KEY_ENABLE_COLOR_CHANGE";
+    protected static final String KEY_BLACKOUT = "KEY_BLACKOUT";
+
+    protected static final String KEY_COURSE = "KEY_COURSE";
+    protected static final String KEY_GAKKA = "KEY_GAKKA";
+    protected static final String KEY_CLASS = "KEY_CLASS";
+    protected static final String KEY_SHUSEKI_NUM = "KEY_SHUSEKI_NUM";
 }
