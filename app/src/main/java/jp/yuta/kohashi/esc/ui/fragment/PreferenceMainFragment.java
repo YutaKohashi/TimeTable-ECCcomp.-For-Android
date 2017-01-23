@@ -1,12 +1,14 @@
 package jp.yuta.kohashi.esc.ui.fragment;
 
 
+import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,8 @@ import jp.yuta.kohashi.esc.ui.activity.LicenceActivity;
 import jp.yuta.kohashi.esc.ui.activity.LoginCheckActivity;
 import jp.yuta.kohashi.esc.ui.activity.TimeTableChangeActivity;
 import jp.yuta.kohashi.esc.ui.adapter.PrefRecyclerAdapter;
+import jp.yuta.kohashi.esc.ui.service.EccNewsManageService;
+import jp.yuta.kohashi.esc.ui.widget.TimeTableWidget;
 import jp.yuta.kohashi.esc.util.NotifyUtil;
 import jp.yuta.kohashi.esc.util.Util;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
@@ -33,7 +37,7 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
  * 設定画面
  * PrefrenceFragmentを継承しない
  */
-public class PreferenceFragment extends PrefRecyclerViewFragment {
+public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,11 +56,14 @@ public class PreferenceFragment extends PrefRecyclerViewFragment {
         addItem(new PrefItemModel(PrefViewType.EMPTY));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_time_attendance), PrefViewType.ITEM_GROUP_TITLE));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_attendance_color), R.drawable.ic_brush, PrefViewType.ITEM_RIGHT_ARROW));
-        addItem(new PrefItemModel(getResources().getString(R.string.pref_attendance_log), R.drawable.ic_folder_open, PrefViewType.ITEM_RIGHT_ARROW));
+//        addItem(new PrefItemModel(getResources().getString(R.string.pref_attendance_log), R.drawable.ic_folder_open, PrefViewType.ITEM_RIGHT_ARROW));
+        addItem(new PrefItemModel(PrefViewType.EMPTY));
+        addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_news), PrefViewType.ITEM_GROUP_TITLE));
+        addItem(new PrefItemModel(getResources().getString(R.string.pref_notify_news), R.drawable.ic_notifications, PrefViewType.ITEM_SWITCH, PrefUtil.isNotifyNews()));
         addItem(new PrefItemModel(PrefViewType.EMPTY));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_time_other), PrefViewType.ITEM_GROUP_TITLE));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_lisence), R.drawable.ic_business, PrefViewType.ITEM_RIGHT_ARROW));
-        addItem(new PrefItemModel(getResources().getString(R.string.pref_about), R.drawable.ic_error, PrefViewType.ITEM_RIGHT_ARROW));
+        addItem(new PrefItemModel(getResources().getString(R.string.pref_about), R.drawable.ic_about, PrefViewType.ITEM_RIGHT_ARROW));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_app_version), Const.APP_VERSION, R.drawable.ic_android, PrefViewType.ITEM_RIGHT_TXT));
         addItem(new PrefItemModel(PrefViewType.EMPTY));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_logout), PrefViewType.ITEM_CENTER_TXT));
@@ -84,6 +91,24 @@ public class PreferenceFragment extends PrefRecyclerViewFragment {
                     showAbout();
                 } else if (name.equals(getResources().getString(R.string.pref_logout))) {
                     logout();
+                }
+            }
+
+            @Override
+            protected void onItemCheckedChange(@NonNull boolean bool, @NonNull PrefItemModel model) {
+                super.onItemCheckedChange(bool, model);
+                if (model.getItemName().equals(getResources().getString(R.string.pref_notify_news))) {
+                    PrefUtil.saveNotifyNews(bool);
+                    if (bool) {
+                        if (!Util.isStartService()) {
+                            // サービス開始
+                            new EccNewsManageService().startResident(getContext());
+                        } else {
+                            Log.d(PreferenceMainFragment.class.getSimpleName(), "すでにサービス起動済み");
+                        }
+                    } else {
+                        EccNewsManageService.stopResidentIfActive(getContext()); //サービス停止
+                    }
                 }
             }
         });
@@ -156,6 +181,7 @@ public class PreferenceFragment extends PrefRecyclerViewFragment {
         startActivity(new Intent(getActivity(), AttendanceRateChangeColorActivity.class));
     }
 
+
     /**
      * 著作権情報
      */
@@ -174,6 +200,7 @@ public class PreferenceFragment extends PrefRecyclerViewFragment {
      * ログアウト
      */
     private void logout() {
+
         MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity())
                 .content(R.string.dialog_comment_comment)
                 .positiveText(R.string.dialog_positive_ok)

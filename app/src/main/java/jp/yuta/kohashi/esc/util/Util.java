@@ -1,5 +1,6 @@
 package jp.yuta.kohashi.esc.util;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
@@ -14,9 +15,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import jp.yuta.kohashi.esc.App;
 import jp.yuta.kohashi.esc.R;
+import jp.yuta.kohashi.esc.ui.service.EccNewsManageService;
+
+import static android.content.Context.ACTIVITY_SERVICE;
 
 /**
  * Created by yutakohashi on 2017/01/10.
@@ -88,6 +93,21 @@ public class Util {
             position = month - 4;
         }
         return position;
+    }
+
+
+    public static boolean isStartService(){
+        boolean found = false;
+        ActivityManager am = (ActivityManager) App.getAppContext().getSystemService(ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> listServiceInfo = am.getRunningServices(Integer.MAX_VALUE);
+        for (ActivityManager.RunningServiceInfo curr : listServiceInfo) {
+            // クラス名を比較
+            if (curr.service.getClassName().equals(EccNewsManageService.class.getName())) {
+                // 実行中のサービスと一致
+                found = true;
+            }
+        }
+        return found;
     }
 
     //**

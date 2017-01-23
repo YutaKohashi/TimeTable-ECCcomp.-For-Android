@@ -25,7 +25,7 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AttendanceRateFragment extends Fragment implements PullRefreshLayout.OnRefreshListener{
+public class AttendanceRateFragment extends Fragment implements PullRefreshLayout.OnRefreshListener {
 
     // total data
     private TextView mTotalUnitNumTextView;
@@ -50,7 +50,7 @@ public class AttendanceRateFragment extends Fragment implements PullRefreshLayou
         View view = inflater.inflate(R.layout.fragment_attendance_rate, container, false);
         userId = PrefUtil.getId();
         password = PrefUtil.getPss();
-        controller =  new ScrollController();
+        controller = new ScrollController();
         initView(view);
 
         return view;
@@ -59,11 +59,11 @@ public class AttendanceRateFragment extends Fragment implements PullRefreshLayou
     private void initView(View view) {
         List<AttendanceRateModel> list = PrefUtil.loadAttendanceRateModelList();
 
-        mRecyclerView = (RecyclerView)view.findViewById(R.id.attendance_recycler_view);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.attendance_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addOnItemTouchListener(controller);
-        mRecyclerAdapter = new AttendanceRateRecyclerAdapter(list,getActivity());
+        mRecyclerAdapter = new AttendanceRateRecyclerAdapter(list, getActivity());
         mRecyclerView.setAdapter(mRecyclerAdapter);
 
         mTotalUnitNumTextView = (TextView) view.findViewById(R.id.text_total_unit);
@@ -72,7 +72,7 @@ public class AttendanceRateFragment extends Fragment implements PullRefreshLayou
         mTotalAttendanceNumTextView = (TextView) view.findViewById(R.id.text_total_attendance_num);
         mTotalAbsentTextView = (TextView) view.findViewById(R.id.text_total_absent_num);
 
-        mPullrefreshLayout = (PullRefreshLayout)view.findViewById(R.id.refresh);
+        mPullrefreshLayout = (PullRefreshLayout) view.findViewById(R.id.refresh);
         mPullrefreshLayout.setOnRefreshListener(this);
         setTotalData();
     }
@@ -105,7 +105,7 @@ public class AttendanceRateFragment extends Fragment implements PullRefreshLayou
     //　Pull To Refresh
     @Override
     public void onRefresh() {
-        if(!Util.netWorkCheck()){
+        if (!Util.netWorkCheck()) {
             NotifyUtil.failureNetworkConnection();
             endRefresh();
             return;
@@ -115,13 +115,13 @@ public class AttendanceRateFragment extends Fragment implements PullRefreshLayou
         new HttpConnector().request(HttpConnector.Type.ATTENDANCE_RATE, userId, password, new HttpConnector.Callback() {
             @Override
             public void callback(boolean bool) {
-                if(bool){
+                if (bool) {
                     //更新処理
                     mRecyclerAdapter.swap(PrefUtil.loadAttendanceRateModelList());
                     //合計データ
                     setTotalData();
                     NotifyUtil.successUpdate();
-                } else{
+                } else {
                     NotifyUtil.failureUpdate();
                 }
                 endRefresh();
@@ -133,7 +133,7 @@ public class AttendanceRateFragment extends Fragment implements PullRefreshLayou
     /**
      * リフレッシュを終了するメソッド
      */
-    private void endRefresh(){
+    private void endRefresh() {
         mPullrefreshLayout.setRefreshing(false);
     }
 

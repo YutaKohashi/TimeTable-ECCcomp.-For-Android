@@ -218,7 +218,7 @@ public class HttpHelper {
                     //先生名取得失敗
                     if (teacherHtmls == null) throw new Exception("先生名の取得に失敗しました");
 
-                    Log.d(TAG, mLastResponseHtml);
+//                    Log.d(TAG, mLastResponseHtml);
                     nextTask.run(null);
                 } catch (Exception e) {
                     nextTask.fail(null, e);
@@ -232,7 +232,7 @@ public class HttpHelper {
 
             @Override
             public void onFailure(Bundle bundle, Exception e) {
-                log(e);
+//                log(e);
                 listCallbacks.callback(mLastResponseHtml, teacherHtmls, false);
             }
         }).create().execute(null);
@@ -268,7 +268,7 @@ public class HttpHelper {
         final List<String> htmls = new ArrayList<>();
 
         for (String url : urls) {
-            HttpResultClass result = HttpBase.httpGet(url, RequestURL.ESC_TO_PAGE);
+            HttpResultClass result = HttpBase.httpGet(url, RequestURL.ESC_TO_LOGIN_PAGE);
             if (!result.getBool()) return null;
 
             htmls.add(result.getString());
@@ -313,7 +313,7 @@ public class HttpHelper {
                     if (!result.getBool()) throw new Exception("出席率ページへの遷移に失敗しました");
 
                     mLastResponseHtml = result.getString();
-                    Log.d(TAG, mLastResponseHtml);
+//                    Log.d(TAG, mLastResponseHtml);
                     if (!RegexUtil.containsCheck(">個人別出席率表<", mLastResponseHtml)) {
                         throw new Exception("出席率ページへの遷移に失敗しました");
                     }
@@ -332,7 +332,7 @@ public class HttpHelper {
 
             @Override
             public void onFailure(Bundle bundle, Exception e) {
-                log(e);
+//                log(e);
                 accessCallbacks.callback(mLastResponseHtml, false);
             }
         }).create().execute(null);
@@ -361,7 +361,7 @@ public class HttpHelper {
                     if (!result.getBool()) throw new Exception("ログインに失敗しました");
 
                     mLastResponseHtml = result.getString();
-                    Log.d(TAG, mLastResponseHtml);
+//                    Log.d(TAG, mLastResponseHtml);
                     nextTask.run(null);
                 }catch(Exception e){
                     nextTask.fail(null, e);
@@ -396,7 +396,7 @@ public class HttpHelper {
                     if (!result.getBool()) throw new Exception("ニュース詳細の取得に失敗しました");
 
                     mLastResponseHtml = result.getString();
-                    Log.d(TAG, mLastResponseHtml);
+//                    Log.d(TAG, mLastResponseHtml);
                     nextTask.run(null);
                 }catch (Exception e){
                     nextTask.fail(null, e);
@@ -435,7 +435,7 @@ public class HttpHelper {
      */
     private static HttpResultClass loginToESC(String userId, String password) {
 
-        HttpResultClass result = HttpBase.httpGet(RequestURL.ESC_TO_PAGE,
+        HttpResultClass result = HttpBase.httpGet(RequestURL.ESC_TO_LOGIN_PAGE,
                 RequestURL.DEFAULT_REFERRER);
 
         if (!result.getBool()) return result;
@@ -444,7 +444,7 @@ public class HttpHelper {
         //create requestBody with map
         Map<String, String> body = CreateRequestBody.createPostDataForEscLogin(userId, password, mLastResponseHtml);
         //login
-        result = HttpBase.httpPost(RequestURL.ESC_LOGIN, body, RequestURL.ESC_TO_PAGE);
+        result = HttpBase.httpPost(RequestURL.ESC_LOGIN, body, RequestURL.ESC_TO_LOGIN_PAGE);
 
         if (!result.getBool()) return result;
         mLastResponseHtml = result.getString();
@@ -463,7 +463,7 @@ public class HttpHelper {
      * @return
      */
     private static HttpResultClass loginToYS(String userId, String password) {
-        HttpResultClass result = HttpBase.httpGet(RequestURL.YS_TO_PAGE, RequestURL.DEFAULT_REFERRER);
+        HttpResultClass result = HttpBase.httpGet(RequestURL.YS_TO_LOGIN_PAGE, RequestURL.DEFAULT_REFERRER);
         try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
 
         //failure
@@ -471,7 +471,7 @@ public class HttpHelper {
 
         mLastResponseHtml = result.getString();
         Map<String, String> body = CreateRequestBody.createPostDataForYSLogin(userId, password, mLastResponseHtml);
-        result = HttpBase.httpPost(RequestURL.YS_LOGIN, body, RequestURL.YS_TO_PAGE);
+        result = HttpBase.httpPost(RequestURL.YS_LOGIN, body, RequestURL.YS_TO_LOGIN_PAGE);
         try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
 
         //failure

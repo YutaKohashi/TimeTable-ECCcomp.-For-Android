@@ -5,7 +5,7 @@
     android:background="@color/bg_toast"
     android:orientation="horizontal"
     android:paddingLeft="20dp"
-    android:paddingRight="20dp">
+    android:paddingRight="13dp">
 
     <ImageView
         android:id="@+id/toast_imdge_view"
@@ -23,5 +23,5 @@
         android:gravity="center"
         android:text="成功しました"
         android:textColor="@android:color/white"
-        android:textSize="19sp" />
+        android:textSize="15sp" />
 </LinearLayout>

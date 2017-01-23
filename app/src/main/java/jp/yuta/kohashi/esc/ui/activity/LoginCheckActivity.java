@@ -3,6 +3,7 @@ package jp.yuta.kohashi.esc.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
@@ -25,7 +26,7 @@ public class LoginCheckActivity extends Activity {
             Intent intent = new Intent(LoginCheckActivity.this, MainActivity.class);
             startActivity(intent);
         }
-        finish();
+        ActivityCompat.finishAffinity(this);
     }
 
     @Override

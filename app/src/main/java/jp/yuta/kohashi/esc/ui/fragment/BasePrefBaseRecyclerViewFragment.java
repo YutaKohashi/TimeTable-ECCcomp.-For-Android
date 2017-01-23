@@ -16,7 +16,7 @@ import jp.yuta.kohashi.esc.ui.adapter.PrefRecyclerAdapter;
  * Created by yutakohashi on 2017/01/21.
  */
 
-public abstract class PrefRecyclerViewFragment extends RecyclerViewFragment {
+public abstract class BasePrefBaseRecyclerViewFragment extends BaseRecyclerViewFragment {
 
     private PrefRecyclerAdapter mRecyclerAdapter;
     private List<PrefItemModel> items;

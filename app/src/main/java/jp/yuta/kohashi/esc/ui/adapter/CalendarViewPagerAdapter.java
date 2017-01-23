@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Calendar;
+
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.model.schedule.CalendarListModel;
 import jp.yuta.kohashi.esc.ui.view.CalendarView;
@@ -33,7 +35,7 @@ public class CalendarViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         CalendarView calendarView = new CalendarView(mContext, null);
-        calendarView.setMonth(Const.YEAR,getMonth(position),calendarListModel.get(Util.getTabPositionToMonth(position)));
+        calendarView.setMonth(Calendar.getInstance().get(Calendar.YEAR),getMonth(position),calendarListModel.get(Util.getTabPositionToMonth(position)));
         container.addView(calendarView);
         return calendarView;
     }

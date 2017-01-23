@@ -28,6 +28,7 @@
                 android:layout_alignParentTop="true"
                 android:gravity="center"
                 android:layout_margin="4dp"
+                android:textSize="14sp"
                 android:textColor="@color/widget_cell_text_color" />
 
             <TextView
@@ -39,6 +40,7 @@
                 android:background="@color/bg_time_table_room"
                 android:gravity="center|bottom"
                 android:paddingTop="4dp"
+                android:textSize="14sp"
                 android:textColor="@color/widget_cell_text_color" />
 
         </RelativeLayout>

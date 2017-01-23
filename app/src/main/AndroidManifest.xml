@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".App"
@@ -30,10 +31,18 @@
         <activity
             android:name=".ui.activity.NewsDetailActivity"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".ui.activity.PreferenceActivity" />
+        <activity
+            android:name=".ui.activity.PreferenceActivity"
+            android:theme="@style/PrefTheme" />
         <activity android:name=".ui.activity.AboutActivity" />
         <activity android:name=".ui.activity.LicenceActivity" />
         <activity android:name=".ui.activity.WebViewActivity" />
+
+        <activity android:name=".ui.activity.TimeTableChangeActivity" />
+        <activity
+            android:name=".ui.activity.AttendanceRateChangeColorActivity"
+            android:theme="@style/PrefTheme" />
+        <activity android:name=".ui.activity.ProfileActivity" />
 
         <receiver android:name=".ui.widget.TimeTableWidget">
             <intent-filter>
@@ -45,11 +54,20 @@
                 android:resource="@xml/time_table_widget_info" />
         </receiver>
 
-        <activity android:name=".ui.activity.TimeTableChangeActivity" />
-        <activity
-            android:name=".ui.activity.AttendanceRateChangeColorActivity"
-            android:theme="@style/PrefTheme" />
-        <activity android:name=".ui.activity.ProfileActivity"></activity>
+        <service
+            android:name=".ui.service.EccNewsManageService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <receiver
+            android:name=".ui.service.OnBootReceiver"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

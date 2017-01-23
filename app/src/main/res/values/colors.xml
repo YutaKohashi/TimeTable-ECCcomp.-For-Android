@@ -22,6 +22,7 @@
 
     <!--カレンダーの曜日部分のテキストカラー-->
     <color name="calendar_header">#eaeaea</color>
+    <color name="bg_budge">#00bcd4</color>
 
     <!--ウィジェットのテキスト-->
     <color name="widget_cell_text_color">#545454</color>
@@ -36,7 +37,7 @@
     <color name="header_bg_color">#9e002f3b</color>
 
     <!--出席照会-->
-    <color name="bg_title">#c6edfc</color>
+    <color name="bg_title">#bee2f1</color>
     <color name="bg_blackout">#5b5b5b</color>
     <color name="bg_default_card_view">#f9f9f9</color>
 
@@ -65,7 +66,7 @@
         <item>@color/indigo</item>
         <item>@color/blue</item>
         <item>@color/light_blue</item>
-        <item>@color/bg_title</item>
+        <item>@color/bg_title</item>　<!--default-->
         <item>@color/teal</item>
         <item>@color/green</item>
         <item>@color/light_green</item>

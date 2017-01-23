@@ -3,19 +3,19 @@
 
     <item android:state_pressed="true">
         <shape android:shape="oval">
-            <solid android:color="#aa00bcd4" />
+            <solid android:color="@color/bg_budge" />
         </shape>
     </item>
 
     <item android:state_focused="true">
         <shape android:shape="oval">
-            <solid android:color="#aa00bcd4" />
+            <solid android:color="@color/bg_budge" />
         </shape>
     </item>
 
     <item>
         <shape android:shape="oval">
-            <solid android:color="#00bcd4" />
+            <solid android:color="@color/bg_budge" />
         </shape>
     </item>
 

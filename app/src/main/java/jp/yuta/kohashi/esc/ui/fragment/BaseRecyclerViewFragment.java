@@ -14,7 +14,7 @@ import jp.yuta.kohashi.esc.R;
  * Created by yutakohashi on 2017/01/21.
  */
 
-public abstract class RecyclerViewFragment extends Fragment{
+public abstract class BaseRecyclerViewFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private View mView;
@@ -36,11 +36,12 @@ public abstract class RecyclerViewFragment extends Fragment{
 
     /**
      * recyclerViewを作成
+     *
      * @param v
      */
     public abstract void initView(View v);
 
-    protected RecyclerView getRecyclerView(){
+    protected RecyclerView getRecyclerView() {
         return mRecyclerView;
     }
 }

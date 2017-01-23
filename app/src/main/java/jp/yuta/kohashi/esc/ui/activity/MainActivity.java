@@ -1,5 +1,6 @@
 package jp.yuta.kohashi.esc.ui.activity;
 
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -29,7 +30,9 @@ import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateFragment;
 import jp.yuta.kohashi.esc.ui.fragment.CalendarFragment;
 import jp.yuta.kohashi.esc.ui.fragment.NewsParentFragment;
 import jp.yuta.kohashi.esc.ui.fragment.TimeTableFragment;
+import jp.yuta.kohashi.esc.ui.service.EccNewsManageService;
 import jp.yuta.kohashi.esc.util.NotifyUtil;
+import jp.yuta.kohashi.esc.util.Util;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 
@@ -49,6 +52,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private int currentTab;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +69,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         isGetAttendanceRate(); //ログイン時のみ
         currentTab = -1;
+
+        //サービス起動チェック
+        if(!Util.isStartService() && PrefUtil.isNotifyNews()){
+            new EccNewsManageService().startResident(MainActivity.this);
+        }
     }
 
 
@@ -129,9 +138,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 showSettings();
                 closeDrawer();
                 break;
-            case R.id.nav_item_feedback: //フィードバック
-                closeDrawer();
-                break;
+//            case R.id.nav_item_feedback: //フィードバック
+//                closeDrawer();
+//                break;
         }
 
         return true;
@@ -191,7 +200,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * ChoromeCustomTabsを表示
      */
     private void showWeb() {
-        Uri uri = Uri.parse(RequestURL.ESC_TO_PAGE);
+        Uri uri = Uri.parse(RequestURL.ESC_TO_LOGIN_PAGE);
         CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                 .setShowTitle(true)
                 .setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary))
@@ -229,4 +238,5 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ((TextView) findViewById(R.id.name_text)).setText(name);
         ((TextView) findViewById(R.id.num_text)).setText(userId);
     }
+
 }

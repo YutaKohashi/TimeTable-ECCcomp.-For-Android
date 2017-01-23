@@ -46,6 +46,8 @@
     <string name="pref_group_title_time_attendance">出席照会</string>
     <string name="pref_attendance_color">出席照会を色分けする</string>
     <string name="pref_attendance_log">ログを確認する</string>
+    <string name="pref_group_title_news">お知らせ</string>
+    <string name="pref_notify_news">お知らせの通知を有効にする</string>
     <string name="pref_group_title_time_other">その他</string>
     <string name="pref_lisence">ライセンス情報</string>
     <string name="pref_about">このアプリについて</string>

@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.Const;
@@ -114,7 +115,7 @@ public class CalendarFragment extends Fragment implements ViewTreeObserver.OnGlo
     public void onGlobalLayout() {
         if (flag) {
             flag = false;
-            int position = Util.getMonthToTabPosition(Const.MONTH);
+            int position = Util.getMonthToTabPosition(Calendar.getInstance().get(Calendar.MONTH) + 1);
             movePage(position);
         }
     }

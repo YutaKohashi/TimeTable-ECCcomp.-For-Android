@@ -24,12 +24,11 @@
         <item name="android:textColorSecondary">@color/white</item>
     </style>
 
-    <attr name="customAttr" format="reference"/>
+    <attr name="customAttr" format="reference" />
 
     <style name="PrefTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent2</item>
+        <item name="colorAccent">@color/bg_budge</item>
     </style>
 </resources>

@@ -19,7 +19,7 @@
         <fragment
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="jp.yuta.kohashi.esc.ui.fragment.PreferenceFragment"
+            android:name="jp.yuta.kohashi.esc.ui.fragment.PreferenceMainFragment"
             android:id="@+id/fragment_preference"
             tools:layout="@layout/fragment_recycler_view" />
 

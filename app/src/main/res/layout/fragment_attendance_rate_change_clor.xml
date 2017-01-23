@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary9"
-    tools:context="jp.yuta.kohashi.esc.ui.fragment.AttendanceRateChangeColorFragment">
+    tools:context="jp.yuta.kohashi.esc.ui.fragment.AttendanceRateChangeColorFragmentBaseBase">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

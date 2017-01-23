@@ -62,7 +62,7 @@ public class CalendarView extends LinearLayout {
         Calendar calendar = Calendar.getInstance();
 
         //現在の月が４月から１２月のとき
-        if (Const.MONTH >= 4) {
+        if (Calendar.getInstance().get(Calendar.MONTH) + 1 >= 4) {
             if (month <= 3) {
                 year += 1;
                 Log.d(TAG,"Const.MONTH >= 4     " +String.valueOf(year));

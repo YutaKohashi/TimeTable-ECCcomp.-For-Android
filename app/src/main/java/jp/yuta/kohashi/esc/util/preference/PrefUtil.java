@@ -466,6 +466,10 @@ public class PrefUtil {
         save(bool, PrefConst.KEY_BLACKOUT, PrefConst.FILE_UTIL);
     }
 
+    public static void saveNotifyNews(boolean bool){
+        save(bool, PrefConst.KEY_ENABLE_NOTIFY_NEWS, PrefConst.FILE_UTIL);
+    }
+
     //**
     //endregion
     //**
@@ -512,6 +516,7 @@ public class PrefUtil {
         }
     }
 
+
     public static boolean isChangeColor(){
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(PrefConst.KEY_ENABLE_COLOR_CHANGE, false);
@@ -521,6 +526,16 @@ public class PrefUtil {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(PrefConst.KEY_BLACKOUT, false);
     }
+
+    /**
+     * お知らせを通知するか
+     * @return
+     */
+    public static boolean isNotifyNews(){
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(PrefConst.KEY_ENABLE_NOTIFY_NEWS, false);
+    }
+
 
     //**
     //endregion
