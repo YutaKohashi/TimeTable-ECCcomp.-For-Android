@@ -75,7 +75,7 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
             mDownloadBtn.setVisibility(GONE);
         } else {
             mDownloadBtn.setVisibility(View.VISIBLE);
-            mDownloadBtn.setText("添付ファイル " + downloadCount() + " 件あります");
+            mDownloadBtn.setText(getResources().getString(R.string.attachment_file, downloadCount()));
             mDownloadBtn.setEnabled(true);
         }
 
@@ -128,7 +128,7 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
      */
     private void showListDialog() {
         new MaterialDialog.Builder(this)
-                .title("添付ファイルをダウンロード")
+                .title(getResources().getString(R.string.download_attachment_file))
                 .items(downloadTitles)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override

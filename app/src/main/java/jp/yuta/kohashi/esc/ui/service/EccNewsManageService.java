@@ -136,7 +136,7 @@ public class EccNewsManageService extends BasePeriodicService {
         Log.d(TAG + "isempty", "" + TextUtils.isEmpty(detailText));
         if (!TextUtils.isEmpty(detailText)) {
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                    .setContentTitle("新しいお知らせがあります")
+                    .setContentTitle(getResources().getString(R.string.notify_new_news))
                     .setContentText(detailText)
                     .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.icon))
                     .setContentIntent(pendingIntent)

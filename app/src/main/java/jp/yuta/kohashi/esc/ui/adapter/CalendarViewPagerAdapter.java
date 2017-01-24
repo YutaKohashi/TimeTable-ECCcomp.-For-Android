@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import java.util.Calendar;
 
+import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.schedule.CalendarListModel;
 import jp.yuta.kohashi.esc.ui.view.CalendarView;
 import jp.yuta.kohashi.esc.util.Util;
@@ -70,6 +71,46 @@ public class CalendarViewPagerAdapter extends PagerAdapter {
      */
     @Override
     public CharSequence getPageTitle(int position) {
-        return String.valueOf(Util.getTabPositionToMonth(position)) + "月";
+        String month = "";
+        switch (Util.getTabPositionToMonth(position)) {
+            case 1:
+                month = mContext.getResources().getString(R.string.january);
+                break;
+            case 2:
+                month = mContext.getResources().getString(R.string.february);
+                break;
+            case 3:
+                month = mContext.getResources().getString(R.string.march);
+                break;
+            case 4:
+                month = mContext.getResources().getString(R.string.april);
+                break;
+            case 5:
+                month = mContext.getResources().getString(R.string.may);
+                break;
+            case 6:
+                month = mContext.getResources().getString(R.string.june);
+                break;
+            case 7:
+                month = mContext.getResources().getString(R.string.july);
+                break;
+            case 8:
+                month = mContext.getResources().getString(R.string.august);
+                break;
+            case 9:
+                month = mContext.getResources().getString(R.string.september);
+                break;
+            case 10:
+                month = mContext.getResources().getString(R.string.october);
+                break;
+            case 11:
+                month = mContext.getResources().getString(R.string.november);
+                break;
+            case 12:
+                month = mContext.getResources().getString(R.string.december);
+                break;
+        }
+
+        return month;
     }
 }

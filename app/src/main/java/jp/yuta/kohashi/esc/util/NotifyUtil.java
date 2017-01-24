@@ -22,31 +22,31 @@ public class NotifyUtil {
     
 
     public static void successUpdate(){
-        showToast("更新しました",R.drawable.ic_done);
+        showToast(App.getAppContext().getResources().getString(R.string.success_update),R.drawable.ic_done);
     }
 
     public static void failureUpdate(){
-        showToast("更新に失敗しました",R.drawable.ic_error);
+        showToast(App.getAppContext().getResources().getString(R.string.failure_update),R.drawable.ic_error);
     }
 
     public static void failureLogin(){
-        showToast("ログインに失敗しました",R.drawable.ic_error);
+        showToast(App.getAppContext().getString(R.string.failure_login),R.drawable.ic_error);
     }
 
-    public static void failureAttendanceRate(){showToast("出席情報の取得に\n失敗しました",R.drawable.ic_error);}
+    public static void failureAttendanceRate(){showToast(App.getAppContext().getResources().getString(R.string.failure_get_attendance_rate),R.drawable.ic_error);}
 
-    public static void failureNetworkConnection(){showToast("インターネットに\n接続されていません",R.drawable.ic_portable_wifi_off);}
+    public static void failureNetworkConnection(){showToast(App.getAppContext().getResources().getString(R.string.failure_connect_internet),R.drawable.ic_portable_wifi_off);}
 
     public static void failureFileLoad(){
-        showToast("ファイルのロードに失敗しました",R.drawable.ic_error);
+        showToast(App.getAppContext().getResources().getString(R.string.failure_load_file),R.drawable.ic_error);
     }
 
     public static void saveData(){
-        showToast("保存されました。",R.drawable.ic_save);
+        showToast(App.getAppContext().getResources().getString(R.string.success_save),R.drawable.ic_save);
     }
 
     public static void notChangeData(){
-        showToast("データが変更されていません",R.drawable.ic_error);
+        showToast(App.getAppContext().getResources().getString(R.string.not_change_data),R.drawable.ic_error);
     }
 
     public static void showToast(String string,int icon){
@@ -66,17 +66,17 @@ public class NotifyUtil {
 
     private static ProgressDialog mDialog;
     public static void showLoadingDiag(Context context){
-        mDialog = createProgressDialog(context,"読み込み中...");
+        mDialog = createProgressDialog(context,context.getResources().getString(R.string.loading));
         mDialog.show();
     }
 
     public static void showLogoutingDiag(Context context){
-        mDialog = createProgressDialog(context, "ログアウトしています...");
+        mDialog = createProgressDialog(context, context.getResources().getString(R.string.logouting));
         mDialog.show();
     }
 
     public static void showUpdatingDiag(Context context){
-        mDialog = createProgressDialog(context ,"更新中...");
+        mDialog = createProgressDialog(context ,context.getResources().getString(R.string.updating));
         mDialog.show();
     }
 

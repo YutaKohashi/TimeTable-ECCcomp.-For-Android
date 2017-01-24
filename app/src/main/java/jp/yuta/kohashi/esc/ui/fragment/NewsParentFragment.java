@@ -33,7 +33,7 @@ public class NewsParentFragment extends Fragment {
 
         schoolNews = PrefUtil.loadSchoolNewsList();
         tanninNews = PrefUtil.loadTanninNewsList();
-        NewsViewPagerAdapter adapter = new NewsViewPagerAdapter(getChildFragmentManager(),schoolNews,tanninNews);
+        NewsViewPagerAdapter adapter = new NewsViewPagerAdapter(getChildFragmentManager(),schoolNews,tanninNews,getActivity());
         mViewPager = (ViewPager)v.findViewById(R.id.news_viewpager);
         mViewPager.setAdapter(adapter);
         TabLayout tabLayout = (TabLayout)v.findViewById(R.id.tablayout);
@@ -47,7 +47,7 @@ public class NewsParentFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        NewsViewPagerAdapter adapter = new NewsViewPagerAdapter(getChildFragmentManager(),schoolNews,tanninNews);
+        NewsViewPagerAdapter adapter = new NewsViewPagerAdapter(getChildFragmentManager(),schoolNews,tanninNews,getActivity());
         mViewPager.setAdapter(adapter);
     }
 }

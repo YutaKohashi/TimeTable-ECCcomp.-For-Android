@@ -86,7 +86,7 @@ public class AttendanceRateChangeColorFragmentBaseBase extends BasePrefBaseRecyc
 
     private void showColorPicker(int nowColor, final Callback callback) {
         new SpectrumDialog.Builder(getContext())
-                .setTitle("色を選択してください")
+                .setTitle(getResources().getString(R.string.pref_select_color))
                 .setColors(R.array.diag_colors)
                 .setSelectedColorRes(nowColor)
                 .setDismissOnColorSelected(true)

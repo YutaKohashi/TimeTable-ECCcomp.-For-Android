@@ -41,7 +41,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="2"
                         android:gravity="center_vertical"
-                        android:text="記事名"
+                        android:text="@string/news_name"
                         android:textColor="#393939"
                         android:textSize="15sp" />
 
@@ -69,7 +69,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="2"
                         android:gravity="center_vertical"
-                        android:text="日付"
+                        android:text="@string/news_date"
                         android:textColor="#393939"
                         android:textSize="15sp" />
 
@@ -116,7 +116,6 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="30dp"
                     android:layout_marginLeft="30dp"
-                    android:text="添付ファイル 0 件あります"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     app:buttonColor="@color/colorPrimary"

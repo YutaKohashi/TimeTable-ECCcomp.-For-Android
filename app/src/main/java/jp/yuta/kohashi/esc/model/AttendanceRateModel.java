@@ -1,5 +1,6 @@
 package jp.yuta.kohashi.esc.model;
 
+import jp.yuta.kohashi.esc.model.enums.AttendanceRateType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,8 @@ public class AttendanceRateModel {
     private String attendanceRate;      //出席率
     private String shortageseNumber;      //
 
+    private AttendanceRateType type;
+
     public AttendanceRateModel(){
         subjectName = "";
         unit = "";
@@ -33,17 +36,6 @@ public class AttendanceRateModel {
         publicAbsentNumber2 = "";
         attendanceRate = "";
         shortageseNumber = "";
-    }
-
-    public AttendanceRateModel(String subjectName) {
-        this.subjectName = subjectName;
-        unit = "";
-        attendanceNumber = "";
-        absentNumber = "";
-        lateNumber = "";
-        publicAbsentNumber1 = "";
-        publicAbsentNumber2 = "";
-        attendanceRate = "";
-        shortageseNumber = "";
+        type = AttendanceRateType.ZENKI;
     }
 }

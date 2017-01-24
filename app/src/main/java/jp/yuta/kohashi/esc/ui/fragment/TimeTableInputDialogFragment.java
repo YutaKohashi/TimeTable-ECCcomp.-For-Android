@@ -149,19 +149,19 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
         String week;
         switch (col){
             case 1:
-                week = "月曜日";
+                week = getResources().getString(R.string.monday_string);
                 break;
             case 2:
-                week = "火曜日";
+                week = getResources().getString(R.string.tuesday_string);
                 break;
             case 3:
-                week = "水曜日";
+                week = getResources().getString(R.string.wednesday_string);
                 break;
             case 4:
-                week = "木曜日";
+                week = getResources().getString(R.string.thursday_string);
                 break;
             case 5:
-                week = "金曜日";
+                week = getResources().getString(R.string.friday_string);
                 break;
             default:
                 week = "";

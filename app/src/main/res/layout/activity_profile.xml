@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="30dp"
-                android:text="学生情報"
+                android:text="@string/student_info"
                 android:textColor="@android:color/white"
                 android:textSize="30sp" />
 
@@ -57,7 +57,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="3"
                             android:gravity="center_vertical"
-                            android:text="学籍番号"
+                            android:text="@string/student_number"
                             android:textColor="@color/info_content"
                             android:textSize="14sp" />
 
@@ -83,7 +83,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="3"
                             android:gravity="center_vertical"
-                            android:text="氏名"
+                            android:text="@string/student_name"
                             android:textColor="@color/info_content"
                             android:textSize="14sp" />
 
@@ -126,7 +126,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="3"
                             android:gravity="center_vertical"
-                            android:text="学科"
+                            android:text="@string/gakka"
                             android:textColor="@color/info_content"
                             android:textSize="14sp" />
 
@@ -152,7 +152,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="3"
                             android:gravity="center_vertical"
-                            android:text="コース"
+                            android:text="@string/course"
                             android:textColor="@color/info_content"
                             android:textSize="14sp" />
 
@@ -178,7 +178,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="3"
                             android:gravity="center_vertical"
-                            android:text="クラス"
+                            android:text="@string/class_txt"
                             android:textColor="@color/info_content"
                             android:textSize="14sp" />
 
@@ -204,7 +204,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="3"
                             android:gravity="center_vertical"
-                            android:text="出席番号"
+                            android:text="@string/shuseki_num"
                             android:textColor="@color/info_content"
                             android:textSize="14sp" />
 
@@ -238,7 +238,7 @@
                     android:id="@+id/info_school_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="学校情報"
+                    android:text="@string/school_info"
                     android:textColor="@color/info_group_title"
                     android:textSize="9sp" />
 
@@ -258,7 +258,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="3"
-                            android:text="所在地"
+                            android:text="@string/school_place"
                             android:textColor="@color/info_content"
                             android:textSize="13sp" />
 
@@ -266,7 +266,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="7"
-                            android:text="〒530-0015\n大阪市北区中崎西2丁目3番35号"
+                            android:text="@string/school_street_address"
                             android:textColor="@color/info_content"
                             android:textSize="13sp" />
 
@@ -281,7 +281,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="3"
-                            android:text="電話番号"
+                            android:text="@string/school_phone_num"
                             android:textColor="@color/info_content"
                             android:textSize="13sp" />
 
@@ -289,7 +289,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="7"
-                            android:text="0120-000-544 （入試事務局）"
+                            android:text="@string/school_phone_num"
                             android:textColor="@color/info_content"
                             android:textSize="13sp" />
                     </LinearLayout>
