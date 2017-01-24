@@ -57,8 +57,8 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
         //公欠２
         holder.kouketsuNum2.setText(items.get(position).getPublicAbsentNumber2());
 
-        changeBackgroundColor(holder, position);
         blackout(holder,position);
+        changeBackgroundColor(holder, position);
     }
 
     /**
@@ -71,7 +71,11 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
             int color = -1;
             int rate = Integer.valueOf(items.get(position).getAttendanceRate());
             if (rate < 75) {
-                color = PrefUtil.loadColorU75();
+                if(!PrefUtil.isBlackout()){
+                    color = PrefUtil.loadColorU75();
+                } else {
+                    color = mContext.getResources().getColor(R.color.bg_blackout);
+                }
             } else if (rate < 81) {
                 color = PrefUtil.loadColorU81();
             } else if (rate < 90) {
@@ -96,8 +100,10 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
             if (rate < 75) {
                 holder.container.setCardBackgroundColor(mContext.getResources().getColor(R.color.bg_blackout));
                 holder.titleContainer.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
+            } else {
+                holder.container.setCardBackgroundColor(mContext.getResources().getColor(R.color.bg_default_card_view));
+                holder.titleContainer.setBackgroundColor(mContext.getResources().getColor(R.color.bg_title));
             }
-
         } else {
             holder.container.setCardBackgroundColor(mContext.getResources().getColor(R.color.bg_default_card_view));
             holder.titleContainer.setBackgroundColor(mContext.getResources().getColor(R.color.bg_title));

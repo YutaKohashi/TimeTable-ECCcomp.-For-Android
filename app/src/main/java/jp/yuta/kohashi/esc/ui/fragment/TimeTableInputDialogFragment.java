@@ -26,11 +26,11 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
  */
 
 public class TimeTableInputDialogFragment extends DialogFragment implements View.OnClickListener {
-    private Callback callback = null;
+    // "static" is require for object null  when  display rotation
+    private static Callback callback = null;
+    private static TimeBlockModel beforeModel;
 
     private Dialog mDialog;
-    private TimeBlockModel beforeModel;
-
     private EditText mSubjectTextView;
     private EditText mRoomTextView;
     private EditText mTeacherTextView;

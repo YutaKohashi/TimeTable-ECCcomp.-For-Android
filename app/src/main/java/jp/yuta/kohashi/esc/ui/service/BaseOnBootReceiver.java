@@ -11,7 +11,7 @@ import android.content.Intent;
 public abstract class BaseOnBootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
-        // 端末起動時？
+        // 端末起動時
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             new Thread(new Runnable() {
                 @Override
