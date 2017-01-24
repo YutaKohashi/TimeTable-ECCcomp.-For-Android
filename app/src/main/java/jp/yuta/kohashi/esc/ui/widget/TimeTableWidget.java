@@ -8,12 +8,8 @@ import android.widget.RemoteViews;
 
 import java.util.List;
 
-import jp.yuta.kohashi.esc.App;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.TimeBlockModel;
-import jp.yuta.kohashi.esc.ui.activity.MainActivity;
-import jp.yuta.kohashi.esc.ui.service.EccNewsManageService;
-import jp.yuta.kohashi.esc.util.Util;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**

@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.schedule.CalendarItemModel;
 import jp.yuta.kohashi.esc.util.Util;
@@ -161,7 +160,6 @@ public class CalendarView extends LinearLayout {
                 if (row == 0) {
                     textView1.setTextColor(getContext().getResources().getColor(R.color.red));
                 }
-
 
 //                dateListに含まれる場合
                 if(dayList.contains(String.format("%02d",dayCount))){

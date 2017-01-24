@@ -42,7 +42,7 @@ public class NotifyUtil {
     }
 
     public static void saveData(){
-        showToast("保存されました。",R.drawable.ic_error);
+        showToast("保存されました。",R.drawable.ic_save);
     }
 
     public static void notChangeData(){

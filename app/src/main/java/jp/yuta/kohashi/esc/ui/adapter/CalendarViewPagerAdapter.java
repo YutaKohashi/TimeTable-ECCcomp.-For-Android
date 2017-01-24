@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import java.util.Calendar;
 
-import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.model.schedule.CalendarListModel;
 import jp.yuta.kohashi.esc.ui.view.CalendarView;
 import jp.yuta.kohashi.esc.util.Util;

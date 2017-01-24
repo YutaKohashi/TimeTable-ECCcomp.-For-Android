@@ -66,8 +66,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="number"
                     android:nextFocusDown="@+id/password"
-                    android:singleLine="true"
-                    android:text="2140257"/>
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -90,8 +89,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textPassword"
                     android:nextFocusDown="@+id/btn_login"
-                    android:singleLine="true"
-                    android:text="455478"/>
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 

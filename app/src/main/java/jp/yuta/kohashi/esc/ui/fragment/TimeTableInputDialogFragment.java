@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.EventListener;
 import java.util.List;
@@ -37,6 +38,8 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
     private LinearLayout mCancelBtn;
     private ImageButton mUndoBtn;
 
+    private TextView mTitleTextView;
+
     public interface Callback extends EventListener {
         void positive(TimeBlockModel before,TimeBlockModel after);
         void negative();
@@ -59,6 +62,7 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
         mDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN); // フルスクリーン
         mDialog.setContentView(R.layout.dialog_input_time_table );
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // 背景を透明にする
+
 
         initView();
 
@@ -92,12 +96,14 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
     }
 
     private void initView(){
+        mTitleTextView = (TextView)mDialog.findViewById(R.id.title_text_view);
         mSubjectTextView = (EditText)mDialog.findViewById(R.id.edit_subject);
         mTeacherTextView = (EditText)mDialog.findViewById(R.id.edit_teacher);
         mRoomTextView = (EditText)mDialog.findViewById(R.id.edit_room);
         mSubjectTextView.setText(beforeModel.getSubject());
         mTeacherTextView.setText(beforeModel.getTeacherName());
         mRoomTextView.setText(beforeModel.getClassRoom());
+        mTitleTextView.setText(createTitle(beforeModel));
         mUndoBtn = (ImageButton)mDialog.findViewById(R.id.undo_button);
 
         mOkBtn = (LinearLayout)mDialog.findViewById(R.id.ok_button);
@@ -134,5 +140,33 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
         mSubjectTextView.setSelection(mSubjectTextView.getText().length());
         mTeacherTextView.setSelection(mTeacherTextView.getText().length());
         mRoomTextView.setSelection(mRoomTextView.getText().length());
+    }
+
+    private String createTitle(TimeBlockModel model){
+        int row = model.getRowNum();
+        int col = model.getColNum();
+
+        String week;
+        switch (col){
+            case 1:
+                week = "月曜日";
+                break;
+            case 2:
+                week = "火曜日";
+                break;
+            case 3:
+                week = "水曜日";
+                break;
+            case 4:
+                week = "木曜日";
+                break;
+            case 5:
+                week = "金曜日";
+                break;
+            default:
+                week = "";
+        }
+
+        return week + " " + String.valueOf(row) + "限";
     }
 }

@@ -1,7 +1,6 @@
 package jp.yuta.kohashi.esc.ui.fragment;
 
 
-import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,14 +20,13 @@ import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.PrefItemModel;
 import jp.yuta.kohashi.esc.model.enums.PrefViewType;
 import jp.yuta.kohashi.esc.network.HttpConnector;
-import jp.yuta.kohashi.esc.ui.activity.AboutActivity;
+import jp.yuta.kohashi.esc.ui.activity.AboutActivityBase;
 import jp.yuta.kohashi.esc.ui.activity.AttendanceRateChangeColorActivity;
-import jp.yuta.kohashi.esc.ui.activity.LicenceActivity;
+import jp.yuta.kohashi.esc.ui.activity.LicenceActivityBase;
 import jp.yuta.kohashi.esc.ui.activity.LoginCheckActivity;
 import jp.yuta.kohashi.esc.ui.activity.TimeTableChangeActivity;
 import jp.yuta.kohashi.esc.ui.adapter.PrefRecyclerAdapter;
 import jp.yuta.kohashi.esc.ui.service.EccNewsManageService;
-import jp.yuta.kohashi.esc.ui.widget.TimeTableWidget;
 import jp.yuta.kohashi.esc.util.NotifyUtil;
 import jp.yuta.kohashi.esc.util.Util;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
@@ -186,14 +184,14 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
      * 著作権情報
      */
     private void showLicence() {
-        startActivity(new Intent(getActivity(), LicenceActivity.class));
+        startActivity(new Intent(getActivity(), LicenceActivityBase.class));
     }
 
     /**
      * このアプリについて
      */
     private void showAbout() {
-        startActivity(new Intent(getActivity(), AboutActivity.class));
+        startActivity(new Intent(getActivity(), AboutActivityBase.class));
     }
 
     /**

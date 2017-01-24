@@ -24,6 +24,8 @@ import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.NewsModel;
 import jp.yuta.kohashi.esc.util.RegexUtil;
 
+import static android.view.View.GONE;
+
 public class NewsDetailActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String NEWS_MODEL = "newsModel";
@@ -70,9 +72,9 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
         mDownloadBtn.setOnClickListener(this);
 
         if (downloadCount() == 0) {
-            mDownloadBtn.setText("添付ファイルはありません");
-            mDownloadBtn.setEnabled(false);
+            mDownloadBtn.setVisibility(GONE);
         } else {
+            mDownloadBtn.setVisibility(View.VISIBLE);
             mDownloadBtn.setText("添付ファイル " + downloadCount() + " 件あります");
             mDownloadBtn.setEnabled(true);
         }

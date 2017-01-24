@@ -18,14 +18,13 @@
             android:id="@+id/dummy_text_view"/>
 
         <TextView
-            android:id="@+id/custom_cell_title"
+            android:id="@+id/title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:padding="10dp"
             android:text="月曜日 ４限目"
             android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14sp"
             android:textColor="@color/white" />
 
         <ImageButton

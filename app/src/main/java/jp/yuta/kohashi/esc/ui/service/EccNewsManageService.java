@@ -13,6 +13,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.NewsModel;
 import jp.yuta.kohashi.esc.network.HttpConnector;
@@ -36,8 +37,9 @@ public class EccNewsManageService extends BasePeriodicService {
     //    ミリ秒
     @Override
     protected long getInterval() {
-        return 10800000; // 3時間
-//        return  60000;
+        return Const.SERVICE_INTERVAL_MILLISECONDS;
+////        return  60000;
+//        return 180000; //3分
     }
 
     @Override
@@ -79,17 +81,18 @@ public class EccNewsManageService extends BasePeriodicService {
                 new HttpConnector.Callback() {
                     @Override
                     public void callback(boolean bool) {
-                        List<String> newSchoolNewsList = getTitleList(PrefUtil.loadSchoolNewsList());
-                        List<String> newTanninNewsList = getTitleList(PrefUtil.loadTanninNewsList());
+                        if(bool){
+                            List<String> newSchoolNewsList = getTitleList(PrefUtil.loadSchoolNewsList());
+                            List<String> newTanninNewsList = getTitleList(PrefUtil.loadTanninNewsList());
 
-                        newTanninNewsList.add("退位一代限りが妥当 論点整理写真NEW");
-                        List<String> compareSchoolList = compareList(schoolNewsList, newSchoolNewsList);
-                        List<String> compareTanninList = compareList(tanninNewsList, newTanninNewsList);
+                            List<String> compareSchoolList = compareList(schoolNewsList, newSchoolNewsList);
+                            List<String> compareTanninList = compareList(tanninNewsList, newTanninNewsList);
 
-                        String detailText = createNotifyText(compareSchoolList, compareTanninList);
-                        Log.d(TAG, "detailText is empty = " + TextUtils.isEmpty(detailText.trim()));
-                        if (!TextUtils.isEmpty(detailText.trim())) {
-                            showNotification(detailText);
+                            String detailText = createNotifyText(compareSchoolList, compareTanninList);
+                            Log.d(TAG, "detailText is empty = " + TextUtils.isEmpty(detailText.trim()));
+                            if (!TextUtils.isEmpty(detailText.trim())) {
+                                showNotification(detailText);
+                            }
                         }
                     }
                 }

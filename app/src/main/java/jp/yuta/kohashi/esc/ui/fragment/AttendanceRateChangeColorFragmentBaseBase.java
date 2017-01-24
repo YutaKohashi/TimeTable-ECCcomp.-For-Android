@@ -35,12 +35,13 @@ public class AttendanceRateChangeColorFragmentBaseBase extends BasePrefBaseRecyc
     public void createItems() {
         addItem(new PrefItemModel(PrefViewType.EMPTY));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_enable_change_color), R.drawable.ic_brush, PrefViewType.ITEM_SWITCH, PrefUtil.isChangeColor()));
-        addItem(new PrefItemModel(PrefViewType.EMPTY));
-        addItem(new PrefItemModel(getResources().getString(R.string.pref_set_color), PrefViewType.ITEM_GROUP_TITLE));
+//        addItem(new PrefItemModel(PrefViewType.EMPTY));
+//        addItem(new PrefItemModel(getResources().getString(R.string.pref_set_color), PrefViewType.ITEM_GROUP_TITLE));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_rate_u90), R.drawable.ic_color_lens, PrefViewType.ITEM_COLOR_PICK, PrefUtil.loadColorU90()));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_rate_u81), R.drawable.ic_color_lens, PrefViewType.ITEM_COLOR_PICK, PrefUtil.loadColorU81()));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_rate_u75), R.drawable.ic_color_lens, PrefViewType.ITEM_COLOR_PICK, PrefUtil.loadColorU75()));
         addItem(new PrefItemModel(PrefViewType.EMPTY));
+        addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_time_other), PrefViewType.ITEM_GROUP_TITLE));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_blackout), R.drawable.ic_visibility_off, PrefViewType.ITEM_SWITCH, PrefUtil.isBlackout()));
     }
 

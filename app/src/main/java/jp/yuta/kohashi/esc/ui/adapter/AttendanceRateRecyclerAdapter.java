@@ -57,9 +57,8 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
         //公欠２
         holder.kouketsuNum2.setText(items.get(position).getPublicAbsentNumber2());
 
-        if(!blackout(holder,position)) {
-            changeBackgroundColor(holder, position);
-        }
+        changeBackgroundColor(holder, position);
+        blackout(holder,position);
     }
 
     /**
@@ -91,7 +90,7 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
     /**
      * 設定内容に応じてブラックアウトする
      */
-    private boolean blackout(AttendanceViewHolder holder, int position){
+    private void blackout(AttendanceViewHolder holder, int position){
         if(PrefUtil.isBlackout()){
             int rate = Integer.valueOf(items.get(position).getAttendanceRate());
             if (rate < 75) {
@@ -104,7 +103,6 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
             holder.titleContainer.setBackgroundColor(mContext.getResources().getColor(R.color.bg_title));
         }
 
-        return PrefUtil.isBlackout();
     }
 
     public void refresh(){

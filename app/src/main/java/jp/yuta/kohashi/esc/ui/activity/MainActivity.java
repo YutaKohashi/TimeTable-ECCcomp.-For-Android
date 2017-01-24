@@ -1,6 +1,5 @@
 package jp.yuta.kohashi.esc.ui.activity;
 
-import android.app.ActivityManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -56,7 +55,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_nav);
+        setContentView(R.layout.activity_main);
 
         initToolbar();
         setToolbarTitle(getResources().getString(R.string.toolbar_default_title));

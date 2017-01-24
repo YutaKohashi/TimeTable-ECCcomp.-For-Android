@@ -1,12 +1,13 @@
 package jp.yuta.kohashi.esc.ui.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebView;
 
 import jp.yuta.kohashi.esc.R;
 
-public class WebViewActivity extends BaseActivity {
-    protected static final int FONT_SIZE_WEB_VIEW = 16;
+public abstract class BaseWebViewActivity extends BaseActivity {
+    private static final int FONT_SIZE_WEB_VIEW = 16;
     protected WebView mWebView;
 
     @Override
@@ -16,15 +17,22 @@ public class WebViewActivity extends BaseActivity {
 
         mWebView = (WebView)findViewById(R.id.web_view);
         mWebView.getSettings().setDefaultFontSize(FONT_SIZE_WEB_VIEW);
+        mWebView.setHorizontalScrollBarEnabled(false);
 
         initToolbar();
         enableBackBtn();
     }
 
-    protected void setHtml(String html){
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.loadDataWithBaseURL("", html, "text/html", "UTF-8", "");
-        mWebView.setHorizontalScrollBarEnabled(false);
+    protected void setHtml(String link){
+        mWebView.loadUrl(link);
     }
 
+    protected void disableCopyPaste(){
+        mWebView.setOnLongClickListener(new View.OnLongClickListener() {
+
+            public boolean onLongClick(View v) {
+                return true;
+            }
+        });
+    }
 }
