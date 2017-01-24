@@ -20,7 +20,7 @@ import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.PrefItemModel;
 import jp.yuta.kohashi.esc.model.enums.PrefViewType;
 import jp.yuta.kohashi.esc.network.HttpConnector;
-import jp.yuta.kohashi.esc.ui.activity.AboutActivityBase;
+import jp.yuta.kohashi.esc.ui.activity.AboutActivity;
 import jp.yuta.kohashi.esc.ui.activity.AttendanceRateChangeColorActivity;
 import jp.yuta.kohashi.esc.ui.activity.LicenceActivityBase;
 import jp.yuta.kohashi.esc.ui.activity.LoginCheckActivity;
@@ -191,7 +191,7 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
      * このアプリについて
      */
     private void showAbout() {
-        startActivity(new Intent(getActivity(), AboutActivityBase.class));
+        startActivity(new Intent(getActivity(), AboutActivity.class));
     }
 
     /**

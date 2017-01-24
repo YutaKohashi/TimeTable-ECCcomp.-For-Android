@@ -34,7 +34,7 @@
         <activity
             android:name=".ui.activity.PreferenceActivity"
             android:theme="@style/PrefTheme" />
-        <activity android:name=".ui.activity.AboutActivityBase" />
+        <activity android:name=".ui.activity.AboutActivity" />
         <activity android:name=".ui.activity.LicenceActivityBase" />
         <activity android:name=".ui.activity.BaseWebViewActivity" />
 

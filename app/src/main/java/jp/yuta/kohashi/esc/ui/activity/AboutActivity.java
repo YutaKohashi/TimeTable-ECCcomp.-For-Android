@@ -4,8 +4,8 @@ import android.os.Bundle;
 
 import jp.yuta.kohashi.esc.R;
 
-public class AboutActivityBase extends BaseWebViewActivity {
-    private static final String TAG = AboutActivityBase.class.getSimpleName();
+public class AboutActivity extends BaseWebViewActivity {
+    private static final String TAG = AboutActivity.class.getSimpleName();
     private static final String FILE_NAME ="file:///android_asset/about.html";
 
     @Override
