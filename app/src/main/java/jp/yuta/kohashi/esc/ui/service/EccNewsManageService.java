@@ -88,6 +88,7 @@ public class EccNewsManageService extends BasePeriodicService {
                             List<String> compareSchoolList = compareList(schoolNewsList, newSchoolNewsList);
                             List<String> compareTanninList = compareList(tanninNewsList, newTanninNewsList);
 
+
                             String detailText = createNotifyText(compareSchoolList, compareTanninList);
                             Log.d(TAG, "detailText is empty = " + TextUtils.isEmpty(detailText.trim()));
                             if (!TextUtils.isEmpty(detailText.trim())) {

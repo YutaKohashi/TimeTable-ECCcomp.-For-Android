@@ -61,7 +61,7 @@
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
                 android:padding="15dp"
-                android:text="教科名"
+                android:text="@string/kyoukamei"
                 android:textSize="13sp">
 
                 <requestFocus />
@@ -96,7 +96,7 @@
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
                 android:padding="15dp"
-                android:text="担当教師"
+                android:text="@string/class_teacher"
                 android:textSize="13sp" />
 
             <EditText
@@ -129,7 +129,7 @@
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
                 android:padding="15dp"
-                android:text="教室"
+                android:text="@string/class_room"
                 android:textSize="13sp" />
 
             <EditText
@@ -184,7 +184,6 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="13sp" />
             </LinearLayout>
-            ¥
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

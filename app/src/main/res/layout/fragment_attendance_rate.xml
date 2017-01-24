@@ -1,27 +1,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_attendance_rate"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <FrameLayout
+        android:id="@+id/container_total_data"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:id="@+id/container_total_data"
-        android:background="@color/colorPrimary"
-        >
-        <!--TODO-->
-        <!--<ProgressBar-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content" -->
-            <!--android:layout_gravity="center"/>-->
+        android:background="@color/colorPrimary">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingRight="5dp"
+            android:paddingBottom="10dp"
             android:paddingLeft="5dp"
-            android:paddingBottom="10dp">
+            android:paddingRight="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -32,51 +27,51 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="予定単位数"
-                    android:maxLines="1"
                     android:gravity="center"
-                    android:textSize="12sp"
-                    android:textColor="@android:color/white"/>
+                    android:maxLines="1"
+                    android:text="@string/yotei_tani"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="出席率"
-                    android:maxLines="1"
                     android:gravity="center"
-                    android:textSize="12sp"
-                    android:textColor="@android:color/white"/>
+                    android:maxLines="1"
+                    android:text="@string/attendance"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="出席不足単位"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:textSize="12sp"
-                    android:textColor="@android:color/white"/>
+                    android:text="@string/husoku_tani"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="出席数"
-                    android:maxLines="1"
                     android:gravity="center"
-                    android:textSize="12sp"
-                    android:textColor="@android:color/white"/>
+                    android:maxLines="1"
+                    android:text="@string/shuseki_number"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="欠席数"
-                    android:maxLines="1"
                     android:gravity="center"
-                    android:textSize="12sp"
-                    android:textColor="@android:color/white"/>
+                    android:maxLines="1"
+                    android:text="@string/kesseki_number"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -90,60 +85,59 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="28sp"
-                    android:textColor="@android:color/white"
+                    android:gravity="center"
                     android:text="80"
-                    android:gravity="center"/>
+                    android:textColor="@android:color/white"
+                    android:textSize="28sp" />
 
                 <TextView
                     android:id="@+id/text_total_attendance_rate"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="28sp"
-                    android:textColor="@android:color/white"
+                    android:gravity="center"
                     android:text="80"
-                    android:gravity="center"/>
+                    android:textColor="@android:color/white"
+                    android:textSize="28sp" />
 
                 <TextView
                     android:id="@+id/text_total_shortageunit"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="28sp"
-                    android:textColor="@android:color/white"
+                    android:gravity="center"
                     android:text="80"
-                    android:gravity="center"/>
+                    android:textColor="@android:color/white"
+                    android:textSize="28sp" />
 
                 <TextView
                     android:id="@+id/text_total_attendance_num"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="28sp"
-                    android:textColor="@android:color/white"
+                    android:gravity="center"
                     android:text="80"
-                    android:gravity="center"/>
+                    android:textColor="@android:color/white"
+                    android:textSize="28sp" />
 
                 <TextView
                     android:id="@+id/text_total_absent_num"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="28sp"
-                    android:textColor="@android:color/white"
+                    android:gravity="center"
                     android:text="80"
-                    android:gravity="center"/>
+                    android:textColor="@android:color/white"
+                    android:textSize="28sp" />
             </LinearLayout>
-
         </LinearLayout>
     </FrameLayout>
 
     <com.baoyz.widget.PullRefreshLayout
-        android:layout_below="@+id/container_total_data"
         android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/container_total_data"
         android:background="@android:color/white"
         android:fitsSystemWindows="true"
         app:refreshType="circles">

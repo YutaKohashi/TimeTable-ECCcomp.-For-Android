@@ -22,11 +22,7 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 public class TimeTableChangeFragment extends Fragment implements TimeTableInputDialogFragment.Callback {
 
-    private List<TimeBlockModel> monList;
-    private List<TimeBlockModel> tueList;
-    private List<TimeBlockModel> wedList;
-    private List<TimeBlockModel> thurList;
-    private List<TimeBlockModel> friList;
+    private List<List<TimeBlockModel>> timeBlockLists = new ArrayList<>();
 
     private RecyclerView mMonRecyclerView;
     private RecyclerView mTueRecyclerView;
@@ -36,7 +32,6 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
 
     List<TimeTableRecyclerAdapter> mAdapters;
     private List<TimeBlockModel> clickedItems;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,11 +59,13 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
         mFriRecyclerView.setHasFixedSize(true);
 
         mAdapters = new ArrayList<>();
-        createRecyclerView(mMonRecyclerView, monList);
-        createRecyclerView(mTueRecyclerView, tueList);
-        createRecyclerView(mWedRecyclerView, wedList);
-        createRecyclerView(mThurRecyclerView, thurList);
-        createRecyclerView(mFriRecyclerView, friList);
+
+        createRecyclerView(mMonRecyclerView, timeBlockLists.get(0));
+        createRecyclerView(mTueRecyclerView, timeBlockLists.get(1));
+        createRecyclerView(mWedRecyclerView, timeBlockLists.get(2));
+        createRecyclerView(mThurRecyclerView, timeBlockLists.get(3));
+        createRecyclerView(mFriRecyclerView, timeBlockLists.get(4));
+
     }
 
 
@@ -90,19 +87,49 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
         recyclerView.setAdapter(adapter);
     }
 
+    /**
+     * 保存でーたから時間割リストのリストを取得
+     */
     private void loadLists() {
         List<List<TimeBlockModel>> lists = PrefUtil.loadTimeBlockList();
-        monList = lists.get(0);
-        tueList = lists.get(1);
-        wedList = lists.get(2);
-        thurList = lists.get(3);
-        friList = lists.get(4);
+        timeBlockLists.clear();
+        timeBlockLists.addAll(lists);
+    }
+
+    private void loadOriginalLists(){
+        List<List<TimeBlockModel>> lists = PrefUtil.loadOriginalTimeBlockList();
+        timeBlockLists.clear();
+        timeBlockLists.addAll(lists);
+    }
+
+
+    // execute from activity
+    public void allReset() {
+        loadOriginalLists();
+        swapAll();
+
+        // オリジナルリストをデフォルトリストに反映
+        for(List<TimeBlockModel> list : timeBlockLists){
+            saveList(list);
+        }
+
+        NotifyUtil.allReset();
+    }
+
+    /**
+     * リールドのtimeBlockLIstsでswapする
+     */
+    private void swapAll() {
+        for (int i = 0; i < 5; i++) {
+            mAdapters.get(i).swap(timeBlockLists.get(i));
+        }
     }
 
 
     //**
     //region Callback from Dialog
     //**
+
 
     @Override
     public void positive(TimeBlockModel before, TimeBlockModel after) {
@@ -113,6 +140,7 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
             List<TimeBlockModel> list = createSaveList(after);
             saveList(list);
             NotifyUtil.saveData();
+            loadLists();
             swapAll();
         } else {
             NotifyUtil.notChangeData();
@@ -120,16 +148,8 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
     }
 
     @Override
-    public void negative() {
+    public void negative() {}
 
-    }
-
-    private void swapAll() {
-        List<List<TimeBlockModel>> lists = PrefUtil.loadTimeBlockList();
-        for (int i = 0; i < 5; i++) {
-            mAdapters.get(i).swap(lists.get(i));
-        }
-    }
 
     /**
      * ダイアログから受け取った変更を保存する

@@ -29,12 +29,18 @@
     <string name="thur_string">木</string>
     <string name="fri_string">金</string>
 
+    <!--ボトムシート-->
+    <string name="detail_info">詳細情報</string>
+    <string name="subject_name">教科名</string>
+    <string name="class_teacher">担当教師</string>
+    <string name="class_room">教室</string>
+
     <string name="monday_string">月曜日</string>
     <string name="tuesday_string">火曜日</string>
     <string name="wednesday_string">水曜日</string>
     <string name="thursday_string">木曜日</string>
     <string name="friday_string">金曜日</string>
-
+    <string name="class_time">時間</string>
 
     <!--出席率-->
     <string name="kyoukamei">教科名</string>
@@ -45,6 +51,11 @@
     <string name="late">遅刻</string>
     <string name="kouketsu_1">公欠1</string>
     <string name="kouketsu_2">公欠2</string>
+
+    <string name="yotei_tani">予定単位数</string>
+    <string name="husoku_tani">出席不足単位</string>
+    <string name="shuseki_number">出席数</string>
+    <string name="kesseki_number">欠席数</string>
 
     <!--お知らせ-->
     <string name="from_school">学校から</string>
@@ -96,6 +107,10 @@
     <string name="not_change_data">データが変更されていません</string>
     <string name="logouting">ログアウトしています...</string>
     <string name="updating">更新中</string>
+    <string name="all_reset">すべての変更データが\nリセットされました</string>
+    <string name="cancel">キャンセルされました</string>
+    <string name="dialog_all_reset_comment">変更したすべてのデータがリセットされます。</string>
+    <string name="dialog_all_reset_title">オールリセット</string>
 
     <!--ドロワー-->
     <string name="drawer_open">open</string>

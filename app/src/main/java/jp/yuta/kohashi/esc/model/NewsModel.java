@@ -31,4 +31,12 @@ public class NewsModel implements Serializable{
         this.groupTitle = groupTitle;
     }
 
+
+
+    public boolean equals(NewsModel model) {
+        return title.equals(model.title)
+                && date.equals(model.date)
+                && uri.equals(model.uri)
+                && groupTitle.equals(model.groupTitle);
+    }
 }

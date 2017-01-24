@@ -9,11 +9,16 @@
     <include
         android:id="@+id/appbar"
         layout="@layout/include_appbar" />
-
-    <fragment
+    <FrameLayout
         android:layout_below="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="jp.yuta.kohashi.esc.ui.fragment.TimeTableChangeFragment"/>
+        android:id="@+id/container">
+        <fragment
+            android:id="@+id/time_table"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="jp.yuta.kohashi.esc.ui.fragment.TimeTableChangeFragment"/>
+    </FrameLayout>
 
 </RelativeLayout>

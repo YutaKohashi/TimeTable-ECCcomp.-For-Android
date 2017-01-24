@@ -45,8 +45,16 @@ public class NotifyUtil {
         showToast(App.getAppContext().getResources().getString(R.string.success_save),R.drawable.ic_save);
     }
 
+    public static void allReset(){
+        showToast(App.getAppContext().getResources().getString(R.string.all_reset),R.drawable.ic_settings_backup_restore);
+    }
+
     public static void notChangeData(){
         showToast(App.getAppContext().getResources().getString(R.string.not_change_data),R.drawable.ic_error);
+    }
+
+    public static void  cancel(){
+        showToast(App.getAppContext().getResources().getString(R.string.cancel),R.drawable.ic_cancel);
     }
 
     public static void showToast(String string,int icon){
@@ -54,9 +62,9 @@ public class NotifyUtil {
         View toastLayout = _inflater.inflate(R.layout.toast_custom_layout,null);
         ((TextView)toastLayout.findViewById(R.id.toast_text_View)).setText(string);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ((ImageView)toastLayout.findViewById(R.id.toast_imdge_view)).setImageDrawable(App.getAppContext().getResources().getDrawable(icon,null));
+            ((ImageView)toastLayout.findViewById(R.id.toast_image_view)).setImageDrawable(App.getAppContext().getResources().getDrawable(icon,null));
         } else {
-            ((ImageView)toastLayout.findViewById(R.id.toast_imdge_view)).setImageDrawable(App.getAppContext().getResources().getDrawable(icon));
+            ((ImageView)toastLayout.findViewById(R.id.toast_image_view)).setImageDrawable(App.getAppContext().getResources().getDrawable(icon));
         }
         Toast toast = new Toast(App.getAppContext());
         toast.setDuration(Toast.LENGTH_SHORT);

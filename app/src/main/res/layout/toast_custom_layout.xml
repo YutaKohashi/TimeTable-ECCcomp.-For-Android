@@ -8,20 +8,22 @@
     android:paddingRight="13dp">
 
     <ImageView
-        android:id="@+id/toast_imdge_view"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3" />
+        android:layout_gravity="center"
+        android:scaleType="fitCenter"
+        android:id="@+id/toast_image_view"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        />
 
     <TextView
         android:id="@+id/toast_text_View"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
         android:padding="20dp"
-        android:layout_weight="7"
+        android:layout_weight="1"
         android:gravity="center"
-        android:text="成功しました"
+        android:text="samplesamplesample"
         android:textColor="@android:color/white"
         android:textSize="15sp" />
 </LinearLayout>

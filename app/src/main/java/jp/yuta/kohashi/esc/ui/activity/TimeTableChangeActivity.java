@@ -1,10 +1,26 @@
 package jp.yuta.kohashi.esc.ui.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import jp.yuta.kohashi.esc.R;
+import jp.yuta.kohashi.esc.ui.fragment.TimeTableChangeFragment;
+import jp.yuta.kohashi.esc.util.NotifyUtil;
+import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 public class TimeTableChangeActivity extends BaseActivity {
+
+    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,4 +31,57 @@ public class TimeTableChangeActivity extends BaseActivity {
         enableBackBtn();
         setTitle(getResources().getString(R.string.pref_change_time_table));
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        final MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.items_activity_time_table_change, menu);
+
+         mMenu = menu;
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.btn_all_reset){
+            showResetDialog();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showResetDialog(){
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+                .title(R.string.dialog_all_reset_title)
+                .content(R.string.dialog_all_reset_comment)
+                .positiveText(R.string.dialog_positive_ok)
+                .negativeText(R.string.dialog_negative_cancel)
+                .positiveColor(getResources().getColor(R.color.diag_text_color_cancel))
+                .negativeColor(getResources().getColor(R.color.colorPrimary))
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        allReset();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                        NotifyUtil.cancel();
+                    }
+                });
+
+        MaterialDialog dialog = builder.build();
+        dialog.show();
+    }
+
+    private void allReset(){
+        // get fragment
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.time_table);
+        if (fragment != null && fragment instanceof TimeTableChangeFragment) {
+            ((TimeTableChangeFragment) fragment).allReset();
+        }
+    }
+
 }

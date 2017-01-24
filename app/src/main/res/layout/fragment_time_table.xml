@@ -137,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="詳細情報"
+                android:text="@string/detail_info"
                 android:textColor="@android:color/white"
                 android:textSize="15sp" />
         </RelativeLayout>
@@ -164,7 +164,7 @@
                     android:drawablePadding="15sp"
                     android:gravity="center_vertical"
                     android:layout_gravity="center_vertical"
-                    android:text="教科名"
+                    android:text="@string/subject_name"
                     android:textSize="13sp" />
 
                 <TextView
@@ -194,7 +194,7 @@
                     android:drawablePadding="15sp"
                     android:gravity="center_vertical"
                     android:layout_gravity="center_vertical"
-                    android:text="担当教師"
+                    android:text="@string/class_teacher"
                     android:textSize="13sp" />
 
                 <TextView
@@ -225,7 +225,7 @@
                     android:drawablePadding="15sp"
                     android:gravity="center_vertical"
                     android:layout_gravity="center_vertical"
-                    android:text="時間"
+                    android:text="@string/class_time"
                     android:textSize="13sp" />
 
                 <TextView
