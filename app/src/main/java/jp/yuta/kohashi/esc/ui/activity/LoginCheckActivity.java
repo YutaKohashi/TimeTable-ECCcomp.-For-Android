@@ -26,6 +26,8 @@ public class LoginCheckActivity extends Activity {
         } else {
             //ログインしている
             Intent intent = new Intent(LoginCheckActivity.this, MainActivity.class);
+            if(getIntent().getBooleanExtra(MainActivity.SELECT_TAB_NEWS,false))
+                intent.putExtra(MainActivity.SELECT_TAB_NEWS,true);
             startActivity(intent);
         }
         ActivityCompat.finishAffinity(this);

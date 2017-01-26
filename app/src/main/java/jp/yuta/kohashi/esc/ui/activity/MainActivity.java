@@ -18,7 +18,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -41,6 +43,7 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final String GET_ATTENDANCE_RATE = "get_attendance_rate";
+    public static final String SELECT_TAB_NEWS ="select_tab_news"; //　通知をタップして起動した場合
 
     /*ツールバー・ナビゲーションドロワー・トグル・レイアウト*/
     private NavigationView mNavDrawer;
@@ -73,6 +76,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if(!Util.isStartService() && PrefUtil.isNotifyNews()){
             new EccNewsManageService().startResident(MainActivity.this);
         }
+
+        // 通知バーから起動されたか
+        isSelectTabNews();
     }
 
 
@@ -181,6 +187,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (!bool) {
             NotifyUtil.failureAttendanceRate();
             intent.removeExtra(GET_ATTENDANCE_RATE);
+        }
+    }
+
+    /**
+     * 通知から起動した場合お知らせタブを選択する
+     */
+    private void isSelectTabNews(){
+        Intent intent = getIntent();
+        boolean bool = intent.getBooleanExtra(SELECT_TAB_NEWS,false);
+        if(bool){
+            View view = mBottomNavView.findViewById(R.id.nav_item_news);
+            if(view != null)  view.performClick();
+            intent.removeExtra(SELECT_TAB_NEWS);
         }
     }
 

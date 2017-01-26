@@ -157,8 +157,6 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
 
         MaterialDialog dialog = builder.build();
         dialog.show();
-
-
     }
 
     /**

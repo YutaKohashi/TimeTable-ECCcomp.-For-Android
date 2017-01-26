@@ -29,17 +29,17 @@ public class NewsParentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v =  inflater.inflate(R.layout.fragment_news_parent, container, false);
+        View v = inflater.inflate(R.layout.fragment_news_parent, container, false);
 
         schoolNews = PrefUtil.loadSchoolNewsList();
         tanninNews = PrefUtil.loadTanninNewsList();
-        NewsViewPagerAdapter adapter = new NewsViewPagerAdapter(getChildFragmentManager(),schoolNews,tanninNews,getActivity());
-        mViewPager = (ViewPager)v.findViewById(R.id.news_viewpager);
+        NewsViewPagerAdapter adapter = new NewsViewPagerAdapter(getChildFragmentManager(), schoolNews, tanninNews, getActivity());
+        mViewPager = (ViewPager) v.findViewById(R.id.news_viewpager);
         mViewPager.setAdapter(adapter);
-        TabLayout tabLayout = (TabLayout)v.findViewById(R.id.tablayout);
+        TabLayout tabLayout = (TabLayout) v.findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mViewPager);
 
-        tabLayout.setTabTextColors(Color.GRAY,Color.WHITE);
+        tabLayout.setTabTextColors(Color.GRAY, Color.WHITE);
 
         return v;
     }
@@ -47,7 +47,7 @@ public class NewsParentFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        NewsViewPagerAdapter adapter = new NewsViewPagerAdapter(getChildFragmentManager(),schoolNews,tanninNews,getActivity());
+        NewsViewPagerAdapter adapter = new NewsViewPagerAdapter(getChildFragmentManager(), schoolNews, tanninNews, getActivity());
         mViewPager.setAdapter(adapter);
     }
 }

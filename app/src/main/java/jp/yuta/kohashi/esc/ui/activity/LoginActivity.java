@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.view.View;
@@ -52,13 +53,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         if(view.getId() == R.id.btn_login){
             //テキストフィールドとネットワークのチェック
-            if (!Util.checkTextField(mIdTextView) & !Util.checkTextField(mPasswordTextView)) {
+            if (!Util.checkTextField(mIdTextView) | !Util.checkTextField(mPasswordTextView)) {
                 defaultProgBtn();
+                enableBtn();
                 return;
             }
             if (!Util.netWorkCheck()) {
                 NotifyUtil.failureNetworkConnection();
                 defaultProgBtn();
+                enableBtn();
                 return;
             }
 
@@ -68,6 +71,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             login();
         } else {
             defaultProgBtn();
+            enableBtn();
         }
     }
 
@@ -225,7 +229,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            PrefUtil.deleteSharedPreferencesFiles();
+                            PrefUtil.deleteAll();
+                            try {
+                                PrefUtil.deleteSharedPreferencesFiles();
+                            }catch (Throwable e){
+                            }
                         }
                     });
 

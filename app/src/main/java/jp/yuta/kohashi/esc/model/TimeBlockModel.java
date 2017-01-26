@@ -14,6 +14,7 @@ public class TimeBlockModel{
     private String teacherName;
     private int rowNum;
     private int colNum;
+    private String memo;
 
     //コンストラクタ
     public TimeBlockModel(){
@@ -22,6 +23,7 @@ public class TimeBlockModel{
         teacherName = "";
         rowNum = -1;
         colNum = -1;
+        memo = "";
     }
 
     /**

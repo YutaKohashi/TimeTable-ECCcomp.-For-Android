@@ -18,6 +18,7 @@ import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.NewsModel;
 import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.ui.activity.LoginCheckActivity;
+import jp.yuta.kohashi.esc.ui.activity.MainActivity;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 public class EccNewsManageService extends BasePeriodicService {
@@ -87,8 +88,6 @@ public class EccNewsManageService extends BasePeriodicService {
 
                             List<String> compareSchoolList = compareList(schoolNewsList, newSchoolNewsList);
                             List<String> compareTanninList = compareList(tanninNewsList, newTanninNewsList);
-
-
                             String detailText = createNotifyText(compareSchoolList, compareTanninList);
                             Log.d(TAG, "detailText is empty = " + TextUtils.isEmpty(detailText.trim()));
                             if (!TextUtils.isEmpty(detailText.trim())) {
@@ -128,14 +127,15 @@ public class EccNewsManageService extends BasePeriodicService {
      * @param detailText
      */
     public void showNotification(String detailText) {
-        Intent intent = new Intent(this, LoginCheckActivity.class);
-        PendingIntent pendingIntent =
-                PendingIntent.getActivity(this, 0, intent,
-                        PendingIntent.FLAG_CANCEL_CURRENT);
-
         Log.d(TAG, "detailText : " + detailText);
         Log.d(TAG + "isempty", "" + TextUtils.isEmpty(detailText));
         if (!TextUtils.isEmpty(detailText)) {
+            Intent intent = new Intent(this, LoginCheckActivity.class);
+            intent.putExtra(MainActivity.SELECT_TAB_NEWS,true);
+            PendingIntent pendingIntent =
+                    PendingIntent.getActivity(this, 0, intent,
+                            PendingIntent.FLAG_CANCEL_CURRENT);
+
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                     .setContentTitle(getResources().getString(R.string.notify_new_news))
                     .setContentText(detailText)

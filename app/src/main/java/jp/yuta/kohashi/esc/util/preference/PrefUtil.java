@@ -599,7 +599,7 @@ public class PrefUtil {
     /**
      * 　存在するファイルをすべて削除
      */
-    public static void deleteSharedPreferencesFiles() {
+    public static void deleteSharedPreferencesFiles() throws Throwable{
         try {
             ApplicationInfo info = App.getAppContext().getPackageManager()
                     .getApplicationInfo(App.getAppContext().getPackageName(), 0);

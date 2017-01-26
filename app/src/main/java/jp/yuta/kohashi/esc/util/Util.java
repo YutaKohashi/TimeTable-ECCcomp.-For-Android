@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
@@ -59,6 +60,17 @@ public class Util {
             return true;
         }
     }
+
+    public static boolean checkTextField(TextView view, TextInputLayout wrapper) {
+        String text = view.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            wrapper.setError(App.getAppContext().getString(R.string.string_text_view_error));
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 
     /**
      * @return

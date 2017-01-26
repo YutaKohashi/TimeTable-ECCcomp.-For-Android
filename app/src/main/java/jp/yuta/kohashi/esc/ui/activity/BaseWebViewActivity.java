@@ -23,8 +23,8 @@ public abstract class BaseWebViewActivity extends BaseActivity {
         enableBackBtn();
     }
 
-    protected void setHtml(String link){
-        mWebView.loadUrl(link);
+    protected void setHtml(String path){
+        mWebView.loadUrl(path);
     }
 
     protected void disableCopyPaste(){

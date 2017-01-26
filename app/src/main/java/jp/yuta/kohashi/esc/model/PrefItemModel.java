@@ -18,41 +18,39 @@ public class PrefItemModel {
     private boolean bool;
     private int color;
 
-    public PrefItemModel(String itemName,Integer resourceId,PrefViewType viewType,boolean bool){
-        this.itemName = itemName;
-        this.resourceId = resourceId;
-        this.viewType = viewType;
-        this.bool = bool;
-    }
-
-    public PrefItemModel(String itemName, Integer resourceId,PrefViewType viewType){
-        this.itemName = itemName;
-        this.resourceId = resourceId;
+    public PrefItemModel(PrefViewType viewType) {
         this.viewType = viewType;
     }
 
-    public PrefItemModel(String itemName, Integer resourceId,PrefViewType viewType,int color){
+    public PrefItemModel(String itemName, PrefViewType viewType) {
+        this.itemName = itemName;
+        this.viewType = viewType;
+    }
+
+    public PrefItemModel(String itemName, Integer resourceId, PrefViewType viewType) {
+        this.itemName = itemName;
+        this.resourceId = resourceId;
+        this.viewType = viewType;
+    }
+
+    public PrefItemModel(String itemName, Integer resourceId, PrefViewType viewType, int color) {
         this.itemName = itemName;
         this.resourceId = resourceId;
         this.viewType = viewType;
         this.color = color;
     }
 
-    public PrefItemModel(String itemName,String rightText ,Integer resourceId,PrefViewType viewType){
+    public PrefItemModel(String itemName, Integer resourceId, PrefViewType viewType, boolean bool) {
+        this.itemName = itemName;
+        this.resourceId = resourceId;
+        this.viewType = viewType;
+        this.bool = bool;
+    }
+
+    public PrefItemModel(String itemName, String rightText, Integer resourceId, PrefViewType viewType) {
         this.itemName = itemName;
         this.rightText = rightText;
         this.resourceId = resourceId;
         this.viewType = viewType;
     }
-
-    public PrefItemModel(String itemName, PrefViewType viewType){
-        this.itemName = itemName;
-        this.viewType = viewType;
-    }
-
-    public PrefItemModel(PrefViewType viewType){
-        this.viewType = viewType;
-    }
-
-
 }

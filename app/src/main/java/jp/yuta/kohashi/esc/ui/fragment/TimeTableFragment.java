@@ -97,7 +97,6 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
         inAnim = AnimationUtils.loadAnimation(getContext(), R.anim.anim_bottom_sheet_in);
         outAnim = AnimationUtils.loadAnimation(getContext(), R.anim.anim_bottom_sheet_out);
         fadeInAnim = AnimationUtils.loadAnimation(getContext(),R.anim.anim_bottom_sheet_fade_in);
-        fadeOutAnim = AnimationUtils.loadAnimation(getContext(),R.anim.anim_bottom_sheet_fade_out);
     }
 
     private void createRecyclerView(RecyclerView recyclerView, List<TimeBlockModel> list) {
@@ -163,6 +162,9 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         // Button For Close BottomSheet
         if(view.getId() == R.id.close_view){
+            // require every times
+            fadeOutAnim = AnimationUtils.loadAnimation(getContext(),R.anim.anim_bottom_sheet_fade_out);
+
             mBottomSheet.startAnimation(outAnim);
             mBottomSheet.setVisibility(View.INVISIBLE);
             mCloseView.setVisibility(View.INVISIBLE);

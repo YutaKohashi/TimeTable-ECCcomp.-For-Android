@@ -38,7 +38,7 @@ public class TimeTableWidget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
-            //サービス起動チェック
+            //ウィジェットをアップデート
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
     }
@@ -70,7 +70,6 @@ public class TimeTableWidget extends AppWidgetProvider {
             col.addView(R.id.widget_col, cell);
         }
         remoteViews.addView(colId, col);
-
     }
 }
 
