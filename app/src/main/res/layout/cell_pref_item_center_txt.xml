@@ -14,6 +14,6 @@
         android:layout_centerHorizontal="true"
         android:text="SAMPLE_TEXT"
         android:textColor="@android:color/white"
-        android:textSize="18sp"/>
+        android:textSize="@dimen/text_size_pref"/>
 
 </RelativeLayout>

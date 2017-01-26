@@ -104,4 +104,7 @@
     <!--学生情報-->
     <color name="info_group_title">#dedede</color>
     <color name="info_content">#eaeaea</color>
+
+    <!--プリファレンス-->
+    <color name="group_title_text_color">#d4d4d4</color>
 </resources>

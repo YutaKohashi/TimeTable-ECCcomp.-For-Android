@@ -24,4 +24,15 @@ public class TimeBlockModel{
         colNum = -1;
     }
 
+    /**
+     * （ダイアログフラグメントで使用）
+     * @param model
+     * @return
+     */
+    public boolean equals(TimeBlockModel model){
+        return this.subject.equals(model.getSubject()) &&
+                this.teacherName.equals(model.getTeacherName()) &&
+                this.classRoom.equals(model.getClassRoom());
+    }
+
 }

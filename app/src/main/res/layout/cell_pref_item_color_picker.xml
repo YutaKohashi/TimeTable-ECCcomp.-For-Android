@@ -27,7 +27,7 @@
         android:layout_toRightOf="@+id/image_view"
         android:text="SAMPLE_TEXT"
         android:textColor="@android:color/white"
-        android:textSize="18sp" />
+        android:textSize="@dimen/text_size_pref" />
 
 
     <de.hdodenhof.circleimageview.CircleImageView

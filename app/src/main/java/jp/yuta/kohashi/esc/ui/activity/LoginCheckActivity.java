@@ -17,6 +17,8 @@ public class LoginCheckActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        PrefUtil.saveAppVersion();
+
         if (!PrefUtil.isLogin()) {
             // ログインしていない
             Intent intent = new Intent(LoginCheckActivity.this, LoginActivity.class);
@@ -35,11 +37,14 @@ public class LoginCheckActivity extends Activity {
         finish();
     }
 
-
-
     @Override
     protected void onStop() {
         super.onStop();
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

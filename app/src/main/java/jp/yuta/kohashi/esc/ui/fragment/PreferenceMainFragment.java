@@ -51,15 +51,10 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
         addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_time_table), PrefViewType.ITEM_GROUP_TITLE));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_update_time_table), R.drawable.ic_refresh, PrefViewType.ITEM));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_change_time_table), R.drawable.ic_create, PrefViewType.ITEM_RIGHT_ARROW));
-        addItem(new PrefItemModel(PrefViewType.EMPTY));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_time_attendance), PrefViewType.ITEM_GROUP_TITLE));
-//        addItem(new PrefItemModel(getResources().getString(R.string.pref_attendance_divide), R.drawable.ic_brush, PrefViewType.ITEM_RIGHT_ARROW));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_attendance_color), R.drawable.ic_brush, PrefViewType.ITEM_RIGHT_ARROW));
-//        addItem(new PrefItemModel(getResources().getString(R.string.pref_attendance_log), R.drawable.ic_folder_open, PrefViewType.ITEM_RIGHT_ARROW));
-        addItem(new PrefItemModel(PrefViewType.EMPTY));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_news), PrefViewType.ITEM_GROUP_TITLE));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_notify_news), R.drawable.ic_notifications, PrefViewType.ITEM_SWITCH, PrefUtil.isNotifyNews()));
-        addItem(new PrefItemModel(PrefViewType.EMPTY));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_time_other), PrefViewType.ITEM_GROUP_TITLE));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_lisence), R.drawable.ic_business, PrefViewType.ITEM_RIGHT_ARROW));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_about), R.drawable.ic_about, PrefViewType.ITEM_RIGHT_ARROW));

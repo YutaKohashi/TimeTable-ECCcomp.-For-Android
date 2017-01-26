@@ -96,7 +96,7 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
         timeBlockLists.addAll(lists);
     }
 
-    private void loadOriginalLists(){
+    private void loadOriginalLists() {
         List<List<TimeBlockModel>> lists = PrefUtil.loadOriginalTimeBlockList();
         timeBlockLists.clear();
         timeBlockLists.addAll(lists);
@@ -109,7 +109,7 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
         swapAll();
 
         // オリジナルリストをデフォルトリストに反映
-        for(List<TimeBlockModel> list : timeBlockLists){
+        for (List<TimeBlockModel> list : timeBlockLists) {
             saveList(list);
         }
 
@@ -134,15 +134,14 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
     @Override
     public void positive(TimeBlockModel before, TimeBlockModel after) {
         // データが変更されている場合のみ
-        if (!before.getSubject().equals(after.getSubject()) ||
-                !before.getTeacherName().equals(after.getTeacherName()) ||
-                !before.getClassRoom().equals(after.getClassRoom())) {
+        if (!before.equals(after)) {
             List<TimeBlockModel> list = createSaveList(after);
             saveList(list);
             NotifyUtil.saveData();
             loadLists();
             swapAll();
 //
+//            TODO :    ウィジェット更新
 //            int widgetIDs[] = AppWidgetManager.getInstance(App.getAppContext()).getAppWidgetIds(new ComponentName(getContext(), TimeTableWidget.class));
 //            //　ウィジェット更新
 //            for(int i:widgetIDs) {
@@ -161,7 +160,8 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
     }
 
     @Override
-    public void negative() {}
+    public void negative() {
+    }
 
 
     /**
