@@ -1,14 +1,11 @@
 package jp.yuta.kohashi.esc.ui.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -16,7 +13,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.ui.fragment.TimeTableChangeFragment;
 import jp.yuta.kohashi.esc.util.NotifyUtil;
-import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 public class TimeTableChangeActivity extends BaseActivity {
 

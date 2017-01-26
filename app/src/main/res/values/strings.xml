@@ -111,6 +111,18 @@
     <string name="cancel">キャンセルされました</string>
     <string name="dialog_all_reset_comment">変更したすべてのデータがリセットされます。</string>
     <string name="dialog_all_reset_title">オールリセット</string>
+    <string name="dialog_title_important">重要</string>
+    <string name="dialog_comment_updated">
+        新機能実装のためログアウトさせていただきました。\n
+        再度ログインをお願いします。\n
+        すべてのデータがリセットされています。\n
+        ご了承ください。\n\n
+
+        ※アップデート内容\n
+        ・レイアウトの大幅な改善を行いました。\n
+        ・時間割変更機能のバグを修正いたしました。\n
+        ・お知らせを通知する機能を追加しました。\n
+        ・その他バグを修正いたしました。\n</string>
 
     <!--ドロワー-->
     <string name="drawer_open">open</string>

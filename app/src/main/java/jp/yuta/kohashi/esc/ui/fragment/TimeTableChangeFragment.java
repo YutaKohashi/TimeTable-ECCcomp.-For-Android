@@ -142,6 +142,19 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
             NotifyUtil.saveData();
             loadLists();
             swapAll();
+//
+//            int widgetIDs[] = AppWidgetManager.getInstance(App.getAppContext()).getAppWidgetIds(new ComponentName(getContext(), TimeTableWidget.class));
+//            //　ウィジェット更新
+//            for(int i:widgetIDs) {
+//                TimeTableWidget.updateAppWidget(App.getAppContext(),AppWidgetManager.getInstance(App.getAppContext()),i);
+//            }
+//
+
+//            int widgetIDs[] = AppWidgetManager.getInstance(App.getAppContext()).getAppWidgetIds(new ComponentName(getContext(), TimeTableWidget.class));
+//
+//            for (int id : widgetIDs)
+//                AppWidgetManager.getInstance(App.getAppContext()).notifyAppWidgetViewDataChanged(id, R.id.widget_view);
+
         } else {
             NotifyUtil.notChangeData();
         }

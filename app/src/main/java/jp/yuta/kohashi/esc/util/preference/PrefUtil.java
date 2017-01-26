@@ -2,11 +2,15 @@ package jp.yuta.kohashi.esc.util.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -44,14 +48,20 @@ public class PrefUtil {
 
         return lists;
     }
+
+    /**
+     * 外部からcontextを受け付ける
+     * @param context
+     * @return
+     */
     public static List<List<TimeBlockModel>> loadTimeBlockList(Context context) {
         List<List<TimeBlockModel>> lists = new ArrayList<>();
 
-        lists.add(loadTimeBlockList(PrefConst.KEY_MON_LIST));
-        lists.add(loadTimeBlockList(PrefConst.KEY_TUE_LIST));
-        lists.add(loadTimeBlockList(PrefConst.KEY_WED_LIST));
-        lists.add(loadTimeBlockList(PrefConst.KEY_THUR_LIST));
-        lists.add(loadTimeBlockList(PrefConst.KEY_FRI_LIST));
+        lists.add(loadTimeBlockList(PrefConst.KEY_MON_LIST, context));
+        lists.add(loadTimeBlockList(PrefConst.KEY_TUE_LIST, context));
+        lists.add(loadTimeBlockList(PrefConst.KEY_WED_LIST, context));
+        lists.add(loadTimeBlockList(PrefConst.KEY_THUR_LIST, context));
+        lists.add(loadTimeBlockList(PrefConst.KEY_FRI_LIST, context));
 
         return lists;
     }
@@ -78,6 +88,31 @@ public class PrefUtil {
         SharedPreferences sharedPreferences;
         List<TimeBlockModel> arrayList;
         sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_TIME_TABLE, Context.MODE_PRIVATE);
+        arrayList = new Gson().fromJson(sharedPreferences.getString(key, ""), new TypeToken<List<TimeBlockModel>>() {
+        }.getType());
+
+        try {
+            if (arrayList.size() == 0) {
+                arrayList = new ArrayList<>();
+            }
+        } catch (Exception e) {
+            arrayList = new ArrayList<>();
+        }
+
+        return arrayList;
+    }
+
+    /**
+     * 外部からcontextを受け付ける（ウィジェットで使用）
+     *
+     * @param key
+     * @param context
+     * @return
+     */
+    public static List<TimeBlockModel> loadTimeBlockList(String key, Context context) {
+        SharedPreferences sharedPreferences;
+        List<TimeBlockModel> arrayList;
+        sharedPreferences = context.getSharedPreferences(PrefConst.FILE_TIME_TABLE, Context.MODE_PRIVATE);
         arrayList = new Gson().fromJson(sharedPreferences.getString(key, ""), new TypeToken<List<TimeBlockModel>>() {
         }.getType());
 
@@ -233,22 +268,22 @@ public class PrefUtil {
         return sharedPreferences.getString(PrefConst.KEY_USER_NAME, "");
     }
 
-    public static String getCourse(){
+    public static String getCourse() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, Context.MODE_PRIVATE);
         return sharedPreferences.getString(PrefConst.KEY_COURSE, "");
     }
 
-    public static String getGakka(){
+    public static String getGakka() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, Context.MODE_PRIVATE);
         return sharedPreferences.getString(PrefConst.KEY_GAKKA, "");
     }
 
-    public static String getClassTxt(){
+    public static String getClassTxt() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, Context.MODE_PRIVATE);
         return sharedPreferences.getString(PrefConst.KEY_CLASS, "");
     }
 
-    public static String getShusekiNum(){
+    public static String getShusekiNum() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, Context.MODE_PRIVATE);
         return sharedPreferences.getString(PrefConst.KEY_SHUSEKI_NUM, "");
     }
@@ -259,17 +294,17 @@ public class PrefUtil {
      */
     public static int loadColorU90() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
-        return sharedPreferences.getInt(PrefConst.KEY_COLOR_U90,-1);
+        return sharedPreferences.getInt(PrefConst.KEY_COLOR_U90, -1);
     }
 
     public static int loadColorU81() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
-        return sharedPreferences.getInt(PrefConst.KEY_COLOR_U81,-1);
+        return sharedPreferences.getInt(PrefConst.KEY_COLOR_U81, -1);
     }
 
     public static int loadColorU75() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
-        return sharedPreferences.getInt(PrefConst.KEY_COLOR_U75,-1);
+        return sharedPreferences.getInt(PrefConst.KEY_COLOR_U75, -1);
     }
 
     //**
@@ -356,11 +391,11 @@ public class PrefUtil {
         save(attendanceRateModel, PrefConst.KEY_ATTEND_ALL_RATE, PrefConst.FILE_ATTEND);
     }
 
-    public static void saveStudentInfo(String html){
-        String classTxt = RegexUtil.getValues("id=\"ctl00_lblClass\" style=\"[^\"]*\">(.+?)</span>",html);
-        String gakka = RegexUtil.getValues("id=\"ctl00_lblGakka\" style=\"[^\"]*\">(.+?)</span>",html);
-        String course = RegexUtil.getValues("id=\"ctl00_lblCourse\" style=\"[^\"]*\">(.+?)</span>",html);
-        String shusekiNum =  RegexUtil.getValues("id=\"ctl00_lblSyuseki\" style=\"[^\"]*\">(.+?)</span>",html);
+    public static void saveStudentInfo(String html) {
+        String classTxt = RegexUtil.getValues("id=\"ctl00_lblClass\" style=\"[^\"]*\">(.+?)</span>", html);
+        String gakka = RegexUtil.getValues("id=\"ctl00_lblGakka\" style=\"[^\"]*\">(.+?)</span>", html);
+        String course = RegexUtil.getValues("id=\"ctl00_lblCourse\" style=\"[^\"]*\">(.+?)</span>", html);
+        String shusekiNum = RegexUtil.getValues("id=\"ctl00_lblSyuseki\" style=\"[^\"]*\">(.+?)</span>", html);
         save(classTxt, PrefConst.KEY_CLASS, PrefConst.FILE_ID_PASS);
         save(gakka, PrefConst.KEY_GAKKA, PrefConst.FILE_ID_PASS);
         save(course, PrefConst.KEY_COURSE, PrefConst.FILE_ID_PASS);
@@ -430,19 +465,19 @@ public class PrefUtil {
         save(name, PrefConst.KEY_USER_NAME, PrefConst.FILE_ID_PASS);
     }
 
-    public static void saveClassTxt(String string){
+    public static void saveClassTxt(String string) {
         save(string, PrefConst.KEY_CLASS, PrefConst.FILE_ID_PASS);
     }
 
-    public static void saveGakka(String string){
+    public static void saveGakka(String string) {
         save(string, PrefConst.KEY_GAKKA, PrefConst.FILE_ID_PASS);
     }
 
-    public static void saveCourse(String string){
+    public static void saveCourse(String string) {
         save(string, PrefConst.KEY_COURSE, PrefConst.FILE_ID_PASS);
     }
 
-    public static void saveShusekiNum(String string){
+    public static void saveShusekiNum(String string) {
         save(string, PrefConst.KEY_SHUSEKI_NUM, PrefConst.FILE_ID_PASS);
     }
 
@@ -466,7 +501,7 @@ public class PrefUtil {
         save(bool, PrefConst.KEY_BLACKOUT, PrefConst.FILE_UTIL);
     }
 
-    public static void saveNotifyNews(boolean bool){
+    public static void saveNotifyNews(boolean bool) {
         save(bool, PrefConst.KEY_ENABLE_NOTIFY_NEWS, PrefConst.FILE_UTIL);
     }
 
@@ -517,21 +552,22 @@ public class PrefUtil {
     }
 
 
-    public static boolean isChangeColor(){
+    public static boolean isChangeColor() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(PrefConst.KEY_ENABLE_COLOR_CHANGE, false);
     }
 
-    public static boolean isBlackout(){
+    public static boolean isBlackout() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(PrefConst.KEY_BLACKOUT, false);
     }
 
     /**
      * お知らせを通知するか
+     *
      * @return
      */
-    public static boolean isNotifyNews(){
+    public static boolean isNotifyNews() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(PrefConst.KEY_ENABLE_NOTIFY_NEWS, false);
     }
@@ -550,27 +586,38 @@ public class PrefUtil {
      * すべてのデータを削除
      */
     public static void deleteAll() {
-        SharedPreferences pref = App.getAppContext().getSharedPreferences(PrefConst.FILE_ATTEND, Context.MODE_PRIVATE);
-        clear(pref);
-        pref = App.getAppContext().getSharedPreferences(PrefConst.FILE_TIME_TABLE, Context.MODE_PRIVATE);
-        clear(pref);
-        pref = App.getAppContext().getSharedPreferences(PrefConst.FILE_STATE, Context.MODE_PRIVATE);
-        clear(pref);
-        pref = App.getAppContext().getSharedPreferences(PrefConst.FILE_NEWS, Context.MODE_PRIVATE);
-        clear(pref);
-        pref = App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, Context.MODE_PRIVATE);
-        clear(pref);
-        pref = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
-        clear(pref);
+        App.getAppContext().getSharedPreferences(PrefConst.FILE_ATTEND, Context.MODE_PRIVATE).edit().clear().commit();
+        App.getAppContext().getSharedPreferences(PrefConst.FILE_TIME_TABLE, Context.MODE_PRIVATE).edit().clear().commit();
+        App.getAppContext().getSharedPreferences(PrefConst.FILE_STATE, Context.MODE_PRIVATE).edit().clear().commit();
+        App.getAppContext().getSharedPreferences(PrefConst.FILE_NEWS, Context.MODE_PRIVATE).edit().clear().commit();
+        App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, Context.MODE_PRIVATE).edit().clear().commit();
+        App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE).edit().clear().commit();
+        PreferenceManager.getDefaultSharedPreferences(App.getAppContext()).edit().clear().commit();
     }
 
-    private static void clear(SharedPreferences prefs) {
-        // here you get your prefrences by either of two methods
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
-        editor.commit();
+    /**
+     * 　存在するファイルをすべて削除
+     */
+    public static void deleteSharedPreferencesFiles() {
+        try {
+            ApplicationInfo info = App.getAppContext().getPackageManager()
+                    .getApplicationInfo(App.getAppContext().getPackageName(), 0);
+            String dirPath = info.dataDir + File.separator + "shared_prefs"
+                    + File.separator;
+            File dir = new File(dirPath);
+            if (dir.exists() && dir.isDirectory()) {
+                String[] list = dir.list();
+                int size = list.length;
+                for (int i = 0; i < size; i++) {
+                    new File(dirPath + list[i]).delete();
+                }
+            } else {
+                Log.d("AAA", "NO FILE or NOT DIR");
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
-
     //**
     //endregion
     //**

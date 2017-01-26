@@ -35,4 +35,34 @@ public abstract class BaseWebViewActivity extends BaseActivity {
             }
         });
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        mWebView.saveState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mWebView.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        mWebView.onResume();
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        if(mWebView != null){
+            mWebView.stopLoading();
+            mWebView.setWebChromeClient(null);
+            mWebView.setWebViewClient(null);
+            mWebView.destroy();
+            mWebView = null;
+        }
+        super.onDestroy();
+    }
 }

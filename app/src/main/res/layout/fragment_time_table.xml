@@ -62,7 +62,7 @@
             android:textColor="@android:color/black" />
     </LinearLayout>
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/time_table_header">
@@ -106,7 +106,7 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
     <!--BottomSheetを閉じるためのView-->
     <FrameLayout

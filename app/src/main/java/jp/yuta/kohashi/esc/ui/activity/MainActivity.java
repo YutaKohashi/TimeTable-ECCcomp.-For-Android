@@ -106,23 +106,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         switch (item.getItemId()) {
             case R.id.nav_item_time_table: // 時間割
-                transitionFragment = new TimeTableFragment();
-                replaceFragment(transitionFragment);
+                replaceFragment(new TimeTableFragment());
                 currentTab = item.getItemId();
                 break;
             case R.id.nav_item_attendance_rate: // 出席照会
-                transitionFragment = new AttendanceRateFragment();
-                replaceFragment(transitionFragment);
+                replaceFragment(new AttendanceRateFragment());
                 currentTab = item.getItemId();
                 break;
             case R.id.nav_item_news: // お知らせ
-                transitionFragment = new NewsParentFragment();
-                replaceFragment(transitionFragment);
+                replaceFragment(new NewsParentFragment());
                 currentTab = item.getItemId();
                 break;
             case R.id.nav_item_schedule: //スケジュール
-                transitionFragment = new CalendarFragment();
-                replaceFragment(transitionFragment);
+                replaceFragment(new CalendarFragment());
                 currentTab = item.getItemId();
                 break;
             case R.id.nav_item_profile: //プロフィール
@@ -151,6 +147,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * @param fragment
      */
     private void replaceFragment(Fragment fragment) {
+        transitionFragment = null;
+        transitionFragment = fragment;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fragment, "");
         ft.addToBackStack(null);

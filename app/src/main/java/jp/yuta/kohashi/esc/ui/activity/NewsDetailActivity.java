@@ -37,6 +37,8 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
     private List<String> downloadUrls;
     private List<String> downloadTitles;
 
+    private WebView mWebView;
+
     @Override
     public  void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +65,8 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
     private void initView() {
         getDownloadTitleUrl(html);
 
-        WebView webView = (WebView) findViewById(R.id.webView);
-        webView.getSettings().setDefaultFontSize(FONT_SIZE_WEB_VIEW);
+        mWebView = (WebView) findViewById(R.id.webView);
+        mWebView.getSettings().setDefaultFontSize(FONT_SIZE_WEB_VIEW);
 
         TextView titleTextView = (TextView) findViewById(R.id.title_text_view);
         TextView dateTextView = (TextView) findViewById(R.id.date_text_view);
@@ -79,16 +81,16 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
             mDownloadBtn.setEnabled(true);
         }
 
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadDataWithBaseURL("", getMainText(html), "text/html", "UTF-8", "");
-        webView.setHorizontalScrollBarEnabled(false);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.loadDataWithBaseURL("", getMainText(html), "text/html", "UTF-8", "");
+        mWebView.setHorizontalScrollBarEnabled(false);
 
         mToolbar.setTitle(newsModel.getTitle());
         titleTextView.setText(newsModel.getTitle());
         dateTextView.setText(newsModel.getDate());
 
         // disable scroll on touch
-        webView.setOnTouchListener(new View.OnTouchListener() {
+        mWebView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 return (event.getAction() == MotionEvent.ACTION_MOVE);
             }
@@ -162,6 +164,36 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
                 customTabsIntent.intent.setPackage(Const.CHROME_PACKAGE_NAME);
         }
         customTabsIntent.launchUrl(NewsDetailActivity.this, uri);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        mWebView.saveState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mWebView.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        mWebView.onResume();
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        if(mWebView != null){
+            mWebView.stopLoading();
+            mWebView.setWebChromeClient(null);
+            mWebView.setWebViewClient(null);
+            mWebView.destroy();
+            mWebView = null;
+        }
+        super.onDestroy();
     }
 
     /**
