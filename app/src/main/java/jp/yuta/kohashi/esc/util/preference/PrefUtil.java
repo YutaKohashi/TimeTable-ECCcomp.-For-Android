@@ -570,7 +570,7 @@ public class PrefUtil {
      */
     public static boolean isNotifyNews() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(PrefConst.KEY_ENABLE_NOTIFY_NEWS, false);
+        return sharedPreferences.getBoolean(PrefConst.KEY_ENABLE_NOTIFY_NEWS, true); // デフォルトで有効
     }
 
 
