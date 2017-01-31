@@ -24,8 +24,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
     private Context mContext;
 
     // タップされたときに呼び出されるメソッド
-    protected void onItemClicked(@NonNull NewsModel model) {
-    }
+    protected void onItemClicked(@NonNull NewsModel model) {}
 
     public NewsRecyclerAdapter(List<NewsModel> items, Context context) {
         this.items = items;

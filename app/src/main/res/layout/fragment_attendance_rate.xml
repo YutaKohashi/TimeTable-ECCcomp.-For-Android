@@ -1,154 +1,61 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fragment_attendance_rate"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/container_total_data"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:background="@color/colorPrimary">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <LinearLayout
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp">
+            android:layout_height="65dp"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleGravity="bottom|right"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false">
 
-            <LinearLayout
+
+            <FrameLayout
+                android:id="@+id/container_total_data"
                 android:layout_width="match_parent"
-                android:layout_height="26dp"
-                android:paddingBottom="5dp">
+                android:layout_height="65dp"
+                >
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:text="@string/yotei_tani"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+                <!--total data-->
+                <include
+                    android:id="@+id/view_total"
+                    layout="@layout/view_attendance_total_data" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:text="@string/attendance"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+            </FrameLayout>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:text="@string/husoku_tani"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:text="@string/shuseki_number"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:tabBackground="@drawable/bg_news_tab"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/colorPrimaryDark"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"
+            app:tabTextColor="@color/tab_noFocus_color" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:text="@string/kesseki_number"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+    </android.support.design.widget.AppBarLayout>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text_total_unit"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="80"
-                    android:textColor="@android:color/white"
-                    android:textSize="28sp" />
-
-                <TextView
-                    android:id="@+id/text_total_attendance_rate"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="80"
-                    android:textColor="@android:color/white"
-                    android:textSize="28sp" />
-
-                <TextView
-                    android:id="@+id/text_total_shortageunit"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="80"
-                    android:textColor="@android:color/white"
-                    android:textSize="28sp" />
-
-                <TextView
-                    android:id="@+id/text_total_attendance_num"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="80"
-                    android:textColor="@android:color/white"
-                    android:textSize="28sp" />
-
-                <TextView
-                    android:id="@+id/text_total_absent_num"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="80"
-                    android:textColor="@android:color/white"
-                    android:textSize="28sp" />
-            </LinearLayout>
-        </LinearLayout>
-    </FrameLayout>
-
-    <com.baoyz.widget.PullRefreshLayout
-        android:id="@+id/refresh"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/attendance_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/container_total_data"
-        android:background="@android:color/white"
-        android:fitsSystemWindows="true"
-        app:refreshType="circles">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/attendance_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </com.baoyz.widget.PullRefreshLayout>
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
 
 
 

@@ -4,9 +4,9 @@ import android.os.Bundle;
 
 import jp.yuta.kohashi.esc.R;
 
-public class LicenceActivityBase extends BaseWebViewActivity {
+public class LicenceActivity extends BaseWebViewActivity {
 
-    private static final String TAG = LicenceActivityBase.class.getSimpleName();
+    private static final String TAG = LicenceActivity.class.getSimpleName();
     private static final String FILE_LINK = "file:///android_asset/licence.html";
 
     @Override

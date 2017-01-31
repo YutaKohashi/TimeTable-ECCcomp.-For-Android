@@ -20,11 +20,12 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_calendar"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="32dp"
             android:layout_alignParentBottom="true"
             android:background="@color/colorPrimary1"
             app:layout_scrollFlags="scroll|enterAlways"
             app:tabBackground="@drawable/bg_news_tab"
+            app:tabIndicatorColor="@color/colorPrimaryDark"
             app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/tab_focus_color"
             app:tabTextColor="@color/tab_noFocus_color" />
@@ -85,6 +86,7 @@
                 app:expandedTitleGravity="bottom|right"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:titleEnabled="false"></android.support.design.widget.CollapsingToolbarLayout>
+
         </android.support.design.widget.AppBarLayout>
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

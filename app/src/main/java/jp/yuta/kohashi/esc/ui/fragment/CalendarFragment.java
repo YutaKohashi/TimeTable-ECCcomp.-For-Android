@@ -1,5 +1,6 @@
 package jp.yuta.kohashi.esc.ui.fragment;
 
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -46,20 +47,21 @@ public class CalendarFragment extends Fragment implements ViewTreeObserver.OnGlo
     int currentPage;
     private CalendarListModel calendarListModel;
     private boolean flag = true;
+    View mView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_calendar_parent, container, false);
+        mView = inflater.inflate(R.layout.fragment_calendar_parent, container, false);
         calendarListModel = getSchedule(); //スケジュールを取得
 
-        mPrevBtn = (Button) view.findViewById(R.id.prev_btn);
-        mNextBtn = (Button)view.findViewById(R.id.next_btn);
+        mPrevBtn = (Button) mView.findViewById(R.id.prev_btn);
+        mNextBtn = (Button)mView.findViewById(R.id.next_btn);
         mPrevBtn.setOnClickListener(this);
         mNextBtn.setOnClickListener(this);
-        mViewPager = (ViewPager) view.findViewById(R.id.calendar_viewpager);
-        mTabLayout = (TabLayout) view.findViewById(R.id.tab_calendar);
+        mViewPager = (ViewPager) mView.findViewById(R.id.calendar_viewpager);
+        mTabLayout = (TabLayout) mView.findViewById(R.id.tab_calendar);
         mPagerAdapter = new CalendarViewPagerAdapter(getContext(),calendarListModel);
         mViewPager.addOnPageChangeListener(new PageChangeListener());
         mViewPager.setAdapter(mPagerAdapter);
@@ -72,12 +74,12 @@ public class CalendarFragment extends Fragment implements ViewTreeObserver.OnGlo
 
         mRecyclerAdapter = new CalendarRecyclerAdapter(new ArrayList<CalendarItemModel>(), getContext());
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.calendar_recycler_view);
+        mRecyclerView = (RecyclerView) mView.findViewById(R.id.calendar_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mRecyclerAdapter);
 
-        return view;
+        return mView;
     }
 
     @Override
@@ -162,4 +164,26 @@ public class CalendarFragment extends Fragment implements ViewTreeObserver.OnGlo
         mTabLayout.setScrollPosition(position, 0, true); // 注
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        switch(newConfig.orientation){
+            case Configuration.ORIENTATION_PORTRAIT:
+
+            case Configuration.ORIENTATION_LANDSCAPE:
+//                FragmentManager manager = getActivity().getSupportFragmentManager();
+//                FragmentTransaction ft = manager.beginTransaction();
+//                Fragment newFragment = this;
+//                this.onDestroy();
+//                ft.remove(this);
+//                ft.replace(mView.getId(),newFragment);
+//                //container is the ViewGroup of current fragment
+//                ft.addToBackStack(null);
+//                ft.commit();
+//                // 横長
+//                break;
+
+        }
+        super.onConfigurationChanged(newConfig);
+
+    }
 }

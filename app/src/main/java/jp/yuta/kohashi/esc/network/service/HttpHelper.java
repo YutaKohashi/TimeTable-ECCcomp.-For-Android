@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import jp.yuta.kohashi.esc.App;
+import jp.yuta.kohashi.esc.model.AttendanceRateModel;
 import jp.yuta.kohashi.esc.util.RegexUtil;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
@@ -45,7 +46,7 @@ public class HttpHelper {
             public void callback(String html, List<String> htmls, boolean bool) {
                 if (bool) {
                     PrefUtil.saveTimeTable(html, htmls);        //表示する方はこっち
-                    PrefUtil.saveTimeTableOriginal(html,htmls); //オリジナルを別で保存 変更の取り消しの際に必要
+                    PrefUtil.saveTimeTableOriginal(html, htmls); //オリジナルを別で保存 変更の取り消しの際に必要
                     PrefUtil.saveUserName(html);
                 }
                 successCallbacks.callback(bool);
@@ -66,13 +67,33 @@ public class HttpHelper {
             @Override
             public void callback(String html, boolean bool) {
                 if (bool) {
-                    PrefUtil.saveAttendanceRate(html);
+                    if (PrefUtil.loadAttendanceRateModelList().size() > 0) {
+                        saveAttandanceRate(html);
+                    } else {
+                        PrefUtil.saveAttendanceRate(html);
+                    }
                     PrefUtil.saveAttendanceAllRateData(html);
                     PrefUtil.saveStudentInfo(html);
                 }
                 successCallbacks.callback(bool);
             }
         });
+    }
+
+    private static void saveAttandanceRate(String html) {
+        List<AttendanceRateModel> beforeList = PrefUtil.loadAttendanceRateModelList();
+        List<AttendanceRateModel> afterList = PrefUtil.createAttendanceList(html);
+        List<AttendanceRateModel> temp = new ArrayList<>();
+        for (AttendanceRateModel after : afterList) {
+            for (AttendanceRateModel before : beforeList) {
+                if (before.getSubjectName().equals(after.getSubjectName())) {
+                    after.setType(before.getType());
+                    break;
+                }
+            }
+            temp.add(after);
+        }
+        PrefUtil.saveAttendanceRate(temp);
     }
 
 
@@ -319,8 +340,8 @@ public class HttpHelper {
                     }
 
                     nextTask.run(null);
-                }catch(Exception e){
-                    nextTask.fail(null,e);
+                } catch (Exception e) {
+                    nextTask.fail(null, e);
                 }
 
             }
@@ -353,7 +374,7 @@ public class HttpHelper {
         Promise.with(App.getAppContext(), Void.class).thenOnAsyncThread(new Task<Void, Void>() {
             @Override
             public void run(Void aVoid, NextTask<Void> nextTask) {
-                try{
+                try {
                     //ログイン
                     HttpResultClass result = loginToESC(userId, password);
 
@@ -363,7 +384,7 @@ public class HttpHelper {
                     mLastResponseHtml = result.getString();
 //                    Log.d(TAG, mLastResponseHtml);
                     nextTask.run(null);
-                }catch(Exception e){
+                } catch (Exception e) {
                     nextTask.fail(null, e);
                 }
             }
@@ -385,7 +406,7 @@ public class HttpHelper {
         Promise.with(App.getAppContext(), Void.class).thenOnAsyncThread(new Task<Void, Void>() {
             @Override
             public void run(Void aVoid, NextTask<Void> nextTask) {
-                try{
+                try {
                     //ログイン
                     HttpResultClass result = loginToESC(userId, password);
                     if (!result.getBool()) throw new Exception("ログインに失敗しました");
@@ -398,7 +419,7 @@ public class HttpHelper {
                     mLastResponseHtml = result.getString();
 //                    Log.d(TAG, mLastResponseHtml);
                     nextTask.run(null);
-                }catch (Exception e){
+                } catch (Exception e) {
                     nextTask.fail(null, e);
                 }
 
@@ -464,7 +485,11 @@ public class HttpHelper {
      */
     private static HttpResultClass loginToYS(String userId, String password) {
         HttpResultClass result = HttpBase.httpGet(RequestURL.YS_TO_LOGIN_PAGE, RequestURL.DEFAULT_REFERRER);
-        try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         //failure
         if (!result.getBool()) return result;
@@ -472,7 +497,11 @@ public class HttpHelper {
         mLastResponseHtml = result.getString();
         Map<String, String> body = CreateRequestBody.createPostDataForYSLogin(userId, password, mLastResponseHtml);
         result = HttpBase.httpPost(RequestURL.YS_LOGIN, body, RequestURL.YS_TO_LOGIN_PAGE);
-        try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         //failure
         if (!result.getBool()) return result;

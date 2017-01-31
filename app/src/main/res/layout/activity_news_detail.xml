@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/appbar"
-        layout="@layout/include_appbar" />
+        layout="@layout/view_appbar" />
 
     <RelativeLayout
         android:layout_width="match_parent"

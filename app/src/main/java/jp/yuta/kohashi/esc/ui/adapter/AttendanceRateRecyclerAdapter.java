@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
@@ -26,16 +27,23 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
     private Context mContext;
     private LayoutInflater mLayoutInflater;
 
+    // タップされたときに呼び出されるメソッド
+//    protected void onItemLongClicked(int position, @NonNull List<AttendanceRateModel> items) {}
+
     public AttendanceRateRecyclerAdapter(List<AttendanceRateModel> items, Context context) {
         mLayoutInflater = LayoutInflater.from(context);
-        this.items = items;
+        this.items = new ArrayList<>();
+        this.items.addAll(items);
         this.mContext = context;
     }
+
+
 
     @Override
     public AttendanceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = mLayoutInflater.inflate(R.layout.cell_attendance_rate, parent, false);
-        return new AttendanceViewHolder(v);
+        final AttendanceRateRecyclerAdapter.AttendanceViewHolder holder = new AttendanceRateRecyclerAdapter.AttendanceViewHolder(v);
+        return holder;
     }
 
     @Override
@@ -111,13 +119,14 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
 
     }
 
-    public void refresh(){
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+
+    public void refresh(){
+        notifyDataSetChanged();
     }
 
     public void swap(List<AttendanceRateModel> items){

@@ -20,14 +20,13 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.network.service.RequestURL;
-import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateFragment;
+import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateParentFragment;
 import jp.yuta.kohashi.esc.ui.fragment.CalendarFragment;
 import jp.yuta.kohashi.esc.ui.fragment.NewsParentFragment;
 import jp.yuta.kohashi.esc.ui.fragment.TimeTableFragment;
@@ -115,8 +114,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 replaceFragment(new TimeTableFragment());
                 currentTab = item.getItemId();
                 break;
+//            case R.id.nav_item_attendance_rate: // 出席照会
             case R.id.nav_item_attendance_rate: // 出席照会
-                replaceFragment(new AttendanceRateFragment());
+                replaceFragment(new AttendanceRateParentFragment());
                 currentTab = item.getItemId();
                 break;
             case R.id.nav_item_news: // お知らせ

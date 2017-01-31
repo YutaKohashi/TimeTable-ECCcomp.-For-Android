@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="300sp"
+        android:layout_height="305sp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -32,11 +33,12 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_calendar"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="35dp"
             android:layout_gravity="bottom"
             app:layout_scrollFlags="scroll|enterAlways"
             app:tabBackground="@drawable/bg_news_tab"
             app:tabMode="scrollable"
+            app:tabIndicatorColor="@color/colorPrimaryDark"
             app:tabSelectedTextColor="@color/tab_focus_color"
             app:tabTextColor="@color/tab_noFocus_color" />
 

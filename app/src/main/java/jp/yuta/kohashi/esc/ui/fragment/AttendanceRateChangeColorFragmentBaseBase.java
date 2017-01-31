@@ -17,6 +17,7 @@ import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.PrefItemModel;
 import jp.yuta.kohashi.esc.model.enums.PrefViewType;
 import jp.yuta.kohashi.esc.ui.adapter.PrefRecyclerAdapter;
+import jp.yuta.kohashi.esc.ui.fragment.base.BasePrefBaseRecyclerViewFragment;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
@@ -40,14 +41,13 @@ public class AttendanceRateChangeColorFragmentBaseBase extends BasePrefBaseRecyc
         addItem(new PrefItemModel(getResources().getString(R.string.pref_rate_u90), R.drawable.ic_color_lens, PrefViewType.ITEM_COLOR_PICK, PrefUtil.loadColorU90()));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_rate_u81), R.drawable.ic_color_lens, PrefViewType.ITEM_COLOR_PICK, PrefUtil.loadColorU81()));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_rate_u75), R.drawable.ic_color_lens, PrefViewType.ITEM_COLOR_PICK, PrefUtil.loadColorU75()));
-        addItem(new PrefItemModel(PrefViewType.EMPTY));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_time_other), PrefViewType.ITEM_GROUP_TITLE));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_blackout), R.drawable.ic_visibility_off, PrefViewType.ITEM_SWITCH, PrefUtil.isBlackout()));
     }
 
     @Override
     public void initView(View v) {
-        getRecyclerView().setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         createAdapter(new PrefRecyclerAdapter(getItems(), getContext()) {
             // clickイベント
             @Override
@@ -80,7 +80,7 @@ public class AttendanceRateChangeColorFragmentBaseBase extends BasePrefBaseRecyc
 
             }
         });
-        getRecyclerView().setAdapter(getAdapter());
+        mRecyclerView.setAdapter(mRecyclerAdapter);
     }
 
 

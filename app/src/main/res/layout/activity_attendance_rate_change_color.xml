@@ -7,7 +7,7 @@
     tools:context="jp.yuta.kohashi.esc.ui.activity.AttendanceRateChangeColorActivity">
 
     <include
-        layout="@layout/include_appbar"
+        layout="@layout/view_appbar"
         android:id="@+id/appbar"/>
 
     <fragment

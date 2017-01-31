@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/appbar"
-        layout="@layout/include_appbar" />
+        layout="@layout/view_appbar" />
     <FrameLayout
         android:layout_below="@+id/appbar"
         android:layout_width="match_parent"

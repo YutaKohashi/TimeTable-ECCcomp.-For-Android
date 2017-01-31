@@ -21,11 +21,13 @@ import jp.yuta.kohashi.esc.model.PrefItemModel;
 import jp.yuta.kohashi.esc.model.enums.PrefViewType;
 import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.ui.activity.AboutActivity;
+import jp.yuta.kohashi.esc.ui.activity.AttendanceDivideActivity;
 import jp.yuta.kohashi.esc.ui.activity.AttendanceRateChangeColorActivity;
-import jp.yuta.kohashi.esc.ui.activity.LicenceActivityBase;
+import jp.yuta.kohashi.esc.ui.activity.LicenceActivity;
 import jp.yuta.kohashi.esc.ui.activity.LoginCheckActivity;
 import jp.yuta.kohashi.esc.ui.activity.TimeTableChangeActivity;
 import jp.yuta.kohashi.esc.ui.adapter.PrefRecyclerAdapter;
+import jp.yuta.kohashi.esc.ui.fragment.base.BasePrefBaseRecyclerViewFragment;
 import jp.yuta.kohashi.esc.ui.service.EccNewsManageService;
 import jp.yuta.kohashi.esc.util.NotifyUtil;
 import jp.yuta.kohashi.esc.util.Util;
@@ -52,6 +54,7 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
         addItem(new PrefItemModel(getResources().getString(R.string.pref_update_time_table), R.drawable.ic_refresh, PrefViewType.ITEM));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_change_time_table), R.drawable.ic_create, PrefViewType.ITEM_RIGHT_ARROW));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_time_attendance), PrefViewType.ITEM_GROUP_TITLE));
+        addItem(new PrefItemModel(getResources().getString(R.string.pref_attendance_divide), R.drawable.ic_view_compact, PrefViewType.ITEM_RIGHT_ARROW));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_attendance_color), R.drawable.ic_brush, PrefViewType.ITEM_RIGHT_ARROW));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_news), PrefViewType.ITEM_GROUP_TITLE));
         addItem(new PrefItemModel(getResources().getString(R.string.pref_notify_news), R.drawable.ic_notifications, PrefViewType.ITEM_SWITCH, PrefUtil.isNotifyNews()));
@@ -67,7 +70,7 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
 
     @Override
     public void initView(View view) {
-        getRecyclerView().setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         createAdapter(new PrefRecyclerAdapter(getItems(), getContext()) {
             @Override
             protected void onItemClicked(@NonNull PrefItemModel model) {
@@ -77,6 +80,8 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
                     updateTimeTable();
                 } else if (name.equals(getResources().getString(R.string.pref_change_time_table))) {
                     changeTimeTable();
+                } else if (name.equals(getResources().getString(R.string.pref_attendance_divide))) {
+                    divideData();
                 } else if (name.equals(getResources().getString(R.string.pref_attendance_color))) {
                     changeColorAttendance();
                 } else if (name.equals(getResources().getString(R.string.pref_lisence))) {
@@ -106,7 +111,7 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
                 }
             }
         });
-        getRecyclerView().setAdapter(getAdapter());
+        mRecyclerView.setAdapter(mRecyclerAdapter);
     }
 
     /**
@@ -167,6 +172,13 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
     }
 
     /**
+     * 前期後期
+     */
+    private void divideData(){
+        startActivity(new Intent(getActivity(), AttendanceDivideActivity.class));
+    }
+
+    /**
      * 出席照会を色分け
      */
     private void changeColorAttendance() {
@@ -178,7 +190,7 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
      * 著作権情報
      */
     private void showLicence() {
-        startActivity(new Intent(getActivity(), LicenceActivityBase.class));
+        startActivity(new Intent(getActivity(), LicenceActivity.class));
     }
 
     /**
