@@ -57,6 +57,15 @@
     <string name="shuseki_number">出席数</string>
     <string name="kesseki_number">欠席数</string>
 
+    <string name="title_all_data">全体</string>
+    <string name="title_zenki_data">前期</string>
+    <string name="title_kouki_data">後期</string>
+
+    <string-array name="attendance_rate_type">
+        <item>前期</item>
+        <item>後期</item>
+    </string-array>
+
     <!--お知らせ-->
     <string name="from_school">学校から</string>
     <string name="from_tannin">担任から</string>
@@ -73,7 +82,7 @@
     <string name="pref_change_time_table">時間割データを変更</string>
     <string name="pref_group_title_time_attendance">出席照会</string>
     <string name="pref_attendance_color">出席照会を色分けする</string>
-    <string name="pref_attendance_divide">前期後期を分けて表示する</string>
+    <string name="pref_attendance_divide">前期・後期の設定</string>
     <string name="pref_attendance_log">ログを確認する</string>
     <string name="pref_group_title_news">お知らせ</string>
     <string name="pref_notify_news">お知らせの通知を有効にする</string>
@@ -130,7 +139,7 @@
 
     <!--カレンダー-->
     <!--月表示部分　文字数少なく-->
-    <string name ="january">1月</string>
+    <string name="january">1月</string>
     <string name="february">2月</string>
     <string name="march">3月</string>
     <string name="april">4月</string>
@@ -156,4 +165,7 @@
     <string name="school_street_address">〒530-0015\n大阪市北区中崎西2丁目3番35号</string>
     <string name="school_phone">電話番号</string>
     <string name="school_phone_num">0120-000-544 （入試事務局）</string>
+
+    <!--前期後期の設定-->
+    <string name="pref_divide">前期、後期を分けて表示する</string>
 </resources>
