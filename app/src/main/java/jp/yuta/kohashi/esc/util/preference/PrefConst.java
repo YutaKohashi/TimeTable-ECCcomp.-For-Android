@@ -53,4 +53,6 @@ public final class PrefConst {
     static final String KEY_SHUSEKI_NUM = "KEY_SHUSEKI_NUM";
 
     static final String KEY_ENABLE_NOTIFY_NEWS ="KEY_ENABLE_NOTIFY_NEWS";
+
+    static final String KEY_DIVIDE_ATTENDANCE ="KEY_ATTENDANCE_DIVIDE";
 }

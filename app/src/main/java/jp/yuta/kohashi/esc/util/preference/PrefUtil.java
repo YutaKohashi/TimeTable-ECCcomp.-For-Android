@@ -378,6 +378,13 @@ public class PrefUtil {
      */
     public static void saveAttendanceRate(String html) {
         List<AttendanceRateModel> attendanceRateList = createAttendanceList(html);
+        saveAttendanceRate(attendanceRateList);
+    }
+
+    /**
+     * 出席率を保存するメソッド
+     */
+    public static void saveAttendanceRate(List<AttendanceRateModel> attendanceRateList){
         save(attendanceRateList, PrefConst.KEY_ATTEND, PrefConst.FILE_ATTEND);
     }
 
@@ -506,6 +513,10 @@ public class PrefUtil {
         save(bool, PrefConst.KEY_ENABLE_NOTIFY_NEWS, PrefConst.FILE_UTIL);
     }
 
+    public static void saveAttendanceDivide(boolean bool){
+        save(bool, PrefConst.KEY_DIVIDE_ATTENDANCE, PrefConst.FILE_UTIL);
+    }
+
     //**
     //endregion
     //**
@@ -535,7 +546,6 @@ public class PrefUtil {
         return sharedPreferences.getBoolean(PrefConst.KEY_FIRST_TIME, false);
     }
 
-    //TODO
 
     /**
      * アップデートされたかどうか
@@ -570,7 +580,12 @@ public class PrefUtil {
      */
     public static boolean isNotifyNews() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(PrefConst.KEY_ENABLE_NOTIFY_NEWS, false);
+        return sharedPreferences.getBoolean(PrefConst.KEY_ENABLE_NOTIFY_NEWS, true); //default true
+    }
+
+    public static boolean isDivideAttendance(){
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(PrefConst.KEY_DIVIDE_ATTENDANCE, true); //default true
     }
 
 
@@ -613,7 +628,7 @@ public class PrefUtil {
                     new File(dirPath + list[i]).delete();
                 }
             } else {
-                Log.d("AAA", "NO FILE or NOT DIR");
+                Log.d(TAG, "NO FILE or NOT DIR");
             }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -639,7 +654,7 @@ public class PrefUtil {
      * @param html
      * @return
      */
-    private static List<AttendanceRateModel> createAttendanceList(String html) {
+    public static List<AttendanceRateModel> createAttendanceList(String html) {
         List<AttendanceRateModel> attendanceRateList = new ArrayList();
 
         html = RegexUtil.replaceCRLF(html, true);
