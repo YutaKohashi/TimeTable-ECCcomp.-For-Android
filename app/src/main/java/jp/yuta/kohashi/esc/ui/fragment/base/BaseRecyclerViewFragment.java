@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.ui.fragment;
+package jp.yuta.kohashi.esc.ui.fragment.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,12 +16,13 @@ import jp.yuta.kohashi.esc.R;
 
 public abstract class BaseRecyclerViewFragment extends Fragment {
 
-    private RecyclerView mRecyclerView;
-    private View mView;
+    protected RecyclerView mRecyclerView;
+    protected View mView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         mView = inflater.inflate(R.layout.fragment_recycler_view, container, false);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.recycler_view);
         createItems();
@@ -41,7 +42,5 @@ public abstract class BaseRecyclerViewFragment extends Fragment {
      */
     public abstract void initView(View v);
 
-    protected RecyclerView getRecyclerView() {
-        return mRecyclerView;
-    }
+
 }

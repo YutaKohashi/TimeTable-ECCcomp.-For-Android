@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.ui.fragment;
+package jp.yuta.kohashi.esc.ui.fragment.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,8 +18,8 @@ import jp.yuta.kohashi.esc.ui.adapter.PrefRecyclerAdapter;
 
 public abstract class BasePrefBaseRecyclerViewFragment extends BaseRecyclerViewFragment {
 
-    private PrefRecyclerAdapter mRecyclerAdapter;
-    private List<PrefItemModel> items;
+    protected PrefRecyclerAdapter mRecyclerAdapter;
+    protected List<PrefItemModel> items;
 
     @Nullable
     @Override
@@ -41,10 +41,7 @@ public abstract class BasePrefBaseRecyclerViewFragment extends BaseRecyclerViewF
     public abstract void initView(View v);
 
 
-    protected PrefRecyclerAdapter getAdapter(){
-        return this.mRecyclerAdapter;
-    }
-
+//
     protected void createAdapter(PrefRecyclerAdapter adapter){
         mRecyclerAdapter = adapter;
     }
