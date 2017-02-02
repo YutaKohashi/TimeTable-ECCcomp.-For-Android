@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.ui.activity;
+package jp.yuta.kohashi.esc.ui.activity.base;
 
 import android.os.Bundle;
 import android.view.View;

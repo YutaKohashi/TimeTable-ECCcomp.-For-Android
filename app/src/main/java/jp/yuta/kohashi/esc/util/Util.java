@@ -3,8 +3,10 @@ package jp.yuta.kohashi.esc.util;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -122,6 +124,20 @@ public class Util {
         return found;
     }
 
+    public static Drawable getDrawable(int id){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            return App.getAppContext().getResources().getDrawable(id, null);
+        else
+            return App.getAppContext().getResources().getDrawable(id);
+    }
+
+    public static int getColor(int id){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            return App.getAppContext().getResources().getColor(id, null);
+        else
+            return App.getAppContext().getResources().getColor(id);
+    }
+
     //**
     //region assets フォルダから、テキストファイルを読み込む(Android 用)
     //**
@@ -163,6 +179,7 @@ public class Util {
             throws IOException, UnsupportedEncodingException {
         return new String(readStream(inputStream, DEFAULT_READ_LENGTH), charsetName);
     }
+
 
     //**
     //endregion

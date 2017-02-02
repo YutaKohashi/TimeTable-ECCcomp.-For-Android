@@ -22,15 +22,35 @@
 
     <!--</com.baoyz.widget.PullRefreshLayout>-->
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/refresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+    android:id="@+id/recycler_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+
+
+    <!--<in.srain.cube.views.ptr.PtrFrameLayout-->
+        <!--android:id="@+id/refresh"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:ptr_duration_to_close="300"-->
+        <!--app:ptr_duration_to_close_header="2000"-->
+        <!--app:ptr_keep_header_when_refresh="true"-->
+        <!--app:ptr_pull_to_fresh="false"-->
+        <!--app:ptr_ratio_of_header_height_to_refresh="1.2"-->
+        <!--app:ptr_resistance="1.7">-->
+
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/recycler_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" />-->
+    <!--</in.srain.cube.views.ptr.PtrFrameLayout>-->
 </FrameLayout>

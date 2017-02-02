@@ -14,7 +14,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.AttendanceRateModel;
+import jp.yuta.kohashi.esc.model.AttendanceRate;
 import jp.yuta.kohashi.esc.model.enums.AttendanceRateType;
 
 /**
@@ -23,15 +23,14 @@ import jp.yuta.kohashi.esc.model.enums.AttendanceRateType;
 
 public class AttendanceDivideRecyclerAdapter extends RecyclerView.Adapter<AttendanceDivideRecyclerAdapter.AttendanceDivideViewHolder> {
 
-    private List<AttendanceRateModel> items;
+    private List<AttendanceRate> items;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
 
     // タップされたときに呼び出されるメソッド
-    protected void onItemChecked(int position, @NonNull List<AttendanceRateModel> items, boolean b, AttendanceRateType type) {
-    }
+    protected void onItemChecked(int position, @NonNull List<AttendanceRate> items, boolean b, AttendanceRateType type) {}
 
-    public AttendanceDivideRecyclerAdapter(List<AttendanceRateModel> items, Context context) {
+    public AttendanceDivideRecyclerAdapter(List<AttendanceRate> items, Context context) {
         mLayoutInflater = LayoutInflater.from(context);
         this.items = items;
         this.mContext = context;
@@ -45,27 +44,19 @@ public class AttendanceDivideRecyclerAdapter extends RecyclerView.Adapter<Attend
         holder.zenki.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) holder.kouki.setChecked(false);
                 int position = holder.getAdapterPosition();
                 onItemChecked(position, items, b, AttendanceRateType.ZENKI);
-
-                if (b) {
-                    holder.kouki.setChecked(false);
-                } else {
-                    holder.zenki.setChecked(false);
-                }
             }
         });
 
         holder.kouki.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) holder.zenki.setChecked(false);
                 int position = holder.getAdapterPosition();
                 onItemChecked(position, items, b, AttendanceRateType.KOUKI);
-                if (b) {
-                    holder.zenki.setChecked(false);
-                } else {
-                    holder.zenki.setChecked(true);
-                }
+
             }
         });
 
@@ -97,13 +88,13 @@ public class AttendanceDivideRecyclerAdapter extends RecyclerView.Adapter<Attend
         notifyDataSetChanged();
     }
 
-    public void swap(List<AttendanceRateModel> items) {
+    public void swap(List<AttendanceRate> items) {
         this.items.clear();
         this.items.addAll(items);
 //        notifyDataSetChanged();
     }
 
-    public List<AttendanceRateModel> getItems() {
+    public List<AttendanceRate> getItems() {
         return items;
     }
 

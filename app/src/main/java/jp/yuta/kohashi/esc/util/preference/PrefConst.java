@@ -55,4 +55,6 @@ public final class PrefConst {
     static final String KEY_ENABLE_NOTIFY_NEWS ="KEY_ENABLE_NOTIFY_NEWS";
 
     static final String KEY_DIVIDE_ATTENDANCE ="KEY_ATTENDANCE_DIVIDE";
+
+    static final String KEY_ATTENDANCE_TAB_POSITION ="KEY_ATTENDANCE_TAB_POSITION";
 }

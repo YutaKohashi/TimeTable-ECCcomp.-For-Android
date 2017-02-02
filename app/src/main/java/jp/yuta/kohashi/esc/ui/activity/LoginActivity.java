@@ -27,7 +27,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     TextView mPasswordTextView;
     String userId;
     String password;
-    HttpConnector connector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +39,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mLoginButton.setOnClickListener(this);
         mLoginButton.setIndeterminateProgressMode(true);
 
-        mIdTextView = (TextView) findViewById(R.id.text_view_id);
-        mPasswordTextView = (TextView) findViewById(R.id.text_view_password);
-        mIdTextView.setOnClickListener(this);
-        mPasswordTextView.setOnClickListener(this);
+        mIdTextView = setClick(R.id.text_view_id);
+        mPasswordTextView = setClick(R.id.text_view_password);
+    }
 
-        connector = new HttpConnector();
+    private TextView setClick(int id){
+        TextView textView = (TextView) findViewById(id);
+        textView.setOnClickListener(this);
+        return textView;
     }
 
     @Override
@@ -75,24 +76,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void login(){
-        if(connector != null){
-            connector = new HttpConnector();
-        }
         disableTextViews();
         disableBtn();
         startProgBtn();
         //　時間割を取得
-        connector.request(HttpConnector.Type.TIME_TABLE, userId, password, new HttpConnector.Callback() {
+        HttpConnector.request(HttpConnector.Type.TIME_TABLE, userId, password, new HttpConnector.Callback() {
             @Override
             public void callback(boolean bool) {
                 if (bool) {
                     // お知らせ
-                    connector.request(HttpConnector.Type.NEWS_SCHOOL_TEACHER, userId, password, new HttpConnector.Callback() {
+                    HttpConnector.request(HttpConnector.Type.NEWS_SCHOOL_TEACHER, userId, password, new HttpConnector.Callback() {
                         @Override
                         public void callback(boolean bool) {
                             if(bool){
                                 // 出席照会
-                                connector.request(HttpConnector.Type.ATTENDANCE_RATE, userId, password, new HttpConnector.Callback() {
+                                HttpConnector.request(HttpConnector.Type.ATTENDANCE_RATE, userId, password, new HttpConnector.Callback() {
                                     @Override
                                     public void callback(boolean bool) {
                                        successLogin(bool);

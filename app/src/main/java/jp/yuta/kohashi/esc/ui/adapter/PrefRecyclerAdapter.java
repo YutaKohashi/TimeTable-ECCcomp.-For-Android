@@ -17,7 +17,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.PrefItemModel;
+import jp.yuta.kohashi.esc.model.PrefItem;
 import jp.yuta.kohashi.esc.model.enums.PrefViewType;
 
 /**
@@ -26,18 +26,18 @@ import jp.yuta.kohashi.esc.model.enums.PrefViewType;
 
 public class PrefRecyclerAdapter extends RecyclerView.Adapter<PrefRecyclerAdapter.PrefViewHolder> {
 
-    private List<PrefItemModel> items;
+    private List<PrefItem> items;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
 
     // タップされたときに呼び出されるメソッド
-    protected void onItemClicked(CircleImageView view ,@NonNull PrefItemModel model) {
+    protected void onItemClicked(CircleImageView view ,@NonNull PrefItem model) {
     }
-    protected void onItemClicked(@NonNull PrefItemModel model) {}
+    protected void onItemClicked(@NonNull PrefItem model) {}
 
-    protected void onItemCheckedChange(@NonNull boolean bool,@NonNull PrefItemModel model) {}
+    protected void onItemCheckedChange(@NonNull boolean bool,@NonNull PrefItem model) {}
 
-    public PrefRecyclerAdapter(List<PrefItemModel> items, Context context) {
+    public PrefRecyclerAdapter(List<PrefItem> items, Context context) {
         mLayoutInflater = LayoutInflater.from(context);
         this.items = items;
         this.mContext = context;
@@ -184,7 +184,7 @@ public class PrefRecyclerAdapter extends RecyclerView.Adapter<PrefRecyclerAdapte
     //複数レイアウト
     @Override
     public int getItemViewType(int position) {
-        PrefItemModel model = items.get(position);
+        PrefItem model = items.get(position);
 
         return model.getViewType().ordinal();
     }

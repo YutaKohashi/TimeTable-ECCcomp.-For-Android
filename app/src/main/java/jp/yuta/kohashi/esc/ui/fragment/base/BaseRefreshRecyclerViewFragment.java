@@ -16,8 +16,7 @@ import jp.yuta.kohashi.esc.ui.fragment.ScrollController;
  * Created by yutakohashi on 2017/01/31.
  */
 
-//public class BaseRefreshRecyclerViewFragment extends BaseRecyclerViewFragment implements PullRefreshLayout.OnRefreshListener{
-    public class BaseRefreshRecyclerViewFragment extends BaseRecyclerViewFragment implements SwipeRefreshLayout.OnRefreshListener{
+public abstract  class BaseRefreshRecyclerViewFragment extends BaseRecyclerViewFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     protected SwipeRefreshLayout mPullRefreshLayout;
     protected ScrollController mScrollController;
@@ -27,9 +26,12 @@ import jp.yuta.kohashi.esc.ui.fragment.ScrollController;
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_recycler_view_with_pull_to_refresh, container, false);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.recycler_view);
-//        mPullRefreshLayout = (PullRefreshLayout)mView.findViewById(R.id.refresh);
-        mPullRefreshLayout = (SwipeRefreshLayout)mView.findViewById(R.id.refresh);
+        mPullRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.refresh);
         mPullRefreshLayout.setOnRefreshListener(this);
+        mPullRefreshLayout.setColorSchemeResources(
+                R.color.colorPrimary7,
+                R.color.colorPrimary5,
+                R.color.colorPrimary9);
         mScrollController = new ScrollController();
         createItems();
         initView(mView);
@@ -49,10 +51,6 @@ import jp.yuta.kohashi.esc.ui.fragment.ScrollController;
         mRecyclerView.addOnItemTouchListener(mScrollController);
     }
 
-    @Override
-    public void onRefresh() {
-    }
-
     /**
      * リフレッシュを終了するメソッド
      */
@@ -60,12 +58,15 @@ import jp.yuta.kohashi.esc.ui.fragment.ScrollController;
         mPullRefreshLayout.setRefreshing(false);
     }
 
-
-    protected void disableScroll(){
+    protected void disableScroll() {
         mScrollController.disableScroll();
     }
 
-    protected void enableScroll(){
+    protected void enableScroll() {
         mScrollController.enableScroll();
+    }
+
+    @Override
+    public void onRefresh() {
     }
 }

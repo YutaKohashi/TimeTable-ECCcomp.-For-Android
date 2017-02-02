@@ -13,7 +13,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_height="70dp"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleGravity="bottom|right"
@@ -24,7 +24,7 @@
             <FrameLayout
                 android:id="@+id/container_total_data"
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_height="70dp"
                 >
 
                 <!--total data-->
@@ -49,7 +49,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
+    <jp.yuta.kohashi.esc.ui.view.CustomViewPager
         android:id="@+id/attendance_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

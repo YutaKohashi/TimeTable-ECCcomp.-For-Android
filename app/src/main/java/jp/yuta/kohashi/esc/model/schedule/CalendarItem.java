@@ -10,7 +10,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class CalendarItemModel {
+public class CalendarItem {
     @SerializedName("date")
     private String date;
     @SerializedName("title")

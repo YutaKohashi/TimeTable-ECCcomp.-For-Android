@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import jp.yuta.kohashi.esc.model.NewsModel;
+import jp.yuta.kohashi.esc.model.NewsItem;
 import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.network.service.HttpHelper;
 import jp.yuta.kohashi.esc.ui.activity.NewsDetailActivity;
@@ -26,14 +26,14 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
  */
 public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
 
-    private List<NewsModel> items;
+    private List<NewsItem> items;
 
     private String userId;
     private String password;
     private NewsRecyclerAdapter mRecyclerAdapter;
     private int contains;  //0:school,  1:teacher
 
-    public static NewsListFragment newInstance(List<NewsModel> items,int contains){
+    public static NewsListFragment newInstance(List<NewsItem> items, int contains){
         NewsListFragment fragment = new NewsListFragment();
         fragment.items = items;
         fragment.contains = contains;
@@ -60,7 +60,7 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
         super.initView(v);
         mRecyclerAdapter = new NewsRecyclerAdapter(items, getContext()) {
             @Override
-            protected void onItemClicked(@NonNull final NewsModel model) {
+            protected void onItemClicked(@NonNull final NewsItem model) {
                 super.onItemClicked(model);
                 if (!Util.netWorkCheck()) {
                     NotifyUtil.failureNetworkConnection();
@@ -69,7 +69,7 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
 
                 NotifyUtil.showLoadingDiag(getActivity());
 
-                new HttpConnector().requestNewsDetail(userId, password, model.getUri(), new HttpHelper.AccessCallbacks() {
+                HttpConnector.requestNewsDetail(userId, password, model.getUri(), new HttpHelper.AccessCallbacks() {
                     @Override
                     public void callback(String html, boolean bool) {
                         if (bool) {
@@ -89,6 +89,7 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
 
     @Override
     public void onRefresh() {
+        super.onRefresh();
         if (!Util.netWorkCheck()) {
             NotifyUtil.failureNetworkConnection();
             endRefresh();
@@ -97,7 +98,7 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
        disableScroll();
         switch (contains) {
             case 0: // 学校からのお知らせ
-                new HttpConnector().request(HttpConnector.Type.NEWS_SCHOOL, userId, password, new HttpConnector.Callback() {
+                HttpConnector.request(HttpConnector.Type.NEWS_SCHOOL, userId, password, new HttpConnector.Callback() {
                     @Override
                     public void callback(boolean bool) {
                         if (bool) {
@@ -112,7 +113,7 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
                 });
                 break;
             case 1: // 担任からのお知らせ
-                new HttpConnector().request(HttpConnector.Type.NEWS_TEACHER, userId, password, new HttpConnector.Callback() {
+                HttpConnector.request(HttpConnector.Type.NEWS_TEACHER, userId, password, new HttpConnector.Callback() {
                     @Override
                     public void callback(boolean bool) {
                         if (bool) {
@@ -127,5 +128,4 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
                 });
         }
     }
-
 }

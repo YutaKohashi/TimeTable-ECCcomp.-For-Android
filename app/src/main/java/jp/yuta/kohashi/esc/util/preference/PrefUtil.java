@@ -17,9 +17,9 @@ import java.util.regex.Matcher;
 
 import jp.yuta.kohashi.esc.App;
 import jp.yuta.kohashi.esc.Const;
-import jp.yuta.kohashi.esc.model.AttendanceRateModel;
-import jp.yuta.kohashi.esc.model.NewsModel;
-import jp.yuta.kohashi.esc.model.TimeBlockModel;
+import jp.yuta.kohashi.esc.model.AttendanceRate;
+import jp.yuta.kohashi.esc.model.NewsItem;
+import jp.yuta.kohashi.esc.model.TimeBlockItem;
 import jp.yuta.kohashi.esc.util.RegexUtil;
 
 
@@ -37,8 +37,8 @@ public class PrefUtil {
     //**
     //region Load
     //**
-    public static List<List<TimeBlockModel>> loadTimeBlockList() {
-        List<List<TimeBlockModel>> lists = new ArrayList<>();
+    public static List<List<TimeBlockItem>> loadTimeBlockList() {
+        List<List<TimeBlockItem>> lists = new ArrayList<>();
 
         lists.add(loadTimeBlockList(PrefConst.KEY_MON_LIST));
         lists.add(loadTimeBlockList(PrefConst.KEY_TUE_LIST));
@@ -55,8 +55,8 @@ public class PrefUtil {
      * @param context
      * @return
      */
-    public static List<List<TimeBlockModel>> loadTimeBlockList(Context context) {
-        List<List<TimeBlockModel>> lists = new ArrayList<>();
+    public static List<List<TimeBlockItem>> loadTimeBlockList(Context context) {
+        List<List<TimeBlockItem>> lists = new ArrayList<>();
 
         lists.add(loadTimeBlockList(PrefConst.KEY_MON_LIST, context));
         lists.add(loadTimeBlockList(PrefConst.KEY_TUE_LIST, context));
@@ -67,8 +67,8 @@ public class PrefUtil {
         return lists;
     }
 
-    public static List<List<TimeBlockModel>> loadOriginalTimeBlockList() {
-        List<List<TimeBlockModel>> lists = new ArrayList<>();
+    public static List<List<TimeBlockItem>> loadOriginalTimeBlockList() {
+        List<List<TimeBlockItem>> lists = new ArrayList<>();
 
         lists.add(loadTimeBlockList(PrefConst.KEY_MON_LIST_ORIGINAL));
         lists.add(loadTimeBlockList(PrefConst.KEY_TUE_LIST_ORIGINAL));
@@ -85,11 +85,11 @@ public class PrefUtil {
      * @param key
      * @return
      */
-    public static List<TimeBlockModel> loadTimeBlockList(String key) {
+    public static List<TimeBlockItem> loadTimeBlockList(String key) {
         SharedPreferences sharedPreferences;
-        List<TimeBlockModel> arrayList;
+        List<TimeBlockItem> arrayList;
         sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_TIME_TABLE, Context.MODE_PRIVATE);
-        arrayList = new Gson().fromJson(sharedPreferences.getString(key, ""), new TypeToken<List<TimeBlockModel>>() {
+        arrayList = new Gson().fromJson(sharedPreferences.getString(key, ""), new TypeToken<List<TimeBlockItem>>() {
         }.getType());
 
         try {
@@ -110,11 +110,11 @@ public class PrefUtil {
      * @param context
      * @return
      */
-    public static List<TimeBlockModel> loadTimeBlockList(String key, Context context) {
+    public static List<TimeBlockItem> loadTimeBlockList(String key, Context context) {
         SharedPreferences sharedPreferences;
-        List<TimeBlockModel> arrayList;
+        List<TimeBlockItem> arrayList;
         sharedPreferences = context.getSharedPreferences(PrefConst.FILE_TIME_TABLE, Context.MODE_PRIVATE);
-        arrayList = new Gson().fromJson(sharedPreferences.getString(key, ""), new TypeToken<List<TimeBlockModel>>() {
+        arrayList = new Gson().fromJson(sharedPreferences.getString(key, ""), new TypeToken<List<TimeBlockItem>>() {
         }.getType());
 
         try {
@@ -133,13 +133,13 @@ public class PrefUtil {
      *
      * @return
      */
-    public static List<AttendanceRateModel> loadAttendanceRateModelList() {
+    public static List<AttendanceRate> loadAttendanceRateModelList() {
         SharedPreferences sharedPreferences;
-        List<AttendanceRateModel> arrayList;
+        List<AttendanceRate> arrayList;
         sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_ATTEND, Context.MODE_PRIVATE);
 
         try {
-            arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_ATTEND, ""), new TypeToken<List<AttendanceRateModel>>() {
+            arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_ATTEND, ""), new TypeToken<List<AttendanceRate>>() {
             }.getType());
             if (arrayList.size() == 0) {
                 arrayList = new ArrayList<>();
@@ -151,17 +151,17 @@ public class PrefUtil {
         return arrayList;
     }
 
-    public static AttendanceRateModel loadAttendanceTotalData() {
+    public static AttendanceRate loadAttendanceTotalData() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_ATTEND, Context.MODE_PRIVATE);
-        AttendanceRateModel model = null;
+        AttendanceRate model = null;
         try {
-            model = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_ATTEND_ALL_RATE, ""), new TypeToken<AttendanceRateModel>() {
+            model = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_ATTEND_ALL_RATE, ""), new TypeToken<AttendanceRate>() {
             }.getType());
             if (model == null) {
-                model = new AttendanceRateModel();
+                model = new AttendanceRate();
             }
         } catch (Exception e) {
-            model = new AttendanceRateModel();
+            model = new AttendanceRate();
             Log.d(TAG, e.toString());
         }
 
@@ -173,13 +173,13 @@ public class PrefUtil {
      *
      * @return
      */
-    public static List<NewsModel> loadSchoolNewsList() {
+    public static List<NewsItem> loadSchoolNewsList() {
         SharedPreferences sharedPreferences;
-        List<NewsModel> arrayList;
+        List<NewsItem> arrayList;
         sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_NEWS, Context.MODE_PRIVATE);
 
         try {
-            arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_SCHOOL_NEWS, ""), new TypeToken<List<NewsModel>>() {
+            arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_SCHOOL_NEWS, ""), new TypeToken<List<NewsItem>>() {
             }.getType());
 
             if (arrayList.size() == 0) {
@@ -196,15 +196,15 @@ public class PrefUtil {
      *
      * @return
      */
-    public static List<NewsModel> loadTanninNewsList() {
+    public static List<NewsItem> loadTanninNewsList() {
         SharedPreferences sharedPreferences;
-        List<NewsModel> arrayList;
+        List<NewsItem> arrayList;
         sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_NEWS, Context.MODE_PRIVATE);
-        arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_TANNIN_NEWS, ""), new TypeToken<List<NewsModel>>() {
+        arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_TANNIN_NEWS, ""), new TypeToken<List<NewsItem>>() {
         }.getType());
 
         try {
-            arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_TANNIN_NEWS, ""), new TypeToken<List<NewsModel>>() {
+            arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_TANNIN_NEWS, ""), new TypeToken<List<NewsItem>>() {
             }.getType());
             if (arrayList.size() == 0) {
                 arrayList = new ArrayList<>();
@@ -308,6 +308,11 @@ public class PrefUtil {
         return sharedPreferences.getInt(PrefConst.KEY_COLOR_U75, -1);
     }
 
+    public static int getAttendanceTabPosition(){
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(PrefConst.KEY_ATTENDANCE_TAB_POSITION, 0);
+    }
+
     //**
     //endregion
     //**
@@ -325,7 +330,7 @@ public class PrefUtil {
      */
     public static void saveTimeTable(String html, List<String> htmls) {
         List<String> names = getTeacherNames(htmls);
-        List<TimeBlockModel> tempList = createTempList(html, names);
+        List<TimeBlockItem> tempList = createTempList(html, names);
 
         saveTimeTableMon(createWeekList(tempList, 0));
         saveTimeTableTue(createWeekList(tempList, 1));
@@ -342,7 +347,7 @@ public class PrefUtil {
      */
     public static void saveTimeTableOriginal(String html, List<String> htmls) {
         List<String> names = getTeacherNames(htmls);
-        List<TimeBlockModel> tempList = createTempList(html, names);
+        List<TimeBlockItem> tempList = createTempList(html, names);
 
         save(createWeekList(tempList, 0), PrefConst.KEY_MON_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
         save(createWeekList(tempList, 1), PrefConst.KEY_TUE_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
@@ -351,23 +356,23 @@ public class PrefUtil {
         save(createWeekList(tempList, 4), PrefConst.KEY_FRI_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
     }
 
-    public static void saveTimeTableMon(List<TimeBlockModel> list) {
+    public static void saveTimeTableMon(List<TimeBlockItem> list) {
         save(list, PrefConst.KEY_MON_LIST, PrefConst.FILE_TIME_TABLE);
     }
 
-    public static void saveTimeTableTue(List<TimeBlockModel> list) {
+    public static void saveTimeTableTue(List<TimeBlockItem> list) {
         save(list, PrefConst.KEY_TUE_LIST, PrefConst.FILE_TIME_TABLE);
     }
 
-    public static void saveTimeTableWed(List<TimeBlockModel> list) {
+    public static void saveTimeTableWed(List<TimeBlockItem> list) {
         save(list, PrefConst.KEY_WED_LIST, PrefConst.FILE_TIME_TABLE);
     }
 
-    public static void saveTimeTableThur(List<TimeBlockModel> list) {
+    public static void saveTimeTableThur(List<TimeBlockItem> list) {
         save(list, PrefConst.KEY_THUR_LIST, PrefConst.FILE_TIME_TABLE);
     }
 
-    public static void saveTimeTableFri(List<TimeBlockModel> list) {
+    public static void saveTimeTableFri(List<TimeBlockItem> list) {
         save(list, PrefConst.KEY_FRI_LIST, PrefConst.FILE_TIME_TABLE);
     }
 
@@ -377,14 +382,14 @@ public class PrefUtil {
      * @param html
      */
     public static void saveAttendanceRate(String html) {
-        List<AttendanceRateModel> attendanceRateList = createAttendanceList(html);
+        List<AttendanceRate> attendanceRateList = createAttendanceList(html);
         saveAttendanceRate(attendanceRateList);
     }
 
     /**
      * 出席率を保存するメソッド
      */
-    public static void saveAttendanceRate(List<AttendanceRateModel> attendanceRateList){
+    public static void saveAttendanceRate(List<AttendanceRate> attendanceRateList){
         save(attendanceRateList, PrefConst.KEY_ATTEND, PrefConst.FILE_ATTEND);
     }
 
@@ -395,8 +400,8 @@ public class PrefUtil {
      * @param html
      */
     public static void saveAttendanceAllRateData(String html) {
-        AttendanceRateModel attendanceRateModel = createAllRateData(html);
-        save(attendanceRateModel, PrefConst.KEY_ATTEND_ALL_RATE, PrefConst.FILE_ATTEND);
+        AttendanceRate attendanceRate = createAllRateData(html);
+        save(attendanceRate, PrefConst.KEY_ATTEND_ALL_RATE, PrefConst.FILE_ATTEND);
     }
 
     public static void saveStudentInfo(String html) {
@@ -416,7 +421,7 @@ public class PrefUtil {
      * @param html
      */
     public static void saveSchoolNews(String html) {
-        List<NewsModel> list = createSchoolNewsList(html);
+        List<NewsItem> list = createSchoolNewsList(html);
         save(list, PrefConst.KEY_SCHOOL_NEWS, PrefConst.FILE_NEWS);
     }
 
@@ -426,7 +431,7 @@ public class PrefUtil {
      * @param html
      */
     public static void saveTanninNews(String html) {
-        List<NewsModel> list = createTanninNewsList(html);
+        List<NewsItem> list = createTanninNewsList(html);
         save(list, PrefConst.KEY_TANNIN_NEWS, PrefConst.FILE_NEWS);
     }
 
@@ -517,6 +522,10 @@ public class PrefUtil {
         save(bool, PrefConst.KEY_DIVIDE_ATTENDANCE, PrefConst.FILE_UTIL);
     }
 
+    public static void saveAttendanceTabPosition(int position){
+        save(position, PrefConst.KEY_ATTENDANCE_TAB_POSITION, PrefConst.FILE_UTIL);
+    }
+
     //**
     //endregion
     //**
@@ -579,7 +588,11 @@ public class PrefUtil {
      * @return
      */
     public static boolean isNotifyNews() {
-        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
+        return isNotifyNews(App.getAppContext());
+    }
+
+    public static boolean isNotifyNews(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(PrefConst.KEY_ENABLE_NOTIFY_NEWS, true); //default true
     }
 
@@ -654,20 +667,20 @@ public class PrefUtil {
      * @param html
      * @return
      */
-    public static List<AttendanceRateModel> createAttendanceList(String html) {
-        List<AttendanceRateModel> attendanceRateList = new ArrayList();
+    public static List<AttendanceRate> createAttendanceList(String html) {
+        List<AttendanceRate> attendanceRateList = new ArrayList();
 
         html = RegexUtil.replaceCRLF(html, true);
         html = RegexUtil.narrowingValues("<table class=\"GridVeiwTable\"", "<table cellspacing=\"0\" border=\"0\" id=\"ctl00_ContentPlaceHolder1_fmvSyuseki\"", html);
 
         Matcher m = RegexUtil.getGroupValues("<tr>.*?</tr>", html);
         while (m.find()) {
-            AttendanceRateModel attendanceRateModel = new AttendanceRateModel();
+            AttendanceRate attendanceRate = new AttendanceRate();
 
             String narrowHtml = m.group();
 
             String subject = RegexUtil.getValues("<img(?:\\\".*?\\\"|\\'.*?\\'|[^\\'\\\"])*?>(.+?)</a>", narrowHtml);
-            attendanceRateModel.setSubjectName(subject);
+            attendanceRate.setSubjectName(subject);
 
             int count = 0;
             Matcher m2 = RegexUtil.getGroupValues("<td(?:\\\".*?\\\"|\\'.*?\\'|[^\\'\\\"])*?>(.*?)</td>", narrowHtml);
@@ -679,33 +692,33 @@ public class PrefUtil {
                     case 0:
                         break;
                     case 1:
-                        attendanceRateModel.setUnit(str);
+                        attendanceRate.setUnit(str);
                         break;
                     case 2:
-                        attendanceRateModel.setAttendanceNumber(str);
+                        attendanceRate.setAttendanceNumber(str);
                         break;
                     case 3:
-                        attendanceRateModel.setAbsentNumber(str);
+                        attendanceRate.setAbsentNumber(str);
                         break;
                     case 4:
-                        attendanceRateModel.setLateNumber(str);
+                        attendanceRate.setLateNumber(str);
                         break;
                     case 5:
-                        attendanceRateModel.setPublicAbsentNumber1(str);
+                        attendanceRate.setPublicAbsentNumber1(str);
                         break;
                     case 6:
-                        attendanceRateModel.setPublicAbsentNumber2(str);
+                        attendanceRate.setPublicAbsentNumber2(str);
                         break;
                     case 7:
-                        attendanceRateModel.setAttendanceRate(str);
+                        attendanceRate.setAttendanceRate(str);
                         break;
                     case 8:
-                        attendanceRateModel.setShortageseNumber(str);
+                        attendanceRate.setShortageseNumber(str);
                         break;
                 }
                 count++;
             }
-            attendanceRateList.add(attendanceRateModel);
+            attendanceRateList.add(attendanceRate);
         }
 
         return attendanceRateList;
@@ -717,8 +730,8 @@ public class PrefUtil {
      * @param html
      * @return
      */
-    private static AttendanceRateModel createAllRateData(String html) {
-        AttendanceRateModel model = new AttendanceRateModel();
+    private static AttendanceRate createAllRateData(String html) {
+        AttendanceRate model = new AttendanceRate();
         html = RegexUtil.replaceCRLF(html, true);
 
         model.setUnit(RegexUtil.getValues("id=\"ctl00_ContentPlaceHolder1_fmvSyuseki_lblTotalTani\">(.+?)</span>", html));
@@ -750,8 +763,8 @@ public class PrefUtil {
      * @param col
      * @return
      */
-    private static TimeBlockModel createTimeBlockModel(String subject, String room, String name, int row, int col) {
-        TimeBlockModel model = new TimeBlockModel();
+    private static TimeBlockItem createTimeBlockModel(String subject, String room, String name, int row, int col) {
+        TimeBlockItem model = new TimeBlockItem();
         model.setSubject(subject);
         model.setClassRoom(room);
         model.setTeacherName(name);
@@ -768,8 +781,8 @@ public class PrefUtil {
      * @param names
      * @return
      */
-    private static List<TimeBlockModel> createTempList(String html, List<String> names) {
-        List<TimeBlockModel> temp = new ArrayList<>();
+    private static List<TimeBlockItem> createTempList(String html, List<String> names) {
+        List<TimeBlockItem> temp = new ArrayList<>();
 
         html = RegexUtil.replaceCRLF(html, true);
         String narrowHtml = RegexUtil.narrowingValues("<div id=\"timetable_col\" class=\"col\">", "<div class=\"col\">", html);
@@ -801,7 +814,7 @@ public class PrefUtil {
                     teacherName = names.get(teacherIndex++);
                 }
 
-                TimeBlockModel model = createTimeBlockModel(subject, room, teacherName, rowNum, colNum++);
+                TimeBlockItem model = createTimeBlockModel(subject, room, teacherName, rowNum, colNum++);
                 temp.add(model);
             }
             rowNum++;
@@ -816,8 +829,8 @@ public class PrefUtil {
      * @param num
      * @return
      */
-    private static List<TimeBlockModel> createWeekList(List<TimeBlockModel> list, int num) {
-        List<TimeBlockModel> weekList = new ArrayList<>();
+    private static List<TimeBlockItem> createWeekList(List<TimeBlockItem> list, int num) {
+        List<TimeBlockItem> weekList = new ArrayList<>();
 
         for (int i = 0; i < 4; i++) {
             int index = num + i * 5;
@@ -893,17 +906,17 @@ public class PrefUtil {
      * @param html
      * @return
      */
-    private static List<NewsModel> createSchoolNewsList(String html) {
+    private static List<NewsItem> createSchoolNewsList(String html) {
         html = RegexUtil.replaceCRLF(html, true);
         String narrowHtml = RegexUtil.narrowingValues("<div id=\"school_news_col\" class=\"col\">", "<div id=\"shcool_event_col\"", html);
-        List<NewsModel> schoolNewsList = new ArrayList<>();
+        List<NewsItem> schoolNewsList = new ArrayList<>();
 
         Matcher m = RegexUtil.getGroupValues("<div class=\"wrapper\">(.+?)</div>", narrowHtml);
         while (m.find()) {
             String groupHtml = m.group(1);
             String groupTitle = RegexUtil.getValues("<h3>(.+?)</h3>", groupHtml);
 
-            schoolNewsList.add(new NewsModel(groupTitle));
+            schoolNewsList.add(new NewsItem(groupTitle));
             schoolNewsList.addAll(createNewsList(groupHtml));
         }
         return schoolNewsList;
@@ -915,10 +928,10 @@ public class PrefUtil {
      * @param html
      * @return
      */
-    private static List<NewsModel> createTanninNewsList(String html) {
+    private static List<NewsItem> createTanninNewsList(String html) {
         html = RegexUtil.replaceCRLF(html, true);
         String narrowHtml = RegexUtil.narrowingValues("<h2>担任からのお知らせ</h2>", "</div>", html);
-        List<NewsModel> tanninNewsList = createNewsList(narrowHtml);
+        List<NewsItem> tanninNewsList = createNewsList(narrowHtml);
         return tanninNewsList;
     }
 
@@ -928,8 +941,8 @@ public class PrefUtil {
      * @param narrowHtml
      * @return
      */
-    private static List<NewsModel> createNewsList(String narrowHtml) {
-        List<NewsModel> list = new ArrayList<>();
+    private static List<NewsItem> createNewsList(String narrowHtml) {
+        List<NewsItem> list = new ArrayList<>();
 
         Matcher m = RegexUtil.getGroupValues("<li>(.*?)</li>", narrowHtml);
         while (m.find()) {
@@ -938,7 +951,7 @@ public class PrefUtil {
             String uri = RegexUtil.getValues("<a href=\"(.+?)\">", news);
             String title = RegexUtil.getValues("<a href=\"[^\"]*\">(.+?)</a>", news);
 
-            list.add(new NewsModel(title, date, uri));
+            list.add(new NewsItem(title, date, uri));
         }
 
         return list;

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.TimeBlockModel;
+import jp.yuta.kohashi.esc.model.TimeBlockItem;
 import jp.yuta.kohashi.esc.ui.adapter.TimeTableRecyclerAdapter;
 import jp.yuta.kohashi.esc.util.NotifyUtil;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
@@ -22,7 +22,7 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 public class TimeTableChangeFragment extends Fragment implements TimeTableInputDialogFragment.Callback {
 
-    private List<List<TimeBlockModel>> timeBlockLists = new ArrayList<>();
+    private List<List<TimeBlockItem>> timeBlockLists = new ArrayList<>();
 
     private RecyclerView mMonRecyclerView;
     private RecyclerView mTueRecyclerView;
@@ -31,7 +31,7 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
     private RecyclerView mFriRecyclerView;
 
     List<TimeTableRecyclerAdapter> mAdapters;
-    private List<TimeBlockModel> clickedItems;
+    private List<TimeBlockItem> clickedItems;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,11 +69,11 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
     }
 
 
-    private void createRecyclerView(RecyclerView recyclerView, List<TimeBlockModel> list) {
+    private void createRecyclerView(RecyclerView recyclerView, List<TimeBlockItem> list) {
         recyclerView.setLayoutManager(new CustomLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         TimeTableRecyclerAdapter adapter = new TimeTableRecyclerAdapter(list, R.color.bg_classroom_blue, getActivity()) {
             @Override
-            protected void onItemClicked(@NonNull List<TimeBlockModel> items, TimeBlockModel model) {
+            protected void onItemClicked(@NonNull List<TimeBlockItem> items, TimeBlockItem model) {
                 super.onItemClicked(items, model);
                 clickedItems = items;
                 TimeTableInputDialogFragment diag = new TimeTableInputDialogFragment().newInstance(TimeTableChangeFragment.this);
@@ -91,13 +91,13 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
      * 保存でーたから時間割リストのリストを取得
      */
     private void loadLists() {
-        List<List<TimeBlockModel>> lists = PrefUtil.loadTimeBlockList();
+        List<List<TimeBlockItem>> lists = PrefUtil.loadTimeBlockList();
         timeBlockLists.clear();
         timeBlockLists.addAll(lists);
     }
 
     private void loadOriginalLists() {
-        List<List<TimeBlockModel>> lists = PrefUtil.loadOriginalTimeBlockList();
+        List<List<TimeBlockItem>> lists = PrefUtil.loadOriginalTimeBlockList();
         timeBlockLists.clear();
         timeBlockLists.addAll(lists);
     }
@@ -109,7 +109,7 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
         swapAll();
 
         // オリジナルリストをデフォルトリストに反映
-        for (List<TimeBlockModel> list : timeBlockLists) {
+        for (List<TimeBlockItem> list : timeBlockLists) {
             saveList(list);
         }
 
@@ -132,10 +132,10 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
 
 
     @Override
-    public void positive(TimeBlockModel before, TimeBlockModel after) {
+    public void positive(TimeBlockItem before, TimeBlockItem after) {
         // データが変更されている場合のみ
         if (!before.equals(after)) {
-            List<TimeBlockModel> list = createSaveList(after);
+            List<TimeBlockItem> list = createSaveList(after);
             saveList(list);
             NotifyUtil.saveData();
             loadLists();
@@ -169,7 +169,7 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
      *
      * @param items
      */
-    private void saveList(List<TimeBlockModel> items) {
+    private void saveList(List<TimeBlockItem> items) {
         // 曜日別
         switch (items.get(0).getColNum()) {
             case 1:
@@ -196,9 +196,9 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
      * @param item
      * @return
      */
-    private List<TimeBlockModel> createSaveList(TimeBlockModel item) {
-        List<TimeBlockModel> items = new ArrayList<>();
-        for (TimeBlockModel m : clickedItems) {
+    private List<TimeBlockItem> createSaveList(TimeBlockItem item) {
+        List<TimeBlockItem> items = new ArrayList<>();
+        for (TimeBlockItem m : clickedItems) {
             if (item.getRowNum() == m.getRowNum()) {
                 items.add(item);
             } else {

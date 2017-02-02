@@ -16,7 +16,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.schedule.CalendarItemModel;
+import jp.yuta.kohashi.esc.model.schedule.CalendarItem;
 import jp.yuta.kohashi.esc.util.Util;
 
 /**
@@ -48,13 +48,13 @@ public class CalendarView extends LinearLayout {
      * @param year
      * @param month
      */
-    public void setMonth(int year, int month, List<CalendarItemModel> scheduleList) {
+    public void setMonth(int year, int month, List<CalendarItem> scheduleList) {
         this.year = year;
         this.month = month;
         //get root calender View
 
         List<String> dayList = new ArrayList<>(); //　バッジを付けるリスト
-        for(CalendarItemModel model:scheduleList){
+        for(CalendarItem model:scheduleList){
             dayList.add(model.getDate());
         }
 

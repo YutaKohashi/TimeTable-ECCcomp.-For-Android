@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.ui.activity;
+package jp.yuta.kohashi.esc.ui.activity.base;
 
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
@@ -13,12 +13,11 @@ import jp.yuta.kohashi.esc.R;
  * Created by yutakohashi on 2017/01/18.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     public Toolbar mToolbar;
 
     public void initToolbar() {
-        //ツールバーをActionBarとして扱う
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar != null) {
             mToolbar.setTitleTextColor(Color.WHITE);

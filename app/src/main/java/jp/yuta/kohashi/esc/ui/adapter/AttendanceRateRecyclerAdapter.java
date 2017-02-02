@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.AttendanceRateModel;
+import jp.yuta.kohashi.esc.model.AttendanceRate;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
@@ -23,14 +23,14 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<AttendanceRateRecyclerAdapter.AttendanceViewHolder> {
 
-    private List<AttendanceRateModel> items;
+    private List<AttendanceRate> items;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
 
     // タップされたときに呼び出されるメソッド
-//    protected void onItemLongClicked(int position, @NonNull List<AttendanceRateModel> items) {}
+//    protected void onItemLongClicked(int position, @NonNull List<AttendanceRate> items) {}
 
-    public AttendanceRateRecyclerAdapter(List<AttendanceRateModel> items, Context context) {
+    public AttendanceRateRecyclerAdapter(List<AttendanceRate> items, Context context) {
         mLayoutInflater = LayoutInflater.from(context);
         this.items = new ArrayList<>();
         this.items.addAll(items);
@@ -129,7 +129,7 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
         notifyDataSetChanged();
     }
 
-    public void swap(List<AttendanceRateModel> items){
+    public void swap(List<AttendanceRate> items){
         this.items.clear();
         this.items.addAll(items);
         notifyDataSetChanged();

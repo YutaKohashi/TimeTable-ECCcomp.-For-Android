@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.TimeBlockModel;
+import jp.yuta.kohashi.esc.model.TimeBlockItem;
 
 /**
  * Created by yutakohashi on 2017/01/13.
@@ -20,17 +20,17 @@ import jp.yuta.kohashi.esc.model.TimeBlockModel;
 
 public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecyclerAdapter.TimeViewHolder> {
 
-    private List<TimeBlockModel> items;
+    private List<TimeBlockItem> items;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private int color;
 
 
     // タップされたときに呼び出されるメソッド
-    protected void onItemClicked(@NonNull List<TimeBlockModel> items, TimeBlockModel model) {
+    protected void onItemClicked(@NonNull List<TimeBlockItem> items, TimeBlockItem model) {
     }
 
-    public TimeTableRecyclerAdapter(List<TimeBlockModel> items, int color, Context context) {
+    public TimeTableRecyclerAdapter(List<TimeBlockItem> items, int color, Context context) {
         mLayoutInflater = LayoutInflater.from(context);
         this.items = items;
         this.mContext = context;
@@ -65,7 +65,7 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
         return items.size();
     }
 
-    public void swap(List<TimeBlockModel> items){
+    public void swap(List<TimeBlockItem> items){
         this.items.clear();
         this.items.addAll(items);
         notifyDataSetChanged();

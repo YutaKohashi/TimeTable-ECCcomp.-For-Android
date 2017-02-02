@@ -17,7 +17,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.PrefItemModel;
+import jp.yuta.kohashi.esc.model.PrefItem;
 import jp.yuta.kohashi.esc.model.enums.PrefViewType;
 import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.ui.activity.AboutActivity;
@@ -50,22 +50,22 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
      */
     @Override
     public void createItems() {
-        addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_time_table), PrefViewType.ITEM_GROUP_TITLE));
-        addItem(new PrefItemModel(getResources().getString(R.string.pref_update_time_table), R.drawable.ic_refresh, PrefViewType.ITEM));
-        addItem(new PrefItemModel(getResources().getString(R.string.pref_change_time_table), R.drawable.ic_create, PrefViewType.ITEM_RIGHT_ARROW));
-        addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_time_attendance), PrefViewType.ITEM_GROUP_TITLE));
-        addItem(new PrefItemModel(getResources().getString(R.string.pref_attendance_divide), R.drawable.ic_view_compact, PrefViewType.ITEM_RIGHT_ARROW));
-        addItem(new PrefItemModel(getResources().getString(R.string.pref_attendance_color), R.drawable.ic_brush, PrefViewType.ITEM_RIGHT_ARROW));
-        addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_news), PrefViewType.ITEM_GROUP_TITLE));
-        addItem(new PrefItemModel(getResources().getString(R.string.pref_notify_news), R.drawable.ic_notifications, PrefViewType.ITEM_SWITCH, PrefUtil.isNotifyNews()));
-        addItem(new PrefItemModel(getResources().getString(R.string.pref_group_title_time_other), PrefViewType.ITEM_GROUP_TITLE));
-        addItem(new PrefItemModel(getResources().getString(R.string.pref_lisence), R.drawable.ic_business, PrefViewType.ITEM_RIGHT_ARROW));
-        addItem(new PrefItemModel(getResources().getString(R.string.pref_about), R.drawable.ic_about, PrefViewType.ITEM_RIGHT_ARROW));
-        addItem(new PrefItemModel(getResources().getString(R.string.pref_app_version), Const.APP_VERSION, R.drawable.ic_android, PrefViewType.ITEM_RIGHT_TXT));
-        addItem(new PrefItemModel(PrefViewType.EMPTY));
-        addItem(new PrefItemModel(getResources().getString(R.string.pref_logout), PrefViewType.ITEM_CENTER_TXT));
-        addItem(new PrefItemModel(PrefViewType.EMPTY));
-        addItem(new PrefItemModel(PrefViewType.EMPTY));
+        addItem(new PrefItem(getResources().getString(R.string.pref_group_title_time_table), PrefViewType.ITEM_GROUP_TITLE));
+        addItem(new PrefItem(getResources().getString(R.string.pref_update_time_table), R.drawable.ic_refresh, PrefViewType.ITEM));
+        addItem(new PrefItem(getResources().getString(R.string.pref_change_time_table), R.drawable.ic_create, PrefViewType.ITEM_RIGHT_ARROW));
+        addItem(new PrefItem(getResources().getString(R.string.pref_group_title_time_attendance), PrefViewType.ITEM_GROUP_TITLE));
+        addItem(new PrefItem(getResources().getString(R.string.pref_attendance_divide), R.drawable.ic_view_compact, PrefViewType.ITEM_RIGHT_ARROW));
+        addItem(new PrefItem(getResources().getString(R.string.pref_attendance_color), R.drawable.ic_brush, PrefViewType.ITEM_RIGHT_ARROW));
+        addItem(new PrefItem(getResources().getString(R.string.pref_group_title_news), PrefViewType.ITEM_GROUP_TITLE));
+        addItem(new PrefItem(getResources().getString(R.string.pref_notify_news), R.drawable.ic_notifications, PrefViewType.ITEM_SWITCH, PrefUtil.isNotifyNews()));
+        addItem(new PrefItem(getResources().getString(R.string.pref_group_title_time_other), PrefViewType.ITEM_GROUP_TITLE));
+        addItem(new PrefItem(getResources().getString(R.string.pref_lisence), R.drawable.ic_business, PrefViewType.ITEM_RIGHT_ARROW));
+        addItem(new PrefItem(getResources().getString(R.string.pref_about), R.drawable.ic_about, PrefViewType.ITEM_RIGHT_ARROW));
+        addItem(new PrefItem(getResources().getString(R.string.pref_app_version), Const.APP_VERSION, R.drawable.ic_android, PrefViewType.ITEM_RIGHT_TXT));
+        addItem(new PrefItem(PrefViewType.EMPTY));
+        addItem(new PrefItem(getResources().getString(R.string.pref_logout), PrefViewType.ITEM_CENTER_TXT));
+        addItem(new PrefItem(PrefViewType.EMPTY));
+        addItem(new PrefItem(PrefViewType.EMPTY));
     }
 
     @Override
@@ -73,7 +73,7 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         createAdapter(new PrefRecyclerAdapter(getItems(), getContext()) {
             @Override
-            protected void onItemClicked(@NonNull PrefItemModel model) {
+            protected void onItemClicked(@NonNull PrefItem model) {
                 super.onItemClicked(model);
                 String name = model.getItemName();
                 if (name.equals(getResources().getString(R.string.pref_update_time_table))) {
@@ -94,7 +94,7 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
             }
 
             @Override
-            protected void onItemCheckedChange(@NonNull boolean bool, @NonNull PrefItemModel model) {
+            protected void onItemCheckedChange(@NonNull boolean bool, @NonNull PrefItem model) {
                 super.onItemCheckedChange(bool, model);
                 if (model.getItemName().equals(getResources().getString(R.string.pref_notify_news))) {
                     PrefUtil.saveNotifyNews(bool);
@@ -135,7 +135,7 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
                             NotifyUtil.showUpdatingDiag(getActivity());
                             String userId = PrefUtil.getId();
                             String password = PrefUtil.getPss();
-                            new HttpConnector().request(HttpConnector.Type.TIME_TABLE, userId, password, new HttpConnector.Callback() {
+                            HttpConnector.request(HttpConnector.Type.TIME_TABLE, userId, password, new HttpConnector.Callback() {
                                 @Override
                                 public void callback(boolean bool) {
                                     NotifyUtil.dismiss();

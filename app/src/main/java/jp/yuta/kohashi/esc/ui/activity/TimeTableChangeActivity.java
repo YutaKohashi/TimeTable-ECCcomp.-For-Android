@@ -11,6 +11,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import jp.yuta.kohashi.esc.R;
+import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
 import jp.yuta.kohashi.esc.ui.fragment.TimeTableChangeFragment;
 import jp.yuta.kohashi.esc.util.NotifyUtil;
 

@@ -26,6 +26,7 @@ import java.util.List;
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.network.service.RequestURL;
+import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
 import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateParentFragment;
 import jp.yuta.kohashi.esc.ui.fragment.CalendarFragment;
 import jp.yuta.kohashi.esc.ui.fragment.NewsParentFragment;

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.yuta.kohashi.esc.model.PrefItemModel;
+import jp.yuta.kohashi.esc.model.PrefItem;
 import jp.yuta.kohashi.esc.ui.adapter.PrefRecyclerAdapter;
 
 /**
@@ -19,7 +19,7 @@ import jp.yuta.kohashi.esc.ui.adapter.PrefRecyclerAdapter;
 public abstract class BasePrefBaseRecyclerViewFragment extends BaseRecyclerViewFragment {
 
     protected PrefRecyclerAdapter mRecyclerAdapter;
-    protected List<PrefItemModel> items;
+    protected List<PrefItem> items;
 
     @Nullable
     @Override
@@ -46,11 +46,11 @@ public abstract class BasePrefBaseRecyclerViewFragment extends BaseRecyclerViewF
         mRecyclerAdapter = adapter;
     }
 
-    protected List<PrefItemModel> getItems(){
+    protected List<PrefItem> getItems(){
         return this.items;
     }
 
-    protected void addItem(PrefItemModel item){
+    protected void addItem(PrefItem item){
         items.add(item);
     }
 

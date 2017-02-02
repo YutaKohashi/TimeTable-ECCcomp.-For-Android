@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.NewsModel;
+import jp.yuta.kohashi.esc.model.NewsItem;
 import jp.yuta.kohashi.esc.ui.adapter.NewsViewPagerAdapter;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
@@ -23,8 +23,8 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 public class NewsParentFragment extends Fragment {
 
     ViewPager mViewPager;
-    List<NewsModel> schoolNews;
-    List<NewsModel> tanninNews;
+    List<NewsItem> schoolNews;
+    List<NewsItem> tanninNews;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

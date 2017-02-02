@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="jp.yuta.kohashi.esc.ui.activity.BaseWebViewActivity">
+    tools:context="jp.yuta.kohashi.esc.ui.activity.base.BaseWebViewActivity">
 
     <include
         android:id="@+id/appbar"

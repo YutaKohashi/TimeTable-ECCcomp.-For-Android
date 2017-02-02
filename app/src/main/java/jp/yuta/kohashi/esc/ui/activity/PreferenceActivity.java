@@ -3,6 +3,7 @@ package jp.yuta.kohashi.esc.ui.activity;
 import android.os.Bundle;
 
 import jp.yuta.kohashi.esc.R;
+import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
 
 public class PreferenceActivity extends BaseActivity {
 

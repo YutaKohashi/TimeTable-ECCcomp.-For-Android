@@ -38,7 +38,7 @@ public class HttpConnector {
      * @param password 　パスワード
      * @param callback 　コールバック
      */
-    public void request(Type type, final String userId, final String password, final Callback callback) {
+    public static void request(Type type, final String userId, final String password, final Callback callback) {
         switch (type) {
             case TIME_TABLE:
                 HttpHelper.getTimeTable(userId, password, new HttpHelper.SuccessCallbacks() {
@@ -90,7 +90,7 @@ public class HttpConnector {
         }
     }
 
-    public void requestNewsDetail(String userId, String password, String url , final HttpHelper.AccessCallbacks accessCallbacks){
+    public static void requestNewsDetail(String userId, String password, String url , final HttpHelper.AccessCallbacks accessCallbacks){
         HttpHelper.getNewsDetail(userId, password, url, new HttpHelper.AccessCallbacks() {
             @Override
             public void callback(String html, boolean bool) {

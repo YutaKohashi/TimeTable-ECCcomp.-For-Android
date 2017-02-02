@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
-public class AttendanceRateModel {
+public class AttendanceRate {
 
     private String subjectName;         //教科
     private String unit;                //単位
@@ -26,7 +26,7 @@ public class AttendanceRateModel {
 
     private AttendanceRateType type;
 
-    public AttendanceRateModel(){
+    public AttendanceRate(){
         subjectName = "";
         unit = "";
         attendanceNumber = "";

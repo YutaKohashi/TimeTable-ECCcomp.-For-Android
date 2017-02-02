@@ -9,7 +9,7 @@ import android.widget.RemoteViews;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.TimeBlockModel;
+import jp.yuta.kohashi.esc.model.TimeBlockItem;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
@@ -21,7 +21,7 @@ public class TimeTableWidget extends AppWidgetProvider {
         // Widgetのレイアウトを取得
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_root_time_table);
 
-        List<List<TimeBlockModel>> lists = PrefUtil.loadTimeBlockList(context);
+        List<List<TimeBlockItem>> lists = PrefUtil.loadTimeBlockList(context);
         try {
             createColTimeTable(context, lists.get(0), R.id.mon_col_widget, remoteViews);
             createColTimeTable(context, lists.get(1), R.id.tue_col_widget, remoteViews);
@@ -53,10 +53,10 @@ public class TimeTableWidget extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 
-    private static void createColTimeTable(Context context, List<TimeBlockModel> list, int colId, RemoteViews remoteViews) throws Exception {
+    private static void createColTimeTable(Context context, List<TimeBlockItem> list, int colId, RemoteViews remoteViews) throws Exception {
         RemoteViews col = new RemoteViews(context.getPackageName(), R.layout.widget_col_time_table);
         for (int i = 0; i < list.size(); i++) {
-            TimeBlockModel timeBlock = list.get(i);
+            TimeBlockItem timeBlock = list.get(i);
             String subStr = timeBlock.getSubject();
             String roomStr = timeBlock.getClassRoom();
 

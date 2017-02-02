@@ -18,7 +18,7 @@ import java.util.EventListener;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.TimeBlockModel;
+import jp.yuta.kohashi.esc.model.TimeBlockItem;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
@@ -28,7 +28,7 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 public class TimeTableInputDialogFragment extends DialogFragment implements View.OnClickListener {
     // "static" is require for object null  when  display rotation
     private static Callback callback = null;
-    private static TimeBlockModel beforeModel;
+    private static TimeBlockItem beforeModel;
 
     private Dialog mDialog;
     private EditText mSubjectTextView;
@@ -41,7 +41,7 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
     private TextView mTitleTextView;
 
     public interface Callback extends EventListener {
-        void positive(TimeBlockModel before,TimeBlockModel after);
+        void positive(TimeBlockItem before, TimeBlockItem after);
         void negative();
     }
 
@@ -69,7 +69,7 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
         return mDialog;
     }
 
-    public void setInfo(TimeBlockModel item){
+    public void setInfo(TimeBlockItem item){
         this.beforeModel = item;
     }
 
@@ -77,7 +77,7 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.ok_button:
-                TimeBlockModel afterModel = createAfterModel();
+                TimeBlockItem afterModel = createAfterModel();
                 callback.positive(beforeModel,afterModel);
                 dismiss();
                 break;
@@ -113,12 +113,12 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
         mUndoBtn.setOnClickListener(this);
     }
 
-    private TimeBlockModel createAfterModel(){
+    private TimeBlockItem createAfterModel(){
         String subject = mSubjectTextView.getText().toString();
         String teacher = mTeacherTextView.getText().toString();
         String room = mRoomTextView.getText().toString();
 
-        TimeBlockModel afterModel = new TimeBlockModel();
+        TimeBlockItem afterModel = new TimeBlockItem();
         afterModel.setSubject(subject);
         afterModel.setTeacherName(teacher);
         afterModel.setClassRoom(room);
@@ -131,9 +131,9 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
      * 変更前に戻す
      */
     private void undoItem() throws IndexOutOfBoundsException{
-        List<List<TimeBlockModel>> lists =  PrefUtil.loadOriginalTimeBlockList();
-        List<TimeBlockModel> list = lists.get(beforeModel.getColNum() - 1);
-        TimeBlockModel original = list.get(beforeModel.getRowNum()-1);
+        List<List<TimeBlockItem>> lists =  PrefUtil.loadOriginalTimeBlockList();
+        List<TimeBlockItem> list = lists.get(beforeModel.getColNum() - 1);
+        TimeBlockItem original = list.get(beforeModel.getRowNum()-1);
         mSubjectTextView.setText(original.getSubject());
         mTeacherTextView.setText(original.getTeacherName());
         mRoomTextView.setText(original.getClassRoom());
@@ -142,7 +142,7 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
         mRoomTextView.setSelection(mRoomTextView.getText().length());
     }
 
-    private String createTitle(TimeBlockModel model){
+    private String createTitle(TimeBlockItem model){
         int row = model.getRowNum();
         int col = model.getColNum();
 

@@ -61,9 +61,10 @@
     <string name="title_zenki_data">前期</string>
     <string name="title_kouki_data">後期</string>
 
-    <string-array name="attendance_rate_type">
-        <item>前期</item>
-        <item>後期</item>
+    <string-array name="attendance_rate_type_list">
+        <item>@string/title_all_data</item>
+        <item>@string/title_zenki_data</item>
+        <item>@string/title_kouki_data</item>
     </string-array>
 
     <!--お知らせ-->
@@ -168,4 +169,5 @@
 
     <!--前期後期の設定-->
     <string name="pref_divide">前期、後期を分けて表示する</string>
+    <string name="pref_default_tab">デフォルトのタブを設定する</string>
 </resources>

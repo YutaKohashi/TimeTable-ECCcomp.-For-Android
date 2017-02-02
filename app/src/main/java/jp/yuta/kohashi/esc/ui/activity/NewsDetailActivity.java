@@ -21,19 +21,20 @@ import java.util.regex.Matcher;
 
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.NewsModel;
+import jp.yuta.kohashi.esc.model.NewsItem;
+import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
 import jp.yuta.kohashi.esc.util.RegexUtil;
 
 import static android.view.View.GONE;
 
 public class NewsDetailActivity extends BaseActivity implements View.OnClickListener {
 
-    public static final String NEWS_MODEL = "newsModel";
+    public static final String NEWS_MODEL = "newsItem";
     public static final String NEWS_HTML = "newsHtml";
     private static final int FONT_SIZE_WEB_VIEW = 16; //webView font size
     private String html;
     private Button mDownloadBtn;
-    private NewsModel newsModel;
+    private NewsItem newsItem;
     private List<String> downloadUrls;
     private List<String> downloadTitles;
 
@@ -52,12 +53,12 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
         }
 
         Intent intent = getIntent();
-        newsModel = (NewsModel) intent.getSerializableExtra(NEWS_MODEL);
+        newsItem = (NewsItem) intent.getSerializableExtra(NEWS_MODEL);
         html = intent.getStringExtra(NEWS_HTML);
 
         initToolbar();
         enableBackBtn();
-        setToolbarTitle(newsModel.getTitle());
+        setToolbarTitle(newsItem.getTitle());
 
         initView();
     }
@@ -85,9 +86,9 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
         mWebView.loadDataWithBaseURL("", getMainText(html), "text/html", "UTF-8", "");
         mWebView.setHorizontalScrollBarEnabled(false);
 
-        mToolbar.setTitle(newsModel.getTitle());
-        titleTextView.setText(newsModel.getTitle());
-        dateTextView.setText(newsModel.getDate());
+        mToolbar.setTitle(newsItem.getTitle());
+        titleTextView.setText(newsItem.getTitle());
+        dateTextView.setText(newsItem.getDate());
 
         // disable scroll on touch
         mWebView.setOnTouchListener(new View.OnTouchListener() {

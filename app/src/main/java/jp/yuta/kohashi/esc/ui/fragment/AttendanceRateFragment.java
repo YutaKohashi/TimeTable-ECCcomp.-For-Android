@@ -13,7 +13,7 @@ import java.util.List;
 
 import jp.yuta.kohashi.esc.event.BusHolder;
 import jp.yuta.kohashi.esc.event.RefreshEvent;
-import jp.yuta.kohashi.esc.model.AttendanceRateModel;
+import jp.yuta.kohashi.esc.model.AttendanceRate;
 import jp.yuta.kohashi.esc.model.enums.AttendanceRateType;
 import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.ui.adapter.AttendanceRateRecyclerAdapter;
@@ -31,7 +31,7 @@ public class AttendanceRateFragment extends BaseRefreshRecyclerViewFragment {
     private String userId;
     private String password;
     private AttendanceRateType type;
-    private  List<AttendanceRateModel> items;
+    private  List<AttendanceRate> items;
 
     public static AttendanceRateFragment newInstance(AttendanceRateType type) {
         AttendanceRateFragment fragment = new AttendanceRateFragment();
@@ -72,6 +72,7 @@ public class AttendanceRateFragment extends BaseRefreshRecyclerViewFragment {
     //　Pull To Refresh
     @Override
     public void onRefresh() {
+        super.onRefresh();
         if (!Util.netWorkCheck()) {
             NotifyUtil.failureNetworkConnection();
             endRefresh();
@@ -79,7 +80,7 @@ public class AttendanceRateFragment extends BaseRefreshRecyclerViewFragment {
         }
 
         disableScroll();
-        new HttpConnector().request(HttpConnector.Type.ATTENDANCE_RATE, userId, password, new HttpConnector.Callback() {
+        HttpConnector.request(HttpConnector.Type.ATTENDANCE_RATE, userId, password, new HttpConnector.Callback() {
             @Override
             public void callback(boolean bool) {
                 if (bool) {
@@ -110,11 +111,11 @@ public class AttendanceRateFragment extends BaseRefreshRecyclerViewFragment {
         }
         items.clear();
 
-        List<AttendanceRateModel> temp = PrefUtil.loadAttendanceRateModelList();
+        List<AttendanceRate> temp = PrefUtil.loadAttendanceRateModelList();
         if (type == AttendanceRateType.ALL) {
             items.addAll(temp);
         } else {
-            for (AttendanceRateModel item : temp) {
+            for (AttendanceRate item : temp) {
                 if (item.getType() == type)
                     items.add(item);
             }

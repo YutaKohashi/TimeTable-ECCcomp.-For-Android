@@ -15,7 +15,7 @@ import java.util.List;
 
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.NewsModel;
+import jp.yuta.kohashi.esc.model.NewsItem;
 import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.ui.activity.LoginCheckActivity;
 import jp.yuta.kohashi.esc.ui.activity.MainActivity;
@@ -39,8 +39,6 @@ public class EccNewsManageService extends BasePeriodicService {
     @Override
     protected long getInterval() {
         return Const.SERVICE_INTERVAL_MILLISECONDS;
-////        return  60000;
-//        return 180000; //3分
     }
 
     @Override
@@ -75,7 +73,7 @@ public class EccNewsManageService extends BasePeriodicService {
         final List<String> schoolNewsList = getTitleList(PrefUtil.loadSchoolNewsList());
         final List<String> tanninNewsList = getTitleList(PrefUtil.loadTanninNewsList());
 
-        new HttpConnector().request(
+        HttpConnector.request(
                 HttpConnector.Type.NEWS_SCHOOL_TEACHER,
                 PrefUtil.getId(),
                 PrefUtil.getPss(),
@@ -173,9 +171,9 @@ public class EccNewsManageService extends BasePeriodicService {
         return resultList;
     }
 
-    private List<String> getTitleList(List<NewsModel> models) {
+    private List<String> getTitleList(List<NewsItem> models) {
         final List<String> list = new ArrayList<>();
-        for (NewsModel model : models) {
+        for (NewsItem model : models) {
             list.add(model.getTitle());
         }
 

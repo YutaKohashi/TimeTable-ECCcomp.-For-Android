@@ -11,7 +11,7 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 public class OnBootReceiver extends BaseOnBootReceiver {
     @Override
     protected void onDeviceBoot(Context context) {
-        if (PrefUtil.isNotifyNews()) {
+        if (PrefUtil.isNotifyNews(context)) {
             new EccNewsManageService().startResident(context);
         }
     }

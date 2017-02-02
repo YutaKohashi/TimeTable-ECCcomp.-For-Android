@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.TimeBlockModel;
+import jp.yuta.kohashi.esc.model.TimeBlockItem;
 import jp.yuta.kohashi.esc.ui.adapter.TimeTableRecyclerAdapter;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
@@ -30,11 +30,11 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
  */
 public class TimeTableFragment extends Fragment implements View.OnClickListener{
 
-    private List<TimeBlockModel> monList;
-    private List<TimeBlockModel> tueList;
-    private List<TimeBlockModel> wedList;
-    private List<TimeBlockModel> thurList;
-    private List<TimeBlockModel> friList;
+    private List<TimeBlockItem> monList;
+    private List<TimeBlockItem> tueList;
+    private List<TimeBlockItem> wedList;
+    private List<TimeBlockItem> thurList;
+    private List<TimeBlockItem> friList;
 
     private RecyclerView mMonRecyclerView;
     private RecyclerView mTueRecyclerView;
@@ -99,11 +99,11 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
         fadeInAnim = AnimationUtils.loadAnimation(getContext(),R.anim.anim_bottom_sheet_fade_in);
     }
 
-    private void createRecyclerView(RecyclerView recyclerView, List<TimeBlockModel> list) {
+    private void createRecyclerView(RecyclerView recyclerView, List<TimeBlockItem> list) {
         recyclerView.setLayoutManager(new CustomLinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
         TimeTableRecyclerAdapter adapter = new TimeTableRecyclerAdapter(list, R.color.bg_classroom_green ,getActivity()) {
             @Override
-            protected void onItemClicked(@NonNull List<TimeBlockModel> items, TimeBlockModel model) {
+            protected void onItemClicked(@NonNull List<TimeBlockItem> items, TimeBlockItem model) {
                 super.onItemClicked(items, model);
                 if(TextUtils.isEmpty(model.getSubject())) return;
                 mSubjectTextView.setText(model.getSubject());
@@ -123,7 +123,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
     }
 
     private void swapAll() {
-        List<List<TimeBlockModel>> lists = PrefUtil.loadTimeBlockList();
+        List<List<TimeBlockItem>> lists = PrefUtil.loadTimeBlockList();
         for (int i = 0; i < 5; i++) {
             mAdapters.get(i).swap(lists.get(i));
         }
@@ -150,7 +150,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
     }
 
     private void loadLists() {
-        List<List<TimeBlockModel>> lists = PrefUtil.loadTimeBlockList();
+        List<List<TimeBlockItem>> lists = PrefUtil.loadTimeBlockList();
         monList = lists.get(0);
         tueList = lists.get(1);
         wedList = lists.get(2);

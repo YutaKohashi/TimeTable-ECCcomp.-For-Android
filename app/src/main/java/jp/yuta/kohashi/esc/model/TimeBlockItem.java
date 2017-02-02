@@ -8,7 +8,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class TimeBlockModel{
+public class TimeBlockItem {
     private String classRoom;
     private String subject;
     private String teacherName;
@@ -17,7 +17,7 @@ public class TimeBlockModel{
     private String memo;
 
     //コンストラクタ
-    public TimeBlockModel(){
+    public TimeBlockItem(){
         classRoom = "";
         subject = "";
         teacherName = "";
@@ -31,7 +31,7 @@ public class TimeBlockModel{
      * @param model
      * @return
      */
-    public boolean equals(TimeBlockModel model){
+    public boolean equals(TimeBlockItem model){
         return this.subject.equals(model.getSubject()) &&
                 this.teacherName.equals(model.getTeacherName()) &&
                 this.classRoom.equals(model.getClassRoom());

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.NewsModel;
+import jp.yuta.kohashi.esc.model.NewsItem;
 
 /**
  * Created by yutakohashi on 2017/01/15.
@@ -20,13 +20,13 @@ import jp.yuta.kohashi.esc.model.NewsModel;
 
 public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapter.NewsRecyclerViewHolder> {
 
-    private List<NewsModel> items;
+    private List<NewsItem> items;
     private Context mContext;
 
     // タップされたときに呼び出されるメソッド
-    protected void onItemClicked(@NonNull NewsModel model) {}
+    protected void onItemClicked(@NonNull NewsItem model) {}
 
-    public NewsRecyclerAdapter(List<NewsModel> items, Context context) {
+    public NewsRecyclerAdapter(List<NewsItem> items, Context context) {
         this.items = items;
         mContext = context;
     }
@@ -86,7 +86,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         return items.size();
     }
 
-    public void swap(List<NewsModel> items){
+    public void swap(List<NewsItem> items){
         this.items.clear();
         this.items.addAll(items);
         notifyDataSetChanged();
@@ -95,7 +95,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
     //複数レイアウト
     @Override
     public int getItemViewType(int position) {
-        NewsModel childListItem = items.get(position);
+        NewsItem childListItem = items.get(position);
         if (childListItem.getGroupTitle() != null) {
             return -1;
         }

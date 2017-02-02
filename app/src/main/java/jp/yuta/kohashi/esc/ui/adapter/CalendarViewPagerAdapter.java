@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import java.util.Calendar;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.schedule.CalendarListModel;
+import jp.yuta.kohashi.esc.model.schedule.CalendarList;
 import jp.yuta.kohashi.esc.ui.view.CalendarView;
 import jp.yuta.kohashi.esc.util.Util;
 
@@ -24,18 +24,18 @@ public class CalendarViewPagerAdapter extends PagerAdapter {
     //    private ClickPagerImgListener listener;
     LayoutInflater _inflater = null;
     private Context mContext;
-    private CalendarListModel calendarListModel;
+    private CalendarList calendarList;
 
-    public CalendarViewPagerAdapter(Context context, CalendarListModel model) {
+    public CalendarViewPagerAdapter(Context context, CalendarList model) {
         _inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mContext = context;
-        calendarListModel = model;
+        calendarList = model;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         CalendarView calendarView = new CalendarView(mContext, null);
-        calendarView.setMonth(Calendar.getInstance().get(Calendar.YEAR),getMonth(position),calendarListModel.get(Util.getTabPositionToMonth(position)));
+        calendarView.setMonth(Calendar.getInstance().get(Calendar.YEAR),getMonth(position), calendarList.get(Util.getTabPositionToMonth(position)));
         container.addView(calendarView);
         return calendarView;
     }

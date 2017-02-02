@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import jp.yuta.kohashi.esc.App;
-import jp.yuta.kohashi.esc.model.AttendanceRateModel;
+import jp.yuta.kohashi.esc.model.AttendanceRate;
 import jp.yuta.kohashi.esc.util.RegexUtil;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
@@ -81,11 +81,11 @@ public class HttpHelper {
     }
 
     private static void saveAttandanceRate(String html) {
-        List<AttendanceRateModel> beforeList = PrefUtil.loadAttendanceRateModelList();
-        List<AttendanceRateModel> afterList = PrefUtil.createAttendanceList(html);
-        List<AttendanceRateModel> temp = new ArrayList<>();
-        for (AttendanceRateModel after : afterList) {
-            for (AttendanceRateModel before : beforeList) {
+        List<AttendanceRate> beforeList = PrefUtil.loadAttendanceRateModelList();
+        List<AttendanceRate> afterList = PrefUtil.createAttendanceList(html);
+        List<AttendanceRate> temp = new ArrayList<>();
+        for (AttendanceRate after : afterList) {
+            for (AttendanceRate before : beforeList) {
                 if (before.getSubjectName().equals(after.getSubjectName())) {
                     after.setType(before.getType());
                     break;

@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,10 @@ import com.squareup.otto.Subscribe;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.event.BusHolder;
 import jp.yuta.kohashi.esc.event.RefreshEvent;
-import jp.yuta.kohashi.esc.model.AttendanceRateModel;
+import jp.yuta.kohashi.esc.model.AttendanceRate;
+import jp.yuta.kohashi.esc.model.enums.AttendanceRateType;
 import jp.yuta.kohashi.esc.ui.adapter.AttendanceRateViewPagerAdapter;
+import jp.yuta.kohashi.esc.ui.view.CustomViewPager;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
@@ -32,7 +33,7 @@ public class AttendanceRateParentFragment extends Fragment {
     private TextView mTotalAttendanceNumTextView;
     private TextView mTotalAbsentTextView;
 
-   private ViewPager mViewPager;
+    private CustomViewPager mViewPager;
     private AttendanceRateViewPagerAdapter mAdapter;
     private TabLayout mTab;
 
@@ -47,7 +48,7 @@ public class AttendanceRateParentFragment extends Fragment {
         mTotalAttendanceNumTextView = (TextView) v.findViewById(R.id.text_total_attendance_num);
         mTotalAbsentTextView = (TextView) v.findViewById(R.id.text_total_absent_num);
 
-        mViewPager = (ViewPager) v.findViewById(R.id.attendance_viewpager);
+        mViewPager = (CustomViewPager) v.findViewById(R.id.attendance_viewpager);
         mTab = (TabLayout) v.findViewById(R.id.tablayout);
         mAdapter = new AttendanceRateViewPagerAdapter(getChildFragmentManager(), getActivity());
         mViewPager.setAdapter(mAdapter);
@@ -57,15 +58,6 @@ public class AttendanceRateParentFragment extends Fragment {
         setTotalData();
         return v;
     }
-//
-//    @Override
-//    public void onActivityCreated(Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//        mAdapter = new AttendanceRateViewPagerAdapter(getChildFragmentManager(), getActivity());
-//        mViewPager.setAdapter(adapter);
-//    }
-
-
 
     @Subscribe
     public void subscribe(RefreshEvent event) {
@@ -77,16 +69,15 @@ public class AttendanceRateParentFragment extends Fragment {
         super.onResume();
         BusHolder.get().register(this);
 
-//        mAdapter = new AttendanceRateViewPagerAdapter(getChildFragmentManager(), getActivity());
-////        mViewPager = (ViewPager) v.findViewById(R.id.attendance_viewpager);
-//        mViewPager.setAdapter(mAdapter);
-////        mTab = (TabLayout) v.findViewById(R.id.tablayout);
-//        mTab.setupWithViewPager(mViewPager);
-//        mTab.setTabTextColors(Color.GRAY, Color.WHITE);
-//        if(!PrefUtil.isDivideAttendance()){
-//            mTab.getTabAt(0).select();
-//        }
-
+        if (!PrefUtil.isDivideAttendance()) {
+            mTab.getTabAt(AttendanceRateType.ALL.getId()).select();
+            mViewPager.setSwipeEnable(false);
+            mTab.setVisibility(View.GONE);
+        } else {
+            mTab.getTabAt(PrefUtil.getAttendanceTabPosition()).select();
+            mViewPager.setSwipeEnable(true);
+            mTab.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -99,7 +90,7 @@ public class AttendanceRateParentFragment extends Fragment {
      * 合計データをViewに反映
      */
     private void setTotalData() {
-        AttendanceRateModel model = PrefUtil.loadAttendanceTotalData();
+        AttendanceRate model = PrefUtil.loadAttendanceTotalData();
         mTotalUnitNumTextView.setText(model.getUnit());
         mTotalAttendanceRateTextView.setText(model.getAttendanceRate());
         mTotalShortageUnitTextView.setText(model.getShortageseNumber());

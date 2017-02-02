@@ -5,9 +5,10 @@ package jp.yuta.kohashi.esc.model.enums;
  */
 
 public enum AttendanceRateType {
-    ZENKI(0), //　デフォルト値
-    KOUKI(1),
-    ALL(2); //　フラグメントで使用
+    ALL(0),//　フラグメントで使用
+    ZENKI(1), //　デフォルト値
+    KOUKI(2);
+
 
     private int id;
 

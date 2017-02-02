@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.NewsModel;
+import jp.yuta.kohashi.esc.model.NewsItem;
 import jp.yuta.kohashi.esc.ui.fragment.NewsListFragment;
 
 /**
@@ -18,11 +18,11 @@ import jp.yuta.kohashi.esc.ui.fragment.NewsListFragment;
 public class NewsViewPagerAdapter extends FragmentPagerAdapter {
 
     private static final int TAB_COUNT = 2;
-    private List<NewsModel> schoolNews;
-    private List<NewsModel> tanninNews;
+    private List<NewsItem> schoolNews;
+    private List<NewsItem> tanninNews;
     private Context mContext;
 
-    public NewsViewPagerAdapter(FragmentManager fm, List<NewsModel> schoolNews, List<NewsModel> tanninNews, Context context) {
+    public NewsViewPagerAdapter(FragmentManager fm, List<NewsItem> schoolNews, List<NewsItem> tanninNews, Context context) {
         super(fm);
         this.schoolNews = schoolNews;
         this.tanninNews = tanninNews;

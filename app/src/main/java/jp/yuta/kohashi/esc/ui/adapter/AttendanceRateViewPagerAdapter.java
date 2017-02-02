@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.enums.AttendanceRateType;
 import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateFragment;
-import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
  * Created by yutakohashi on 2017/01/30.
@@ -17,7 +16,6 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 public class AttendanceRateViewPagerAdapter extends FragmentPagerAdapter {
 
     private static final int PAGER_COUNT = 3;
-    private static final int DISABLE_PAGER_COUNT = 1;
     private Context mContext;
 
     public AttendanceRateViewPagerAdapter(FragmentManager fm, Context context) {
@@ -47,14 +45,7 @@ public class AttendanceRateViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        int count;
-        if(PrefUtil.isDivideAttendance()) {
-            count =  PAGER_COUNT;
-        } else {
-            count =  DISABLE_PAGER_COUNT;
-        }
-
-        return count;
+        return PAGER_COUNT;
     }
 
 
@@ -75,4 +66,5 @@ public class AttendanceRateViewPagerAdapter extends FragmentPagerAdapter {
         }
         return title;
     }
+
 }

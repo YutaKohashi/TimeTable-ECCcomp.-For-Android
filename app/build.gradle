@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "jp.yuta.kohashi.esc"
         minSdkVersion 15
@@ -14,9 +14,14 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+repositories {
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -37,7 +42,7 @@ dependencies {
     compile 'com.jpardogo.googleprogressbar:library:1.2.0'
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
     compile 'info.hoang8f:fbutton:1.0.5'
-    compile 'com.baoyz.pullrefreshlayout:library:1.2.0'
+
     compile 'com.afollestad.material-dialogs:commons:0.9.2.3'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.thebluealliance:spectrum:0.7.1'

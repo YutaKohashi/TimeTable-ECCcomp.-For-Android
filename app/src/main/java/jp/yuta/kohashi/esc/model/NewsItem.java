@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class NewsModel implements Serializable{
+public class NewsItem implements Serializable{
 
     private String title;
     private String date;
@@ -20,20 +20,20 @@ public class NewsModel implements Serializable{
 
     private String groupTitle; // グループタイトル
 
-    public NewsModel(String title, String date, String uri){
+    public NewsItem(String title, String date, String uri){
         this.title = title;
         this.date = date;
         this.uri = uri;
         groupTitle = null;
     }
 
-    public NewsModel(String groupTitle){
+    public NewsItem(String groupTitle){
         this.groupTitle = groupTitle;
     }
 
 
 
-    public boolean equals(NewsModel model) {
+    public boolean equals(NewsItem model) {
         return title.equals(model.title)
                 && date.equals(model.date)
                 && uri.equals(model.uri)

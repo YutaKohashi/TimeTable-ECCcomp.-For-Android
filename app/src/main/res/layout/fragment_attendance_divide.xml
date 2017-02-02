@@ -7,7 +7,12 @@
     tools:context="jp.yuta.kohashi.esc.ui.fragment.AttendanceDividePrefFragment">
 
     <include
+        android:id="@+id/include_switch"
         layout="@layout/cell_pref_item_switch"/>
+
+    <include
+        android:id="@+id/include_arrow"
+        layout="@layout/cell_pref_item_right_arrow"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -21,4 +26,7 @@
 
     </FrameLayout>
 
+    <include
+        android:id="@+id/empty"
+        layout="@layout/cell_pref_empty"/>
 </LinearLayout>

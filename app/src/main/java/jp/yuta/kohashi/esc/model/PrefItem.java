@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class PrefItemModel {
+public class PrefItem {
     private String itemName;
     private String rightText;
     private int resourceId;
@@ -18,36 +18,36 @@ public class PrefItemModel {
     private boolean bool;
     private int color;
 
-    public PrefItemModel(PrefViewType viewType) {
+    public PrefItem(PrefViewType viewType) {
         this.viewType = viewType;
     }
 
-    public PrefItemModel(String itemName, PrefViewType viewType) {
+    public PrefItem(String itemName, PrefViewType viewType) {
         this.itemName = itemName;
         this.viewType = viewType;
     }
 
-    public PrefItemModel(String itemName, Integer resourceId, PrefViewType viewType) {
+    public PrefItem(String itemName, Integer resourceId, PrefViewType viewType) {
         this.itemName = itemName;
         this.resourceId = resourceId;
         this.viewType = viewType;
     }
 
-    public PrefItemModel(String itemName, Integer resourceId, PrefViewType viewType, int color) {
+    public PrefItem(String itemName, Integer resourceId, PrefViewType viewType, int color) {
         this.itemName = itemName;
         this.resourceId = resourceId;
         this.viewType = viewType;
         this.color = color;
     }
 
-    public PrefItemModel(String itemName, Integer resourceId, PrefViewType viewType, boolean bool) {
+    public PrefItem(String itemName, Integer resourceId, PrefViewType viewType, boolean bool) {
         this.itemName = itemName;
         this.resourceId = resourceId;
         this.viewType = viewType;
         this.bool = bool;
     }
 
-    public PrefItemModel(String itemName, String rightText, Integer resourceId, PrefViewType viewType) {
+    public PrefItem(String itemName, String rightText, Integer resourceId, PrefViewType viewType) {
         this.itemName = itemName;
         this.rightText = rightText;
         this.resourceId = resourceId;

@@ -13,38 +13,38 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class CalendarListModel {
+public class CalendarList {
     @SerializedName("4")
-    List<CalendarItemModel> month4;
+    List<CalendarItem> month4;
     @SerializedName("5")
-    List<CalendarItemModel> month5;
+    List<CalendarItem> month5;
     @SerializedName("6")
-    List<CalendarItemModel> month6;
+    List<CalendarItem> month6;
     @SerializedName("7")
-    List<CalendarItemModel> month7;
+    List<CalendarItem> month7;
     @SerializedName("8")
-    List<CalendarItemModel> month8;
+    List<CalendarItem> month8;
     @SerializedName("9")
-    List<CalendarItemModel> month9;
+    List<CalendarItem> month9;
     @SerializedName("10")
-    List<CalendarItemModel> month10;
+    List<CalendarItem> month10;
     @SerializedName("11")
-    List<CalendarItemModel> month11;
+    List<CalendarItem> month11;
     @SerializedName("12")
-    List<CalendarItemModel> month12;
+    List<CalendarItem> month12;
     @SerializedName("1")
-    List<CalendarItemModel> month1;
+    List<CalendarItem> month1;
     @SerializedName("2")
-    List<CalendarItemModel> month2;
+    List<CalendarItem> month2;
     @SerializedName("3")
-    List<CalendarItemModel> month3;
+    List<CalendarItem> month3;
 
     /**
      * 指定した月のリストを取得するメソッド
      * @param month
      * @return
      */
-    public List<CalendarItemModel> get(int month){
+    public List<CalendarItem> get(int month){
         switch(month){
             case 1:
                 return month1;
