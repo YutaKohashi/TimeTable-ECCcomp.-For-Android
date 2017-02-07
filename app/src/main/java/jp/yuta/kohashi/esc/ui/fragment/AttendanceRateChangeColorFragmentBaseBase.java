@@ -18,6 +18,7 @@ import jp.yuta.kohashi.esc.model.PrefItem;
 import jp.yuta.kohashi.esc.model.enums.PrefViewType;
 import jp.yuta.kohashi.esc.ui.adapter.PrefRecyclerAdapter;
 import jp.yuta.kohashi.esc.ui.fragment.base.BasePrefBaseRecyclerViewFragment;
+import jp.yuta.kohashi.esc.util.Util;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
@@ -36,8 +37,6 @@ public class AttendanceRateChangeColorFragmentBaseBase extends BasePrefBaseRecyc
     public void createItems() {
         addItem(new PrefItem(PrefViewType.EMPTY));
         addItem(new PrefItem(getResources().getString(R.string.pref_enable_change_color), R.drawable.ic_brush, PrefViewType.ITEM_SWITCH, PrefUtil.isChangeColor()));
-//        addItem(new PrefItem(PrefViewType.EMPTY));
-//        addItem(new PrefItem(getResources().getString(R.string.pref_set_color), PrefViewType.ITEM_GROUP_TITLE));
         addItem(new PrefItem(getResources().getString(R.string.pref_rate_u90), R.drawable.ic_color_lens, PrefViewType.ITEM_COLOR_PICK, PrefUtil.loadColorU90()));
         addItem(new PrefItem(getResources().getString(R.string.pref_rate_u81), R.drawable.ic_color_lens, PrefViewType.ITEM_COLOR_PICK, PrefUtil.loadColorU81()));
         addItem(new PrefItem(getResources().getString(R.string.pref_rate_u75), R.drawable.ic_color_lens, PrefViewType.ITEM_COLOR_PICK, PrefUtil.loadColorU75()));
@@ -80,7 +79,17 @@ public class AttendanceRateChangeColorFragmentBaseBase extends BasePrefBaseRecyc
 
             }
         });
+        mRootView.setBackgroundColor(Util.getColor(R.color.colorPrimaryDark));
         mRecyclerView.setAdapter(mRecyclerAdapter);
+    }
+
+    @Override
+    protected void swap() {
+    }
+
+    @Override
+    protected void getSavedItems() {
+
     }
 
 

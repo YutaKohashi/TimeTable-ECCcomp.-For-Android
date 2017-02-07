@@ -22,8 +22,8 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="false">
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/calendar_viewpager"
+            <ViewPager
+                android:id="@+id/calendar_front_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
@@ -42,6 +42,18 @@
             app:tabSelectedTextColor="@color/tab_focus_color"
             app:tabTextColor="@color/tab_noFocus_color" />
 
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_calendar_invisible"
+            android:visibility="invisible"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="bottom"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:tabBackground="@drawable/bg_news_tab"
+            app:tabMode="scrollable"
+            app:tabIndicatorColor="@color/colorPrimaryDark"
+            app:tabSelectedTextColor="@color/tab_focus_color"
+            app:tabTextColor="@color/tab_noFocus_color" />
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
@@ -50,10 +62,17 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/calendar_recycler_view"
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/calendar_recycler_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" />-->
+
+
+        <ViewPager
+            android:id="@+id/calendar_bottom_viewpager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            />
 
         <FrameLayout
             android:layout_width="match_parent"

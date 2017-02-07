@@ -10,30 +10,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.NewsItem;
 import jp.yuta.kohashi.esc.ui.adapter.NewsViewPagerAdapter;
-import jp.yuta.kohashi.esc.util.preference.PrefUtil;
+import jp.yuta.kohashi.esc.ui.fragment.base.BaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewsParentFragment extends Fragment {
+public class NewsParentFragment extends BaseFragment {
 
     ViewPager mViewPager;
-    List<NewsItem> schoolNews;
-    List<NewsItem> tanninNews;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_news_parent, container, false);
 
-        schoolNews = PrefUtil.loadSchoolNewsList();
-        tanninNews = PrefUtil.loadTanninNewsList();
-        NewsViewPagerAdapter adapter = new NewsViewPagerAdapter(getChildFragmentManager(), schoolNews, tanninNews, getActivity());
+        NewsViewPagerAdapter adapter = new NewsViewPagerAdapter(getChildFragmentManager(), getActivity());
         mViewPager = (ViewPager) v.findViewById(R.id.news_viewpager);
         mViewPager.setAdapter(adapter);
         TabLayout tabLayout = (TabLayout) v.findViewById(R.id.tablayout);
@@ -42,12 +35,5 @@ public class NewsParentFragment extends Fragment {
         tabLayout.setTabTextColors(Color.GRAY, Color.WHITE);
 
         return v;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        NewsViewPagerAdapter adapter = new NewsViewPagerAdapter(getChildFragmentManager(), schoolNews, tanninNews, getActivity());
-        mViewPager.setAdapter(adapter);
     }
 }

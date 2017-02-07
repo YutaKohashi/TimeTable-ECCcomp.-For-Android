@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.model.NewsItem;
@@ -33,9 +34,8 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
     private NewsRecyclerAdapter mRecyclerAdapter;
     private int contains;  //0:school,  1:teacher
 
-    public static NewsListFragment newInstance(List<NewsItem> items, int contains){
+    public static NewsListFragment newInstance(int contains){
         NewsListFragment fragment = new NewsListFragment();
-        fragment.items = items;
         fragment.contains = contains;
         return fragment;
     }
@@ -58,6 +58,16 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
     @Override
     public void initView(View v) {
         super.initView(v);
+        if(items == null){
+            switch(contains){
+                case 0:
+                    items = PrefUtil.loadSchoolNewsList();
+                    break;
+                case 1:
+                    items = PrefUtil.loadTanninNewsList();
+                    break;
+            }
+        }
         mRecyclerAdapter = new NewsRecyclerAdapter(items, getContext()) {
             @Override
             protected void onItemClicked(@NonNull final NewsItem model) {
@@ -88,6 +98,19 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
     }
 
     @Override
+    protected void swap() {
+
+    }
+
+    @Override
+    protected void getSavedItems() {
+        if(items == null) items = new ArrayList<>();
+        else items.clear();
+        if(contains == 0) items.addAll(PrefUtil.loadSchoolNewsList());
+        else items.addAll(PrefUtil.loadTanninNewsList());
+    }
+
+    @Override
     public void onRefresh() {
         super.onRefresh();
         if (!Util.netWorkCheck()) {
@@ -102,7 +125,8 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
                     @Override
                     public void callback(boolean bool) {
                         if (bool) {
-                            mRecyclerAdapter.swap(PrefUtil.loadSchoolNewsList());
+                            getSavedItems();
+                            mRecyclerAdapter.swap(items);
                             NotifyUtil.successUpdate();
                         } else {
                             NotifyUtil.failureUpdate();
@@ -117,7 +141,8 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
                     @Override
                     public void callback(boolean bool) {
                         if (bool) {
-                            mRecyclerAdapter.swap(PrefUtil.loadTanninNewsList());
+                            getSavedItems();
+                            mRecyclerAdapter.swap(items);
                             NotifyUtil.successUpdate();
                         } else {
                             NotifyUtil.failureUpdate();

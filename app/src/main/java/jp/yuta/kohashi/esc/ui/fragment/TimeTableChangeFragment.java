@@ -1,11 +1,14 @@
 package jp.yuta.kohashi.esc.ui.fragment;
 
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import java.util.List;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.TimeBlockItem;
 import jp.yuta.kohashi.esc.ui.adapter.TimeTableRecyclerAdapter;
+import jp.yuta.kohashi.esc.ui.widget.TimeTableWidget;
 import jp.yuta.kohashi.esc.util.NotifyUtil;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
@@ -140,19 +144,19 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
             NotifyUtil.saveData();
             loadLists();
             swapAll();
-//
-//            TODO :    ウィジェット更新
-//            int widgetIDs[] = AppWidgetManager.getInstance(App.getAppContext()).getAppWidgetIds(new ComponentName(getContext(), TimeTableWidget.class));
-//            //　ウィジェット更新
-//            for(int i:widgetIDs) {
-//                TimeTableWidget.updateAppWidget(App.getAppContext(),AppWidgetManager.getInstance(App.getAppContext()),i);
-//            }
-//
 
-//            int widgetIDs[] = AppWidgetManager.getInstance(App.getAppContext()).getAppWidgetIds(new ComponentName(getContext(), TimeTableWidget.class));
-//
-//            for (int id : widgetIDs)
-//                AppWidgetManager.getInstance(App.getAppContext()).notifyAppWidgetViewDataChanged(id, R.id.widget_view);
+            Intent intent = new Intent(getActivity(),TimeTableWidget.class);
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            Integer appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
+// Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+// since it seems the onUpdate() is only fired on that:
+            if (appWidgetId == null){
+                Log.d(TimeTableChangeFragment.class.getSimpleName(),"appwidget is null" + "     - appWidgetId");
+            } else {
+                int[] ids = {appWidgetId};
+                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+                getActivity().sendBroadcast(intent);
+            }
 
         } else {
             NotifyUtil.notChangeData();

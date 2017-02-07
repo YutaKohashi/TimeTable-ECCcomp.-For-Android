@@ -26,7 +26,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 >
-
                 <!--total data-->
                 <include
                     android:id="@+id/view_total"
@@ -49,11 +48,24 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <jp.yuta.kohashi.esc.ui.view.CustomViewPager
-        android:id="@+id/attendance_viewpager"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <jp.yuta.kohashi.esc.ui.view.CustomViewPager
+            android:id="@+id/attendance_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+           />
+
+        <FrameLayout
+            android:id="@+id/attendance_filter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg_bottom_sheet_close"
+            android:visibility="invisible"/>
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>
 

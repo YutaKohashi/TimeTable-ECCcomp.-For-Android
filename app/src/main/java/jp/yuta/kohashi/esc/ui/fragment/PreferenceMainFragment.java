@@ -114,6 +114,16 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
         mRecyclerView.setAdapter(mRecyclerAdapter);
     }
 
+    @Override
+    protected void swap() {
+
+    }
+
+    @Override
+    protected void getSavedItems() {
+
+    }
+
     /**
      * 時間割を更新
      */

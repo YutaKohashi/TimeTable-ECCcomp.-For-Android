@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary9"
+    android:id="@+id/fragment_recycler_view"
     tools:context="jp.yuta.kohashi.esc.ui.fragment.PreferenceMainFragment">
 
     <android.support.v7.widget.RecyclerView

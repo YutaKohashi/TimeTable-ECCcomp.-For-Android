@@ -57,4 +57,6 @@ public final class PrefConst {
     static final String KEY_DIVIDE_ATTENDANCE ="KEY_ATTENDANCE_DIVIDE";
 
     static final String KEY_ATTENDANCE_TAB_POSITION ="KEY_ATTENDANCE_TAB_POSITION";
+
+    static final String KEY_LATEST_UPDATE_DATA ="KEY_LATEST_UPDATE_DATA";
 }

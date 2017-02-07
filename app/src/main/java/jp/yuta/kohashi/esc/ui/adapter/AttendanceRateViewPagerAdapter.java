@@ -3,7 +3,6 @@ package jp.yuta.kohashi.esc.ui.adapter;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.enums.AttendanceRateType;
@@ -13,20 +12,17 @@ import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateFragment;
  * Created by yutakohashi on 2017/01/30.
  */
 
-public class AttendanceRateViewPagerAdapter extends FragmentPagerAdapter {
-
-    private static final int PAGER_COUNT = 3;
-    private Context mContext;
+public class AttendanceRateViewPagerAdapter extends BaseFragmentPagerAdapter {
 
     public AttendanceRateViewPagerAdapter(FragmentManager fm, Context context) {
-        super(fm);
-        mContext = context;
+        super(fm, context);
+        mPagerCount = 3;
     }
 
     @Override
     public Fragment getItem(int position) {
         AttendanceRateFragment fragment;
-        switch(position){
+        switch (position) {
             case 0:
                 fragment = AttendanceRateFragment.newInstance(AttendanceRateType.ALL);
                 break;
@@ -44,16 +40,9 @@ public class AttendanceRateViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public int getCount() {
-        return PAGER_COUNT;
-    }
-
-
-
-    @Override
     public CharSequence getPageTitle(int position) {
         String title = "";
-        switch (position){
+        switch (position) {
             case 0:
                 title = mContext.getResources().getString(R.string.title_all_data);
                 break;

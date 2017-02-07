@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
+import jp.yuta.kohashi.esc.model.NewsItem;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 
@@ -26,8 +27,13 @@ public class LoginCheckActivity extends Activity {
         } else {
             //ログインしている
             Intent intent = new Intent(LoginCheckActivity.this, MainActivity.class);
-            if(getIntent().getBooleanExtra(MainActivity.SELECT_TAB_NEWS,false))
-                intent.putExtra(MainActivity.SELECT_TAB_NEWS,true);
+            if(getIntent().getBooleanExtra(MainActivity.SELECT_TAB_NEWS,false)) {
+                intent.putExtra(MainActivity.SELECT_TAB_NEWS, true);
+            }
+            NewsItem item = (NewsItem) getIntent().getSerializableExtra(NewsDetailActivity.NEWS_MODEL);
+            if(item != null){
+                intent.putExtra(NewsDetailActivity.NEWS_MODEL,item);
+            }
             startActivity(intent);
         }
         ActivityCompat.finishAffinity(this);

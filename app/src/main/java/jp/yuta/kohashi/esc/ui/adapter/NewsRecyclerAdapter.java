@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
@@ -27,7 +28,10 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
     protected void onItemClicked(@NonNull NewsItem model) {}
 
     public NewsRecyclerAdapter(List<NewsItem> items, Context context) {
-        this.items = items;
+        if(this.items == null) this.items = new ArrayList<>();
+        else  this.items.clear();
+
+        this.items.addAll(items);
         mContext = context;
     }
 

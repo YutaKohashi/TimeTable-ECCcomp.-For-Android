@@ -12,15 +12,12 @@ import android.view.MotionEvent;
 public class CustomViewPager extends ViewPager {
 
     boolean isSwipe = false;
-
     public CustomViewPager(Context context) {
         super(context);
     }
-
     public CustomViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
 
     /*
      * スワイプによるページ切り替え有効/無効設定

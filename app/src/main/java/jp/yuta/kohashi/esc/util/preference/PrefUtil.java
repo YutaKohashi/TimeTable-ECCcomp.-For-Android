@@ -21,6 +21,7 @@ import jp.yuta.kohashi.esc.model.AttendanceRate;
 import jp.yuta.kohashi.esc.model.NewsItem;
 import jp.yuta.kohashi.esc.model.TimeBlockItem;
 import jp.yuta.kohashi.esc.util.RegexUtil;
+import jp.yuta.kohashi.esc.util.Util;
 
 
 /**
@@ -313,6 +314,12 @@ public class PrefUtil {
         return sharedPreferences.getInt(PrefConst.KEY_ATTENDANCE_TAB_POSITION, 0);
     }
 
+    public static long getLatestUpdateDate(){
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL,Context.MODE_PRIVATE);
+        return sharedPreferences.getLong(PrefConst.KEY_LATEST_UPDATE_DATA, Util.getCurrentTimeMillis()); // dfault current time
+    }
+
+
     //**
     //endregion
     //**
@@ -526,6 +533,14 @@ public class PrefUtil {
         save(position, PrefConst.KEY_ATTENDANCE_TAB_POSITION, PrefConst.FILE_UTIL);
     }
 
+    /**
+     * アプリを起動した最新の日時を保存する
+     * @param date
+     */
+    public static void saveLatestUpdateData(long date){
+        save(date ,PrefConst.KEY_LATEST_UPDATE_DATA,PrefConst.FILE_UTIL);
+    }
+
     //**
     //endregion
     //**
@@ -615,13 +630,13 @@ public class PrefUtil {
      * すべてのデータを削除
      */
     public static void deleteAll() {
-        App.getAppContext().getSharedPreferences(PrefConst.FILE_ATTEND, Context.MODE_PRIVATE).edit().clear().commit();
-        App.getAppContext().getSharedPreferences(PrefConst.FILE_TIME_TABLE, Context.MODE_PRIVATE).edit().clear().commit();
-        App.getAppContext().getSharedPreferences(PrefConst.FILE_STATE, Context.MODE_PRIVATE).edit().clear().commit();
-        App.getAppContext().getSharedPreferences(PrefConst.FILE_NEWS, Context.MODE_PRIVATE).edit().clear().commit();
-        App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, Context.MODE_PRIVATE).edit().clear().commit();
-        App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE).edit().clear().commit();
-        PreferenceManager.getDefaultSharedPreferences(App.getAppContext()).edit().clear().commit();
+        App.getAppContext().getSharedPreferences(PrefConst.FILE_ATTEND, Context.MODE_PRIVATE).edit().clear().apply();
+        App.getAppContext().getSharedPreferences(PrefConst.FILE_TIME_TABLE, Context.MODE_PRIVATE).edit().clear().apply();
+        App.getAppContext().getSharedPreferences(PrefConst.FILE_STATE, Context.MODE_PRIVATE).edit().clear().apply();
+        App.getAppContext().getSharedPreferences(PrefConst.FILE_NEWS, Context.MODE_PRIVATE).edit().clear().apply();
+        App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, Context.MODE_PRIVATE).edit().clear().apply();
+        App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE).edit().clear().apply();
+        PreferenceManager.getDefaultSharedPreferences(App.getAppContext()).edit().clear().apply();
     }
 
     /**
@@ -1005,6 +1020,11 @@ public class PrefUtil {
     private static void save(int num, String key, String fileName) {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(fileName, Context.MODE_PRIVATE);
         sharedPreferences.edit().putInt(key, num).commit();
+    }
+
+    private static void save(long num ,String key,String fileName){
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(fileName,Context.MODE_PRIVATE);
+        sharedPreferences.edit().putLong(key,num).commit();
     }
 
     //**

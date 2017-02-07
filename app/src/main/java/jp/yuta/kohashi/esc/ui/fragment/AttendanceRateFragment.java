@@ -8,11 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.yuta.kohashi.esc.event.BusHolder;
 import jp.yuta.kohashi.esc.event.RefreshEvent;
+import jp.yuta.kohashi.esc.event.UpdateAttendanceRateEvent;
 import jp.yuta.kohashi.esc.model.AttendanceRate;
 import jp.yuta.kohashi.esc.model.enums.AttendanceRateType;
 import jp.yuta.kohashi.esc.network.HttpConnector;
@@ -51,7 +54,7 @@ public class AttendanceRateFragment extends BaseRefreshRecyclerViewFragment {
 
     @Override
     public void createItems() {
-        getItems();
+        getSavedItems();
     }
 
     @Override
@@ -65,8 +68,21 @@ public class AttendanceRateFragment extends BaseRefreshRecyclerViewFragment {
     @Override
     public void onResume() {
         super.onResume();
-        getItems();
-        mRecyclerAdapter.swap(items);
+        EventBus.getDefault().register(this);
+        swap();
+    }
+
+    @Override
+    public void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
+
+    }
+
+    @Subscribe
+    public void onEvent(UpdateAttendanceRateEvent event) {
+        Log.d(TAG,"swap--swap--swap--swap--swap--swap--swap--swap--swap--swap--");
+        swap();
     }
 
     //　Pull To Refresh
@@ -84,14 +100,11 @@ public class AttendanceRateFragment extends BaseRefreshRecyclerViewFragment {
             @Override
             public void callback(boolean bool) {
                 if (bool) {
-                    getItems();
-                    Log.d(TAG,String.valueOf(items.size()));
-                    //更新処理
-                    mRecyclerAdapter.swap(items);
-                    Log.d(TAG,String.valueOf(items.size()));
+                    swap();
+                    PrefUtil.saveLatestUpdateData(Util.getCurrentTimeMillis());
                     NotifyUtil.successUpdate();
                     // call event
-                    BusHolder.get().post(new RefreshEvent());
+                    EventBus.getDefault().post(new RefreshEvent());
                 } else {
                     NotifyUtil.failureUpdate();
                 }
@@ -101,16 +114,16 @@ public class AttendanceRateFragment extends BaseRefreshRecyclerViewFragment {
         });
     }
 
-    /**
-     * 任意のアイテムリストを返す
-     * @return
-     */
-    private void getItems(){
-        if(items == null){
-            items = new ArrayList<>();
-        }
-        items.clear();
+    @Override
+    protected void swap() {
+        getSavedItems();
+        mRecyclerAdapter.swap(items);
+    }
 
+    @Override
+    protected void getSavedItems(){
+        if(items == null) items = new ArrayList<>();
+        else items.clear();
         List<AttendanceRate> temp = PrefUtil.loadAttendanceRateModelList();
         if (type == AttendanceRateType.ALL) {
             items.addAll(temp);
@@ -121,4 +134,5 @@ public class AttendanceRateFragment extends BaseRefreshRecyclerViewFragment {
             }
         }
     }
+
 }

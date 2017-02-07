@@ -1,6 +1,7 @@
 package jp.yuta.kohashi.esc.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,9 +35,30 @@ public class NewsItem implements Serializable{
 
 
     public boolean equals(NewsItem model) {
-        return title.equals(model.title)
-                && date.equals(model.date)
-                && uri.equals(model.uri)
-                && groupTitle.equals(model.groupTitle);
+        if(this.groupTitle != null){
+            return true;
+        } else {
+            return this.title.equals(model.getTitle())
+                    && this.date.equals(model.getDate())
+                    && this.uri.equals(model.getUri());
+        }
+
+    }
+
+    /**
+     * targetListに入っているか
+     * @param item
+     * @param targetList
+     * @return
+     */
+    public static boolean containsList(NewsItem item, List<NewsItem> targetList){
+        boolean result = false;
+        for(NewsItem i:targetList){
+            if(item.equals(i)){
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 }

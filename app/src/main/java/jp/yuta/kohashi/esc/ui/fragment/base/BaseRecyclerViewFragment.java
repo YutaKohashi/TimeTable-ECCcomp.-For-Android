@@ -2,11 +2,11 @@ package jp.yuta.kohashi.esc.ui.fragment.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import jp.yuta.kohashi.esc.R;
 
@@ -14,10 +14,11 @@ import jp.yuta.kohashi.esc.R;
  * Created by yutakohashi on 2017/01/21.
  */
 
-public abstract class BaseRecyclerViewFragment extends Fragment {
+public abstract class BaseRecyclerViewFragment extends BaseFragment {
 
     protected RecyclerView mRecyclerView;
     protected View mView;
+    protected FrameLayout mRootView;
 
     @Nullable
     @Override
@@ -25,6 +26,7 @@ public abstract class BaseRecyclerViewFragment extends Fragment {
 
         mView = inflater.inflate(R.layout.fragment_recycler_view, container, false);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.recycler_view);
+        mRootView = (FrameLayout)mView.findViewById(R.id.fragment_recycler_view);
         createItems();
         initView(mView);
         return mView;
@@ -42,5 +44,14 @@ public abstract class BaseRecyclerViewFragment extends Fragment {
      */
     public abstract void initView(View v);
 
+    /**
+     * アイテムを入れ替える
+     */
+    protected abstract void swap();
+
+    /**
+     * 任意のリストを返す
+     */
+    protected abstract void getSavedItems();
 
 }

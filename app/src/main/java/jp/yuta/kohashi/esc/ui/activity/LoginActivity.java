@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mPasswordTextView = setClick(R.id.text_view_password);
     }
 
-    private TextView setClick(int id){
+    private TextView setClick(int id) {
         TextView textView = (TextView) findViewById(id);
         textView.setOnClickListener(this);
         return textView;
@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.btn_login){
+        if (view.getId() == R.id.btn_login) {
             //テキストフィールドとネットワークのチェック
             if (!Util.checkTextField(mIdTextView) | !Util.checkTextField(mPasswordTextView)) {
                 defaultProgBtn();
@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void login(){
+    private void login() {
         disableTextViews();
         disableBtn();
         startProgBtn();
@@ -88,15 +88,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     HttpConnector.request(HttpConnector.Type.NEWS_SCHOOL_TEACHER, userId, password, new HttpConnector.Callback() {
                         @Override
                         public void callback(boolean bool) {
-                            if(bool){
+                            if (bool) {
                                 // 出席照会
                                 HttpConnector.request(HttpConnector.Type.ATTENDANCE_RATE, userId, password, new HttpConnector.Callback() {
                                     @Override
                                     public void callback(boolean bool) {
-                                       successLogin(bool);
+                                        successLogin(bool);
                                     }
                                 });
-                            }else{
+                            } else {
                                 failureLogin();
                             }
                         }
@@ -131,14 +131,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * 引数に出席照会が取得できたかを入れる
      * true : 取得成功　false 取得失敗
      */
-    private void successLogin(Boolean bool){
+    private void successLogin(Boolean bool) {
         successProgBtn();
         // ログイン状態を保存
         PrefUtil.saveLoginState(true);
-        PrefUtil.saveIdPass(userId,password);
+        PrefUtil.saveIdPass(userId, password);
         // 画面遷移
-        final Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-        intent.putExtra(MainActivity.GET_ATTENDANCE_RATE,bool);  //出席照会を取得できたか
+        final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.putExtra(MainActivity.GET_ATTENDANCE_RATE, bool);  //出席照会を取得できたか
         Handler mHandler = new Handler();
         Runnable runnable = new Runnable() {
             public void run() {
@@ -172,15 +172,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mPasswordTextView.setEnabled(bool);
     }
 
-    private void enableBtn(){
+    private void enableBtn() {
         setClikableBtn(true);
     }
 
-    private void disableBtn(){
+    private void disableBtn() {
         setClikableBtn(false);
     }
 
-    private void setClikableBtn(Boolean bool){
+    private void setClikableBtn(Boolean bool) {
         mLoginButton.setClickable(bool);
     }
 
@@ -191,19 +191,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     //**
     //region login btn state
     //**
-    private void startProgBtn(){
+    private void startProgBtn() {
         mLoginButton.setProgress(1);
     }
 
-    private void successProgBtn(){
+    private void successProgBtn() {
         mLoginButton.setProgress(100);
     }
 
-    private void failureProgBtn(){
+    private void failureProgBtn() {
         mLoginButton.setProgress(-1);
     }
 
-    private void defaultProgBtn(){
+    private void defaultProgBtn() {
         mLoginButton.setProgress(0);
         mLoginButton.setIndeterminateProgressMode(true);
     }
@@ -214,10 +214,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     //　以前のバージョンでインストールしていた場合
-    private void isInstallBeforeVersion(){
+    private void isInstallBeforeVersion() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        int num = pref.getInt("InitState",-1);
-        if(num != -1){
+        int num = pref.getInt("InitState", -1);
+        if (num != -1) {
             MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
                     .content(R.string.dialog_comment_updated)
                     .positiveText(R.string.dialog_positive_ok)
@@ -229,7 +229,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             PrefUtil.deleteAll();
                             try {
                                 PrefUtil.deleteSharedPreferencesFiles();
-                            }catch (Throwable e){
+                            } catch (Throwable e) {
                             }
                         }
                     });

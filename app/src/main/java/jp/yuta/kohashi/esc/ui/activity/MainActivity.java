@@ -25,6 +25,9 @@ import java.util.List;
 
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
+import jp.yuta.kohashi.esc.model.NewsItem;
+import jp.yuta.kohashi.esc.network.HttpConnector;
+import jp.yuta.kohashi.esc.network.service.HttpHelper;
 import jp.yuta.kohashi.esc.network.service.RequestURL;
 import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
 import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateParentFragment;
@@ -43,7 +46,7 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final String GET_ATTENDANCE_RATE = "get_attendance_rate";
-    public static final String SELECT_TAB_NEWS ="select_tab_news"; //　通知をタップして起動した場合
+    public static final String SELECT_TAB_NEWS = "select_tab_news"; //　通知をタップして起動した場合
 
     /*ツールバー・ナビゲーションドロワー・トグル・レイアウト*/
     private NavigationView mNavDrawer;
@@ -54,6 +57,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private int currentTab;
 
+    private TimeTableFragment timeTableFragment;
+    private AttendanceRateParentFragment attendanceRateFragment;
+    private NewsParentFragment newsParentFragment;
+    private CalendarFragment calendarFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +80,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         currentTab = -1;
 
         //サービス起動チェック
-        if(!Util.isStartService() && PrefUtil.isNotifyNews()){
+        if (!Util.isStartService() && PrefUtil.isNotifyNews()) {
             new EccNewsManageService().startResident(MainActivity.this);
         }
 
@@ -112,19 +119,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         switch (item.getItemId()) {
             case R.id.nav_item_time_table: // 時間割
-                replaceFragment(new TimeTableFragment());
+                if (timeTableFragment == null) timeTableFragment = new TimeTableFragment();
+                replaceFragment(timeTableFragment);
                 currentTab = item.getItemId();
                 break;
 //            case R.id.nav_item_attendance_rate: // 出席照会
             case R.id.nav_item_attendance_rate: // 出席照会
-                replaceFragment(new AttendanceRateParentFragment());
+                if (attendanceRateFragment == null)
+                    attendanceRateFragment = new AttendanceRateParentFragment();
+                replaceFragment(attendanceRateFragment);
                 currentTab = item.getItemId();
                 break;
             case R.id.nav_item_news: // お知らせ
-                replaceFragment(new NewsParentFragment());
+                if (newsParentFragment == null) newsParentFragment = new NewsParentFragment();
+                replaceFragment(newsParentFragment);
                 currentTab = item.getItemId();
                 break;
             case R.id.nav_item_schedule: //スケジュール
+                if (calendarFragment == null) calendarFragment = new CalendarFragment();
                 replaceFragment(new CalendarFragment());
                 currentTab = item.getItemId();
                 break;
@@ -140,9 +152,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 showSettings();
                 closeDrawer();
                 break;
-//            case R.id.nav_item_feedback: //フィードバック
-//                closeDrawer();
-//                break;
         }
 
         return true;
@@ -194,13 +203,39 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     /**
      * 通知から起動した場合お知らせタブを選択する
      */
-    private void isSelectTabNews(){
+    private void isSelectTabNews() {
         Intent intent = getIntent();
-        boolean bool = intent.getBooleanExtra(SELECT_TAB_NEWS,false);
-        if(bool){
+        boolean bool = intent.getBooleanExtra(SELECT_TAB_NEWS, false);
+        intent.removeExtra(SELECT_TAB_NEWS);
+        if (bool) {
             View view = mBottomNavView.findViewById(R.id.nav_item_news);
-            if(view != null)  view.performClick();
-            intent.removeExtra(SELECT_TAB_NEWS);
+            if (view != null) view.performClick();
+
+            final NewsItem item = (NewsItem) intent.getSerializableExtra(NewsDetailActivity.NEWS_MODEL);
+            intent.removeExtra(NewsDetailActivity.NEWS_MODEL);
+            if(item != null) {
+                // 詳細記事を表示
+                if (!Util.netWorkCheck()) {
+                    NotifyUtil.failureNetworkConnection();
+                    return;
+                }
+
+                NotifyUtil.showLoadingDiag(this);
+                HttpConnector.requestNewsDetail(PrefUtil.getId(), PrefUtil.getPss(), item.getUri(), new HttpHelper.AccessCallbacks() {
+                    @Override
+                    public void callback(String html, boolean bool) {
+                        if (bool) {
+                            Intent intent = new Intent(MainActivity.this, NewsDetailActivity.class);
+                            intent.putExtra(NewsDetailActivity.NEWS_MODEL, item);
+                            intent.putExtra(NewsDetailActivity.NEWS_HTML, html);
+
+                            startActivity(intent);
+                        }
+                        NotifyUtil.dismiss();
+                    }
+                });
+            }
+
         }
     }
 
@@ -234,8 +269,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         customTabsIntent.launchUrl(MainActivity.this, uri);
     }
 
-    private void showProfile(){
-        startActivity(new Intent(MainActivity.this,ProfileActivity.class));
+    private void showProfile() {
+        startActivity(new Intent(MainActivity.this, ProfileActivity.class));
     }
 
     /**

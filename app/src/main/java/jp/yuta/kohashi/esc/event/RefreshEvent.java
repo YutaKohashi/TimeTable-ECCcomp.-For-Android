@@ -7,6 +7,5 @@ package jp.yuta.kohashi.esc.event;
 public class RefreshEvent {
 
     public RefreshEvent() {
-        super();
     }
 }
