@@ -71,64 +71,31 @@ public class EccNewsManageService extends BasePeriodicService {
 
     private void task() {
         Log.d(TAG, "execute task ");
-//        final List<String> schoolNewsList = getTitleList(PrefUtil.loadSchoolNewsList());
-//        final List<String> tanninNewsList = getTitleList(PrefUtil.loadTanninNewsList());
-
-        //TODO : fix
         final List<NewsItem> schoolNewsList1 = PrefUtil.loadSchoolNewsList();
         final List<NewsItem> tanninNewsList1 = PrefUtil.loadTanninNewsList();
 
-        //TODO::::::
+        HttpConnector.request(HttpConnector.Type.NEWS_SCHOOL_TEACHER, PrefUtil.getId(),PrefUtil.getPss(), (bool -> {
+            if (bool) {
+                List<NewsItem> newSchoolNewsList1 = PrefUtil.loadSchoolNewsList();
+                List<NewsItem> newTanninNewsList1 = PrefUtil.loadTanninNewsList();
+//                            /**
+//                             * STUB  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+//                             */
+//                            NewsItem stub = new NewsItem("ダミー","2020.12.20","http://google.com");
+//                            newSchoolNewsList1.add(stub);
+//                            /**
+//                             *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+//                             */
+                List<NewsItem> compareNewsList = new ArrayList<>();
+                //　一つにまとめる
+                compareNewsList.addAll(compareList(schoolNewsList1, newSchoolNewsList1));
+                compareNewsList.addAll(compareList(tanninNewsList1, newTanninNewsList1));
 
-        HttpConnector.request(
-                HttpConnector.Type.NEWS_SCHOOL_TEACHER,
-                PrefUtil.getId(),
-                PrefUtil.getPss(),
-                new HttpConnector.Callback() {
-                    @Override
-                    public void callback(boolean bool) {
-                        if (bool) {
-//                            List<String> newSchoolNewsList = getTitleList(PrefUtil.loadSchoolNewsList());
-//                            List<String> newTanninNewsList = getTitleList(PrefUtil.loadTanninNewsList());
-//
-//                            List<String> compareSchoolList = compareList(schoolNewsList, newSchoolNewsList);
-//                            List<String> compareTanninList = compareList(tanninNewsList, newTanninNewsList);
-//                            String detailText = createNotifyText(compareSchoolList, compareTanninList);
-//
-//                            if (!TextUtils.isEmpty(detailText.trim())) {
-//                                showNotification(detailText);
-//                            }
-                            //TODO : fix
-                            List<NewsItem> newSchoolNewsList1 = PrefUtil.loadSchoolNewsList();
-                            List<NewsItem> newTanninNewsList1 = PrefUtil.loadTanninNewsList();
-//                            List<NewsItem> compareSchoolList1 = compareList1(schoolNewsList1,newSchoolNewsList1);
-//                            List<NewsItem> compareTanninList1 = compareList1(tanninNewsList1,newTanninNewsList1);
-                            /**
-                             * STUB  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
-                             */
-                            NewsItem stub = new NewsItem("ダミー","2020.12.20","http://google.com");
-                            newSchoolNewsList1.add(stub);
-                            /**
-                             *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
-                             */
-                            List<NewsItem> compareNewsList = new ArrayList<>();
-                            //　一つにまとめる
-                            compareNewsList.addAll(compareList(schoolNewsList1, newSchoolNewsList1));
-                            compareNewsList.addAll(compareList(tanninNewsList1, newTanninNewsList1));
-//                            if (compareNewsList.size() == 1) {
-//                                showNotification(compareNewsList.get(0));
-//                            } else if (compareNewsList.size() > 1) {
-//                                showNotification(compareNewsList);
-//                            }
-                            if (compareNewsList.size() >= 1) {
-                                showNotification(compareNewsList);
-                            }
-                            //TODO::::::
-
-                        }
-                    }
+                if (compareNewsList.size() >= 1) {
+                    showNotification(compareNewsList);
                 }
-        );
+            }
+        }));
     }
 
     /**
@@ -136,8 +103,6 @@ public class EccNewsManageService extends BasePeriodicService {
      * list > 0
      */
     public void showNotification(@NonNull List<NewsItem> list) {
-//        Log.d(TAG, "detailText : " + detailText);
-//        Log.d(TAG + "isempty", "" + TextUtils.isEmpty(detailText));
         Intent intent = new Intent(this, LoginCheckActivity.class);
         intent.putExtra(MainActivity.SELECT_TAB_NEWS, true);
         if (list.size() == 1) {
@@ -162,9 +127,7 @@ public class EccNewsManageService extends BasePeriodicService {
         if (PrefUtil.isNotifyNews()) { //必須
             mNotifyMgr.notify(mNotificationId, notify);
         }
-
     }
-
 
     public List<NewsItem> compareList(List<NewsItem> beforeList, List<NewsItem> afterList) {
         List<NewsItem> resultList = new ArrayList<>();
@@ -184,41 +147,10 @@ public class EccNewsManageService extends BasePeriodicService {
     private String createNotifyText(List<NewsItem> list) {
         String detailText = "";
         for (NewsItem item : list) {
-            detailText += "● ";
+            detailText += "・ ";
             detailText += item.getTitle();
             detailText += "\n";
         }
-
         return detailText;
     }
-
-
-//    /**
-//     * ２つのリストを比較して
-//     * 第２引数のリストにしかないものが存在するときtrueを返す
-//     *
-//     * @param beforeList
-//     * @param afterList
-//     * @return
-//     */
-//    public List<String> compareList(List<String> beforeList, List<String> afterList) {
-//        List<String> resultList = new ArrayList<>();
-//
-//        for (String after : afterList) {
-//            if (after == null) continue;
-//            if (!beforeList.contains(after)) {
-//                resultList.add(after);
-//            }
-//        }
-//        return resultList;
-//    }
-
-//    private List<String> getTitleList(List<NewsItem> models) {
-//        final List<String> list = new ArrayList<>();
-//        for (NewsItem model : models) {
-//            list.add(model.getTitle());
-//        }
-//
-//        return list;
-//    }
 }

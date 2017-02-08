@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:splitMotionEvents="false">
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <android.support.v4.view.ViewPager
+        <jp.yuta.kohashi.esc.ui.view.SynchronizedViewPager
             android:id="@+id/calendar_front_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,13 +32,13 @@
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_calendar_invisible"
-            android:visibility="invisible"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_gravity="bottom"
+            android:visibility="invisible"
             app:layout_scrollFlags="scroll|enterAlways"
             app:tabBackground="@drawable/bg_news_tab"
-            app:tabMode="scrollable"/>
+            app:tabMode="scrollable" />
     </RelativeLayout>
 
     <FrameLayout
@@ -48,15 +48,11 @@
         android:layout_weight="1"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:id="@+id/calendar_recycler_view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent" />-->
-        <android.support.v4.view.ViewPager
+        <jp.yuta.kohashi.esc.ui.view.SynchronizedViewPager
             android:id="@+id/calendar_bottom_viewpager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="match_parent" />
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -98,7 +94,7 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleGravity="bottom|right"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:titleEnabled="false"></android.support.design.widget.CollapsingToolbarLayout>
+                app:titleEnabled="false" />
 
         </android.support.design.widget.AppBarLayout>
     </android.support.design.widget.CoordinatorLayout>

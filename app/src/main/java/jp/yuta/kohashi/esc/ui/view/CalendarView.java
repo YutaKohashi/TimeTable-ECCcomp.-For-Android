@@ -2,7 +2,6 @@ package jp.yuta.kohashi.esc.ui.view;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -117,8 +116,8 @@ public class CalendarView extends LinearLayout {
             if (col == 0 && row == 0) {
                 while (row < firstWeekNo - 1) {
                     row++;
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                            0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                    LayoutParams params = new LayoutParams(
+                            0, LayoutParams.MATCH_PARENT, 1);
                     TextView textView = new TextView(getContext());
                     textView.setGravity(Gravity.CENTER);
                     textView.setVisibility(View.INVISIBLE);
@@ -128,7 +127,6 @@ public class CalendarView extends LinearLayout {
                 }
             }
 
-//            GetValuesBase getValuesBase = new GetValuesBase();
             //列
             for (; row < 7; row++) {
 
@@ -136,7 +134,7 @@ public class CalendarView extends LinearLayout {
                 float displayScale = Util.getDisplayScale();
                 int size = (int) (28 * displayScale + 0.5f);
 
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LayoutParams params = new LayoutParams(
                         size, size);
                 TextView textView1 = new TextView(getContext());
                 textView1.setText(String.valueOf(dayCount));
@@ -148,8 +146,8 @@ public class CalendarView extends LinearLayout {
                 textView1.setTextSize(17);
 
                 LinearLayout root = new LinearLayout(getContext());
-                LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
-                        0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                LayoutParams params1 = new LayoutParams(
+                        0, LayoutParams.MATCH_PARENT, 1);
                 params.gravity = Gravity.CENTER;
                 root.setGravity(Gravity.CENTER); //子TextViewを中央に
                 root.setLayoutParams(params1);
@@ -163,13 +161,10 @@ public class CalendarView extends LinearLayout {
 
 //                dateListに含まれる場合
                 if(dayList.contains(String.format("%02d",dayCount))){
-                    // btn1.setBackground(context.getResources().getDrawable(R.drawable.event_mark_bg));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        //APIレベルがJELLEYBEAN以上の時
-                        textView1.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_calendar_budge));
-                    }else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                        //APIレベルがICSの時
-                        textView1.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.bg_calendar_budge));
+                        textView1.setBackground(Util.getDrawable(R.drawable.bg_calendar_budge));
+                    } else {
+                        textView1.setBackgroundDrawable(Util.getDrawable(R.drawable.bg_calendar_budge));
                     }
                 }
 

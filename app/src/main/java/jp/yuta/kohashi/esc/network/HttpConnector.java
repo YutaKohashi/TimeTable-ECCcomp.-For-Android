@@ -41,61 +41,40 @@ public class HttpConnector {
     public static void request(Type type, final String userId, final String password, final Callback callback) {
         switch (type) {
             case TIME_TABLE:
-                HttpHelper.getTimeTable(userId, password, new HttpHelper.SuccessCallbacks() {
-                    @Override
-                    public void callback(boolean bool) {
-                        callback.callback(bool);
-                    }
-                });
+                HttpHelper.getTimeTable(userId,password,(bool -> {
+                    callback.callback(bool);
+                }));
                 break;
             case ATTENDANCE_RATE:
-                HttpHelper.getAttendanceRate(userId, password, new HttpHelper.SuccessCallbacks() {
-                    @Override
-                    public void callback(boolean bool) {
-                        callback.callback(bool);
-                    }
-                });
+                HttpHelper.getAttendanceRate(userId,password,(bool -> {
+                    callback.callback(bool);
+                }));
                 break;
             case TIME_ATTEND:
-                HttpHelper.getTimeAttend(userId, password, new HttpHelper.SuccessCallbacks() {
-                    @Override
-                    public void callback(boolean bool) {
-                        callback.callback(bool);
-                    }
-                });
+                HttpHelper.getTimeAttend(userId,password,(bool -> {
+                    callback.callback(bool);
+                }));
                 break;
             case NEWS_SCHOOL:
-                HttpHelper.getSchoolNews(userId, password, new HttpHelper.SuccessCallbacks() {
-                    @Override
-                    public void callback(boolean bool) {
-                        callback.callback(bool);
-                    }
-                });
+                HttpHelper.getSchoolNews(userId,password,(bool -> {
+                    callback.callback(bool);
+                }));
                 break;
             case NEWS_TEACHER:
-                HttpHelper.getTanninNews(userId, password, new HttpHelper.SuccessCallbacks() {
-                    @Override
-                    public void callback(boolean bool) {
-                        callback.callback(bool);
-                    }
-                });
+                HttpHelper.getTanninNews(userId,password,(bool -> {
+                    callback.callback(bool);
+                }));
                 break;
             case NEWS_SCHOOL_TEACHER:
-                HttpHelper.getSchoolTanninNews(userId, password, new HttpHelper.SuccessCallbacks() {
-                    @Override
-                    public void callback(boolean bool) {
-                        callback.callback(bool);
-                    }
-                });
+                HttpHelper.getSchoolTanninNews(userId,password,(bool -> {
+                    callback.callback(bool);
+                }));
         }
     }
 
     public static void requestNewsDetail(String userId, String password, String url , final HttpHelper.AccessCallbacks accessCallbacks){
-        HttpHelper.getNewsDetail(userId, password, url, new HttpHelper.AccessCallbacks() {
-            @Override
-            public void callback(String html, boolean bool) {
-                accessCallbacks.callback(html,bool);
-            }
-        });
+        HttpHelper.getNewsDetail(userId,password,url,((html, bool) -> {
+            accessCallbacks.callback(html,bool);
+        }));
     }
 }

@@ -41,7 +41,7 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
     private WebView mWebView;
 
     @Override
-    public  void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
         if (downloadTitles == null) {
@@ -90,12 +90,9 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
         titleTextView.setText(newsItem.getTitle());
         dateTextView.setText(newsItem.getDate());
 
-        // disable scroll on touch
-        mWebView.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                return (event.getAction() == MotionEvent.ACTION_MOVE);
-            }
-        });
+        mWebView.setOnTouchListener(((view, motionEvent) ->
+                (motionEvent.getAction() == MotionEvent.ACTION_MOVE)));
+
     }
 
     private String getMainText(String html) {
@@ -105,7 +102,7 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
 
     private void getDownloadTitleUrl(String html) {
         html = RegexUtil.replaceCRLF(html, true);
-        String narrowHtml = RegexUtil.narrowingValues("<h3>添付ファイル</h3>", "<li class=\"clear\">", html);
+        String narrowHtml = RegexUtil.narrowingValues("<h3>添付ファイル</h3>", "</ul>", html);
         Matcher match = RegexUtil.getGroupValues("<a href=\"(.+?)\">", narrowHtml);
         while (match.find()) {
             downloadUrls.add(match.group(1));
@@ -133,12 +130,9 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
         new MaterialDialog.Builder(this)
                 .title(getResources().getString(R.string.download_attachment_file))
                 .items(downloadTitles)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        downloadFile(downloadUrls.get(which));
-                    }
-                })
+                .itemsCallback(((dialog, itemView, position, text) -> {
+                    downloadFile(downloadUrls.get(position));
+                }))
                 .show();
     }
 
@@ -187,7 +181,7 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onDestroy() {
-        if(mWebView != null){
+        if (mWebView != null) {
             mWebView.stopLoading();
             mWebView.setWebChromeClient(null);
             mWebView.setWebViewClient(null);

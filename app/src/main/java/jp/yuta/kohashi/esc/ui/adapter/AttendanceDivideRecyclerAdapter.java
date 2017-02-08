@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -41,23 +40,16 @@ public class AttendanceDivideRecyclerAdapter extends RecyclerView.Adapter<Attend
         View v = mLayoutInflater.inflate(R.layout.cell_attendance_divide, parent, false);
         final AttendanceDivideRecyclerAdapter.AttendanceDivideViewHolder holder = new AttendanceDivideRecyclerAdapter.AttendanceDivideViewHolder(v);
 
-        holder.zenki.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) holder.kouki.setChecked(false);
-                int position = holder.getAdapterPosition();
-                onItemChecked(position, items, b, AttendanceRateType.ZENKI);
-            }
+        holder.zenki.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b) holder.kouki.setChecked(false);
+            int position = holder.getAdapterPosition();
+            onItemChecked(position, items, b, AttendanceRateType.ZENKI);
         });
 
-        holder.kouki.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) holder.zenki.setChecked(false);
-                int position = holder.getAdapterPosition();
-                onItemChecked(position, items, b, AttendanceRateType.KOUKI);
-
-            }
+        holder.kouki.setOnCheckedChangeListener((button, b) ->{
+            if (b) holder.zenki.setChecked(false);
+            int position = holder.getAdapterPosition();
+            onItemChecked(position, items, b, AttendanceRateType.KOUKI);
         });
 
         return holder;

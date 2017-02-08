@@ -28,14 +28,16 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateVisible|adjustPan|stateAlwaysHidden" />
         <activity android:name=".ui.activity.MainActivity" />
+
         <activity android:name=".ui.activity.NewsDetailActivity" />
         <activity
             android:name=".ui.activity.PreferenceActivity"
             android:theme="@style/PrefTheme" />
         <activity android:name=".ui.activity.AboutActivity" />
         <activity android:name=".ui.activity.LicenceActivity" />
-        <activity android:name=".ui.activity.TimeTableChangeActivity"
-            android:configChanges="orientation|screenSize"/>
+        <activity
+            android:name=".ui.activity.TimeTableChangeActivity"
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".ui.activity.AttendanceRateChangeColorActivity"
             android:configChanges="orientation|screenSize"
