@@ -113,14 +113,14 @@ public class CustomBottomNavigationView extends BottomNavigationView {
         int checkedPosition;
 
         /**
-         * Constructor called from {@link CustomBottomNavigationView#onSaveInstanceState()}
+         * Constructor called own {@link CustomBottomNavigationView#onSaveInstanceState()}
          */
         SavedState(Parcelable superState) {
             super(superState);
         }
 
         /**
-         * Constructor called from {@link #CREATOR}
+         * Constructor called own {@link #CREATOR}
          */
         private SavedState(Parcel in) {
             super(in);

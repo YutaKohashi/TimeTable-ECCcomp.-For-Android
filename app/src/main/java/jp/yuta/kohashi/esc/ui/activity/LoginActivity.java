@@ -1,16 +1,17 @@
 package jp.yuta.kohashi.esc.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
-import android.widget.TextView;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dd.CircularProgressButton;
 
@@ -22,11 +23,14 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    CircularProgressButton mLoginButton;
-    TextView mIdTextView;
-    TextView mPasswordTextView;
-    String userId;
-    String password;
+    private CircularProgressButton mLoginButton;
+    private AppCompatEditText mIdTextView;
+    private AppCompatEditText mPasswordTextView;
+    private String userId;
+    private String password;
+    private EditText dummyEditText;
+    private InputMethodManager inputMethodManager;
+    private View mBaseView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +45,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         mIdTextView = setClick(R.id.text_view_id);
         mPasswordTextView = setClick(R.id.text_view_password);
+        dummyEditText = (EditText)findViewById(R.id.dummy_edit_text);
+        inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        mBaseView = findViewById(R.id.login_activity);
     }
 
-    private TextView setClick(int id) {
-        TextView textView = (TextView) findViewById(id);
+    private AppCompatEditText setClick(int id) {
+        AppCompatEditText textView = (AppCompatEditText) findViewById(id);
         textView.setOnClickListener(this);
         return textView;
     }
@@ -52,6 +59,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btn_login) {
+            //キーボードを隠す
+            inputMethodManager.hideSoftInputFromWindow(mBaseView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            dummyEditText.requestFocus();
             //テキストフィールドとネットワークのチェック
             if (!Util.checkTextField(mIdTextView) | !Util.checkTextField(mPasswordTextView)) {
                 defaultProgBtn();
@@ -79,33 +89,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         disableTextViews();
         disableBtn();
         startProgBtn();
-        //　時間割を取得
-        HttpConnector.request(HttpConnector.Type.TIME_TABLE, userId, password, new HttpConnector.Callback() {
-            @Override
-            public void callback(boolean bool) {
-                if (bool) {
-                    // お知らせ
-                    HttpConnector.request(HttpConnector.Type.NEWS_SCHOOL_TEACHER, userId, password, new HttpConnector.Callback() {
-                        @Override
-                        public void callback(boolean bool) {
-                            if (bool) {
-                                // 出席照会
-                                HttpConnector.request(HttpConnector.Type.ATTENDANCE_RATE, userId, password, new HttpConnector.Callback() {
-                                    @Override
-                                    public void callback(boolean bool) {
-                                        successLogin(bool);
-                                    }
-                                });
-                            } else {
-                                failureLogin();
-                            }
-                        }
-                    });
-                } else {
-                    failureLogin();
-                }
+        HttpConnector.request(HttpConnector.Type.TIME_TABLE, userId, password,(bool -> {
+            if(bool){
+                // お知らせ
+                HttpConnector.request(HttpConnector.Type.NEWS_SCHOOL_TEACHER, userId, password,(bool1 -> {
+                    if (bool1) {
+                        // 出席照会
+                        HttpConnector.request(HttpConnector.Type.ATTENDANCE_RATE, userId, password,(bool2 -> {
+                            successLogin(bool2);
+                        }));
+                    } else {
+                        failureLogin();
+                    }
+                }));
+            } else {
+                failureLogin();
             }
-        });
+        }));
     }
 
     /**
@@ -117,11 +117,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         enableTextViews();
 
         Handler mHandler = new Handler();
-        Runnable runnable = new Runnable() {
-            public void run() {
-                defaultProgBtn();
-                enableBtn();
-            }
+        Runnable runnable = () -> {
+            defaultProgBtn();
+            enableBtn();
         };
         mHandler.postDelayed(runnable, 1000);
     }
@@ -140,13 +138,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.putExtra(MainActivity.GET_ATTENDANCE_RATE, bool);  //出席照会を取得できたか
         Handler mHandler = new Handler();
-        Runnable runnable = new Runnable() {
-            public void run() {
-                startActivity(intent);
-                enableTextViews();
-                enableBtn();
-                finish();
-            }
+        Runnable runnable = () ->{
+            startActivity(intent);
+            enableTextViews();
+            enableBtn();
+            finish();
         };
         mHandler.postDelayed(runnable, 500);
     }
@@ -223,16 +219,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     .positiveText(R.string.dialog_positive_ok)
                     .cancelable(false)
                     .positiveColor(getResources().getColor(R.color.diag_text_color_cancel))
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            PrefUtil.deleteAll();
-                            try {
-                                PrefUtil.deleteSharedPreferencesFiles();
-                            } catch (Throwable e) {
-                            }
+                    .onPositive(((dialog, which) -> {
+                        PrefUtil.deleteAll();
+                        try {
+                            PrefUtil.deleteSharedPreferencesFiles();
+                        } catch (Throwable e) {
                         }
-                    });
+                    }));
 
             MaterialDialog dialog = builder.build();
             dialog.show();

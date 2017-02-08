@@ -30,18 +30,6 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
  */
 public class TimeTableFragment extends Fragment implements View.OnClickListener{
 
-    private List<TimeBlockItem> monList;
-    private List<TimeBlockItem> tueList;
-    private List<TimeBlockItem> wedList;
-    private List<TimeBlockItem> thurList;
-    private List<TimeBlockItem> friList;
-
-    private RecyclerView mMonRecyclerView;
-    private RecyclerView mTueRecyclerView;
-    private RecyclerView mWedRecyclerView;
-    private RecyclerView mThurRecyclerView;
-    private RecyclerView mFriRecyclerView;
-
     //BottomSheet
     private RelativeLayout mBottomSheet;
     private TextView mSubjectTextView;
@@ -67,25 +55,18 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
     }
 
     private void initView(View view) {
-        loadLists();
+        List<List<TimeBlockItem>> lists = PrefUtil.loadTimeBlockList();
+        List<RecyclerView> recyclerViewList = new ArrayList<>();
+        recyclerViewList.add((RecyclerView) view.findViewById(R.id.mon_col));
+        recyclerViewList.add((RecyclerView) view.findViewById(R.id.tue_col));
+        recyclerViewList.add((RecyclerView) view.findViewById(R.id.wed_col));
+        recyclerViewList.add((RecyclerView) view.findViewById(R.id.thur_col));
+        recyclerViewList.add((RecyclerView) view.findViewById(R.id.fri_col));
 
-        mMonRecyclerView = (RecyclerView) view.findViewById(R.id.mon_col);
-        mTueRecyclerView = (RecyclerView) view.findViewById(R.id.tue_col);
-        mWedRecyclerView = (RecyclerView) view.findViewById(R.id.wed_col);
-        mThurRecyclerView = (RecyclerView) view.findViewById(R.id.thur_col);
-        mFriRecyclerView = (RecyclerView) view.findViewById(R.id.fri_col);
-
-        mMonRecyclerView.setHasFixedSize(true);
-        mTueRecyclerView.setHasFixedSize(true);
-        mWedRecyclerView.setHasFixedSize(true);
-        mThurRecyclerView.setHasFixedSize(true);
-        mFriRecyclerView.setHasFixedSize(true);
-
-        createRecyclerView(mMonRecyclerView, monList);
-        createRecyclerView(mTueRecyclerView, tueList);
-        createRecyclerView(mWedRecyclerView, wedList);
-        createRecyclerView(mThurRecyclerView, thurList);
-        createRecyclerView(mFriRecyclerView, friList);
+        for(int i = 0; i < 5; i++){
+            recyclerViewList.get(i).setHasFixedSize(true);
+            createRecyclerView(recyclerViewList.get(i), lists.get(i));
+        }
 
         //BottomSheetView
         mBottomSheet = (RelativeLayout)view.findViewById(R.id.bottom_sheet_view);
@@ -147,15 +128,6 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener{
             default:
                 return "";
         }
-    }
-
-    private void loadLists() {
-        List<List<TimeBlockItem>> lists = PrefUtil.loadTimeBlockList();
-        monList = lists.get(0);
-        tueList = lists.get(1);
-        wedList = lists.get(2);
-        thurList = lists.get(3);
-        friList = lists.get(4);
     }
 
     @Override

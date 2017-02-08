@@ -1,53 +1,34 @@
 package jp.yuta.kohashi.esc.ui.fragment;
 
 import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.EventListener;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.TimeBlockItem;
+import jp.yuta.kohashi.esc.ui.fragment.base.BaseDialogFragment;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
  * Created by yutakohashi on 2017/01/19.
  */
 
-public class TimeTableInputDialogFragment extends DialogFragment implements View.OnClickListener {
+public class TimeTableInputDialogFragment extends BaseDialogFragment implements View.OnClickListener {
     // "static" is require for object null  when  display rotation
-    private static Callback callback = null;
     private static TimeBlockItem beforeModel;
 
-    private Dialog mDialog;
     private EditText mSubjectTextView;
     private EditText mRoomTextView;
     private EditText mTeacherTextView;
-    private LinearLayout mOkBtn;
-    private LinearLayout mCancelBtn;
     private ImageButton mUndoBtn;
 
     private TextView mTitleTextView;
-
-    public interface Callback extends EventListener {
-        void positive(TimeBlockItem before, TimeBlockItem after);
-        void negative();
-    }
-
-    public void setCallback(Callback callback){
-        this.callback = callback;
-    }
 
     public static TimeTableInputDialogFragment newInstance(Fragment fragment){
         TimeTableInputDialogFragment diagFragment = new TimeTableInputDialogFragment();
@@ -57,16 +38,7 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        mDialog = new Dialog(getActivity());
-        mDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE); // タイトル非表示
-        mDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN); // フルスクリーン
-        mDialog.setContentView(R.layout.dialog_input_time_table );
-        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // 背景を透明にする
-
-
-        initView();
-
-        return mDialog;
+        return super.onCreateDialog(savedInstanceState);
     }
 
     public void setInfo(TimeBlockItem item){
@@ -75,27 +47,34 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()){
-            case R.id.ok_button:
-                TimeBlockItem afterModel = createAfterModel();
-                callback.positive(beforeModel,afterModel);
-                dismiss();
-                break;
-            case R.id.cancel_button:
-                dismiss();
-                callback.negative();
-                break;
-            case R.id.undo_button:
-                try{
-                    undoItem();
-                } catch (IndexOutOfBoundsException e){
-//                    Log.d()
-                }
-                break;
+        super.onClick(view);
+        if(view.getId() == R.id.undo_button){
+            try{
+                undoItem();
+            } catch (IndexOutOfBoundsException e){
+            }
         }
     }
 
-    private void initView(){
+    @Override
+    protected int setContentViewId() {
+        return R.layout.dialog_input_time_table;
+    }
+
+    @Override
+    protected void pressOkButton() {
+        TimeBlockItem afterModel = createAfterModel();
+        callback.positive(beforeModel,afterModel);
+    }
+
+    @Override
+    protected void pressNegativeButton() {
+        callback.negative();
+    }
+
+    @Override
+    protected void initView(){
+        super.initView();
         mTitleTextView = (TextView)mDialog.findViewById(R.id.title_text_view);
         mSubjectTextView = (EditText)mDialog.findViewById(R.id.edit_subject);
         mTeacherTextView = (EditText)mDialog.findViewById(R.id.edit_teacher);
@@ -105,11 +84,6 @@ public class TimeTableInputDialogFragment extends DialogFragment implements View
         mRoomTextView.setText(beforeModel.getClassRoom());
         mTitleTextView.setText(createTitle(beforeModel));
         mUndoBtn = (ImageButton)mDialog.findViewById(R.id.undo_button);
-
-        mOkBtn = (LinearLayout)mDialog.findViewById(R.id.ok_button);
-        mCancelBtn = (LinearLayout)mDialog.findViewById(R.id.cancel_button);
-        mOkBtn.setOnClickListener(this);
-        mCancelBtn.setOnClickListener(this);
         mUndoBtn.setOnClickListener(this);
     }
 

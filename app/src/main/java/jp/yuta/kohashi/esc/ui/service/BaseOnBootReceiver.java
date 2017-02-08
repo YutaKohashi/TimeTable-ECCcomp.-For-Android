@@ -13,13 +13,9 @@ public abstract class BaseOnBootReceiver extends BroadcastReceiver {
     public void onReceive(final Context context, Intent intent) {
         // 端末起動時
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    onDeviceBoot(context);
-                }
+            new Thread(() -> {
+                onDeviceBoot(context);
             }).start();
-
         }
     }
 

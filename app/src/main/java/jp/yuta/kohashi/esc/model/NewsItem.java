@@ -42,7 +42,6 @@ public class NewsItem implements Serializable{
                     && this.date.equals(model.getDate())
                     && this.uri.equals(model.getUri());
         }
-
     }
 
     /**

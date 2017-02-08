@@ -8,10 +8,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -54,7 +54,7 @@ public class Util {
      * @param view
      * @return
      */
-    public static boolean checkTextField(TextView view) {
+    public static boolean checkTextField(AppCompatEditText view) {
         String text = view.getText().toString();
         if (TextUtils.isEmpty(text)) {
             view.setError(App.getAppContext().getString(R.string.string_text_view_error));
@@ -64,7 +64,7 @@ public class Util {
         }
     }
 
-    public static boolean checkTextField(TextView view, TextInputLayout wrapper) {
+    public static boolean checkTextField(AppCompatEditText view, TextInputLayout wrapper) {
         String text = view.getText().toString();
         if (TextUtils.isEmpty(text)) {
             wrapper.setError(App.getAppContext().getString(R.string.string_text_view_error));

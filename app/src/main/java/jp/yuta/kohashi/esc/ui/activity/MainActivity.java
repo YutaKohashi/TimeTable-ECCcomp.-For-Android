@@ -27,7 +27,6 @@ import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.NewsItem;
 import jp.yuta.kohashi.esc.network.HttpConnector;
-import jp.yuta.kohashi.esc.network.service.HttpHelper;
 import jp.yuta.kohashi.esc.network.service.RequestURL;
 import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
 import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateParentFragment;
@@ -123,7 +122,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 replaceFragment(timeTableFragment);
                 currentTab = item.getItemId();
                 break;
-//            case R.id.nav_item_attendance_rate: // 出席照会
             case R.id.nav_item_attendance_rate: // 出席照会
                 if (attendanceRateFragment == null)
                     attendanceRateFragment = new AttendanceRateParentFragment();
@@ -221,19 +219,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }
 
                 NotifyUtil.showLoadingDiag(this);
-                HttpConnector.requestNewsDetail(PrefUtil.getId(), PrefUtil.getPss(), item.getUri(), new HttpHelper.AccessCallbacks() {
-                    @Override
-                    public void callback(String html, boolean bool) {
-                        if (bool) {
-                            Intent intent = new Intent(MainActivity.this, NewsDetailActivity.class);
-                            intent.putExtra(NewsDetailActivity.NEWS_MODEL, item);
-                            intent.putExtra(NewsDetailActivity.NEWS_HTML, html);
+                HttpConnector.requestNewsDetail(PrefUtil.getId(), PrefUtil.getPss(), item.getUri(),((html, bool1) -> {
+                    if (bool1) {
+                        Intent intent1 = new Intent(MainActivity.this, NewsDetailActivity.class);
+                        intent1.putExtra(NewsDetailActivity.NEWS_MODEL, item);
+                        intent1.putExtra(NewsDetailActivity.NEWS_HTML, html);
 
-                            startActivity(intent);
-                        }
-                        NotifyUtil.dismiss();
+                        startActivity(intent1);
                     }
-                });
+                    NotifyUtil.dismiss();
+                }));
             }
 
         }

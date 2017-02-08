@@ -1,19 +1,18 @@
 package jp.yuta.kohashi.esc.ui.activity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
 import jp.yuta.kohashi.esc.ui.fragment.TimeTableChangeFragment;
 import jp.yuta.kohashi.esc.util.NotifyUtil;
+import jp.yuta.kohashi.esc.util.Util;
 
 public class TimeTableChangeActivity extends BaseActivity {
 
@@ -53,21 +52,14 @@ public class TimeTableChangeActivity extends BaseActivity {
                 .content(R.string.dialog_all_reset_comment)
                 .positiveText(R.string.dialog_positive_ok)
                 .negativeText(R.string.dialog_negative_cancel)
-                .positiveColor(getResources().getColor(R.color.diag_text_color_cancel))
-                .negativeColor(getResources().getColor(R.color.colorPrimary))
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        allReset();
-                    }
-                })
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                        NotifyUtil.cancel();
-                    }
-                });
+                .positiveColor(Util.getColor(R.color.diag_text_color_cancel))
+                .negativeColor(Util.getColor(R.color.colorPrimary))
+                .onPositive(((dialog, which) ->
+                        allReset()))
+                .onNegative(((dialog, which) -> {
+                    dialog.dismiss();
+                    NotifyUtil.cancel();
+                }));
 
         MaterialDialog dialog = builder.build();
         dialog.show();

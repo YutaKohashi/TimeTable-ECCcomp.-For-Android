@@ -1,7 +1,6 @@
 package jp.yuta.kohashi.esc.ui.activity.base;
 
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.WebView;
 
 import jp.yuta.kohashi.esc.R;
@@ -28,12 +27,7 @@ public abstract class BaseWebViewActivity extends BaseActivity {
     }
 
     protected void disableCopyPaste(){
-        mWebView.setOnLongClickListener(new View.OnLongClickListener() {
-
-            public boolean onLongClick(View v) {
-                return true;
-            }
-        });
+        mWebView.setOnLongClickListener((view -> true));
     }
 
     @Override

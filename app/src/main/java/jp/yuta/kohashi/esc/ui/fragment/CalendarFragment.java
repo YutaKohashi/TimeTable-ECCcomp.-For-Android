@@ -74,6 +74,47 @@ public class CalendarFragment extends BaseFragment implements ViewTreeObserver.O
         mFrontTabLayout.getViewTreeObserver().addOnGlobalLayoutListener(this);
         mFrontViewPager.addOnPageChangeListener(new PageChangeListener());
 
+//        mFrontViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//                if(state == ViewPager.SCROLL_STATE_IDLE){
+//                    if(mFrontViewPager.getCurrentItem() != mBottomViewPager.getCurrentItem()){
+//                        mBottomViewPager.setCurrentItem(mFrontViewPager.getCurrentItem());
+//                    }
+//                }
+//            }
+//        });
+//
+//        mBottomViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//                if(state == ViewPager.SCROLL_STATE_IDLE){
+//                    if(mFrontViewPager.getCurrentItem() != mBottomViewPager.getCurrentItem()){
+//                        mFrontViewPager.setCurrentItem(mBottomViewPager.getCurrentItem());
+//                    }
+//                }
+//            }
+//        });
 
         currentPage = 0;
         return mView;
@@ -101,6 +142,7 @@ public class CalendarFragment extends BaseFragment implements ViewTreeObserver.O
         public void onPageSelected(int position) {
             super.onPageSelected(position);
             currentPage = position;
+
         }
     }
 
@@ -155,4 +197,8 @@ public class CalendarFragment extends BaseFragment implements ViewTreeObserver.O
         CalendarList listModel = gson.fromJson(jsonText, CalendarList.class);
         return listModel;
     }
+
+
+
+
 }

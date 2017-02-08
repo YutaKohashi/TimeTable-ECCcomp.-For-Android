@@ -31,9 +31,7 @@ import jp.yuta.kohashi.esc.util.Util;
 public class PrefUtil {
     private static final String TAG = PrefUtil.class.getSimpleName();
 
-    /************************************
-     * public
-     ********************************************************/
+    /************************************* public  *******************************************************/
 
     //**
     //region Load
