@@ -24,7 +24,7 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AttendanceRateChangeColorFragmentBaseBase extends BasePrefBaseRecyclerViewFragment {
+public class AttendanceRateChangeColorFragment extends BasePrefBaseRecyclerViewFragment {
 
 
     @Override

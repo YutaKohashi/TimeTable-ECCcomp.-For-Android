@@ -10,7 +10,7 @@ import android.view.MotionEvent;
  */
 
 public class SynchronizedViewPager extends ViewPager {
-    SynchronizedViewPager mCustomPager;
+    SynchronizedViewPager target;
     private boolean touched;
 
     public SynchronizedViewPager(Context context) {
@@ -24,9 +24,9 @@ public class SynchronizedViewPager extends ViewPager {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (!touched) {
-            mCustomPager.setTouched(true);
-            mCustomPager.onInterceptTouchEvent(ev);
-            mCustomPager.setTouched(false);
+            target.setTouched(true);
+            target.onInterceptTouchEvent(ev);
+            target.setTouched(false);
         }
         return super.onInterceptTouchEvent(ev);
     }
@@ -34,17 +34,17 @@ public class SynchronizedViewPager extends ViewPager {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         if (!touched) {
-            mCustomPager.setTouched(true);
-            mCustomPager.onTouchEvent(ev);
-            mCustomPager.setTouched(false);
+            target.setTouched(true);
+            target.onTouchEvent(ev);
+            target.setTouched(false);
         }
 
         return super.onTouchEvent(ev);
     }
 
     public void setTargetViewPager(SynchronizedViewPager customPager) {
-        mCustomPager = customPager;
-        this.addOnPageChangeListener(new FixSynchronizedViewPager(this,mCustomPager));
+        target = customPager;
+        this.addOnPageChangeListener(new FixSynchronizedViewPager(this, target));
     }
 
     /**
@@ -55,12 +55,16 @@ public class SynchronizedViewPager extends ViewPager {
         this.touched = touched;
     }
 
+    public boolean isTouched(){
+        return this.touched;
+    }
+
     @Override
     public void setCurrentItem(int item, boolean smoothScroll) {
         if (!touched) {
-            mCustomPager.setTouched(true);
-            mCustomPager.setCurrentItem(item, smoothScroll);
-            mCustomPager.setTouched(false);
+            target.setTouched(true);
+            target.setCurrentItem(item, smoothScroll);
+            target.setTouched(false);
         }
         super.setCurrentItem(item, smoothScroll);
     }
@@ -68,28 +72,28 @@ public class SynchronizedViewPager extends ViewPager {
     @Override
     public void setCurrentItem(int item) {
         if (!touched) {
-            mCustomPager.setTouched(true);
-            mCustomPager.setCurrentItem(item);
-            mCustomPager.setTouched(false);
+            target.setTouched(true);
+            target.setCurrentItem(item);
+            target.setTouched(false);
         }
         super.setCurrentItem(item);
     }
 
     private class FixSynchronizedViewPager implements ViewPager.OnPageChangeListener{
 
-        ViewPager own;
+        ViewPager thisView;
         ViewPager target;
 
-        FixSynchronizedViewPager(ViewPager own, ViewPager target){
-            this.own = own;
+        FixSynchronizedViewPager(ViewPager thisView, ViewPager target){
+            this.thisView = thisView;
             this.target = target;
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
             if(state == ViewPager.SCROLL_STATE_IDLE){
-                if(own.getCurrentItem() != target.getCurrentItem()){
-                    target.setCurrentItem(own.getCurrentItem());
+                if(thisView.getCurrentItem() != target.getCurrentItem()){
+                    target.setCurrentItem(thisView.getCurrentItem());
                 }
             }
         }
