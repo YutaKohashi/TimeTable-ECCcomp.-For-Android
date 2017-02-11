@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 
 import jp.yuta.kohashi.esc.App;
 import jp.yuta.kohashi.esc.Const;
+import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.AttendanceRate;
 import jp.yuta.kohashi.esc.model.NewsItem;
 import jp.yuta.kohashi.esc.model.TimeBlockItem;
@@ -294,17 +295,32 @@ public class PrefUtil {
      */
     public static int loadColorU90() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
-        return sharedPreferences.getInt(PrefConst.KEY_COLOR_U90, -1);
+        return sharedPreferences.getInt(PrefConst.KEY_COLOR_U90, Util.getColor(R.color.bg_title));
     }
 
     public static int loadColorU81() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
-        return sharedPreferences.getInt(PrefConst.KEY_COLOR_U81, -1);
+        return sharedPreferences.getInt(PrefConst.KEY_COLOR_U81, Util.getColor(R.color.bg_title));
     }
 
     public static int loadColorU75() {
         SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
-        return sharedPreferences.getInt(PrefConst.KEY_COLOR_U75, -1);
+        return sharedPreferences.getInt(PrefConst.KEY_COLOR_U75, Util.getColor(R.color.bg_title));
+    }
+
+    public static int loadRateU90() {
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(PrefConst.KEY_RATE_U90, 90);
+    }
+
+    public static int loadRateU81() {
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(PrefConst.KEY_RATE_U81, 81);
+    }
+
+    public static int loadRateU75() {
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(PrefConst.KEY_RATE_U75, 75);
     }
 
     public static int getAttendanceTabPosition(){
@@ -513,6 +529,18 @@ public class PrefUtil {
 
     public static void saveColorU75(int color) {
         save(color, PrefConst.KEY_COLOR_U75, PrefConst.FILE_UTIL);
+    }
+
+    public static void saveRateU90(int rate) {
+        save(rate, PrefConst.KEY_RATE_U90, PrefConst.FILE_UTIL);
+    }
+
+    public static void saveRateU81(int rate) {
+        save(rate, PrefConst.KEY_RATE_U81, PrefConst.FILE_UTIL);
+    }
+
+    public static void saveRateU75(int rate) {
+        save(rate, PrefConst.KEY_RATE_U75, PrefConst.FILE_UTIL);
     }
 
     public static void saveBlackout(boolean bool) {

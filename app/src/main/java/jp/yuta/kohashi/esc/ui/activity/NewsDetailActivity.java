@@ -24,6 +24,7 @@ import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.NewsItem;
 import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
 import jp.yuta.kohashi.esc.util.RegexUtil;
+import jp.yuta.kohashi.esc.util.Util;
 
 import static android.view.View.GONE;
 
@@ -147,7 +148,7 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
                 .setShowTitle(false)
                 .enableUrlBarHiding()
                 .setCloseButtonIcon(null)
-                .setToolbarColor(getResources().getColor(android.R.color.white))
+                .setToolbarColor(Util.getColor(R.color.white))
                 .build();
         customTabsIntent.intent.setData(uri);
         PackageManager packageManager = getPackageManager();

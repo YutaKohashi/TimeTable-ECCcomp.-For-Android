@@ -15,6 +15,7 @@ import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.AttendanceRate;
+import jp.yuta.kohashi.esc.util.Util;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
@@ -36,8 +37,6 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
         this.items.addAll(items);
         this.mContext = context;
     }
-
-
 
     @Override
     public AttendanceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -65,28 +64,29 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
         //公欠２
         holder.kouketsuNum2.setText(items.get(position).getPublicAbsentNumber2());
 
-        blackout(holder,position);
+        blackout(holder, position);
         changeBackgroundColor(holder, position);
     }
 
     /**
      * 設定な異様に応じて色を変更する
+     *
      * @param holder
      * @param position
      */
-    private void changeBackgroundColor(AttendanceViewHolder holder, int position){
-        if(PrefUtil.isChangeColor()) {
+    private void changeBackgroundColor(AttendanceViewHolder holder, int position) {
+        if (PrefUtil.isChangeColor()) {
             int color = -1;
             int rate = Integer.valueOf(items.get(position).getAttendanceRate());
-            if (rate < 75) {
-                if(!PrefUtil.isBlackout()){
+            if (rate <= PrefUtil.loadRateU75()) {
+                if (!PrefUtil.isBlackout()) {
                     color = PrefUtil.loadColorU75();
                 } else {
-                    color = mContext.getResources().getColor(R.color.bg_blackout);
+                    color = Util.getColor(R.color.bg_blackout);
                 }
-            } else if (rate < 81) {
+            } else if (rate <= PrefUtil.loadRateU81()) {
                 color = PrefUtil.loadColorU81();
-            } else if (rate < 90) {
+            } else if (rate <= PrefUtil.loadRateU90()) {
                 color = PrefUtil.loadColorU90();
             } else {
                 color = -1;
@@ -94,27 +94,28 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
             if (color != -1) {
                 holder.titleContainer.setBackgroundColor(color);
             } else {
-                holder.titleContainer.setBackgroundColor(mContext.getResources().getColor(R.color.bg_title));
+                holder.titleContainer.setBackgroundColor(Util.getColor(R.color.bg_title));
 
             }
         }
     }
+
     /**
      * 設定内容に応じてブラックアウトする
      */
-    private void blackout(AttendanceViewHolder holder, int position){
-        if(PrefUtil.isBlackout()){
+    private void blackout(AttendanceViewHolder holder, int position) {
+        if (PrefUtil.isBlackout()) {
             int rate = Integer.valueOf(items.get(position).getAttendanceRate());
             if (rate < 75) {
-                holder.container.setCardBackgroundColor(mContext.getResources().getColor(R.color.bg_blackout));
-                holder.titleContainer.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
+                holder.container.setCardBackgroundColor(Util.getColor(R.color.bg_blackout));
+                holder.titleContainer.setBackgroundColor(Util.getColor(android.R.color.transparent));
             } else {
-                holder.container.setCardBackgroundColor(mContext.getResources().getColor(R.color.bg_default_card_view));
-                holder.titleContainer.setBackgroundColor(mContext.getResources().getColor(R.color.bg_title));
+                holder.container.setCardBackgroundColor(Util.getColor(R.color.bg_default_card_view));
+                holder.titleContainer.setBackgroundColor(Util.getColor(R.color.bg_title));
             }
         } else {
-            holder.container.setCardBackgroundColor(mContext.getResources().getColor(R.color.bg_default_card_view));
-            holder.titleContainer.setBackgroundColor(mContext.getResources().getColor(R.color.bg_title));
+            holder.container.setCardBackgroundColor(Util.getColor(R.color.bg_default_card_view));
+            holder.titleContainer.setBackgroundColor(Util.getColor(R.color.bg_title));
         }
 
     }
@@ -125,11 +126,11 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
     }
 
 
-    public void refresh(){
+    public void refresh() {
         notifyDataSetChanged();
     }
 
-    public void swap(List<AttendanceRate> items){
+    public void swap(List<AttendanceRate> items) {
         this.items.clear();
         this.items.addAll(items);
         notifyDataSetChanged();
@@ -164,7 +165,7 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
             kouketsuNum2 = (TextView) v.findViewById(R.id.kouketsu_num2);
             attendanceRateRootView = (RelativeLayout) v.findViewById(R.id.attendance_rate_root_view);
             attendanceSubRootView = (LinearLayout) v.findViewById(R.id.attendance_card_view_sub_root);
-            titleContainer = (RelativeLayout)v.findViewById(R.id.shuseki_rate_block_header);
+            titleContainer = (RelativeLayout) v.findViewById(R.id.shuseki_rate_block_header);
         }
     }
 }

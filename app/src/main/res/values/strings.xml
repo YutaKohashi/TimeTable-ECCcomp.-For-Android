@@ -95,11 +95,13 @@
     <!--出席照会を色分けする-->
     <string name="pref_enable_change_color">色分けを有効にする</string>
     <string name="pref_set_color">色を設定する</string>
-    <string name="pref_rate_u75">出席率75％未満</string>
-    <string name="pref_rate_u81">出席率81％未満</string>
-    <string name="pref_rate_u90">出席率90%未満</string>
+    <!--<string name="pref_rate_u75">出席率75％未満</string>-->
+    <!--<string name="pref_rate_u81">出席率81％未満</string>-->
+    <!--<string name="pref_rate_u90">出席率90%未満</string>-->
+    <string name="pref_rate_u">出席率 %1$d 以下</string>
     <string name="pref_blackout">単位を落とした教科をブラックアウトする</string>
     <string name="pref_select_color">色を選択してください</string>
+    <string name="pref_select_color_open_diag">色を選択</string>
     <!--ダイアログ-->
     <string name="dialog_positive_ok">OK</string>
     <string name="dialog_negative_cancel">キャンセル</string>

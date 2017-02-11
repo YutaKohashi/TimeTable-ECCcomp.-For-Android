@@ -17,14 +17,16 @@ public class PrefItem {
     private PrefViewType viewType;
     private boolean bool;
     private int color;
+    private int start;
+    private int end;
+    private Integer tag;
 
     public PrefItem(PrefViewType viewType) {
         this.viewType = viewType;
     }
 
     public PrefItem(String itemName, PrefViewType viewType) {
-        this.itemName = itemName;
-        this.viewType = viewType;
+        this(itemName, -1, viewType);
     }
 
     public PrefItem(String itemName, Integer resourceId, PrefViewType viewType) {
@@ -33,24 +35,25 @@ public class PrefItem {
         this.viewType = viewType;
     }
 
-    public PrefItem(String itemName, Integer resourceId, PrefViewType viewType, int color) {
-        this.itemName = itemName;
-        this.resourceId = resourceId;
-        this.viewType = viewType;
-        this.color = color;
-    }
-
     public PrefItem(String itemName, Integer resourceId, PrefViewType viewType, boolean bool) {
-        this.itemName = itemName;
-        this.resourceId = resourceId;
-        this.viewType = viewType;
+        this(itemName, resourceId, viewType);
         this.bool = bool;
     }
 
     public PrefItem(String itemName, String rightText, Integer resourceId, PrefViewType viewType) {
-        this.itemName = itemName;
+        this(itemName, resourceId, viewType);
         this.rightText = rightText;
-        this.resourceId = resourceId;
-        this.viewType = viewType;
+    }
+
+    public PrefItem(String itemName, Integer resourceId, PrefViewType viewType, int color) {
+        this(itemName, resourceId, viewType);
+        this.color = color;
+    }
+
+    public PrefItem(String itemName, Integer resourceId, PrefViewType viewType, int color, Integer tag,int start, int end) {
+        this(itemName, resourceId, viewType, color);
+        this.start = start;
+        this.end = end;
+        this.tag = tag;
     }
 }

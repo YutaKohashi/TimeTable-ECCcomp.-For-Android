@@ -15,7 +15,8 @@ public enum PrefViewType {
     ITEM_CENTER_TXT(4),
     ITEM_GROUP_TITLE(5),
     ITEM_RIGHT_TXT(6),
-    ITEM_COLOR_PICK(7);
+    ITEM_COLOR_PICK(7),
+    ITEM_COLOR_PICK_EXPAND(8);
 
     int id;
     PrefViewType(int i) {

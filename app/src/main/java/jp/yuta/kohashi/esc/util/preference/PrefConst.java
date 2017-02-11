@@ -44,6 +44,11 @@ public final class PrefConst {
     static final String KEY_COLOR_U75 = "KEY_COLOR_U75";
     static final String KEY_COLOR_U90 = "KEY_COLOR_U90";
     static final String KEY_COLOR_U81 = "KEY_COLOR_U81";
+
+    static final String KEY_RATE_U75 = "KEY_RATE_U75";
+    static final String KEY_RATE_U90 = "KEY_RATE_U90";
+    static final String KEY_RATE_U81 = "KEY_RATE_U81";
+
     static final String KEY_ENABLE_COLOR_CHANGE = "KEY_ENABLE_COLOR_CHANGE";
     static final String KEY_BLACKOUT = "KEY_BLACKOUT";
 

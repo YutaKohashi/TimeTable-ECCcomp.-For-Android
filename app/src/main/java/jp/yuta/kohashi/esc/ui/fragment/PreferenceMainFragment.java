@@ -65,7 +65,6 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
         addItem(new PrefItem(PrefViewType.EMPTY));
         addItem(new PrefItem(getResources().getString(R.string.pref_logout), PrefViewType.ITEM_CENTER_TXT));
         addItem(new PrefItem(PrefViewType.EMPTY));
-        addItem(new PrefItem(PrefViewType.EMPTY));
     }
 
     @Override
@@ -115,14 +114,10 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
     }
 
     @Override
-    protected void swap() {
-
-    }
+    protected void swap() {}
 
     @Override
-    protected void getSavedItems() {
-
-    }
+    protected void getSavedItems() {}
 
     /**
      * 時間割を更新
@@ -133,8 +128,8 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
                 .positiveText(R.string.dialog_positive_ok)
                 .negativeText(R.string.dialog_negative_cancel)
                 .title(R.string.dialog_title_update_check)
-                .positiveColor(getResources().getColor(R.color.diag_text_color_cancel))
-                .negativeColor(getResources().getColor(R.color.colorPrimary))
+                .positiveColor(Util.getColor(R.color.diag_text_color_cancel))
+                .negativeColor(Util.getColor(R.color.colorPrimary))
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -219,8 +214,8 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
                 .content(R.string.dialog_comment_comment)
                 .positiveText(R.string.dialog_positive_ok)
                 .negativeText(R.string.dialog_negative_cancel)
-                .positiveColor(getResources().getColor(R.color.diag_text_color_cancel))
-                .negativeColor(getResources().getColor(R.color.colorPrimary))
+                .positiveColor(Util.getColor(R.color.diag_text_color_cancel))
+                .negativeColor(Util.getColor(R.color.colorPrimary))
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/cell_pref_item_color_picker"/>
+
+    <RelativeLayout
+        android:id="@+id/expand_view"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary">
+
+        <android.support.v7.widget.AppCompatSeekBar
+            android:paddingLeft="8dp"
+            android:id="@+id/seekbar"
+            android:max="100"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/expanded_right_text_view"
+            android:layout_toStartOf="@+id/expanded_right_text_view"
+            />
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:id="@+id/expanded_right_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/pref_select_color_open_diag"
+            android:textColor="@android:color/white"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="15dp"
+            android:textSize="15sp"
+            android:background="@drawable/bg_pref_item"/>
+
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@drawable/bg_pref_item_separate"/>
+    </RelativeLayout>
+</LinearLayout>

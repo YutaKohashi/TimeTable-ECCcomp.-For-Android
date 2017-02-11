@@ -57,21 +57,6 @@ public class NotifyUtil {
         showToast(App.getAppContext().getResources().getString(R.string.cancel),R.drawable.ic_cancel);
     }
 
-    public static void showToast(String string,int icon){
-        LayoutInflater _inflater = (LayoutInflater) App.getAppContext().getSystemService( Context.LAYOUT_INFLATER_SERVICE );;
-        View toastLayout = _inflater.inflate(R.layout.toast_custom_layout,null);
-        ((TextView)toastLayout.findViewById(R.id.toast_text_View)).setText(string);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ((ImageView)toastLayout.findViewById(R.id.toast_image_view)).setImageDrawable(App.getAppContext().getResources().getDrawable(icon,null));
-        } else {
-            ((ImageView)toastLayout.findViewById(R.id.toast_image_view)).setImageDrawable(App.getAppContext().getResources().getDrawable(icon));
-        }
-        Toast toast = new Toast(App.getAppContext());
-        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setView(toastLayout);
-        toast.show();
-    }
-
     private static ProgressDialog mDialog;
     public static void showLoadingDiag(Context context){
         mDialog = createProgressDialog(context,context.getResources().getString(R.string.loading));
@@ -90,6 +75,21 @@ public class NotifyUtil {
 
     public static void dismiss(){
         mDialog.dismiss();
+    }
+
+    public static void showToast(String string,int icon){
+        LayoutInflater _inflater = (LayoutInflater) App.getAppContext().getSystemService( Context.LAYOUT_INFLATER_SERVICE );;
+        View toastLayout = _inflater.inflate(R.layout.toast_custom_layout,null);
+        ((TextView)toastLayout.findViewById(R.id.toast_text_View)).setText(string);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ((ImageView)toastLayout.findViewById(R.id.toast_image_view)).setImageDrawable(App.getAppContext().getResources().getDrawable(icon,null));
+        } else {
+            ((ImageView)toastLayout.findViewById(R.id.toast_image_view)).setImageDrawable(App.getAppContext().getResources().getDrawable(icon));
+        }
+        Toast toast = new Toast(App.getAppContext());
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(toastLayout);
+        toast.show();
     }
 
     private static ProgressDialog createProgressDialog(Context context, String string) {

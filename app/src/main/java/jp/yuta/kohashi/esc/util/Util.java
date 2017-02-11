@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
@@ -125,14 +127,14 @@ public class Util {
         return found;
     }
 
-    public static Drawable getDrawable(int id){
+    public static Drawable getDrawable(@DrawableRes int id){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             return App.getAppContext().getResources().getDrawable(id, null);
         else
             return App.getAppContext().getResources().getDrawable(id);
     }
 
-    public static int getColor(int id){
+    public static int getColor(@ColorRes int id){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             return App.getAppContext().getResources().getColor(id, null);
         else
