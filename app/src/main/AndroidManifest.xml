@@ -33,11 +33,16 @@
             android:windowSoftInputMode="stateVisible|adjustPan|stateAlwaysHidden" />
         <activity android:name=".ui.activity.MainActivity" />
 
-        <activity android:name=".ui.activity.NewsDetailActivity" />
+        <activity
+            android:name=".ui.activity.NewsDetailActivity"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".ui.activity.PreferenceActivity"
-            android:theme="@style/PrefTheme" />
-        <activity android:name=".ui.activity.AboutActivity" />
+            android:theme="@style/PrefTheme"
+            android:configChanges="orientation|screenSize"/>
+        <activity
+            android:name=".ui.activity.AboutActivity"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".ui.activity.LicenceActivity" />
         <activity
             android:name=".ui.activity.TimeTableChangeActivity"
