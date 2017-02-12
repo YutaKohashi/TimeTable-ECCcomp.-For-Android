@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import jp.yuta.kohashi.esc.Const;
@@ -114,10 +113,12 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
     }
 
     @Override
-    protected void swap() {}
+    protected void swap() {
+    }
 
     @Override
-    protected void getSavedItems() {}
+    protected void getSavedItems() {
+    }
 
     /**
      * 時間割を更新
@@ -130,40 +131,25 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
                 .title(R.string.dialog_title_update_check)
                 .positiveColor(Util.getColor(R.color.diag_text_color_cancel))
                 .negativeColor(Util.getColor(R.color.colorPrimary))
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                        if (!Util.netWorkCheck()) {
-                            NotifyUtil.failureNetworkConnection();
-                        } else {
-                            NotifyUtil.showUpdatingDiag(getActivity());
-                            String userId = PrefUtil.getId();
-                            String password = PrefUtil.getPss();
-                            HttpConnector.request(HttpConnector.Type.TIME_TABLE, userId, password, new HttpConnector.Callback() {
-                                @Override
-                                public void callback(boolean bool) {
-                                    NotifyUtil.dismiss();
-                                    if (bool) {
-                                        NotifyUtil.successUpdate();
-//                              int appWidgetId = getActivity().getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
-//                              TimeTableWidget.updateAppWidget(getContext(), AppWidgetManager.getInstance(getContext()),appWidgetId);
-                                    } else {
-                                        NotifyUtil.failureUpdate();
-                                    }
-                                }
-                            });
-
-                        }
-
+                .onPositive(((dialog, which) -> {
+                    dialog.dismiss();
+                    if (!Util.netWorkCheck()) {
+                        NotifyUtil.failureNetworkConnection();
+                    } else {
+                        NotifyUtil.showUpdatingDiag(getActivity());
+                        String userId = PrefUtil.getId();
+                        String password = PrefUtil.getPss();
+                        HttpConnector.request(HttpConnector.Type.TIME_TABLE, userId, password, (bool -> {
+                            NotifyUtil.dismiss();
+                            if (bool) {
+                                NotifyUtil.successUpdate();
+                            } else {
+                                NotifyUtil.failureUpdate();
+                            }
+                        }));
                     }
-                })
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                });
+                }))
+                .onNegative(((dialog, which) -> dialog.dismiss()));
 
         MaterialDialog dialog = builder.build();
         dialog.show();
@@ -179,7 +165,7 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
     /**
      * 前期後期
      */
-    private void divideData(){
+    private void divideData() {
         startActivity(new Intent(getActivity(), AttendanceDivideActivity.class));
     }
 
@@ -189,7 +175,6 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
     private void changeColorAttendance() {
         startActivity(new Intent(getActivity(), AttendanceRateChangeColorActivity.class));
     }
-
 
     /**
      * 著作権情報
@@ -216,29 +201,19 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
                 .negativeText(R.string.dialog_negative_cancel)
                 .positiveColor(Util.getColor(R.color.diag_text_color_cancel))
                 .negativeColor(Util.getColor(R.color.colorPrimary))
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        NotifyUtil.showLogoutingDiag(getActivity());
-                        Handler mHandler = new Handler();
-                        Runnable runnable = new Runnable() {
-                            public void run() {
-                                PrefUtil.deleteAll();
-                                NotifyUtil.dismiss();
-                                Intent intent = new Intent(getContext().getApplicationContext(), LoginCheckActivity.class);
-                                startActivity(intent);
-                                ActivityCompat.finishAffinity(getActivity());
-                            }
-                        };
-                        mHandler.postDelayed(runnable, 2000);
-                    }
-                })
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                });
+                .onPositive(((dialog, which) -> {
+                    NotifyUtil.showLogoutingDiag(getActivity());
+                    Handler mHandler = new Handler();
+                    Runnable runnable = () -> {
+                        PrefUtil.deleteAll();
+                        NotifyUtil.dismiss();
+                        Intent intent = new Intent(getContext().getApplicationContext(), LoginCheckActivity.class);
+                        startActivity(intent);
+                        ActivityCompat.finishAffinity(getActivity());
+                    };
+                    mHandler.postDelayed(runnable, 2000);
+                }))
+                .onNegative((dialog, which) -> dialog.dismiss());
 
         MaterialDialog dialog = builder.build();
         dialog.show();

@@ -3,7 +3,6 @@ package jp.yuta.kohashi.esc.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +80,6 @@ public class AttendanceRateFragment extends BaseRefreshRecyclerViewFragment {
 
     @Subscribe
     public void onEvent(UpdateAttendanceRateEvent event) {
-        Log.d(TAG,"swap--swap--swap--swap--swap--swap--swap--swap--swap--swap--");
         swap();
     }
 

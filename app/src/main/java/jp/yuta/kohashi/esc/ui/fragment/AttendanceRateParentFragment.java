@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,36 +83,28 @@ public class AttendanceRateParentFragment extends BaseFragment {
             fadeInAnim = AnimationUtils.loadAnimation(getContext(),R.anim.anim_bottom_sheet_fade_in);
             mFilterView.setVisibility(View.VISIBLE);
             mFilterView.startAnimation(fadeInAnim);
-            Log.d(TAG,"最新情報入った1");
-            //出席の情報を更新する
-            HttpConnector.request(HttpConnector.Type.ATTENDANCE_RATE, PrefUtil.getId(), PrefUtil.getPss(), new HttpConnector.Callback() {
-                @Override
-                public void callback(boolean bool) {
-                    if(bool) {
-                        PrefUtil.saveLatestUpdateData(Util.getCurrentTimeMillis());
-                        Handler mHandler = new Handler();
-                        Runnable runnable = new Runnable() {
-                            public void run() {
-                                setTotalData();
-                                fadeOutAnim = AnimationUtils.loadAnimation(getContext(),R.anim.anim_bottom_sheet_fade_out);
-                                mFilterView.setVisibility(View.INVISIBLE);
-                                mFilterView.startAnimation(fadeOutAnim);
-                                NotifyUtil.successUpdate();
-                                // call event
-                                EventBus.getDefault().post(new UpdateAttendanceRateEvent());
-                            }
-                        };
-                        mHandler.postDelayed(runnable, 1000);
-
-                    } else {
+            HttpConnector.request(HttpConnector.Type.ATTENDANCE_RATE, PrefUtil.getId(), PrefUtil.getPss(),(bool -> {
+                if(bool) {
+                    PrefUtil.saveLatestUpdateData(Util.getCurrentTimeMillis());
+                    Handler mHandler = new Handler();
+                    Runnable runnable = ()->{
+                        setTotalData();
                         fadeOutAnim = AnimationUtils.loadAnimation(getContext(),R.anim.anim_bottom_sheet_fade_out);
                         mFilterView.setVisibility(View.INVISIBLE);
                         mFilterView.startAnimation(fadeOutAnim);
-                        NotifyUtil.failureUpdate();
-                    }
+                        NotifyUtil.successUpdate();
+                        // call event
+                        EventBus.getDefault().post(new UpdateAttendanceRateEvent());
+                    };
+                    mHandler.postDelayed(runnable, 1000);
 
+                } else {
+                    fadeOutAnim = AnimationUtils.loadAnimation(getContext(),R.anim.anim_bottom_sheet_fade_out);
+                    mFilterView.setVisibility(View.INVISIBLE);
+                    mFilterView.startAnimation(fadeOutAnim);
+                    NotifyUtil.failureUpdate();
                 }
-            });
+            }));
         }
 
     }

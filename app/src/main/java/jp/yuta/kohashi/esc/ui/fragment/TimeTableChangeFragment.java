@@ -140,19 +140,6 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
             NotifyUtil.saveData();
             loadLists();
             swapAll();
-//            Intent intent = new Intent(getActivity(),TimeTableWidget.class);
-//            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-//            Integer appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
-//// Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
-//// since it seems the onUpdate() is only fired on that:
-//            if (appWidgetId == null){
-//                Log.d(TimeTableChangeFragment.class.getSimpleName(),"appwidget is null" + "     - appWidgetId");
-//            } else {
-//                int[] ids = {appWidgetId};
-//                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-//                getActivity().sendBroadcast(intent);
-//            }
-
         } else {
             NotifyUtil.notChangeData();
         }
