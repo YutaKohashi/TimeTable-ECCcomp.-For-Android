@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
@@ -32,7 +33,9 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
 
     public TimeTableRecyclerAdapter(List<TimeBlockItem> items, int color, Context context) {
         mLayoutInflater = LayoutInflater.from(context);
-        this.items = items;
+        if(this.items == null) this.items = new ArrayList<>();
+        this.items.clear();
+        this.items.addAll(items);
         this.mContext = context;
         this.color = color;
     }

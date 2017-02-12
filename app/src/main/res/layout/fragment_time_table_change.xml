@@ -5,8 +5,8 @@
     android:background="#7b7b7b"
     android:padding="15dp">
 
-    <include
-        layout="@layout/fragment_time_table"
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
