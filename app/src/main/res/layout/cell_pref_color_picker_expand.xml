@@ -17,9 +17,11 @@
         android:background="@color/colorPrimary">
 
         <android.support.v7.widget.AppCompatSeekBar
-            android:paddingLeft="8dp"
+            android:paddingLeft="18dp"
             android:id="@+id/seekbar"
             android:max="100"
+            android:progressDrawable="@drawable/seekbar_progress"
+            android:thumb="@drawable/seekbar_thumb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

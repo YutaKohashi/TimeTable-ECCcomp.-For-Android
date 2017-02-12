@@ -148,7 +148,7 @@ public class TimeTableView extends RelativeLayout {
 
     /**
      * RecyclerViewのレイアウトマネージャにScroll無効化処理を追加
-     * <p>
+     *
      * レイアウトマネーじゃで適用
      */
     private class CustomLinearLayoutManager extends LinearLayoutManager {

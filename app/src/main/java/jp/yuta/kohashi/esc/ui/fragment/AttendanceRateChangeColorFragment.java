@@ -154,14 +154,8 @@ public class AttendanceRateChangeColorFragment extends BasePrefBaseRecyclerViewF
                 .setColors(R.array.diag_colors)
                 .setSelectedColor(color)
                 .setDismissOnColorSelected(true)
-                .setOutlineWidth(2)
-                .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
-                    @Override
-                    public void onColorSelected(boolean positiveResult, @ColorInt int color) {
-                        if (positiveResult) {
-                            callBack.callback(color);
-                        }
-                    }
+                .setOnColorSelectedListener((positiveResult, color1) -> {
+                    if(positiveResult) callBack.callback(color1);
                 }).build().show(getFragmentManager(), "");
     }
 
