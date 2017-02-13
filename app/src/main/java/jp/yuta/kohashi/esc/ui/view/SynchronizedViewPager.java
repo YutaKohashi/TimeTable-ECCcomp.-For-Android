@@ -93,7 +93,7 @@ public class SynchronizedViewPager extends ViewPager {
         public void onPageScrollStateChanged(int state) {
             if(state == ViewPager.SCROLL_STATE_IDLE){
                 if(thisView.getCurrentItem() != target.getCurrentItem()){
-                    target.setCurrentItem(thisView.getCurrentItem());
+                    thisView.setCurrentItem(target.getCurrentItem());
                 }
             }
         }
