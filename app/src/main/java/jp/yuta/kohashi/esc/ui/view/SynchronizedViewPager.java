@@ -4,17 +4,30 @@ import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
 
 /**
- * Created by yutakohashi on 2017/02/08.
+ * Created by yutakohashi and Shion T. Fujie on 2017/02/08.
  */
 
 public class SynchronizedViewPager extends ViewPager {
-    SynchronizedViewPager target;
     private boolean touched;
+    private Action1<Action1<SynchronizedViewPager>> eventInvoker;
 
     public SynchronizedViewPager(Context context) {
         super(context);
+    }
+
+    public void setTargetViewPager(SynchronizedViewPager customPager) {
+        eventInvoker = invoker -> { if(!touched) invokeEvent(customPager, invoker); };
+        this.addOnPageChangeListener(new FixSynchronizedViewPager( customPager));
+        ((ViewGroup)this.getRootView()).setMotionEventSplittingEnabled(false); // disable multitouch on RootView
+    }
+
+    private  void invokeEvent(SynchronizedViewPager target, Action1<SynchronizedViewPager> invoker){
+        target.setTouched(true);
+        invoker.apply(target);
+        target.setTouched(false);
     }
 
     public SynchronizedViewPager(Context context, AttributeSet attrs) {
@@ -23,28 +36,14 @@ public class SynchronizedViewPager extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (!touched) {
-            target.setTouched(true);
-            target.onInterceptTouchEvent(ev);
-            target.setTouched(false);
-        }
+        eventInvoker.apply(pager -> pager.onInterceptTouchEvent(ev));
         return super.onInterceptTouchEvent(ev);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (!touched) {
-            target.setTouched(true);
-            target.onTouchEvent(ev);
-            target.setTouched(false);
-        }
-
+        eventInvoker.apply(pager -> pager.onTouchEvent(ev));
         return super.onTouchEvent(ev);
-    }
-
-    public void setTargetViewPager(SynchronizedViewPager customPager) {
-        target = customPager;
-        this.addOnPageChangeListener(new FixSynchronizedViewPager(this, target));
     }
 
     /**
@@ -61,39 +60,29 @@ public class SynchronizedViewPager extends ViewPager {
 
     @Override
     public void setCurrentItem(int item, boolean smoothScroll) {
-        if (!touched) {
-            target.setTouched(true);
-            target.setCurrentItem(item, smoothScroll);
-            target.setTouched(false);
-        }
+        eventInvoker.apply(pager -> pager.setCurrentItem(item,smoothScroll));
         super.setCurrentItem(item, smoothScroll);
     }
 
     @Override
     public void setCurrentItem(int item) {
-        if (!touched) {
-            target.setTouched(true);
-            target.setCurrentItem(item);
-            target.setTouched(false);
-        }
+        eventInvoker.apply(pager -> pager.setCurrentItem(item));
         super.setCurrentItem(item);
     }
 
     private class FixSynchronizedViewPager implements ViewPager.OnPageChangeListener{
 
-        ViewPager thisView;
         ViewPager target;
 
-        FixSynchronizedViewPager(ViewPager thisView, ViewPager target){
-            this.thisView = thisView;
+        FixSynchronizedViewPager(ViewPager target){
             this.target = target;
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
             if(state == ViewPager.SCROLL_STATE_IDLE){
-                if(thisView.getCurrentItem() != target.getCurrentItem()){
-                    thisView.setCurrentItem(target.getCurrentItem());
+                if(SynchronizedViewPager.this.getCurrentItem() != target.getCurrentItem()){
+                    target.setCurrentItem(SynchronizedViewPager.this.getCurrentItem());
                 }
             }
         }
@@ -102,5 +91,16 @@ public class SynchronizedViewPager extends ViewPager {
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
         @Override
         public void onPageSelected(int position) {}
+    }
+
+    /**
+     *  an interface to use lambda expression.
+     */
+    interface Action0{
+        void apply();
+    }
+
+    interface Action1<T> {
+        void apply(T pager);
     }
 }

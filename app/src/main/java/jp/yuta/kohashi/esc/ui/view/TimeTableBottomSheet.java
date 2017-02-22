@@ -52,8 +52,6 @@ public class TimeTableBottomSheet extends RelativeLayout implements Animation.An
 
     /**
      * show BottomSheet
-     * <p>
-     * view : rootView
      */
     public void show() {
         mBottomSheetView.startAnimation(inAnim);
