@@ -20,7 +20,6 @@ import jp.yuta.kohashi.esc.R;
 public class TimeTableBottomSheet extends RelativeLayout implements Animation.AnimationListener, View.OnClickListener {
     private View view;
     private View mCloseView;
-    TimeTableBottomSheet sheetThis;
 
     private RelativeLayout mBottomSheetView;
     private TextView mSubjectTextView;
@@ -41,7 +40,6 @@ public class TimeTableBottomSheet extends RelativeLayout implements Animation.An
     public TimeTableBottomSheet(Builder builder) {
         this(builder.context);
         this.builder = builder;
-        sheetThis = this;
         initView();
     }
 
@@ -101,7 +99,7 @@ public class TimeTableBottomSheet extends RelativeLayout implements Animation.An
 
     @Override
     public void onAnimationEnd(Animation animation) {
-        sheetThis.removeAllViews();
+        this.removeAllViews();
     }
 
     @Override

@@ -58,9 +58,9 @@ public class CalendarFragment extends BaseFragment implements ViewTreeObserver.O
         mNextBtn.setOnClickListener(this);
 
         mFrontViewPager = (SynchronizedViewPager) mView.findViewById(R.id.calendar_front_viewpager);
-        mBottomViewPager = (SynchronizedViewPager) mView.findViewById(R.id.calendar_bottom_viewpager);
+        mBottomViewPager = ((SynchronizedViewPager) mView.findViewById(R.id.calendar_bottom_viewpager))
+                .setTargetViewPager(mFrontViewPager);
         mFrontViewPager.setTargetViewPager(mBottomViewPager);
-        mBottomViewPager.setTargetViewPager(mFrontViewPager);
 
 
         mFrontPagerAdapter = new CalendarFrontViewPagerAdapter(getContext(), calendarList);
@@ -100,7 +100,6 @@ public class CalendarFragment extends BaseFragment implements ViewTreeObserver.O
         public void onPageSelected(int position) {
             super.onPageSelected(position);
             currentPage = position;
-
         }
     }
 
