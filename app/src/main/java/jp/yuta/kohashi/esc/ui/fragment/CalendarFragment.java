@@ -3,74 +3,93 @@ package jp.yuta.kohashi.esc.ui.fragment;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
 
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.schedule.CalendarItemModel;
-import jp.yuta.kohashi.esc.model.schedule.CalendarListModel;
-import jp.yuta.kohashi.esc.ui.adapter.CalendarRecyclerAdapter;
+import jp.yuta.kohashi.esc.model.schedule.CalendarList;
+import jp.yuta.kohashi.esc.ui.adapter.CalendarFrontViewPagerAdapter;
 import jp.yuta.kohashi.esc.ui.adapter.CalendarViewPagerAdapter;
+import jp.yuta.kohashi.esc.ui.fragment.base.BaseFragment;
+import jp.yuta.kohashi.esc.ui.view.SynchronizedViewPager;
 import jp.yuta.kohashi.esc.util.Util;
 
 /**
  * Created by yutakohashi on 2017/01/14.
  */
 
-public class CalendarFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener {
+public class CalendarFragment extends BaseFragment implements ViewTreeObserver.OnGlobalLayoutListener, View.OnClickListener {
     private static final String TAG = CalendarFragment.class.getSimpleName();
 
-    private RecyclerView mRecyclerView;
-
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
-    private CalendarViewPagerAdapter mPagerAdapter;
-    private CalendarRecyclerAdapter mRecyclerAdapter;
+    private Button mPrevBtn;
+    private Button mNextBtn;
+    private TabLayout mFrontTabLayout;
+    private SynchronizedViewPager mFrontViewPager;
+    private SynchronizedViewPager mBottomViewPager;
+    private CalendarFrontViewPagerAdapter mFrontPagerAdapter;
+    private CalendarViewPagerAdapter mBottomPagerAdapter;
     int currentPage;
-    private CalendarListModel calendarListModel;
+    private CalendarList calendarList;
     private boolean flag = true;
+    View mView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_calendar_parent, container, false);
-        calendarListModel = getSchedule(); //スケジュールを取得
+        mView = inflater.inflate(R.layout.fragment_calendar_parent, container, false);
+        calendarList = getSchedule(); //スケジュールを取得
 
-        mViewPager = (ViewPager) view.findViewById(R.id.calendar_viewpager);
-        mTabLayout = (TabLayout) view.findViewById(R.id.tab_calendar);
-        mPagerAdapter = new CalendarViewPagerAdapter(getContext(),calendarListModel);
-        mViewPager.addOnPageChangeListener(new PageChangeListener());
-        mViewPager.setAdapter(mPagerAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
 
+        mPrevBtn = (Button) mView.findViewById(R.id.prev_btn);
+        mNextBtn = (Button) mView.findViewById(R.id.next_btn);
+        mPrevBtn.setOnClickListener(this);
+        mNextBtn.setOnClickListener(this);
+
+        mFrontViewPager = (SynchronizedViewPager) mView.findViewById(R.id.calendar_front_viewpager);
+        mBottomViewPager = (SynchronizedViewPager) mView.findViewById(R.id.calendar_bottom_viewpager);
+        mFrontViewPager.setTargetViewPager(mBottomViewPager);
+        mBottomViewPager.setTargetViewPager(mFrontViewPager);
+
+
+        mFrontPagerAdapter = new CalendarFrontViewPagerAdapter(getContext(), calendarList);
+        mFrontViewPager.setAdapter(mFrontPagerAdapter);
+        mFrontTabLayout = (TabLayout) mView.findViewById(R.id.tab_calendar);
+        mFrontTabLayout.setupWithViewPager(mFrontViewPager);
+
+        mBottomPagerAdapter = new CalendarViewPagerAdapter(getChildFragmentManager(), calendarList, getActivity());
+        mBottomViewPager.setAdapter(mBottomPagerAdapter);
         //ViewTreeObserverをフック
-        mTabLayout.getViewTreeObserver().addOnGlobalLayoutListener(this);
+        mFrontTabLayout.getViewTreeObserver().addOnGlobalLayoutListener(this);
+        mFrontViewPager.addOnPageChangeListener(new PageChangeListener());
 
         currentPage = 0;
+        return mView;
+    }
 
-        mRecyclerAdapter = new CalendarRecyclerAdapter(new ArrayList<CalendarItemModel>(), getContext());
-
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.calendar_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(mRecyclerAdapter);
-
-        return view;
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.prev_btn:
+                if (--currentPage < 0) currentPage++;
+                else movePage(currentPage);
+                break;
+            case R.id.next_btn:
+                if (++currentPage < 12) movePage(currentPage);
+                else currentPage--;
+                break;
+        }
     }
 
     /**
@@ -82,8 +101,6 @@ public class CalendarFragment extends Fragment implements ViewTreeObserver.OnGlo
             super.onPageSelected(position);
             currentPage = position;
 
-            List<CalendarItemModel> list = getMonthSchedule(Util.getTabPositionToMonth(position));
-            mRecyclerAdapter.swap(list);
         }
     }
 
@@ -94,9 +111,8 @@ public class CalendarFragment extends Fragment implements ViewTreeObserver.OnGlo
     public void onGlobalLayout() {
         if (flag) {
             flag = false;
-            int position = Util.getMonthToTabPosition(Const.MONTH);
-            mViewPager.setCurrentItem(position, false);
-            mTabLayout.setScrollPosition(position, 0, true); // 注
+            int position = Util.getMonthToTabPosition(Calendar.getInstance().get(Calendar.MONTH) + 1);
+            movePage(position);
         }
     }
 
@@ -104,18 +120,22 @@ public class CalendarFragment extends Fragment implements ViewTreeObserver.OnGlo
     public void onDestroyView() {
         super.onDestroyView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            mTabLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            mFrontTabLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
         }
     }
 
-    /**
-     * 引数の月からスケジュールをを取得
-     *
-     * @param month
-     * @return
-     */
-    private List<CalendarItemModel> getMonthSchedule(int month) {
-        return calendarListModel.get(month);
+    private void movePage(int position) {
+        moveFrontPage(position);
+        moveBottomPage(position);
+    }
+
+    private void moveFrontPage(int position) {
+        mFrontViewPager.setCurrentItem(position, false);
+        mFrontTabLayout.setScrollPosition(position, 0, true); // 注
+    }
+
+    private void moveBottomPage(int position) {
+        mBottomViewPager.setCurrentItem(position, false);
     }
 
     /**
@@ -123,18 +143,16 @@ public class CalendarFragment extends Fragment implements ViewTreeObserver.OnGlo
      *
      * @return
      */
-    private CalendarListModel getSchedule() {
+    private CalendarList getSchedule() {
         String jsonText = "";
         Gson gson = new Gson();
         try {
-            jsonText = Util.loadTextAsset(Const.SCHEDULE_FILE_NAME, getContext());
+            jsonText = Util.loadTextAsset(Const.SCHEDULE_FILE_NAME);
         } catch (IOException e) {
             Log.d(TAG, e.toString());
         }
 
-        CalendarListModel listModel = gson.fromJson(jsonText, CalendarListModel.class);
-
+        CalendarList listModel = gson.fromJson(jsonText, CalendarList.class);
         return listModel;
     }
-
 }

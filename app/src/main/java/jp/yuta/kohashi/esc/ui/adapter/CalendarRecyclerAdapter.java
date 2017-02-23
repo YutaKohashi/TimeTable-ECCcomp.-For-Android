@@ -11,17 +11,17 @@ import android.widget.TextView;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.schedule.CalendarItemModel;
+import jp.yuta.kohashi.esc.model.schedule.CalendarItem;
 
 /**
  * Created by Yuta on 2016/04/06.
  */
 public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecyclerAdapter.CalendarRecyclerViewHolder> {
-    private List<CalendarItemModel> items;
+    private List<CalendarItem> items;
     private Context context;
 
 
-    public CalendarRecyclerAdapter(List<CalendarItemModel> items, Context context){
+    public CalendarRecyclerAdapter(List<CalendarItem> items, Context context){
         this.items = items;
         this.context = context;
     }
@@ -60,7 +60,7 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
         }
     }
 
-    public void swap(List<CalendarItemModel> items){
+    public void swap(List<CalendarItem> items){
         this.items.clear();
         this.items.addAll(items);
         notifyDataSetChanged();

@@ -1,31 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_preference"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activity.PreferenceRelationActivity">
+    tools:context="jp.yuta.kohashi.esc.ui.activity.PreferenceActivity"
+    android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
+    <include
+        android:id="@+id/appbar"
+        layout="@layout/view_appbar" />
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        android:id="@+id/view">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_settings"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"/>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <fragment
-        android:name="jp.yuta.kohashi.esc.fragment.PreferenceRelationFragment"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:id="@+id/fragment_settings"
-        android:layout_below="@+id/view" />
+        android:id="@+id/container_fragment">
 
-</RelativeLayout>
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="jp.yuta.kohashi.esc.ui.fragment.PreferenceMainFragment"
+            android:id="@+id/fragment_preference"
+            tools:layout="@layout/fragment_recycler_view" />
+
+    </FrameLayout>
+</LinearLayout>

@@ -7,10 +7,8 @@ package jp.yuta.kohashi.esc.network.service;
 import lombok.Getter;
 import lombok.Setter;
 
+@Getter @Setter
 public class HttpResultClass {
-
-    @Getter @Setter
     private Boolean bool;
-    @Getter @Setter
     private String string;
 }

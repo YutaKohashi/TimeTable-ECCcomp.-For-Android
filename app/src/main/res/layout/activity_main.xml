@@ -8,65 +8,34 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/linearCoordinator"
+    <RelativeLayout
+        android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            app:elevation="0dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark">
+        <include
+            android:id="@+id/appbar"
+            layout="@layout/view_appbar" />
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                app:elevation="0dp"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-
-                app:layout_scrollFlags="scroll|enterAlways">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:paddingBottom="15sp"
-                    android:paddingRight="60sp"
-                    android:paddingTop="15sp">
-
-                   <TextView
-                       android:id="@+id/main_title"
-                       android:layout_width="match_parent"
-                       android:layout_height="match_parent"
-                       android:text="ECCcomp."
-                       android:textSize="22sp"
-                       android:textColor="@color/white" />
-                </RelativeLayout>
-
-
-            </android.support.v7.widget.Toolbar>
-
-        </android.support.design.widget.AppBarLayout>
-
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+            android:layout_above="@+id/bottom_nav_view"
+            android:layout_below="@+id/appbar" />
 
-            <TextView
-                android:layout_width="120sp"
-                android:layout_height="120sp"
-                android:id="@+id/dummy_edit"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"/>
-        </RelativeLayout>
-
-    </android.support.design.widget.CoordinatorLayout>
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottom_nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:elevation="5dp"
+            app:itemIconTint="@android:color/white"
+            app:itemTextColor="@android:color/white"
+            android:background="@color/colorPrimary"
+            app:menu="@menu/items_nav_bottom" />
+    </RelativeLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_drawer"
@@ -74,7 +43,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/drawer_header"
-        app:menu="@menu/drawer_items" />
+        app:menu="@menu/items_nav_drawer" />
 </android.support.v4.widget.DrawerLayout>
+
 
 

@@ -9,10 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.TimeBlockModel;
+import jp.yuta.kohashi.esc.model.TimeBlockItem;
 
 /**
  * Created by yutakohashi on 2017/01/13.
@@ -20,18 +21,23 @@ import jp.yuta.kohashi.esc.model.TimeBlockModel;
 
 public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecyclerAdapter.TimeViewHolder> {
 
-    private List<TimeBlockModel> items;
+    private List<TimeBlockItem> items;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
+    private int color;
+
 
     // タップされたときに呼び出されるメソッド
-    protected void onItemClicked(@NonNull TimeBlockModel model) {
+    protected void onItemClicked(@NonNull List<TimeBlockItem> items, TimeBlockItem model) {
     }
 
-    public TimeTableRecyclerAdapter(List<TimeBlockModel> items, Context context) {
+    public TimeTableRecyclerAdapter(List<TimeBlockItem> items, int color, Context context) {
         mLayoutInflater = LayoutInflater.from(context);
-        this.items = items;
+        if(this.items == null) this.items = new ArrayList<>();
+        this.items.clear();
+        this.items.addAll(items);
         this.mContext = context;
+        this.color = color;
     }
 
     @Override
@@ -43,7 +49,7 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
             @Override
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
-                onItemClicked(items.get(position));
+                onItemClicked(items, items.get(position));
             }
         });
 
@@ -54,6 +60,7 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
     public void onBindViewHolder(TimeViewHolder holder, int position) {
         holder.subjectName.setText(items.get(position).getSubject());
         holder.roomName.setText(items.get(position).getClassRoom());
+        holder.roomName.setBackgroundColor(mContext.getResources().getColor(color));
     }
 
     @Override
@@ -61,6 +68,11 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
         return items.size();
     }
 
+    public void swap(List<TimeBlockItem> items){
+        this.items.clear();
+        this.items.addAll(items);
+        notifyDataSetChanged();
+    }
 
     //ViewHolder
     public static class TimeViewHolder extends RecyclerView.ViewHolder {

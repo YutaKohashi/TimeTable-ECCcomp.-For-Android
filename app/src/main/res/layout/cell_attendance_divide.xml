@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="3dp"
+        android:id="@+id/card_view"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="3dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/container_top"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/radio_group"
+                android:background="@color/bg_title"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp">
+
+                <TextView
+                    android:id="@+id/subject_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="タイトル" />
+
+            </RelativeLayout>
+
+
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true">
+
+                <LinearLayout
+                    android:id="@+id/container_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <android.support.v7.widget.AppCompatRadioButton
+                            android:id="@+id/radio_button_zenki"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:checked="true"
+                            android:text="@string/title_zenki_data"
+                            android:buttonTint="@color/colorPrimary"
+                            android:textColor="@color/diag_text_color"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <android.support.v7.widget.AppCompatRadioButton
+                            android:id="@+id/radio_button_kouki"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@string/title_kouki_data"
+                            android:buttonTint="@color/colorPrimary"
+                            android:textColor="@color/diag_text_color"/>
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </RadioGroup>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

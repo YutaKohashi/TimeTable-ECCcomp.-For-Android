@@ -10,10 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.AttendanceRateModel;
+import jp.yuta.kohashi.esc.model.AttendanceRate;
+import jp.yuta.kohashi.esc.util.Util;
+import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
  * Created by yutakohashi on 2017/01/14.
@@ -21,20 +24,25 @@ import jp.yuta.kohashi.esc.model.AttendanceRateModel;
 
 public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<AttendanceRateRecyclerAdapter.AttendanceViewHolder> {
 
-    private List<AttendanceRateModel> items;
+    private List<AttendanceRate> items;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
 
-    public AttendanceRateRecyclerAdapter(List<AttendanceRateModel> items, Context context) {
+    // タップされたときに呼び出されるメソッド
+//    protected void onItemLongClicked(int position, @NonNull List<AttendanceRate> items) {}
+
+    public AttendanceRateRecyclerAdapter(List<AttendanceRate> items, Context context) {
         mLayoutInflater = LayoutInflater.from(context);
-        this.items = items;
+        this.items = new ArrayList<>();
+        this.items.addAll(items);
         this.mContext = context;
     }
 
     @Override
     public AttendanceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = mLayoutInflater.inflate(R.layout.cell_attendance_rate, parent, false);
-        return new AttendanceViewHolder(v);
+        final AttendanceRateRecyclerAdapter.AttendanceViewHolder holder = new AttendanceRateRecyclerAdapter.AttendanceViewHolder(v);
+        return holder;
     }
 
     @Override
@@ -56,6 +64,60 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
         //公欠２
         holder.kouketsuNum2.setText(items.get(position).getPublicAbsentNumber2());
 
+        blackout(holder, position);
+        changeBackgroundColor(holder, position);
+    }
+
+    /**
+     * 設定な異様に応じて色を変更する
+     *
+     * @param holder
+     * @param position
+     */
+    private void changeBackgroundColor(AttendanceViewHolder holder, int position) {
+        if (PrefUtil.isChangeColor()) {
+            int color = -1;
+            int rate = Integer.valueOf(items.get(position).getAttendanceRate());
+            if (rate <= PrefUtil.loadRateU75()) {
+                if (!PrefUtil.isBlackout()) {
+                    color = PrefUtil.loadColorU75();
+                } else {
+                    color = Util.getColor(R.color.bg_blackout);
+                }
+            } else if (rate <= PrefUtil.loadRateU81()) {
+                color = PrefUtil.loadColorU81();
+            } else if (rate <= PrefUtil.loadRateU90()) {
+                color = PrefUtil.loadColorU90();
+            } else {
+                color = -1;
+            }
+            if (color != -1) {
+                holder.titleContainer.setBackgroundColor(color);
+            } else {
+                holder.titleContainer.setBackgroundColor(Util.getColor(R.color.bg_title));
+
+            }
+        }
+    }
+
+    /**
+     * 設定内容に応じてブラックアウトする
+     */
+    private void blackout(AttendanceViewHolder holder, int position) {
+        if (PrefUtil.isBlackout()) {
+            int rate = Integer.valueOf(items.get(position).getAttendanceRate());
+            if (rate < 75) {
+                holder.container.setCardBackgroundColor(Util.getColor(R.color.bg_blackout));
+                holder.titleContainer.setBackgroundColor(Util.getColor(android.R.color.transparent));
+            } else {
+                holder.container.setCardBackgroundColor(Util.getColor(R.color.bg_default_card_view));
+                holder.titleContainer.setBackgroundColor(Util.getColor(R.color.bg_title));
+            }
+        } else {
+            holder.container.setCardBackgroundColor(Util.getColor(R.color.bg_default_card_view));
+            holder.titleContainer.setBackgroundColor(Util.getColor(R.color.bg_title));
+        }
+
     }
 
     @Override
@@ -63,7 +125,12 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
         return items.size();
     }
 
-    public void swap(List<AttendanceRateModel> items){
+
+    public void refresh() {
+        notifyDataSetChanged();
+    }
+
+    public void swap(List<AttendanceRate> items) {
         this.items.clear();
         this.items.addAll(items);
         notifyDataSetChanged();
@@ -72,7 +139,7 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
     //ViewHolder
     public static class AttendanceViewHolder extends RecyclerView.ViewHolder {
 
-        CardView container;
+        public CardView container;
         public TextView subjectName;
         public TextView unitNum;
         public TextView attendanceRate;     //出席率を表示するTextView
@@ -83,6 +150,7 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
         public TextView kouketsuNum2;
         public RelativeLayout attendanceRateRootView;
         public LinearLayout attendanceSubRootView;
+        public RelativeLayout titleContainer;
 
         public AttendanceViewHolder(View v) {
             super(v);
@@ -97,6 +165,7 @@ public class AttendanceRateRecyclerAdapter extends RecyclerView.Adapter<Attendan
             kouketsuNum2 = (TextView) v.findViewById(R.id.kouketsu_num2);
             attendanceRateRootView = (RelativeLayout) v.findViewById(R.id.attendance_rate_root_view);
             attendanceSubRootView = (LinearLayout) v.findViewById(R.id.attendance_card_view_sub_root);
+            titleContainer = (RelativeLayout) v.findViewById(R.id.shuseki_rate_block_header);
         }
     }
 }

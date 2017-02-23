@@ -1,21 +1,33 @@
 package jp.yuta.kohashi.esc.util;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
+import java.util.List;
 
+import jp.yuta.kohashi.esc.App;
 import jp.yuta.kohashi.esc.R;
+import jp.yuta.kohashi.esc.ui.service.EccNewsManageService;
+
+import static android.content.Context.ACTIVITY_SERVICE;
 
 /**
  * Created by yutakohashi on 2017/01/10.
@@ -23,19 +35,13 @@ import jp.yuta.kohashi.esc.R;
 
 public class Util {
 
-    private static Context mContext;
-
-    public static void init(Context context) {
-        mContext = context;
-    }
-
     /**
      * ネットワーク接続確認
      *
      * @return
      */
     public static boolean netWorkCheck() {
-        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) App.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cm.getActiveNetworkInfo();
         if (info != null) {
             return info.isConnected();
@@ -50,21 +56,32 @@ public class Util {
      * @param view
      * @return
      */
-    public static boolean checkTextField(TextView view) {
+    public static boolean checkTextField(AppCompatEditText view) {
         String text = view.getText().toString();
         if (TextUtils.isEmpty(text)) {
-            view.setError(mContext.getString(R.string.string_text_view_error));
+            view.setError(App.getAppContext().getString(R.string.string_text_view_error));
             return false;
         } else {
             return true;
         }
     }
 
+    public static boolean checkTextField(AppCompatEditText view, TextInputLayout wrapper) {
+        String text = view.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            wrapper.setError(App.getAppContext().getString(R.string.string_text_view_error));
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
     /**
      * @return
      */
     public static float getDisplayScale() {
-        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) App.getAppContext().getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
         return dm.scaledDensity;
@@ -95,12 +112,45 @@ public class Util {
         return position;
     }
 
+
+    public static boolean isStartService(){
+        boolean found = false;
+        ActivityManager am = (ActivityManager) App.getAppContext().getSystemService(ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> listServiceInfo = am.getRunningServices(Integer.MAX_VALUE);
+        for (ActivityManager.RunningServiceInfo curr : listServiceInfo) {
+            // クラス名を比較
+            if (curr.service.getClassName().equals(EccNewsManageService.class.getName())) {
+                // 実行中のサービスと一致
+                found = true;
+            }
+        }
+        return found;
+    }
+
+    public static Drawable getDrawable(@DrawableRes int id){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            return App.getAppContext().getResources().getDrawable(id, null);
+        else
+            return App.getAppContext().getResources().getDrawable(id);
+    }
+
+    public static int getColor(@ColorRes int id){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            return App.getAppContext().getResources().getColor(id, null);
+        else
+            return App.getAppContext().getResources().getColor(id);
+    }
+
+    public static long getCurrentTimeMillis(){
+        return new Date(System.currentTimeMillis()).getTime();
+    }
+
     //**
     //region assets フォルダから、テキストファイルを読み込む(Android 用)
     //**
 
-    public static String loadTextAsset(String fileName, Context context) throws IOException {
-        final AssetManager assetManager = context.getAssets();
+    public static String loadTextAsset(String fileName) throws IOException {
+        final AssetManager assetManager = App.getAppContext().getAssets();
         InputStream is = assetManager.open(fileName);
         return loadText(is, "UTF-8");
     }
@@ -136,6 +186,7 @@ public class Util {
             throws IOException, UnsupportedEncodingException {
         return new String(readStream(inputStream, DEFAULT_READ_LENGTH), charsetName);
     }
+
 
     //**
     //endregion

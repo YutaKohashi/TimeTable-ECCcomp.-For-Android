@@ -9,10 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.NewsModel;
+import jp.yuta.kohashi.esc.model.NewsItem;
 
 /**
  * Created by yutakohashi on 2017/01/15.
@@ -20,15 +21,17 @@ import jp.yuta.kohashi.esc.model.NewsModel;
 
 public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapter.NewsRecyclerViewHolder> {
 
-    private List<NewsModel> items;
+    private List<NewsItem> items;
     private Context mContext;
 
     // タップされたときに呼び出されるメソッド
-    protected void onItemClicked(@NonNull NewsModel model) {
-    }
+    protected void onItemClicked(@NonNull NewsItem model) {}
 
-    public NewsRecyclerAdapter(List<NewsModel> items, Context context) {
-        this.items = items;
+    public NewsRecyclerAdapter(List<NewsItem> items, Context context) {
+        if(this.items == null) this.items = new ArrayList<>();
+        else  this.items.clear();
+
+        this.items.addAll(items);
         mContext = context;
     }
 
@@ -46,14 +49,15 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         }
 
         final NewsRecyclerViewHolder holder = new NewsRecyclerViewHolder(v, viewType);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int position = holder.getAdapterPosition();
-                onItemClicked(items.get(position));
-            }
-        });
-
+        if(viewType != -1){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = holder.getAdapterPosition();
+                    onItemClicked(items.get(position));
+                }
+            });
+        }
         return holder;
     }
 
@@ -86,7 +90,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         return items.size();
     }
 
-    public void swap(List<NewsModel> items){
+    public void swap(List<NewsItem> items){
         this.items.clear();
         this.items.addAll(items);
         notifyDataSetChanged();
@@ -95,7 +99,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
     //複数レイアウト
     @Override
     public int getItemViewType(int position) {
-        NewsModel childListItem = items.get(position);
+        NewsItem childListItem = items.get(position);
         if (childListItem.getGroupTitle() != null) {
             return -1;
         }

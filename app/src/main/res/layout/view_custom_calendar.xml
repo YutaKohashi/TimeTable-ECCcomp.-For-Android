@@ -23,7 +23,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Sun."
-            android:textColor="@color/calendar_hedder" />
+            android:textColor="@color/calendar_header" />
 
         <TextView
             android:layout_width="0dp"
@@ -31,7 +31,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Mon."
-            android:textColor="@color/calendar_hedder" />
+            android:textColor="@color/calendar_header" />
 
         <TextView
             android:layout_width="0dp"
@@ -39,7 +39,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Tue."
-            android:textColor="@color/calendar_hedder" />
+            android:textColor="@color/calendar_header" />
 
         <TextView
             android:layout_width="0dp"
@@ -47,7 +47,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Wed."
-            android:textColor="@color/calendar_hedder" />
+            android:textColor="@color/calendar_header" />
 
         <TextView
             android:layout_width="0dp"
@@ -55,7 +55,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Thu."
-            android:textColor="@color/calendar_hedder" />
+            android:textColor="@color/calendar_header" />
 
         <TextView
             android:layout_width="0dp"
@@ -63,7 +63,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Fri."
-            android:textColor="@color/calendar_hedder" />
+            android:textColor="@color/calendar_header" />
 
         <TextView
             android:layout_width="0dp"
@@ -71,7 +71,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Sat."
-            android:textColor="@color/calendar_hedder" />
+            android:textColor="@color/calendar_header" />
 
     </LinearLayout>
 

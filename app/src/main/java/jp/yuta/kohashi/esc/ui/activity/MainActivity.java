@@ -4,93 +4,96 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 
 import java.util.List;
 
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
+import jp.yuta.kohashi.esc.model.NewsItem;
+import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.network.service.RequestURL;
-import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateFragment;
+import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
+import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateParentFragment;
 import jp.yuta.kohashi.esc.ui.fragment.CalendarFragment;
+import jp.yuta.kohashi.esc.ui.fragment.NewsParentFragment;
 import jp.yuta.kohashi.esc.ui.fragment.TimeTableFragment;
-import jp.yuta.kohashi.esc.ui.fragment.news.NewsParentFragment;
+import jp.yuta.kohashi.esc.ui.service.EccNewsManageService;
+import jp.yuta.kohashi.esc.util.NotifyUtil;
+import jp.yuta.kohashi.esc.util.Util;
+import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 
 /***
  * このActivityに時間割や出席照会のFragmentがのる
  */
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final String GET_ATTENDANCE_RATE = "get_attendance_rate";
+    public static final String SELECT_TAB_NEWS = "select_tab_news"; //　通知をタップして起動した場合
 
     /*ツールバー・ナビゲーションドロワー・トグル・レイアウト*/
-    private Toolbar mToolbar;
-    private NavigationView mDrawer;
+    private NavigationView mNavDrawer;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private BottomNavigationView mBottomNavView;
-    private Menu mOverflowMenu;
     private Fragment transitionFragment;
-    private View mRootView;
 
+    private int currentTab;
+
+    private TimeTableFragment timeTableFragment;
+    private AttendanceRateParentFragment attendanceRateFragment;
+    private NewsParentFragment newsParentFragment;
+    private CalendarFragment calendarFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main_nav_drawer);
-        setContentView(R.layout.activity_main_nav_bottom);
+        setContentView(R.layout.activity_main);
 
         initToolbar();
+        setToolbarTitle(getResources().getString(R.string.toolbar_default_title));
 
 //        ドロワーの時
-//        initDrawer();
+        initDrawer();
         initBottomNavView();
 
         replaceFragment(new TimeTableFragment());
 
         isGetAttendanceRate(); //ログイン時のみ
+        currentTab = -1;
+
+        //サービス起動チェック
+        if (!Util.isStartService() && PrefUtil.isNotifyNews()) {
+            new EccNewsManageService().startResident(MainActivity.this);
+        }
+
+        // 通知バーから起動されたか
+        isSelectTabNews();
     }
 
-    @Override
-    public void onStart(){
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
 
     /**
      * ツールバー、ナビゲーションドロワーを初期化
      */
     private void initDrawer() {
-        mDrawer = (NavigationView) findViewById(R.id.navigation_drawer);
-        mDrawer.setNavigationItemSelectedListener(this);
+        mNavDrawer = (NavigationView) findViewById(R.id.navigation_drawer);
+        mNavDrawer.setNavigationItemSelectedListener(this);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
@@ -102,16 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mBottomNavView.setOnNavigationItemSelectedListener(this);
     }
 
-    private void initToolbar(){
-        //ツールバーをActionBarとして扱う
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolbar != null) {
-            setSupportActionBar(mToolbar);
-        }
-    }
-
-
-    /**
+    /*
      * NavigationViewのClickイベント
      *
      * @param item
@@ -120,31 +114,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        Animation in = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_bottom_sheet_in);
+        if (currentTab == item.getItemId()) return true;
 
         switch (item.getItemId()) {
             case R.id.nav_item_time_table: // 時間割
-                transitionFragment  = new TimeTableFragment();
+                if (timeTableFragment == null) timeTableFragment = new TimeTableFragment();
+                replaceFragment(timeTableFragment);
+                currentTab = item.getItemId();
                 break;
             case R.id.nav_item_attendance_rate: // 出席照会
-                transitionFragment  = new AttendanceRateFragment();
+                if (attendanceRateFragment == null)
+                    attendanceRateFragment = new AttendanceRateParentFragment();
+                replaceFragment(attendanceRateFragment);
+                currentTab = item.getItemId();
                 break;
             case R.id.nav_item_news: // お知らせ
-                transitionFragment  = new NewsParentFragment();
+                if (newsParentFragment == null) newsParentFragment = new NewsParentFragment();
+                replaceFragment(newsParentFragment);
+                currentTab = item.getItemId();
                 break;
             case R.id.nav_item_schedule: //スケジュール
-                transitionFragment  = new CalendarFragment();
+                if (calendarFragment == null) calendarFragment = new CalendarFragment();
+                replaceFragment(new CalendarFragment());
+                currentTab = item.getItemId();
+                break;
+            case R.id.nav_item_profile: //プロフィール
+                showProfile();
+                closeDrawer();
                 break;
             case R.id.nav_item_web: //WEB版
+                showWeb();
+                closeDrawer();
                 break;
             case R.id.nav_item_settings: // 設定
-
-        }
-
-        try {
-            replaceFragment(transitionFragment);
-        }catch(Exception e){
-            Log.d(TAG,e.toString());
+                showSettings();
+                closeDrawer();
+                break;
         }
 
         return true;
@@ -152,18 +157,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     /**
      * フラグメントreplaceメソッド
+     *
      * @param fragment
      */
-    private void replaceFragment(Fragment fragment){
+    private void replaceFragment(Fragment fragment) {
+        transitionFragment = null;
+        transitionFragment = fragment;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, fragment,"");
+        ft.replace(R.id.fragment_container, fragment, "");
         ft.addToBackStack(null);
         ft.commit();
     }
 
-    private void drawerOpen(){mDrawerLayout.closeDrawer(GravityCompat.END);}
+    /**
+     * ドロワーを開く
+     */
+    private void drawerOpen() {
+        mDrawerLayout.closeDrawer(GravityCompat.END);
+    }
 
-    private void closeDrawer(){
+    /**
+     * ドロワーを閉じる
+     */
+    private void closeDrawer() {
         mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
@@ -171,88 +187,67 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * ログイン時に出席照会の取得に失敗した時
      * スナックバーを表示する
      */
-    private void isGetAttendanceRate(){
+    private void isGetAttendanceRate() {
         Intent intent = getIntent();
-        boolean bool = intent.getBooleanExtra(GET_ATTENDANCE_RATE,true);
+        boolean bool = intent.getBooleanExtra(GET_ATTENDANCE_RATE, true);
 
         //取得に失敗
-        if(!bool){
-            Snackbar.make(findViewById(R.id.activity_main),"出席照会の取得に失敗しました。",Snackbar.LENGTH_SHORT).show();
+        if (!bool) {
+            NotifyUtil.failureAttendanceRate();
+            intent.removeExtra(GET_ATTENDANCE_RATE);
+        }
+    }
+
+    /**
+     * 通知から起動した場合お知らせタブを選択する
+     */
+    private void isSelectTabNews() {
+        Intent intent = getIntent();
+        boolean bool = intent.getBooleanExtra(SELECT_TAB_NEWS, false);
+        intent.removeExtra(SELECT_TAB_NEWS);
+        if (bool) {
+            View view = mBottomNavView.findViewById(R.id.nav_item_news);
+            if (view != null) view.performClick();
+
+            final NewsItem item = (NewsItem) intent.getSerializableExtra(NewsDetailActivity.NEWS_MODEL);
+            intent.removeExtra(NewsDetailActivity.NEWS_MODEL);
+            if(item != null) {
+                // 詳細記事を表示
+                if (!Util.netWorkCheck()) {
+                    NotifyUtil.failureNetworkConnection();
+                    return;
+                }
+
+                NotifyUtil.showLoadingDiag(this);
+                HttpConnector.requestNewsDetail(PrefUtil.getId(), PrefUtil.getPss(), item.getUri(),((html, bool1) -> {
+                    if (bool1) {
+                        Intent intent1 = new Intent(MainActivity.this, NewsDetailActivity.class);
+                        intent1.putExtra(NewsDetailActivity.NEWS_MODEL, item);
+                        intent1.putExtra(NewsDetailActivity.NEWS_HTML, html);
+
+                        startActivity(intent1);
+                    }
+                    NotifyUtil.dismiss();
+                }));
+            }
+
         }
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event){
-        if (keyCode == KeyEvent.KEYCODE_BACK){
-//
-//            // ボタンが押されたとき
-//            final MaterialDialog dialog = new MaterialDialog(this);
-//            dialog
-//                    .setTitle("アプリケーション終了")
-//                    .setMessage("アプリケーションを終了してよろしいですか？")
-//                    .setPositiveButton("YES", new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//
-//                            finish();
-//                            moveTaskToBack(true);
-//
-//                        }
-//                    })
-//                    .setNegativeButton("NO", new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            dialog.dismiss();
-////
-//                        }
-//                    }).show();
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             this.finish();
             return true;
         }
         return false;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        final MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.items_overflow, menu);
-        mOverflowMenu = menu;
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        final int action = event.getAction();
-        final int keyCode = event.getKeyCode();
-        if (action == KeyEvent.ACTION_UP) {
-            // メニュー表示
-            if (keyCode == KeyEvent.KEYCODE_MENU) {
-                if (mOverflowMenu != null) {
-                    mOverflowMenu.performIdentifierAction(R.id.nav_item_news, 0);
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.overflow_item_web:
-                showWeb();
-                break;
-            case R.id.overflow_item_settings:
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
-
-    }
-
-    private void showWeb(){
-        Uri uri = Uri.parse(RequestURL.ESC_TO_PAGE);
+    /**
+     * ChoromeCustomTabsを表示
+     */
+    private void showWeb() {
+        Uri uri = Uri.parse(RequestURL.ESC_TO_LOGIN_PAGE);
         CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                 .setShowTitle(true)
                 .setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary))
@@ -268,4 +263,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         customTabsIntent.launchUrl(MainActivity.this, uri);
     }
+
+    private void showProfile() {
+        startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+    }
+
+    /**
+     * 設定Activityを表示
+     */
+    private void showSettings() {
+        Intent intent = new Intent(MainActivity.this, PreferenceActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        //ドロワーに名前と学籍番号を入れる
+        String userId = PrefUtil.getId();
+        String name = PrefUtil.getUserName();
+        ((TextView) findViewById(R.id.name_text)).setText(name);
+        ((TextView) findViewById(R.id.num_text)).setText(userId);
+    }
+
 }

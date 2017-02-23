@@ -15,7 +15,7 @@
         android:id="@+id/attendance_card_view_sub_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/transparent"
+        android:background="@android:color/transparent"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -23,7 +23,7 @@
             android:layout_height="0dp"
             android:layout_weight="2"
             android:id="@+id/shuseki_rate_block_header"
-            android:background="@color/colorPrimary1">
+            android:background="@color/bg_title">
 
             <TextView
                 android:id="@+id/subject_text_view"
@@ -48,7 +48,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40sp"
-                android:background="@color/transparent"
                 android:orientation="horizontal">
 
                 <TextView
@@ -56,7 +55,6 @@
                     android:id="@+id/unit_text"
                     android:layout_height="match_parent"
                     android:layout_weight="1.7"
-                    android:background="@color/transparent"
                     android:gravity="center"
                     android:text="@string/credits" />
 
@@ -73,7 +71,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/transparent"
                     android:gravity="center|bottom"
                     android:paddingBottom="4sp"
                     android:text="@string/attendance_num"
@@ -84,7 +81,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/transparent"
                     android:gravity="center|bottom"
                     android:paddingBottom="4sp"
                     android:id="@+id/abcent_text"
@@ -95,7 +91,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/transparent"
                     android:gravity="center|bottom"
                     android:paddingBottom="4sp"
                     android:text="@string/late"
@@ -106,7 +101,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/transparent"
                     android:gravity="center|bottom"
                     android:paddingBottom="4sp"
                     android:id="@+id/kouketsu1_text"
@@ -117,7 +111,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/transparent"
                     android:gravity="center|bottom"
                     android:paddingBottom="4sp"
                     android:text="@string/kouketsu_2"
@@ -130,7 +123,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40sp"
-                android:background="@color/transparent"
                 android:orientation="horizontal">
 
                 <TextView
@@ -138,7 +130,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.7"
-                    android:background="@color/transparent"
                     android:gravity="center|bottom"
                     android:paddingBottom="1sp"
                     android:text="2"
@@ -157,7 +148,6 @@
                         android:id="@+id/attendance_rate_child_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/transparent"
                         android:paddingBottom="1sp">
 
                         <TextView
@@ -166,7 +156,6 @@
                             android:layout_height="match_parent"
                             android:layout_alignParentLeft="true"
                             android:layout_toLeftOf="@+id/percent_text_view"
-                            android:background="@color/transparent"
                             android:gravity="center|bottom"
                             android:text="100"
                             android:textSize="25sp"
@@ -180,7 +169,6 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginBottom="3sp"
                             android:layout_marginRight="3sp"
-                            android:background="@color/transparent"
                             android:gravity="center|bottom"
                             android:text="%"
                             android:textSize="15sp" />
@@ -192,7 +180,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/transparent"
                     android:gravity="center|bottom"
                     android:paddingBottom="4sp"
                     android:text="0"
@@ -203,7 +190,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/transparent"
                     android:gravity="center|bottom"
                     android:paddingBottom="4sp"
                     android:text="0"
@@ -214,7 +200,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/transparent"
                     android:gravity="center|bottom"
                     android:paddingBottom="4sp"
                     android:text="0"
@@ -225,7 +210,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/transparent"
                     android:gravity="center|bottom"
                     android:paddingBottom="4sp"
                     android:text="0"
@@ -236,7 +220,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/transparent"
                     android:gravity="center|bottom"
                     android:paddingBottom="4sp"
                     android:text="0"

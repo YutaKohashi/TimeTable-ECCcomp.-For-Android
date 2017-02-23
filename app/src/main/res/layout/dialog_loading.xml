@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/bg_news_progress_dialog"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp">
+
+        <com.jpardogo.android.googleprogressbar.library.GoogleProgressBar
+
+            android:id="@+id/progress_view"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/dialog_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/progress_view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/diag_text_color"
+            android:text="@string/loading"
+            android:textSize="14sp" />
+    </RelativeLayout>
+</RelativeLayout>

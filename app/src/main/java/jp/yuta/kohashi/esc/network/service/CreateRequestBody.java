@@ -3,7 +3,7 @@ package jp.yuta.kohashi.esc.network.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import jp.yuta.kohashi.esc.util.RegexManager;
+import jp.yuta.kohashi.esc.util.RegexUtil;
 
 /**
  * Created by yutakohashi on 2016/11/15.
@@ -22,7 +22,7 @@ public class CreateRequestBody {
         Map<String,String> body = new HashMap<>();
 
         // トークンを取得
-        String token = RegexManager.getValues("input name=\"_token\" type=\"hidden\" value=\"(.+?)\"",html);
+        String token = RegexUtil.getValues("input name=\"_token\" type=\"hidden\" value=\"(.+?)\"",html);
 
         body.put("_token",token);
         body.put("userid",userId);
@@ -38,13 +38,13 @@ public class CreateRequestBody {
      * @return
      */
     protected static Map<String,String> createPostDataForYSLogin(String userId, String password, String html){
-        String __LASTFOCUS = RegexManager.getValues("input type=\"hidden\" name=\"__LASTFOCUS\" id=\"__LASTFOCUS\" value=\"(.+?)\"",html);
-        String __VIEWSTATE =  RegexManager.getValues("input type=\"hidden\" name=\"__VIEWSTATE\" id=\"__VIEWSTATE\" value=\"(.+?)\"",html);
-        String __SCROLLPOSITIONX = RegexManager.getValues("input type=\"hidden\" name=\"__SCROLLPOSITIONX\" id=\"__SCROLLPOSITIONX\" value=\"(.+?)\"",html);
-        String __SCROLLPOSITIONY = RegexManager.getValues("input type=\"hidden\" name=\"__SCROLLPOSITIONY\" id=\"__SCROLLPOSITIONY\" value=\"(.+?)\"",html);
-        String __EVENTTARGET = RegexManager.getValues("input type=\"hidden\" name=\"__EVENTTARGET\" id=\"__EVENTTARGET\" value=\"(.+?)\"",html);
-        String __EVENTARGUMENT = RegexManager.getValues("input type=\"hidden\" name=\"__EVENTARGUMENT\" id=\"__EVENTARGUMENT\" value=\"(.+?)\"",html);
-        String __EVENTVALIDATION = RegexManager.getValues("input type=\"hidden\" name=\"__EVENTVALIDATION\" id=\"__EVENTVALIDATION\" value=\"(.+?)\"",html);
+        String __LASTFOCUS = RegexUtil.getValues("input type=\"hidden\" name=\"__LASTFOCUS\" id=\"__LASTFOCUS\" value=\"(.+?)\"",html);
+        String __VIEWSTATE =  RegexUtil.getValues("input type=\"hidden\" name=\"__VIEWSTATE\" id=\"__VIEWSTATE\" value=\"(.+?)\"",html);
+        String __SCROLLPOSITIONX = RegexUtil.getValues("input type=\"hidden\" name=\"__SCROLLPOSITIONX\" id=\"__SCROLLPOSITIONX\" value=\"(.+?)\"",html);
+        String __SCROLLPOSITIONY = RegexUtil.getValues("input type=\"hidden\" name=\"__SCROLLPOSITIONY\" id=\"__SCROLLPOSITIONY\" value=\"(.+?)\"",html);
+        String __EVENTTARGET = RegexUtil.getValues("input type=\"hidden\" name=\"__EVENTTARGET\" id=\"__EVENTTARGET\" value=\"(.+?)\"",html);
+        String __EVENTARGUMENT = RegexUtil.getValues("input type=\"hidden\" name=\"__EVENTARGUMENT\" id=\"__EVENTARGUMENT\" value=\"(.+?)\"",html);
+        String __EVENTVALIDATION = RegexUtil.getValues("input type=\"hidden\" name=\"__EVENTVALIDATION\" id=\"__EVENTVALIDATION\" value=\"(.+?)\"",html);
         String ctl00$ContentPlaceHolder1$txtUserId = userId;
         String ctl00$ContentPlaceHolder1$txtPassword = password;
         String ctl00$ContentPlaceHolder1$btnLogin = "ログイン";
@@ -73,18 +73,18 @@ public class CreateRequestBody {
         Map<String,String> body = new HashMap<>();
 
         String __EVENTTARGET2 = "ctl00$btnSyuseki";
-        String __EVENTARGUMENT2 = RegexManager.getValues("input type=\"hidden\" name=\"__EVENTARGUMENT\" id=\"__EVENTARGUMENT\" value=\"(.+?)\"",html);
-        String __VIEWSTATE2 = RegexManager.getValues("input type=\"hidden\" name=\"__VIEWSTATE\" id=\"__VIEWSTATE\" value=\"(.+?)\"",html);
-        String __SCROLLPOSITIONX2 = RegexManager.getValues("input type=\"hidden\" name=\"__SCROLLPOSITIONX\" id=\"__SCROLLPOSITIONX\" value=\"(.+?)\"",html);
-        String __SCROLLPOSITIONY2 = RegexManager.getValues("input type=\"hidden\" name=\"__SCROLLPOSITIONY\" id=\"__SCROLLPOSITIONY\" value=\"(.+?)\"",html);
-        String __EVENTVALIDATION2 = RegexManager.getValues("input type=\"hidden\" name=\"__EVENTVALIDATION\" id=\"__EVENTVALIDATION\" value=\"(.+?)\"",html);
-        String ctl00$txtWindowOpenFlg = RegexManager.getValues("input type=\"hidden\" name=\"ctl00\\$txtWindowOpenFlg\" id=\"ctl00_txtWindowOpenFlg\" value=\"(.+?)\"",html);
-        String ctl00$txtWindowOpenUrl = RegexManager.getValues("input type=\"hidden\" name=\"ctl00\\$txtWindowOpenUrl\" id=\"ctl00_txtWindowOpenUrl\" value=\"(.+?)\"",html);
-        String ctl00$txtWindowOpenName = RegexManager.getValues("input type=\"hidden\" name=\"ctl00\\$txtWindowOpenName\" id=\"ctl00_txtWindowOpenName\" value=\"(.+?)\"",html);
-        String ctl00$txtWindowOpenStyle = RegexManager.getValues("input type=\"hidden\" name=\"ctl00\\$txtWindowOpenStyle\" id=\"ctl00_txtWindowOpenStyle\" value=\"(.+?)\"",html);
-        String ctl00$txtSearchKey = RegexManager.getValues("input type=\"hidden\" name=\"ctl00\\$txtSearchKey\" id=\"ctl00_txtSearchKey\" value=\"(.+?)\"",html);
-        String ctl00$txtParamKey = RegexManager.getValues("input type=\"hidden\" name=\"ctl00\\$txtParamKey\" id=\"ctl00_txtParamKey\" value=\"(.+?)\"",html);
-        String ctl00$txtCssFileName = RegexManager.getValues("input type=\"hidden\" name=\"ctl00\\$txtCssFileName\" id=\"ctl00_txtCssFileName\" value=\"(.+?)\"",html);
+        String __EVENTARGUMENT2 = RegexUtil.getValues("input type=\"hidden\" name=\"__EVENTARGUMENT\" id=\"__EVENTARGUMENT\" value=\"(.+?)\"",html);
+        String __VIEWSTATE2 = RegexUtil.getValues("input type=\"hidden\" name=\"__VIEWSTATE\" id=\"__VIEWSTATE\" value=\"(.+?)\"",html);
+        String __SCROLLPOSITIONX2 = RegexUtil.getValues("input type=\"hidden\" name=\"__SCROLLPOSITIONX\" id=\"__SCROLLPOSITIONX\" value=\"(.+?)\"",html);
+        String __SCROLLPOSITIONY2 = RegexUtil.getValues("input type=\"hidden\" name=\"__SCROLLPOSITIONY\" id=\"__SCROLLPOSITIONY\" value=\"(.+?)\"",html);
+        String __EVENTVALIDATION2 = RegexUtil.getValues("input type=\"hidden\" name=\"__EVENTVALIDATION\" id=\"__EVENTVALIDATION\" value=\"(.+?)\"",html);
+        String ctl00$txtWindowOpenFlg = RegexUtil.getValues("input type=\"hidden\" name=\"ctl00\\$txtWindowOpenFlg\" id=\"ctl00_txtWindowOpenFlg\" value=\"(.+?)\"",html);
+        String ctl00$txtWindowOpenUrl = RegexUtil.getValues("input type=\"hidden\" name=\"ctl00\\$txtWindowOpenUrl\" id=\"ctl00_txtWindowOpenUrl\" value=\"(.+?)\"",html);
+        String ctl00$txtWindowOpenName = RegexUtil.getValues("input type=\"hidden\" name=\"ctl00\\$txtWindowOpenName\" id=\"ctl00_txtWindowOpenName\" value=\"(.+?)\"",html);
+        String ctl00$txtWindowOpenStyle = RegexUtil.getValues("input type=\"hidden\" name=\"ctl00\\$txtWindowOpenStyle\" id=\"ctl00_txtWindowOpenStyle\" value=\"(.+?)\"",html);
+        String ctl00$txtSearchKey = RegexUtil.getValues("input type=\"hidden\" name=\"ctl00\\$txtSearchKey\" id=\"ctl00_txtSearchKey\" value=\"(.+?)\"",html);
+        String ctl00$txtParamKey = RegexUtil.getValues("input type=\"hidden\" name=\"ctl00\\$txtParamKey\" id=\"ctl00_txtParamKey\" value=\"(.+?)\"",html);
+        String ctl00$txtCssFileName = RegexUtil.getValues("input type=\"hidden\" name=\"ctl00\\$txtCssFileName\" id=\"ctl00_txtCssFileName\" value=\"(.+?)\"",html);
         String ctl00$txtHeadTitle = "";
 
         body.put("__EVENTTARGET",__EVENTTARGET2);

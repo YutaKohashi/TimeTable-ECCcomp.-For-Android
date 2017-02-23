@@ -2,26 +2,41 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
     </style>
 
-    <!-- Base application theme. -->
-    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorPrimary</item>
+    <style name="LoginTheme" parent="AppTheme">
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="windowActionBar">false</item>
     </style>
 
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Toolbar Title Color-->
-        <item name="android:textColorPrimary">@color/toolbar_title</item>
+        <item name="android:textColorPrimary">@color/white</item>
         <!-- Toolbar menu overflow icon color -->
-        <item name="android:textColorSecondary">@color/toolbar_icon</item>
+        <item name="android:textColorSecondary">@color/white</item>
     </style>
 
-    <attr name="customAttr" format="reference"/>
+    <attr name="customAttr" format="reference" />
+
+    <style name="PrefTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/bg_budge</item>
+    </style>
+
+    <style name="AttendanceDivideTheme" parent="PrefTheme">
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="md_widget_color">@color/colorPrimaryDark</item>
+        <item name="md_item_color">@color/diag_text_color</item>
+    </style>
+
+    <style name="RadioButtonTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+    </style>
+
 </resources>

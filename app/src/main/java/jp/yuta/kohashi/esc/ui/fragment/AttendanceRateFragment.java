@@ -2,114 +2,135 @@ package jp.yuta.kohashi.esc.ui.fragment;
 
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.baoyz.widget.PullRefreshLayout;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.AttendanceRateModel;
+import jp.yuta.kohashi.esc.event.RefreshEvent;
+import jp.yuta.kohashi.esc.event.UpdateAttendanceRateEvent;
+import jp.yuta.kohashi.esc.model.AttendanceRate;
+import jp.yuta.kohashi.esc.model.enums.AttendanceRateType;
 import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.ui.adapter.AttendanceRateRecyclerAdapter;
-import jp.yuta.kohashi.esc.util.preference.PrefManager;
+import jp.yuta.kohashi.esc.ui.fragment.base.BaseRefreshRecyclerViewFragment;
+import jp.yuta.kohashi.esc.util.NotifyUtil;
+import jp.yuta.kohashi.esc.util.Util;
+import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AttendanceRateFragment extends Fragment implements PullRefreshLayout.OnRefreshListener{
-
-    // total data
-    private TextView mTotalUnitNumTextView;
-    private TextView mTotalAttendanceRateTextView;
-    private TextView mTotalShortageUnitTextView;
-    private TextView mTotalAttendanceNumTextView;
-    private TextView mTotalAbsentTextView;
-
-    private RecyclerView mRecyclerView;
+public class AttendanceRateFragment extends BaseRefreshRecyclerViewFragment {
+    private static final String TAG = AttendanceRateFragment.class.getSimpleName();
     private AttendanceRateRecyclerAdapter mRecyclerAdapter;
+    private String userId;
+    private String password;
+    private AttendanceRateType type;
+    private  List<AttendanceRate> items;
 
-    private PullRefreshLayout mPullrefreshLayout;
-
-    String userId;
-    String password;
+    public static AttendanceRateFragment newInstance(AttendanceRateType type) {
+        AttendanceRateFragment fragment = new AttendanceRateFragment();
+        fragment.type = type;
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_attendance_rate, container, false);
-        userId = PrefManager.getId();
-        password = PrefManager.getPss();
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+        userId = PrefUtil.getId();
+        password = PrefUtil.getPss();
 
-        initView(view);
-
-        return view;
+        return v;
     }
 
-    private void initView(View view) {
-        List<AttendanceRateModel> list = PrefManager.loadAttendanceRateModelList();
+    @Override
+    public void createItems() {
+        getSavedItems();
+    }
 
-        mRecyclerView = (RecyclerView)view.findViewById(R.id.attendance_recycler_view);
+    @Override
+    public void initView(View view) {
+        super.initView(view);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerAdapter = new AttendanceRateRecyclerAdapter(list,getActivity());
+        mRecyclerAdapter = new AttendanceRateRecyclerAdapter(items, getActivity());
         mRecyclerView.setAdapter(mRecyclerAdapter);
-
-        mTotalUnitNumTextView = (TextView) view.findViewById(R.id.text_total_unit);
-        mTotalAttendanceRateTextView = (TextView) view.findViewById(R.id.text_total_attendance_rate);
-        mTotalShortageUnitTextView = (TextView) view.findViewById(R.id.text_total_shortageunit);
-        mTotalAttendanceNumTextView = (TextView) view.findViewById(R.id.text_total_attendance_num);
-        mTotalAbsentTextView = (TextView) view.findViewById(R.id.text_total_absent_num);
-
-        mPullrefreshLayout = (PullRefreshLayout)view.findViewById(R.id.refresh);
-        mPullrefreshLayout.setOnRefreshListener(this);
-        setTotalData();
     }
 
-    /**
-     * 合計データをViewに反映
-     */
-    private void setTotalData() {
-        AttendanceRateModel model = PrefManager.loadAttendanceTotalData();
-        mTotalUnitNumTextView.setText(model.getUnit());
-        mTotalAttendanceRateTextView.setText(model.getAttendanceRate());
-        mTotalShortageUnitTextView.setText(model.getShortageseNumber());
-        mTotalAttendanceNumTextView.setText(model.getAttendanceNumber());
-        mTotalAbsentTextView.setText(model.getAbsentNumber());
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+        swap();
     }
 
-    /**
-     * 合計データを表示するビュー
-     */
-    private void initTotalDataView() {
+    @Override
+    public void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
 
+    }
+
+    @Subscribe
+    public void onEvent(UpdateAttendanceRateEvent event) {
+        swap();
     }
 
     //　Pull To Refresh
     @Override
     public void onRefresh() {
-        new HttpConnector().request(HttpConnector.Type.ATTENDANCE_RATE, userId, password, new HttpConnector.Callback() {
+        super.onRefresh();
+        if (!Util.netWorkCheck()) {
+            NotifyUtil.failureNetworkConnection();
+            endRefresh();
+            return;
+        }
+
+        disableScroll();
+        HttpConnector.request(HttpConnector.Type.ATTENDANCE_RATE, userId, password, new HttpConnector.Callback() {
             @Override
             public void callback(boolean bool) {
-                if(bool){
-                    mRecyclerAdapter.swap(PrefManager.loadAttendanceRateModelList());
-                    mPullrefreshLayout.setRefreshing(false);
-                    Snackbar.make(getView().findViewById(R.id.refresh),"更新しました",Snackbar.LENGTH_SHORT).show();
-                } else{
-                    mPullrefreshLayout.setRefreshing(false);
-                    Snackbar.make(getView().findViewById(R.id.refresh),"更新に失敗しました",Snackbar.LENGTH_SHORT).show();
+                if (bool) {
+                    swap();
+                    PrefUtil.saveLatestUpdateData(Util.getCurrentTimeMillis());
+                    NotifyUtil.successUpdate();
+                    // call event
+                    EventBus.getDefault().post(new RefreshEvent());
+                } else {
+                    NotifyUtil.failureUpdate();
                 }
+                endRefresh();
+                enableScroll();
             }
         });
     }
 
+    @Override
+    protected void swap() {
+        getSavedItems();
+        mRecyclerAdapter.swap(items);
+    }
+
+    @Override
+    protected void getSavedItems(){
+        if(items == null) items = new ArrayList<>();
+        else items.clear();
+        List<AttendanceRate> temp = PrefUtil.loadAttendanceRateModelList();
+        if (type == AttendanceRateType.ALL) {
+            items.addAll(temp);
+        } else {
+            for (AttendanceRate item : temp) {
+                if (item.getType() == type)
+                    items.add(item);
+            }
+        }
+    }
 
 }

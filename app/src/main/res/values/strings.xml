@@ -1,41 +1,49 @@
 <resources>
-    <string name="app_name">ECC</string>
+    <string name="app_name">ecc</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--ツールバー-->
+    <string name="toolbar_default_title">ECCcomp.</string>
+    <string name="toolbar_title_settings">設定</string>
 
+    <!--ログイン画面-->
+    <string name="login_title">ECCコンピュータ\n専門学校</string>
+    <string name="student_number">学籍番号</string>
+    <string name="password">パスワード</string>
+    <string name="complete">成功</string>
+    <string name="error">エラー</string>
+    <string name="login">ログイン</string>
+    <string name="string_text_view_error">入力してください</string>
 
-    <string name="drawer_open">open</string>
-    <string name="drawer_close">close</string>
-    <string name="title_activity_provisiontal">ProvisiontalActivity</string>
-    <string name="title">title</string>
-    <string name="content_image">content_image</string>
-    <string name="Complete">成功</string>
-    <string name="Error">エラー</string>
-    <string name="Login">ログイン</string>
-    <string name="get_rate_error">データが取得の取得に失敗しているかデータが存在しません</string>
+    <!--時間割-->
+    <!--時間割の時間-->
+    <string name="time_zero_class">7:30 ~ 9:00</string>
+    <string name="time_one_class">9:15 ~ 10:45</string>
+    <string name="time_two_class">11:00 ~ 12:30</string>
+    <string name="time_three_class">13:30 ~ 15:00</string>
+    <string name="time_four_class">15:15 ~ 16:45</string>
+    <string name="time_five_class">17:00 ~ 18:30</string>
+
     <string name="mon_string">月</string>
     <string name="tue_string">火</string>
     <string name="wed_string">水</string>
     <string name="thur_string">木</string>
     <string name="fri_string">金</string>
 
+    <!--ボトムシート-->
+    <string name="detail_info">詳細情報</string>
+    <string name="subject_name">教科名</string>
+    <string name="class_teacher">担当教師</string>
+    <string name="class_room">教室</string>
 
-    <string name="one">1</string>
-    <string name="two">1</string>
-    <string name="three">1</string>
-    <string name="four">1</string>
-    <string name="five">1</string>
-    <string name="six">1</string>
-    <string name="seven">1</string>
-    <string name="eight">1</string>
-    <string name="nine">1</string>
-    <string name="ten">1</string>
-    <string name="title_activity_scrolling">ScrollingActivity</string>
-    <string name="action_settings">Settings</string>
-    <string name="read_file_dialog_text">読込中...</string>
-    <string name="Passwored">パスワード</string>
-    <string name="schedule">年間スケジュール&#160;&#160;</string>
-    <string name="latest_up">最終更新日時</string>
+    <string name="monday_string">月曜日</string>
+    <string name="tuesday_string">火曜日</string>
+    <string name="wednesday_string">水曜日</string>
+    <string name="thursday_string">木曜日</string>
+    <string name="friday_string">金曜日</string>
+    <string name="class_time">時間</string>
+
+    <!--出席率-->
+    <string name="kyoukamei">教科名</string>
     <string name="credits">単位数</string>
     <string name="attendance">出席率</string>
     <string name="attendance_num">出席</string>
@@ -43,18 +51,122 @@
     <string name="late">遅刻</string>
     <string name="kouketsu_1">公欠1</string>
     <string name="kouketsu_2">公欠2</string>
-    <string name="failed_get_attendancerate">出席照会データの取得に失敗しました</string>
-    <string name="no_name">NO_NAME</string>
-    <string name="kyoukamei">教科名</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="configure">Configure</string>
-    <string name="add_widget">Add widget</string>
-    <string name="string_text_view_error">入力してください</string>
 
-    <string name="time_zero_class">7:30 ~ 9:00</string>
-    <string name="time_one_class">9:15 ~ 10:45</string>
-    <string name="time_two_class">11:00 ~ 12:30</string>
-    <string name="time_three_class">13:30 ~ 15:00</string>
-    <string name="time_four_class">15:15 ~ 16:45</string>
-    <string name="time_five_class">17:00 ~ 18:30</string>
+    <string name="yotei_tani">予定単位数</string>
+    <string name="husoku_tani">出席不足単位</string>
+    <string name="shuseki_number">出席数</string>
+    <string name="kesseki_number">欠席数</string>
+
+    <string name="title_all_data">全体</string>
+    <string name="title_zenki_data">前期</string>
+    <string name="title_kouki_data">後期</string>
+
+    <string-array name="attendance_rate_type_list">
+        <item>@string/title_all_data</item>
+        <item>@string/title_zenki_data</item>
+        <item>@string/title_kouki_data</item>
+    </string-array>
+
+    <!--お知らせ-->
+    <string name="from_school">学校から</string>
+    <string name="from_tannin">担任から</string>
+    <string name="attachment_file">添付ファイルが %1$d 件あります</string>
+    <string name="download_attachment_file">添付ファイルをダウンロード</string>
+    <string name="notify_new_news">新しいお知らせがあります</string>
+    <string name="news_name">記事名</string>
+    <string name="news_date">日付</string>
+
+
+    <!--プリファレンス-->
+    <string name="pref_group_title_time_table">時間割</string>
+    <string name="pref_update_time_table">時間割を更新</string>
+    <string name="pref_change_time_table">時間割データを変更</string>
+    <string name="pref_group_title_time_attendance">出席照会</string>
+    <string name="pref_attendance_color">出席照会を色分けする</string>
+    <string name="pref_attendance_divide">前期・後期の設定</string>
+    <string name="pref_attendance_log">ログを確認する</string>
+    <string name="pref_group_title_news">お知らせ</string>
+    <string name="pref_notify_news">お知らせの通知を有効にする</string>
+    <string name="pref_group_title_time_other">その他</string>
+    <string name="pref_lisence">ライセンス情報</string>
+    <string name="pref_about">このアプリについて</string>
+    <string name="pref_app_version">アプリバージョン</string>
+    <string name="pref_logout">ログアウト</string>
+    <!--出席照会を色分けする-->
+    <string name="pref_enable_change_color">色分けを有効にする</string>
+    <string name="pref_set_color">色を設定する</string>
+    <string name="pref_rate_u">出席率 %1$d ％以下</string>
+    <string name="pref_blackout">単位を落とした教科をブラックアウトする</string>
+    <string name="pref_select_color">色を選択してください</string>
+    <string name="pref_select_color_open_diag">色を選択</string>
+    <!--ダイアログ-->
+    <string name="dialog_positive_ok">OK</string>
+    <string name="dialog_negative_cancel">キャンセル</string>
+    <string name="dialog_comment_comment">ログアウトしてもよろしいですか？</string>
+    <string name="dialog_title_update_check">時間割を更新します</string>
+    <string name="dialog_time_table_update_comment">サーバーから最新の時間割データを取得します。変更した時間割データは削除されます。</string>
+    <string name="loading">読込中...</string>
+    <string name="failure_update">更新に失敗しました</string>
+    <string name="success_update">更新しました</string>
+    <string name="failure_login">ログインに失敗しました</string>
+    <string name="failure_get_attendance_rate">出席情報の取得に\n失敗しました</string>
+    <string name="failure_connect_internet">インターネットに\n接続されていません</string>
+    <string name="failure_load_file">ファイルのロードに失敗しました</string>
+    <string name="success_save">保存されました</string>
+    <string name="not_change_data">データが変更されていません</string>
+    <string name="logouting">ログアウトしています...</string>
+    <string name="updating">更新中</string>
+    <string name="all_reset">すべての変更データが\nリセットされました</string>
+    <string name="cancel">キャンセルされました</string>
+    <string name="dialog_all_reset_comment">変更したすべてのデータがリセットされます。</string>
+    <string name="dialog_all_reset_title">オールリセット</string>
+    <string name="dialog_title_important">重要</string>
+    <string name="dialog_comment_updated">
+        新機能実装のためログアウトさせていただきました。\n
+        再度ログインをお願いします。\n
+        すべてのデータがリセットされています。\n
+        ご了承ください。\n\n
+
+        ※アップデート内容\n
+        ・レイアウトの大幅な改善を行いました。\n
+        ・時間割変更機能のバグを修正いたしました。\n
+        ・お知らせを通知する機能を追加しました。\n
+        ・その他バグを修正いたしました。\n</string>
+
+    <!--ドロワー-->
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+
+    <!--カレンダー-->
+    <!--月表示部分　文字数少なく-->
+    <string name="january">1月</string>
+    <string name="february">2月</string>
+    <string name="march">3月</string>
+    <string name="april">4月</string>
+    <string name="may">5月</string>
+    <string name="june">6月</string>
+    <string name="july">7月</string>
+    <string name="august">8月</string>
+    <string name="september">9月</string>
+    <string name="october">10月</string>
+    <string name="november">11月</string>
+    <string name="december">12月</string>
+
+
+    <!--学生情報-->
+    <string name="student_info">学生情報</string>
+    <string name="student_name">氏名</string>
+    <string name="gakka">学科</string>
+    <string name="course">コース</string>
+    <string name="class_txt">クラス</string>
+    <string name="shuseki_num">出席番号</string>
+    <string name="school_info">学校情報</string>
+    <string name="school_place">所在地</string>
+    <string name="school_street_address">〒530-0015\n大阪市北区中崎西2丁目3番35号</string>
+    <string name="school_phone">電話番号</string>
+    <string name="school_phone_num">0120-000-544 （入試事務局）</string>
+
+    <!--前期後期の設定-->
+    <string name="pref_divide">前期、後期を分けて表示する</string>
+    <string name="pref_default_tab">デフォルトのタブを設定する</string>
 </resources>

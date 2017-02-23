@@ -4,11 +4,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.customtabs.CustomTabsIntent;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,23 +21,28 @@ import java.util.regex.Matcher;
 
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.NewsModel;
-import jp.yuta.kohashi.esc.util.RegexManager;
+import jp.yuta.kohashi.esc.model.NewsItem;
+import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
+import jp.yuta.kohashi.esc.util.RegexUtil;
+import jp.yuta.kohashi.esc.util.Util;
 
-public class NewsDetailActivity extends AppCompatActivity implements View.OnClickListener {
+import static android.view.View.GONE;
 
-    public static final String NEWS_MODEL = "newsModel";
+public class NewsDetailActivity extends BaseActivity implements View.OnClickListener {
+
+    public static final String NEWS_MODEL = "newsItem";
     public static final String NEWS_HTML = "newsHtml";
     private static final int FONT_SIZE_WEB_VIEW = 16; //webView font size
     private String html;
-    private Toolbar mToolbar;
     private Button mDownloadBtn;
-    private NewsModel newsModel;
+    private NewsItem newsItem;
     private List<String> downloadUrls;
     private List<String> downloadTitles;
 
+    private WebView mWebView;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
         if (downloadTitles == null) {
@@ -51,11 +53,13 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
             downloadTitles.clear();
         }
 
-        initToolbar();
-
         Intent intent = getIntent();
-        newsModel = (NewsModel) intent.getSerializableExtra(NEWS_MODEL);
+        newsItem = (NewsItem) intent.getSerializableExtra(NEWS_MODEL);
         html = intent.getStringExtra(NEWS_HTML);
+
+        initToolbar();
+        enableBackBtn();
+        setToolbarTitle(newsItem.getTitle());
 
         initView();
     }
@@ -63,8 +67,8 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     private void initView() {
         getDownloadTitleUrl(html);
 
-        WebView webView = (WebView) findViewById(R.id.webView);
-        webView.getSettings().setDefaultFontSize(FONT_SIZE_WEB_VIEW);
+        mWebView = (WebView) findViewById(R.id.webView);
+        mWebView.getSettings().setDefaultFontSize(FONT_SIZE_WEB_VIEW);
 
         TextView titleTextView = (TextView) findViewById(R.id.title_text_view);
         TextView dateTextView = (TextView) findViewById(R.id.date_text_view);
@@ -72,53 +76,40 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
         mDownloadBtn.setOnClickListener(this);
 
         if (downloadCount() == 0) {
-            mDownloadBtn.setText("添付ファイルはありません");
-            mDownloadBtn.setEnabled(false);
+            mDownloadBtn.setVisibility(GONE);
         } else {
-            mDownloadBtn.setText("添付ファイル " + downloadCount() + " 件あります");
+            mDownloadBtn.setVisibility(View.VISIBLE);
+            mDownloadBtn.setText(getResources().getString(R.string.attachment_file, downloadCount()));
             mDownloadBtn.setEnabled(true);
         }
 
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadDataWithBaseURL("", getMainText(html), "text/html", "UTF-8", "");
-        webView.setHorizontalScrollBarEnabled(false);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.loadDataWithBaseURL("", getMainText(html), "text/html", "UTF-8", "");
+        mWebView.setHorizontalScrollBarEnabled(false);
 
-        mToolbar.setTitle(newsModel.getTitle());
-        titleTextView.setText(newsModel.getTitle());
-        dateTextView.setText(newsModel.getDate());
+        mToolbar.setTitle(newsItem.getTitle());
+        titleTextView.setText(newsItem.getTitle());
+        dateTextView.setText(newsItem.getDate());
 
-        // disable scroll on touch
-        webView.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                return (event.getAction() == MotionEvent.ACTION_MOVE);
-            }
-        });
-    }
+        mWebView.setOnTouchListener(((view, motionEvent) ->
+                (motionEvent.getAction() == MotionEvent.ACTION_MOVE)));
 
-    private void initToolbar() {
-        //ツールバーをActionBarとして扱う
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolbar != null) {
-            setSupportActionBar(mToolbar);
-        }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     private String getMainText(String html) {
-        html = RegexManager.replaceCRLF(html, true);
-        return RegexManager.narrowingValues("<p class=\"body clear\">", "</p>", html);
+        html = RegexUtil.replaceCRLF(html, true);
+        return RegexUtil.narrowingValues("<p class=\"body clear\">", "</p>", html);
     }
 
     private void getDownloadTitleUrl(String html) {
-        html = RegexManager.replaceCRLF(html, true);
-        String narrowHtml = RegexManager.narrowingValues("<h3>添付ファイル</h3>", "<li class=\"clear\">", html);
-        Matcher match = RegexManager.getGroupValues("<a href=\"(.+?)\">", narrowHtml);
+        html = RegexUtil.replaceCRLF(html, true);
+        String narrowHtml = RegexUtil.narrowingValues("<h3>添付ファイル</h3>", "</ul>", html);
+        Matcher match = RegexUtil.getGroupValues("<a href=\"(.+?)\">", narrowHtml);
         while (match.find()) {
             downloadUrls.add(match.group(1));
         }
 
-        Matcher match2 = RegexManager.getGroupValues("<a href=\"[^\"]*\">(.+?)</a>", narrowHtml);
+        Matcher match2 = RegexUtil.getGroupValues("<a href=\"[^\"]*\">(.+?)</a>", narrowHtml);
         while (match2.find()) {
             downloadTitles.add(match2.group(1));
         }
@@ -138,26 +129,26 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
      */
     private void showListDialog() {
         new MaterialDialog.Builder(this)
-                .title("添付ファイルをダウンロード")
+                .title(getResources().getString(R.string.download_attachment_file))
                 .items(downloadTitles)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        downloadFile(downloadUrls.get(which));
-                    }
-                })
+                .itemsCallback(((dialog, itemView, position, text) -> {
+                    downloadFile(downloadUrls.get(position));
+                }))
                 .show();
     }
 
     /**
-     *　添付ファイルをダウンロード
+     * 　添付ファイルをダウンロード
+     *
      * @param url
      */
     private void downloadFile(String url) {
         Uri uri = Uri.parse(url);
         CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
-                .setShowTitle(true)
-                .setToolbarColor(ContextCompat.getColor(NewsDetailActivity.this, R.color.colorPrimary))
+                .setShowTitle(false)
+                .enableUrlBarHiding()
+                .setCloseButtonIcon(null)
+                .setToolbarColor(Util.getColor(R.color.white))
                 .build();
         customTabsIntent.intent.setData(uri);
         PackageManager packageManager = getPackageManager();
@@ -169,8 +160,37 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
                 customTabsIntent.intent.setPackage(Const.CHROME_PACKAGE_NAME);
         }
         customTabsIntent.launchUrl(NewsDetailActivity.this, uri);
-}
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        mWebView.saveState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mWebView.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        mWebView.onResume();
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mWebView != null) {
+            mWebView.stopLoading();
+            mWebView.setWebChromeClient(null);
+            mWebView.setWebViewClient(null);
+            mWebView.destroy();
+            mWebView = null;
+        }
+        super.onDestroy();
+    }
 
     /**
      * ダウンロード数を返す
@@ -180,4 +200,5 @@ public class NewsDetailActivity extends AppCompatActivity implements View.OnClic
     private int downloadCount() {
         return downloadTitles.size();
     }
+
 }

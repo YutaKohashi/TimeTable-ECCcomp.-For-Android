@@ -1,150 +1,73 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/fragment_attendance_rate"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:id="@+id/container_total_data"
-        android:background="@color/colorPrimary"
-        android:orientation="vertical"
-        android:paddingRight="5dp"
-        android:paddingLeft="5dp"
-        android:paddingBottom="10dp">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <LinearLayout
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="26dp"
-            android:paddingBottom="5dp">
+            android:layout_height="70dp"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleGravity="bottom|right"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="予定単位数"
-                android:maxLines="1"
-                android:gravity="center"
-                android:textSize="12sp"
-                android:textColor="@android:color/white"/>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="出席率"
-                android:maxLines="1"
-                android:gravity="center"
-                android:textSize="12sp"
-                android:textColor="@android:color/white"/>
+            <FrameLayout
+                android:id="@+id/container_total_data"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                >
+                <!--total data-->
+                <include
+                    android:id="@+id/view_total"
+                    layout="@layout/view_attendance_total_data" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="出席不足単位"
-                android:gravity="center"
-                android:maxLines="1"
-                android:textSize="12sp"
-                android:textColor="@android:color/white"/>
+            </FrameLayout>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="出席数"
-                android:maxLines="1"
-                android:gravity="center"
-                android:textSize="12sp"
-                android:textColor="@android:color/white"/>
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="欠席数"
-                android:maxLines="1"
-                android:gravity="center"
-                android:textSize="12sp"
-                android:textColor="@android:color/white"/>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tablayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="30dp"
+            app:tabBackground="@drawable/bg_news_tab"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/colorPrimaryDark"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"
+            app:tabTextColor="@color/tab_noFocus_color" />
 
-            <TextView
-                android:id="@+id/text_total_unit"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="28sp"
-                android:textColor="@android:color/white"
-                android:text="80"
-                android:gravity="center"/>
+    </android.support.design.widget.AppBarLayout>
 
-            <TextView
-                android:id="@+id/text_total_attendance_rate"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="28sp"
-                android:textColor="@android:color/white"
-                android:text="80"
-                android:gravity="center"/>
-
-            <TextView
-                android:id="@+id/text_total_shortageunit"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="28sp"
-                android:textColor="@android:color/white"
-                android:text="80"
-                android:gravity="center"/>
-
-            <TextView
-                android:id="@+id/text_total_attendance_num"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="28sp"
-                android:textColor="@android:color/white"
-                android:text="80"
-                android:gravity="center"/>
-
-            <TextView
-                android:id="@+id/text_total_absent_num"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="28sp"
-                android:textColor="@android:color/white"
-                android:text="80"
-                android:gravity="center"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <com.baoyz.widget.PullRefreshLayout
-        android:layout_below="@+id/container_total_data"
-        android:id="@+id/refresh"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:fitsSystemWindows="true"
-        app:refreshType="circles">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/attendance_recycler_view"
+        <jp.yuta.kohashi.esc.ui.view.CustomViewPager
+            android:id="@+id/attendance_viewpager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+           />
 
-    </com.baoyz.widget.PullRefreshLayout>
-</RelativeLayout>
+        <FrameLayout
+            android:id="@+id/attendance_filter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg_bottom_sheet_close"
+            android:visibility="invisible"/>
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>
 
 
 

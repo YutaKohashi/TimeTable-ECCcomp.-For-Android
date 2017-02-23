@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_attendance_rate_change_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="jp.yuta.kohashi.esc.ui.activity.AttendanceRateChangeColorActivity">
+
+    <include
+        layout="@layout/view_appbar"
+        android:id="@+id/appbar"/>
+
+    <fragment
+        android:layout_below="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="jp.yuta.kohashi.esc.ui.fragment.AttendanceRateChangeColorFragment"
+        android:id="@+id/attendance_rate_change_color_fragment"/>
+</RelativeLayout>

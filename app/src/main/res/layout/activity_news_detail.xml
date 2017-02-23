@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/appbar"
-        layout="@layout/include_appbar" />
+        layout="@layout/view_appbar" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:background="@color/colorPrimary1"
+                android:background="@color/bg_title"
                 android:orientation="vertical"
                 android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
@@ -41,7 +41,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="2"
                         android:gravity="center_vertical"
-                        android:text="記事名"
+                        android:text="@string/news_name"
                         android:textColor="#393939"
                         android:textSize="15sp" />
 
@@ -69,7 +69,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="2"
                         android:gravity="center_vertical"
-                        android:text="日付"
+                        android:text="@string/news_date"
                         android:textColor="#393939"
                         android:textSize="15sp" />
 
@@ -116,7 +116,6 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="30dp"
                     android:layout_marginLeft="30dp"
-                    android:text="添付ファイル 0 件あります"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     app:buttonColor="@color/colorPrimary"
@@ -124,18 +123,6 @@
                     app:shadowColor="@color/colorPrimary9"
                     app:shadowEnabled="true"
                     app:shadowHeight="5dp" />
-
-                <!--<TextView-->
-                <!--android:id="@+id/text_download"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="40dp"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:gravity="center"-->
-                <!--android:text="添付ファイル 0 件あります"-->
-                <!--android:textSize="19sp" />-->
-
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>

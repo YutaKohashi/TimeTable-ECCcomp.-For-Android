@@ -1,6 +1,5 @@
 package jp.yuta.kohashi.esc.network.service;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -14,8 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
-import jp.yuta.kohashi.esc.util.RegexManager;
-import jp.yuta.kohashi.esc.util.preference.PrefManager;
+import jp.yuta.kohashi.esc.App;
+import jp.yuta.kohashi.esc.model.AttendanceRate;
+import jp.yuta.kohashi.esc.util.RegexUtil;
+import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
  * Created by yutakohashi on 2016/11/15.
@@ -27,31 +28,26 @@ import jp.yuta.kohashi.esc.util.preference.PrefManager;
 public class HttpHelper {
     private static final String TAG = HttpHelper.class.getSimpleName();
 
-    private static String mLastResponseHtml;
-    private static Context mContext;
+    private static String mLastResponseHtml = "";
     private static List<String> teacherHtmls;
-
-    public static void init(Context context) {
-        HttpBase.init();
-        mLastResponseHtml = "";
-        mContext = context;
-    }
 
     /************************************   public   ********************************************************/
 
     /***
-     * 時間割を取得,保存
+     * 時間割を取得,保存(ユーザ名も)
      *
      * @param userId
      * @param password
      * @param successCallbacks
      */
-    public static void getTImeTable(String userId, String password, final SuccessCallbacks successCallbacks) {
+    public static void getTimeTable(String userId, String password, final SuccessCallbacks successCallbacks) {
         requestTimeTable(userId, password, new AccessListCallbacks() {
             @Override
             public void callback(String html, List<String> htmls, boolean bool) {
                 if (bool) {
-                    PrefManager.saveTimeTable(html, htmls);
+                    PrefUtil.saveTimeTable(html, htmls);        //表示する方はこっち
+                    PrefUtil.saveTimeTableOriginal(html, htmls); //オリジナルを別で保存 変更の取り消しの際に必要
+                    PrefUtil.saveUserName(html);
                 }
                 successCallbacks.callback(bool);
             }
@@ -71,12 +67,33 @@ public class HttpHelper {
             @Override
             public void callback(String html, boolean bool) {
                 if (bool) {
-                    PrefManager.saveAttendanceRate(html);
-                    PrefManager.saveAttendanceAllRateData(html);
+                    if (PrefUtil.loadAttendanceRateModelList().size() > 0) {
+                        saveAttandanceRate(html);
+                    } else {
+                        PrefUtil.saveAttendanceRate(html);
+                    }
+                    PrefUtil.saveAttendanceAllRateData(html);
+                    PrefUtil.saveStudentInfo(html);
                 }
                 successCallbacks.callback(bool);
             }
         });
+    }
+
+    private static void saveAttandanceRate(String html) {
+        List<AttendanceRate> beforeList = PrefUtil.loadAttendanceRateModelList();
+        List<AttendanceRate> afterList = PrefUtil.createAttendanceList(html);
+        List<AttendanceRate> temp = new ArrayList<>();
+        for (AttendanceRate after : afterList) {
+            for (AttendanceRate before : beforeList) {
+                if (before.getSubjectName().equals(after.getSubjectName())) {
+                    after.setType(before.getType());
+                    break;
+                }
+            }
+            temp.add(after);
+        }
+        PrefUtil.saveAttendanceRate(temp);
     }
 
 
@@ -88,7 +105,7 @@ public class HttpHelper {
      * @param successCallBacks
      */
     public static void getTimeAttend(final String userId, final String password, final SuccessCallbacks successCallBacks) {
-        getTImeTable(userId, password, new SuccessCallbacks() {
+        getTimeTable(userId, password, new SuccessCallbacks() {
             @Override
             public void callback(boolean bool) {
                 if (bool) {
@@ -118,7 +135,7 @@ public class HttpHelper {
             @Override
             public void callback(String html, boolean bool) {
                 if (bool) {
-                    PrefManager.saveSchoolNews(html);
+                    PrefUtil.saveSchoolNews(html);
                 }
                 successCallbacks.callback(bool);
             }
@@ -137,7 +154,7 @@ public class HttpHelper {
             @Override
             public void callback(String html, boolean bool) {
                 if (bool) {
-                    PrefManager.saveTanninNews(html);
+                    PrefUtil.saveTanninNews(html);
                 }
                 successCallbacks.callback(bool);
             }
@@ -205,7 +222,7 @@ public class HttpHelper {
 
         if (teacherHtmls != null) teacherHtmls.clear();
 
-        Promise.with(mContext, Void.class).thenOnAsyncThread(new Task<Void, Void>() {
+        Promise.with(App.getAppContext(), Void.class).thenOnAsyncThread(new Task<Void, Void>() {
             @Override
             public void run(Void aVoid, NextTask<Void> nextTask) {
                 try {
@@ -222,7 +239,7 @@ public class HttpHelper {
                     //先生名取得失敗
                     if (teacherHtmls == null) throw new Exception("先生名の取得に失敗しました");
 
-                    Log.d(TAG, mLastResponseHtml);
+//                    Log.d(TAG, mLastResponseHtml);
                     nextTask.run(null);
                 } catch (Exception e) {
                     nextTask.fail(null, e);
@@ -236,7 +253,7 @@ public class HttpHelper {
 
             @Override
             public void onFailure(Bundle bundle, Exception e) {
-                log(e);
+//                log(e);
                 listCallbacks.callback(mLastResponseHtml, teacherHtmls, false);
             }
         }).create().execute(null);
@@ -251,8 +268,8 @@ public class HttpHelper {
     private static List<String> getTeacherNameUrls(String html) {
         List<String> urls = new ArrayList<>();
 
-        html = RegexManager.replaceCRLF(html, true);
-        Matcher m = RegexManager.getGroupValues("<li class=\"letter\"><a href=\"(.+?)\">投書</a>", html);
+        html = RegexUtil.replaceCRLF(html, true);
+        Matcher m = RegexUtil.getGroupValues("<li class=\"letter\"><a href=\"(.+?)\">投書</a>", html);
         while (m.find()) {
             String url = m.group(1);
             urls.add(url);
@@ -272,7 +289,7 @@ public class HttpHelper {
         final List<String> htmls = new ArrayList<>();
 
         for (String url : urls) {
-            HttpResultClass result = HttpBase.httpGet(url, RequestURL.ESC_TO_PAGE);
+            HttpResultClass result = HttpBase.httpGet(url, RequestURL.ESC_TO_LOGIN_PAGE);
             if (!result.getBool()) return null;
 
             htmls.add(result.getString());
@@ -298,7 +315,7 @@ public class HttpHelper {
      */
     private static void requestAttendanceRate(final String userId, final String password, final AccessCallbacks accessCallbacks) {
 
-        Promise.with(mContext, Void.class).thenOnAsyncThread(new Task<Void, Void>() {
+        Promise.with(App.getAppContext(), Void.class).thenOnAsyncThread(new Task<Void, Void>() {
             @Override
             public void run(Void aVoid, NextTask<Void> nextTask) {
                 try {
@@ -317,17 +334,18 @@ public class HttpHelper {
                     if (!result.getBool()) throw new Exception("出席率ページへの遷移に失敗しました");
 
                     mLastResponseHtml = result.getString();
-                    Log.d(TAG, mLastResponseHtml);
-                    if (!RegexManager.containsCheck(">個人別出席率表<", mLastResponseHtml)) {
+//                    Log.d(TAG, mLastResponseHtml);
+                    if (!RegexUtil.containsCheck(">個人別出席率表<", mLastResponseHtml)) {
                         throw new Exception("出席率ページへの遷移に失敗しました");
                     }
 
                     nextTask.run(null);
-                }catch(Exception e){
-                    nextTask.fail(null,e);
+                } catch (Exception e) {
+                    nextTask.fail(null, e);
                 }
 
             }
+
         }).setCallback(new Callback<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -336,7 +354,7 @@ public class HttpHelper {
 
             @Override
             public void onFailure(Bundle bundle, Exception e) {
-                log(e);
+//                log(e);
                 accessCallbacks.callback(mLastResponseHtml, false);
             }
         }).create().execute(null);
@@ -354,10 +372,10 @@ public class HttpHelper {
 
     private static void requestNews(final String userId, final String password, final AccessCallbacks accessCallbacks) {
 
-        Promise.with(mContext, Void.class).thenOnAsyncThread(new Task<Void, Void>() {
+        Promise.with(App.getAppContext(), Void.class).thenOnAsyncThread(new Task<Void, Void>() {
             @Override
             public void run(Void aVoid, NextTask<Void> nextTask) {
-                try{
+                try {
                     //ログイン
                     HttpResultClass result = loginToESC(userId, password);
 
@@ -365,9 +383,9 @@ public class HttpHelper {
                     if (!result.getBool()) throw new Exception("ログインに失敗しました");
 
                     mLastResponseHtml = result.getString();
-                    Log.d(TAG, mLastResponseHtml);
+//                    Log.d(TAG, mLastResponseHtml);
                     nextTask.run(null);
-                }catch(Exception e){
+                } catch (Exception e) {
                     nextTask.fail(null, e);
                 }
             }
@@ -386,10 +404,10 @@ public class HttpHelper {
     }
 
     private static void requestNewsDetail(final String userId, final String password, final String url, final AccessCallbacks accessCallbacks) {
-        Promise.with(mContext, Void.class).thenOnAsyncThread(new Task<Void, Void>() {
+        Promise.with(App.getAppContext(), Void.class).thenOnAsyncThread(new Task<Void, Void>() {
             @Override
             public void run(Void aVoid, NextTask<Void> nextTask) {
-                try{
+                try {
                     //ログイン
                     HttpResultClass result = loginToESC(userId, password);
                     if (!result.getBool()) throw new Exception("ログインに失敗しました");
@@ -400,9 +418,9 @@ public class HttpHelper {
                     if (!result.getBool()) throw new Exception("ニュース詳細の取得に失敗しました");
 
                     mLastResponseHtml = result.getString();
-                    Log.d(TAG, mLastResponseHtml);
+//                    Log.d(TAG, mLastResponseHtml);
                     nextTask.run(null);
-                }catch (Exception e){
+                } catch (Exception e) {
                     nextTask.fail(null, e);
                 }
 
@@ -439,7 +457,7 @@ public class HttpHelper {
      */
     private static HttpResultClass loginToESC(String userId, String password) {
 
-        HttpResultClass result = HttpBase.httpGet(RequestURL.ESC_TO_PAGE,
+        HttpResultClass result = HttpBase.httpGet(RequestURL.ESC_TO_LOGIN_PAGE,
                 RequestURL.DEFAULT_REFERRER);
 
         if (!result.getBool()) return result;
@@ -448,11 +466,11 @@ public class HttpHelper {
         //create requestBody with map
         Map<String, String> body = CreateRequestBody.createPostDataForEscLogin(userId, password, mLastResponseHtml);
         //login
-        result = HttpBase.httpPost(RequestURL.ESC_LOGIN, body, RequestURL.ESC_TO_PAGE);
+        result = HttpBase.httpPost(RequestURL.ESC_LOGIN, body, RequestURL.ESC_TO_LOGIN_PAGE);
 
         if (!result.getBool()) return result;
         mLastResponseHtml = result.getString();
-        if (!RegexManager.containsCheck(">ログアウト<", mLastResponseHtml)) {
+        if (!RegexUtil.containsCheck(">ログアウト<", mLastResponseHtml)) {
             result.setBool(false);
         }
 
@@ -467,22 +485,30 @@ public class HttpHelper {
      * @return
      */
     private static HttpResultClass loginToYS(String userId, String password) {
-        HttpResultClass result = HttpBase.httpGet(RequestURL.YS_TO_PAGE, RequestURL.DEFAULT_REFERRER);
-        try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
+        HttpResultClass result = HttpBase.httpGet(RequestURL.YS_TO_LOGIN_PAGE, RequestURL.DEFAULT_REFERRER);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         //failure
         if (!result.getBool()) return result;
 
         mLastResponseHtml = result.getString();
         Map<String, String> body = CreateRequestBody.createPostDataForYSLogin(userId, password, mLastResponseHtml);
-        result = HttpBase.httpPost(RequestURL.YS_LOGIN, body, RequestURL.YS_TO_PAGE);
-        try {Thread.sleep(100);} catch (InterruptedException e) {e.printStackTrace();}
+        result = HttpBase.httpPost(RequestURL.YS_LOGIN, body, RequestURL.YS_TO_LOGIN_PAGE);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         //failure
         if (!result.getBool()) return result;
 
         mLastResponseHtml = result.getString();
-        if (!RegexManager.containsCheck("ログオフ", mLastResponseHtml)) {
+        if (!RegexUtil.containsCheck("ログオフ", mLastResponseHtml)) {
             result.setBool(false);
         }
 
