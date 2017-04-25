@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.network.service;
+package jp.yuta.kohashi.esc.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

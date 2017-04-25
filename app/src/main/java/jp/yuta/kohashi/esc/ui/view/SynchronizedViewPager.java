@@ -83,23 +83,31 @@ public class SynchronizedViewPager extends ViewPager {
         return super.onTouchEvent(ev);
     }
 
+    /**
+     * 
+     * @param item
+     */
+    @Override
+    public void setCurrentItem(int item) {
+        setCurrentItem(item, true);
+    }
 
     /**
      * Note: To prevent the recursive call, it calls a helper method setCurrentItemOnly internally.
      * @param item
      */
     @Override
-    public void setCurrentItem(int item) {
-        eventInvoker.apply(pager -> pager.setCurrentItemOnly(item));
-        super.setCurrentItem(item);
+    public void setCurrentItem(int item, boolean smoothScroll) {
+        eventInvoker.apply(pager -> pager.setCurrentItemOnly(item, smoothScroll));
+        super.setCurrentItem(item, smoothScroll);
     }
 
     /** This method is merely for invoking the non-overriden onTouchEvent
      * ,namely the super class's method,instead of calling the overriden one.
      * @param item
      */
-    public void setCurrentItemOnly(int item){
-        super.setCurrentItem(item);
+    public void setCurrentItemOnly(int item, boolean smoothScroll){
+        super.setCurrentItem(item, smoothScroll);
     }
 
     /**

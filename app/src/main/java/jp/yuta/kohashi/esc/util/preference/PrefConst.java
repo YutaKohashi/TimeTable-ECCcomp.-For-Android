@@ -19,12 +19,16 @@ public final class PrefConst {
     static final String KEY_WED_LIST = "KEY_WED_LIST";
     static final String KEY_THUR_LIST = "KEY_THUR_LIST";
     static final String KEY_FRI_LIST = "KEY_FRI_LIST";
+    static final String KEY_SAT_LIST = "KEY_SAT_LIST";
+    static final String KEY_SUN_LIST = "KEY_SUN_LIST";
 
     static final String KEY_MON_LIST_ORIGINAL = "KYE_MON_LIST_ORIGINAL";
     static final String KEY_TUE_LIST_ORIGINAL = "KEY_TUE_LIST_ORIGINAL";
     static final String KEY_WED_LIST_ORIGINAL = "KEY_WED_LIST_ORIGINAL";
     static final String KEY_THUR_LIST_ORIGINAL = "KEY_THUR_LIST_ORIGINAL";
     static final String KEY_FRI_LIST_ORIGINAL = "KEY_FRI_LIST_ORIGINAL";
+    static final String KEY_SAT_LIST_ORIGINAL = "KEY_SAT_LIST_ORIGINAL";
+    static final String KEY_SUN_LIST_ORIGINAL = "KEY_SUN_LIST_ORIGINAL";
 
     static final String KEY_ATTEND = "KEY_ATTEND";
     static final String KEY_ATTEND_ALL_RATE = "KEY_ATTEND_ALL_RATE";

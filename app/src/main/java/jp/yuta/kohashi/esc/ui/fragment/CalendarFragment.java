@@ -124,8 +124,9 @@ public class CalendarFragment extends BaseFragment implements ViewTreeObserver.O
     }
 
     private void movePage(int position) {
+        System.out.println("CalendarFragment movePage called");
         moveFrontPage(position);
-        moveBottomPage(position);
+//        moveBottomPage(position);
     }
 
     private void moveFrontPage(int position) {

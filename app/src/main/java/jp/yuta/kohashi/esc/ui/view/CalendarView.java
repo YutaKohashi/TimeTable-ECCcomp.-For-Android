@@ -25,8 +25,8 @@ import jp.yuta.kohashi.esc.util.Util;
 public class CalendarView extends LinearLayout {
     private static final String TAG = CalendarView.class.getSimpleName();
 
-    private int year;
-    private int month;
+//    private int year;
+//    private int month;
     View view;
     private LinearLayout rowLayout;
 
@@ -48,14 +48,12 @@ public class CalendarView extends LinearLayout {
      * @param month
      */
     public void setMonth(int year, int month, List<CalendarItem> scheduleList) {
-        this.year = year;
-        this.month = month;
-        //get root calender View
+//        this.year = year;
+//        this.month = month;
+        //get Root calender View
 
         List<String> dayList = new ArrayList<>(); //　バッジを付けるリスト
-        for(CalendarItem model:scheduleList){
-            dayList.add(model.getDate());
-        }
+        for(CalendarItem model:scheduleList)dayList.add(model.getDate());
 
         Calendar calendar = Calendar.getInstance();
 
@@ -180,6 +178,5 @@ public class CalendarView extends LinearLayout {
                 break;
             }
         }
-
     }
 }

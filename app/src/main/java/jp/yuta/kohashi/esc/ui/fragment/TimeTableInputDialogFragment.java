@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.TimeBlockItem;
+import jp.yuta.kohashi.esc.network.api.model.timeTable.TimeTable;
 import jp.yuta.kohashi.esc.ui.fragment.base.BaseDialogFragment;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
@@ -21,7 +21,7 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 public class TimeTableInputDialogFragment extends BaseDialogFragment implements View.OnClickListener {
     // "static" is require for object null  when  display rotation
-    private static TimeBlockItem beforeModel;
+    private static TimeTable beforeModel;
 
     private EditText mSubjectTextView;
     private EditText mRoomTextView;
@@ -41,7 +41,7 @@ public class TimeTableInputDialogFragment extends BaseDialogFragment implements 
         return super.onCreateDialog(savedInstanceState);
     }
 
-    public void setInfo(TimeBlockItem item){
+    public void setInfo(TimeTable item){
         this.beforeModel = item;
     }
 
@@ -63,7 +63,7 @@ public class TimeTableInputDialogFragment extends BaseDialogFragment implements 
 
     @Override
     protected void pressOkButton() {
-        TimeBlockItem afterModel = createAfterModel();
+        TimeTable afterModel = createAfterModel();
         callback.positive(beforeModel,afterModel);
     }
 
@@ -79,25 +79,25 @@ public class TimeTableInputDialogFragment extends BaseDialogFragment implements 
         mSubjectTextView = (EditText)mDialog.findViewById(R.id.edit_subject);
         mTeacherTextView = (EditText)mDialog.findViewById(R.id.edit_teacher);
         mRoomTextView = (EditText)mDialog.findViewById(R.id.edit_room);
-        mSubjectTextView.setText(beforeModel.getSubject());
-        mTeacherTextView.setText(beforeModel.getTeacherName());
-        mRoomTextView.setText(beforeModel.getClassRoom());
+        mSubjectTextView.setText(beforeModel.getLessonName());
+//        mTeacherTextView.setText(beforeModel.gettea());
+        mRoomTextView.setText(beforeModel.getRoom());
         mTitleTextView.setText(createTitle(beforeModel));
         mUndoBtn = (ImageButton)mDialog.findViewById(R.id.undo_button);
         mUndoBtn.setOnClickListener(this);
     }
 
-    private TimeBlockItem createAfterModel(){
+    private TimeTable createAfterModel(){
         String subject = mSubjectTextView.getText().toString();
         String teacher = mTeacherTextView.getText().toString();
         String room = mRoomTextView.getText().toString();
 
-        TimeBlockItem afterModel = new TimeBlockItem();
-        afterModel.setSubject(subject);
-        afterModel.setTeacherName(teacher);
-        afterModel.setClassRoom(room);
-        afterModel.setRowNum(beforeModel.getRowNum());
-        afterModel.setColNum(beforeModel.getColNum());
+        TimeTable afterModel = new TimeTable();
+        afterModel.setLessonName(subject);
+//        afterModel.setTeacherName(teacher);
+        afterModel.setRoom(room);
+        afterModel.setTerm(beforeModel.getTerm());
+        afterModel.setWeek(beforeModel.getWeek());
         return afterModel;
     }
 
@@ -105,20 +105,20 @@ public class TimeTableInputDialogFragment extends BaseDialogFragment implements 
      * 変更前に戻す
      */
     private void undoItem() throws IndexOutOfBoundsException{
-        List<List<TimeBlockItem>> lists =  PrefUtil.loadOriginalTimeBlockList();
-        List<TimeBlockItem> list = lists.get(beforeModel.getColNum() - 1);
-        TimeBlockItem original = list.get(beforeModel.getRowNum()-1);
-        mSubjectTextView.setText(original.getSubject());
-        mTeacherTextView.setText(original.getTeacherName());
-        mRoomTextView.setText(original.getClassRoom());
+        List<List<TimeTable>> lists =  PrefUtil.loadOriginalTimeBlockList();
+        List<TimeTable> list = lists.get(beforeModel.getWeek() - 1);
+        TimeTable original = list.get(beforeModel.getTerm()-1);
+        mSubjectTextView.setText(original.getLessonName());
+//        mTeacherTextView.setText(original.gettea());
+        mRoomTextView.setText(original.getRoom());
         mSubjectTextView.setSelection(mSubjectTextView.getText().length());
         mTeacherTextView.setSelection(mTeacherTextView.getText().length());
         mRoomTextView.setSelection(mRoomTextView.getText().length());
     }
 
-    private String createTitle(TimeBlockItem model){
-        int row = model.getRowNum();
-        int col = model.getColNum();
+    private String createTitle(TimeTable model){
+        int row = model.getTerm();
+        int col = model.getWeek();
 
         String week;
         switch (col){

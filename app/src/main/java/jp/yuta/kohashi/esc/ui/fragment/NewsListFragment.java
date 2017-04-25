@@ -14,7 +14,7 @@ import java.util.List;
 
 import jp.yuta.kohashi.esc.model.NewsItem;
 import jp.yuta.kohashi.esc.network.HttpConnector;
-import jp.yuta.kohashi.esc.network.service.HttpHelper;
+import jp.yuta.kohashi.esc.network.HttpHelper;
 import jp.yuta.kohashi.esc.ui.activity.NewsDetailActivity;
 import jp.yuta.kohashi.esc.ui.adapter.NewsRecyclerAdapter;
 import jp.yuta.kohashi.esc.ui.fragment.base.BaseRefreshRecyclerViewFragment;
@@ -32,7 +32,7 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
     private String userId;
     private String password;
     private NewsRecyclerAdapter mRecyclerAdapter;
-    private int contains;  //0:school,  1:teacher
+    private int contains;  //0:school,  1:Teacher
 
     public static NewsListFragment newInstance(int contains){
         NewsListFragment fragment = new NewsListFragment();

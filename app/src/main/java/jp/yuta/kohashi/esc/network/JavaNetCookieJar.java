@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.network.service;
+package jp.yuta.kohashi.esc.network;
 
 /**
  * Created by YutaThinkPad on 2016/03/21.

@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import java.util.EventListener;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.TimeBlockItem;
+import jp.yuta.kohashi.esc.network.api.model.timeTable.TimeTable;
 
 /**
  * Created by yutakohashi on 2017/02/08.
@@ -27,7 +27,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements View.
     protected LinearLayout mCancelBtn;
 
     public interface Callback extends EventListener {
-        void positive(TimeBlockItem before, TimeBlockItem after);
+        void positive(TimeTable before, TimeTable after);
         void negative();
     }
 

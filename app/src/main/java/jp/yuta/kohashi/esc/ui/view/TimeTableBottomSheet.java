@@ -104,7 +104,6 @@ public class TimeTableBottomSheet extends RelativeLayout implements Animation.An
 
     @Override
     public void onAnimationRepeat(Animation animation) {
-
     }
 
     @Override

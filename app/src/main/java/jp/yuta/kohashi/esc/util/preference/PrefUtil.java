@@ -20,7 +20,7 @@ import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.AttendanceRate;
 import jp.yuta.kohashi.esc.model.NewsItem;
-import jp.yuta.kohashi.esc.model.TimeBlockItem;
+import jp.yuta.kohashi.esc.network.api.model.timeTable.TimeTable;
 import jp.yuta.kohashi.esc.util.RegexUtil;
 import jp.yuta.kohashi.esc.util.Util;
 
@@ -37,16 +37,24 @@ public class PrefUtil {
     //**
     //region Load
     //**
-    public static List<List<TimeBlockItem>> loadTimeBlockList() {
-        List<List<TimeBlockItem>> lists = new ArrayList<>();
+//    public static List<List<TimeBlockItem>> loadTimeBlockList() {
+//        List<List<TimeBlockItem>> lists = new ArrayList<>();
+//
+//        lists.add(loadTimeBlockList(PrefConst.KEY_MON_LIST));
+//        lists.add(loadTimeBlockList(PrefConst.KEY_TUE_LIST));
+//        lists.add(loadTimeBlockList(PrefConst.KEY_WED_LIST));
+//        lists.add(loadTimeBlockList(PrefConst.KEY_THUR_LIST));
+//        lists.add(loadTimeBlockList(PrefConst.KEY_FRI_LIST));
+//
+//        return lists;
+//    }
 
-        lists.add(loadTimeBlockList(PrefConst.KEY_MON_LIST));
-        lists.add(loadTimeBlockList(PrefConst.KEY_TUE_LIST));
-        lists.add(loadTimeBlockList(PrefConst.KEY_WED_LIST));
-        lists.add(loadTimeBlockList(PrefConst.KEY_THUR_LIST));
-        lists.add(loadTimeBlockList(PrefConst.KEY_FRI_LIST));
-
-        return lists;
+    /**
+     * 時間割をろーど
+     * @return
+     */
+    public static List<List<TimeTable>> loadTimeBlockList(){
+        return loadTimeBlockList(App.getAppContext());
     }
 
     /**
@@ -55,26 +63,32 @@ public class PrefUtil {
      * @param context
      * @return
      */
-    public static List<List<TimeBlockItem>> loadTimeBlockList(Context context) {
-        List<List<TimeBlockItem>> lists = new ArrayList<>();
-
-        lists.add(loadTimeBlockList(PrefConst.KEY_MON_LIST, context));
-        lists.add(loadTimeBlockList(PrefConst.KEY_TUE_LIST, context));
-        lists.add(loadTimeBlockList(PrefConst.KEY_WED_LIST, context));
-        lists.add(loadTimeBlockList(PrefConst.KEY_THUR_LIST, context));
-        lists.add(loadTimeBlockList(PrefConst.KEY_FRI_LIST, context));
+    public static List<List<TimeTable>> loadTimeBlockList(Context context) {
+        List<List<TimeTable>> lists = new ArrayList<>();
+        lists.add((loadTimeBlockList(PrefConst.KEY_MON_LIST,context)));
+        lists.add((loadTimeBlockList(PrefConst.KEY_TUE_LIST,context)));
+        lists.add((loadTimeBlockList(PrefConst.KEY_WED_LIST,context)));
+        lists.add((loadTimeBlockList(PrefConst.KEY_THUR_LIST,context)));
+        lists.add((loadTimeBlockList(PrefConst.KEY_FRI_LIST,context)));
+        lists.add((loadTimeBlockList(PrefConst.KEY_SAT_LIST,context)));
+        lists.add((loadTimeBlockList(PrefConst.KEY_SUN_LIST,context)));
 
         return lists;
     }
 
-    public static List<List<TimeBlockItem>> loadOriginalTimeBlockList() {
-        List<List<TimeBlockItem>> lists = new ArrayList<>();
-
-        lists.add(loadTimeBlockList(PrefConst.KEY_MON_LIST_ORIGINAL));
-        lists.add(loadTimeBlockList(PrefConst.KEY_TUE_LIST_ORIGINAL));
-        lists.add(loadTimeBlockList(PrefConst.KEY_WED_LIST_ORIGINAL));
-        lists.add(loadTimeBlockList(PrefConst.KEY_THUR_LIST_ORIGINAL));
-        lists.add(loadTimeBlockList(PrefConst.KEY_FRI_LIST_ORIGINAL));
+    /**
+     * オリジナルをloadする
+     * @return
+     */
+    public static List<List<TimeTable>> loadOriginalTimeBlockList() {
+        List<List<TimeTable>> lists = new ArrayList<>();
+        lists.add((loadTimeBlockList(PrefConst.KEY_MON_LIST_ORIGINAL)));
+        lists.add((loadTimeBlockList(PrefConst.KEY_TUE_LIST_ORIGINAL)));
+        lists.add((loadTimeBlockList(PrefConst.KEY_WED_LIST_ORIGINAL)));
+        lists.add((loadTimeBlockList(PrefConst.KEY_THUR_LIST_ORIGINAL)));
+        lists.add((loadTimeBlockList(PrefConst.KEY_FRI_LIST_ORIGINAL)));
+        lists.add((loadTimeBlockList(PrefConst.KEY_SAT_LIST_ORIGINAL)));
+        lists.add((loadTimeBlockList(PrefConst.KEY_SUN_LIST_ORIGINAL)));
 
         return lists;
     }
@@ -85,22 +99,25 @@ public class PrefUtil {
      * @param key
      * @return
      */
-    public static List<TimeBlockItem> loadTimeBlockList(String key) {
-        SharedPreferences sharedPreferences;
-        List<TimeBlockItem> arrayList;
-        sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_TIME_TABLE, Context.MODE_PRIVATE);
-        arrayList = new Gson().fromJson(sharedPreferences.getString(key, ""), new TypeToken<List<TimeBlockItem>>() {
-        }.getType());
-
-        try {
-            if (arrayList.size() == 0) {
-                arrayList = new ArrayList<>();
-            }
-        } catch (Exception e) {
-            arrayList = new ArrayList<>();
-        }
-
-        return arrayList;
+//    public static List<TimeBlockItem> loadTimeBlockList(String key) {
+//        SharedPreferences sharedPreferences;
+//        List<TimeBlockItem> arrayList;
+//        sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_TIME_TABLE, Context.MODE_PRIVATE);
+//        arrayList = new Gson().fromJson(sharedPreferences.getString(key, ""), new TypeToken<List<TimeBlockItem>>() {
+//        }.getType());
+//
+//        try {
+//            if (arrayList.size() == 0) {
+//                arrayList = new ArrayList<>();
+//            }
+//        } catch (Exception e) {
+//            arrayList = new ArrayList<>();
+//        }
+//
+//        return arrayList;
+//    }
+    public static List<TimeTable> loadTimeBlockList(String key) {
+        return loadTimeBlockList(key, App.getAppContext());
     }
 
     /**
@@ -110,22 +127,33 @@ public class PrefUtil {
      * @param context
      * @return
      */
-    public static List<TimeBlockItem> loadTimeBlockList(String key, Context context) {
-        SharedPreferences sharedPreferences;
-        List<TimeBlockItem> arrayList;
-        sharedPreferences = context.getSharedPreferences(PrefConst.FILE_TIME_TABLE, Context.MODE_PRIVATE);
-        arrayList = new Gson().fromJson(sharedPreferences.getString(key, ""), new TypeToken<List<TimeBlockItem>>() {
-        }.getType());
+//    public static List<TimeBlockItem> loadTimeBlockList(String key, Context context) {
+//        SharedPreferences sharedPreferences;
+//        List<TimeBlockItem> arrayList;
+//        sharedPreferences = context.getSharedPreferences(PrefConst.FILE_TIME_TABLE, Context.MODE_PRIVATE);
+//        arrayList = new Gson().fromJson(sharedPreferences.getString(key, ""), new TypeToken<List<TimeBlockItem>>() {
+//        }.getType());
+//
+//        try {
+//            if (arrayList.size() == 0) {
+//                arrayList = new ArrayList<>();
+//            }
+//        } catch (Exception e) {
+//            arrayList = new ArrayList<>();
+//        }
+//
+//        return arrayList;
+//    }
+    public static List<TimeTable> loadTimeBlockList(String key, Context context) {
+        SharedPreferences pref = context.getSharedPreferences(PrefConst.FILE_TIME_TABLE, Context.MODE_PRIVATE);
+        List<TimeTable> list = new Gson().fromJson(pref.getString(key,""),new TypeToken<List<TimeTable>>(){}.getType());
 
-        try {
-            if (arrayList.size() == 0) {
-                arrayList = new ArrayList<>();
-            }
-        } catch (Exception e) {
-            arrayList = new ArrayList<>();
+        try{
+            if(list.size()== 0) list= new ArrayList<>();
+        } catch (Exception e){
+            list = new ArrayList<>();
         }
-
-        return arrayList;
+        return list;
     }
 
     /***
@@ -343,58 +371,114 @@ public class PrefUtil {
     //region save
     //**
 
-    /**
-     * 時間割（先生名を含めて）保存するメソッド
-     *
-     * @param html
-     * @param htmls
-     */
-    public static void saveTimeTable(String html, List<String> htmls) {
-        List<String> names = getTeacherNames(htmls);
-        List<TimeBlockItem> tempList = createTempList(html, names);
+//    /**
+//     * 時間割（先生名を含めて）保存するメソッド
+//     *
+//     * @param html
+//     * @param htmls
+//     */
+//    public static void saveTimeTable(String html, List<String> htmls) {
+//        List<String> names = getTeacherNames(htmls);
+//        List<TimeBlockItem> tempList = createTempList(html, names);
+//
+//        saveTimeTableMon(createWeekList(tempList, 0));
+//        saveTimeTableTue(createWeekList(tempList, 1));
+//        saveTimeTableWed(createWeekList(tempList, 2));
+//        saveTimeTableThur(createWeekList(tempList, 3));
+//        saveTimeTableFri(createWeekList(tempList, 4));
+//    }
 
-        saveTimeTableMon(createWeekList(tempList, 0));
-        saveTimeTableTue(createWeekList(tempList, 1));
-        saveTimeTableWed(createWeekList(tempList, 2));
-        saveTimeTableThur(createWeekList(tempList, 3));
-        saveTimeTableFri(createWeekList(tempList, 4));
+    /**
+     * 時間割を保存するメソッド
+     * @param timeTables
+     */
+    public static void saveTimeTable(List<TimeTable> timeTables) {
+        saveTimeTableMon(createWeekList(timeTables, 1));
+        saveTimeTableTue(createWeekList(timeTables, 2));
+        saveTimeTableWed(createWeekList(timeTables, 3));
+        saveTimeTableThur(createWeekList(timeTables,4));
+        saveTimeTableFri(createWeekList(timeTables, 5));
+        saveTimeTableSat(createWeekList(timeTables, 6)); //土
+        saveTimeTableSun(createWeekList(timeTables, 0)); //日
     }
 
-    /**
-     * オリジナルの時間割を保存
-     *
-     * @param html
-     * @param htmls
-     */
-    public static void saveTimeTableOriginal(String html, List<String> htmls) {
-        List<String> names = getTeacherNames(htmls);
-        List<TimeBlockItem> tempList = createTempList(html, names);
+//    /**
+//     * オリジナルの時間割を保存
+//     *
+//     * @param html
+//     * @param htmls
+//     */
+//    public static void saveTimeTableOriginal(String html, List<String> htmls) {
+//        List<String> names = getTeacherNames(htmls);
+//        List<TimeBlockItem> tempList = createTempList(html, names);
+//
+//        save(createWeekList(tempList, 0), PrefConst.KEY_MON_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
+//        save(createWeekList(tempList, 1), PrefConst.KEY_TUE_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
+//        save(createWeekList(tempList, 2), PrefConst.KEY_WED_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
+//        save(createWeekList(tempList, 3), PrefConst.KEY_THUR_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
+//        save(createWeekList(tempList, 4), PrefConst.KEY_FRI_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
+//    }
 
-        save(createWeekList(tempList, 0), PrefConst.KEY_MON_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
-        save(createWeekList(tempList, 1), PrefConst.KEY_TUE_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
-        save(createWeekList(tempList, 2), PrefConst.KEY_WED_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
-        save(createWeekList(tempList, 3), PrefConst.KEY_THUR_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
-        save(createWeekList(tempList, 4), PrefConst.KEY_FRI_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
+    /**
+     * オリジナル時間割を保存するメソッド
+     * @param timeTables
+     */
+    public static void saveTimeTableOriginal(List<TimeTable> timeTables){
+        save(createWeekList(timeTables, 1), PrefConst.KEY_MON_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
+        save(createWeekList(timeTables, 2), PrefConst.KEY_TUE_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
+        save(createWeekList(timeTables, 3), PrefConst.KEY_WED_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
+        save(createWeekList(timeTables, 4), PrefConst.KEY_THUR_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
+        save(createWeekList(timeTables, 5), PrefConst.KEY_FRI_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
+        save(createWeekList(timeTables, 6), PrefConst.KEY_SAT_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
+        save(createWeekList(timeTables, 0), PrefConst.KEY_SUN_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
     }
 
-    public static void saveTimeTableMon(List<TimeBlockItem> list) {
+//    public static void saveTimeTableMon(List<TimeBlockItem> list) {
+//        save(list, PrefConst.KEY_MON_LIST, PrefConst.FILE_TIME_TABLE);
+//    }
+//
+//    public static void saveTimeTableTue(List<TimeBlockItem> list) {
+//        save(list, PrefConst.KEY_TUE_LIST, PrefConst.FILE_TIME_TABLE);
+//    }
+//
+//    public static void saveTimeTableWed(List<TimeBlockItem> list) {
+//        save(list, PrefConst.KEY_WED_LIST, PrefConst.FILE_TIME_TABLE);
+//    }
+//
+//    public static void saveTimeTableThur(List<TimeBlockItem> list) {
+//        save(list, PrefConst.KEY_THUR_LIST, PrefConst.FILE_TIME_TABLE);
+//    }
+//
+//    public static void saveTimeTableFri(List<TimeBlockItem> list) {
+//        save(list, PrefConst.KEY_FRI_LIST, PrefConst.FILE_TIME_TABLE);
+//    }
+
+    public static void saveTimeTableMon(List<TimeTable> list) {
         save(list, PrefConst.KEY_MON_LIST, PrefConst.FILE_TIME_TABLE);
     }
 
-    public static void saveTimeTableTue(List<TimeBlockItem> list) {
+    public static void saveTimeTableTue(List<TimeTable> list) {
         save(list, PrefConst.KEY_TUE_LIST, PrefConst.FILE_TIME_TABLE);
     }
 
-    public static void saveTimeTableWed(List<TimeBlockItem> list) {
+    public static void saveTimeTableWed(List<TimeTable> list) {
         save(list, PrefConst.KEY_WED_LIST, PrefConst.FILE_TIME_TABLE);
     }
 
-    public static void saveTimeTableThur(List<TimeBlockItem> list) {
+    public static void saveTimeTableThur(List<TimeTable> list) {
         save(list, PrefConst.KEY_THUR_LIST, PrefConst.FILE_TIME_TABLE);
     }
 
-    public static void saveTimeTableFri(List<TimeBlockItem> list) {
+    public static void saveTimeTableFri(List<TimeTable> list) {
         save(list, PrefConst.KEY_FRI_LIST, PrefConst.FILE_TIME_TABLE);
+    }
+
+    public static void saveTimeTableSat(List<TimeTable> list) {
+        save(list, PrefConst.KEY_SAT_LIST, PrefConst.FILE_TIME_TABLE);
+    }
+
+    public static void saveTimeTableSun(List<TimeTable> list) {
+        save(list, PrefConst.KEY_SUN_LIST, PrefConst.FILE_TIME_TABLE);
     }
 
     /**
@@ -796,88 +880,103 @@ public class PrefUtil {
     //region 時間割関連
     //**
 
-    /**
-     * @param subject
-     * @param room
-     * @param name
-     * @param row
-     * @param col
-     * @return
-     */
-    private static TimeBlockItem createTimeBlockModel(String subject, String room, String name, int row, int col) {
-        TimeBlockItem model = new TimeBlockItem();
-        model.setSubject(subject);
-        model.setClassRoom(room);
-        model.setTeacherName(name);
-        model.setRowNum(row);
-        model.setColNum(col);
-        return model;
-    }
-
-    /***
-     * 曜日別ではなくhtmlソースをの頭から順に時間割のセルごとのリストを作成するメソッド
-     * 曜日別に保存したいのでこのメソッドを実行した後にcreateWeekListを実行
-     *
-     * @param html
-     * @param names
-     * @return
-     */
-    private static List<TimeBlockItem> createTempList(String html, List<String> names) {
-        List<TimeBlockItem> temp = new ArrayList<>();
-
-        html = RegexUtil.replaceCRLF(html, true);
-        String narrowHtml = RegexUtil.narrowingValues("<div id=\"timetable_col\" class=\"col\">", "<div class=\"col\">", html);
-
-        int rowNum = 1; //1〜
-        int teacherIndex = 0;
-        boolean flg = true;
-
-        Matcher row = RegexUtil.getGroupValues("<th class=\"term\">.*?</tr>", narrowHtml);
-        while (row.find()) {
-
-            //１行目はヘッダのため無視
-            if (flg) {
-                flg = false;
-                continue;
-            }
-
-            Matcher col = RegexUtil.getGroupValues("<td>(.+?)</td>", row.group());
-            int colNum = 1; //1〜
-            while (col.find()) {
-                String colHtml = col.group();
-
-                String subject = "";
-                String room = "";
-                String teacherName = "";
-                if (RegexUtil.containsCheck("<li>", colHtml)) {
-                    subject = RegexUtil.getValues("<td>\\s*<ul>\\s*<li>(.+?)</li>", colHtml);
-                    room = RegexUtil.getValues("</li>\\s*<li>(.+?)</li>", colHtml);
-                    teacherName = names.get(teacherIndex++);
-                }
-
-                TimeBlockItem model = createTimeBlockModel(subject, room, teacherName, rowNum, colNum++);
-                temp.add(model);
-            }
-            rowNum++;
-        }
-        return temp;
-    }
+//    /**
+//     * @param subject
+//     * @param room
+//     * @param name
+//     * @param row
+//     * @param col
+//     * @return
+//     */
+//    private static TimeBlockItem createTimeBlockModel(String subject, String room, String name, int row, int col) {
+//        TimeBlockItem model = new TimeBlockItem();
+//        model.setSubject(subject);
+//        model.setClassRoom(room);
+//        model.setTeacherName(name);
+//        model.setRowNum(row);
+//        model.setColNum(col);
+//        return model;
+//    }
+//
+//    /***
+//     * 曜日別ではなくhtmlソースをの頭から順に時間割のセルごとのリストを作成するメソッド
+//     * 曜日別に保存したいのでこのメソッドを実行した後にcreateWeekListを実行
+//     *
+//     * @param html
+//     * @param names
+//     * @return
+//     */
+//    private static List<TimeBlockItem> createTempList(String html, List<String> names) {
+//        List<TimeBlockItem> temp = new ArrayList<>();
+//
+//        html = RegexUtil.replaceCRLF(html, true);
+//        String narrowHtml = RegexUtil.narrowingValues("<div id=\"timetable_col\" class=\"col\">", "<div class=\"col\">", html);
+//
+//        int rowNum = 1; //1〜
+//        int teacherIndex = 0;
+//        boolean flg = true;
+//
+//        Matcher row = RegexUtil.getGroupValues("<th class=\"term\">.*?</tr>", narrowHtml);
+//        while (row.find()) {
+//
+//            //１行目はヘッダのため無視
+//            if (flg) {
+//                flg = false;
+//                continue;
+//            }
+//
+//            Matcher col = RegexUtil.getGroupValues("<td>(.+?)</td>", row.group());
+//            int colNum = 1; //1〜
+//            while (col.find()) {
+//                String colHtml = col.group();
+//
+//                String subject = "";
+//                String room = "";
+//                String teacherName = "";
+//                if (RegexUtil.containsCheck("<li>", colHtml)) {
+//                    subject = RegexUtil.getValues("<td>\\s*<ul>\\s*<li>(.+?)</li>", colHtml);
+//                    room = RegexUtil.getValues("</li>\\s*<li>(.+?)</li>", colHtml);
+//                    teacherName = names.get(teacherIndex++);
+//                }
+//
+//                TimeBlockItem model = createTimeBlockModel(subject, room, teacherName, rowNum, colNum++);
+//                temp.add(model);
+//            }
+//            rowNum++;
+//        }
+//        return temp;
+//    }
 
     /***
      * 引数のnumを利用して曜日ごとに振り分けるメソッド
-     *
-     * @param list
+     * num 1 = 月曜日
+     * @param timeTables
      * @param num
      * @return
      */
-    private static List<TimeBlockItem> createWeekList(List<TimeBlockItem> list, int num) {
-        List<TimeBlockItem> weekList = new ArrayList<>();
+    private static List<TimeTable> createWeekList(List<TimeTable> timeTables, int num) {
+        List<TimeTable> tmp = new ArrayList<>();
+        timeTables.forEach(timeTable -> {
+            if (timeTable.getWeek() == num) tmp.add(timeTable);
+        });
 
-        for (int i = 0; i < 4; i++) {
-            int index = num + i * 5;
-            weekList.add(list.get(index));
+        //　ソートする
+        List<TimeTable> list = new ArrayList<>();
+        for(int i = 1; i< 5; i++){
+            boolean flg = false;
+            for(int j = 0; j < tmp.size(); j++){
+                if(tmp.get(j).getTerm() == i) {
+                    list.add(tmp.get(j));
+                    flg = true;
+                }
+            }
+            if(!flg) {
+                // 空のオブジェクトを入れる
+                list.add(new TimeTable());
+            }
         }
-        return weekList;
+
+        return list;
     }
 
     //**

@@ -1,4 +1,4 @@
-package jp.yuta.kohashi.esc.network.service;
+package jp.yuta.kohashi.esc.network;
 
 import java.util.HashMap;
 import java.util.Map;

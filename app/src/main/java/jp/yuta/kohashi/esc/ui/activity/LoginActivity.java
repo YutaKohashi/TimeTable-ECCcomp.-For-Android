@@ -91,17 +91,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startProgBtn();
         HttpConnector.request(HttpConnector.Type.TIME_TABLE, userId, password,(bool -> {
             if(bool){
-                // お知らせ
-                HttpConnector.request(HttpConnector.Type.NEWS_SCHOOL_TEACHER, userId, password,(bool1 -> {
-                    if (bool1) {
-                        // 出席照会
-                        HttpConnector.request(HttpConnector.Type.ATTENDANCE_RATE, userId, password,(bool2 -> {
-                            successLogin(bool2);
-                        }));
-                    } else {
-                        failureLogin();
-                    }
-                }));
+                successLogin(bool);
+//                // お知らせ
+//                HttpConnector.request(HttpConnector.Type.NEWS_SCHOOL_TEACHER, userId, password,(bool1 -> {
+//                    if (bool1) {
+//                        // 出席照会
+//                        HttpConnector.request(HttpConnector.Type.ATTENDANCE_RATE, userId, password,(bool2 -> {
+//                            successLogin(bool2);
+//                        }));
+//                    } else {
+//                        failureLogin();
+//                    }
+//                }));
             } else {
                 failureLogin();
             }

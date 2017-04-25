@@ -27,7 +27,7 @@ import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.NewsItem;
 import jp.yuta.kohashi.esc.network.HttpConnector;
-import jp.yuta.kohashi.esc.network.service.RequestURL;
+import jp.yuta.kohashi.esc.network.RequestURL;
 import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
 import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateParentFragment;
 import jp.yuta.kohashi.esc.ui.fragment.CalendarFragment;
@@ -247,7 +247,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * ChoromeCustomTabsを表示
      */
     private void showWeb() {
-        Uri uri = Uri.parse(RequestURL.ESC_TO_LOGIN_PAGE);
+//        Uri uri = Uri.parse(RequestURL.ESC_TO_LOGIN_PAGE);
+        Uri uri = Uri.parse("");
         CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                 .setShowTitle(true)
                 .setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary))

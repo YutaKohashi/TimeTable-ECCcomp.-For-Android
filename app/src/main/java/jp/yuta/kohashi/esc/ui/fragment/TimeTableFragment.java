@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.TimeBlockItem;
+import jp.yuta.kohashi.esc.network.api.model.timeTable.TimeTable;
 import jp.yuta.kohashi.esc.ui.view.TimeTableBottomSheet;
 import jp.yuta.kohashi.esc.ui.view.TimeTableView;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
@@ -50,13 +50,16 @@ public class TimeTableFragment extends Fragment implements TimeTableView.OnCellC
      * @param model
      */
     @Override
-    public void onCellClick(List<TimeBlockItem> items, TimeBlockItem model) {
-        if (TextUtils.isEmpty(model.getSubject())) return;
+    public void onCellClick(List<TimeTable> items, TimeTable model) {
+        if (TextUtils.isEmpty(model.getLessonName())) return;
+        String teacher = "";
+        if(model.getTeachers() != null)
+            teacher = model.getTeachers().get(0).getFamilyName() + " " + model.getTeachers().get(0).getFirstName();
 
         new TimeTableBottomSheet.Builder(this)
-                .subject(model.getSubject())
-                .teacher(model.getTeacherName())
-                .time(getTime(model.getRowNum()))
+                .subject(model.getLessonName())
+                .teacher(teacher)
+                .time(getTime(model.getTerm()))
                 .build()
                 .show();
     }

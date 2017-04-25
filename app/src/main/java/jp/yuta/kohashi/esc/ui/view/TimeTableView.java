@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.TimeBlockItem;
+import jp.yuta.kohashi.esc.network.api.model.timeTable.TimeTable;
 import jp.yuta.kohashi.esc.ui.adapter.TimeTableRecyclerAdapter;
 
 /**
@@ -27,7 +27,10 @@ public class TimeTableView extends RelativeLayout {
     private Context mContext;
 
     private View view;
-    private List<List<TimeBlockItem>> timeBlockLists;
+    /**
+     * 月曜から日曜日の時間割リストをリストにして渡す
+     */
+    private List<List<TimeTable>> timeBlockLists;
     private List<RecyclerView> recyclerViewList;
     private List<TimeTableRecyclerAdapter> mAdapters;
     private ListenerInfo mListenerInfo;
@@ -50,7 +53,7 @@ public class TimeTableView extends RelativeLayout {
     /**
      * データをセットするメソッド
      */
-    public void setData(List<List<TimeBlockItem>> lists) {
+    public void setData(List<List<TimeTable>> lists) {
         loadList(lists);
         initView();
     }
@@ -74,11 +77,12 @@ public class TimeTableView extends RelativeLayout {
          * @param items
          * @param model
          */
-        void onCellClick(List<TimeBlockItem> items, TimeBlockItem model);
+        void onCellClick(List<TimeTable> items, TimeTable model);
     }
 
     public void swapAll() {
-        for (int i = 0; i < timeBlockLists.size(); i++) {
+//        for (int i = 0; i < timeBlockLists.size(); i++) {
+        for (int i = 0; i <= 4; i++) {
             mAdapters.get(i).swap(timeBlockLists.get(i));
         }
     }
@@ -88,7 +92,7 @@ public class TimeTableView extends RelativeLayout {
      *
      * @param lists
      */
-    public void loadList(List<List<TimeBlockItem>> lists) {
+    public void loadList(List<List<TimeTable>> lists) {
         if (timeBlockLists == null) timeBlockLists = new ArrayList<>();
         timeBlockLists.clear();
         timeBlockLists.addAll(lists);
@@ -99,7 +103,7 @@ public class TimeTableView extends RelativeLayout {
      *
      * @param lists
      */
-    public void allReset(List<List<TimeBlockItem>> lists, CallBack callBack) {
+    public void allReset(List<List<TimeTable>> lists, CallBack callBack) {
         loadList(lists);
         swapAll();
         callBack.callback();
@@ -117,7 +121,8 @@ public class TimeTableView extends RelativeLayout {
         recyclerViewList.add((RecyclerView) view.findViewById(R.id.thur_col));
         recyclerViewList.add((RecyclerView) view.findViewById(R.id.fri_col));
 
-        for (int i = 0; i < timeBlockLists.size(); i++) {
+//        for (int i = 0; i < timeBlockLists.size(); i++) {
+        for (int i = 0; i <= 4; i++) {
             recyclerViewList.get(i).setHasFixedSize(true);
             createRecyclerView(recyclerViewList.get(i), timeBlockLists.get(i));
         }
@@ -132,12 +137,12 @@ public class TimeTableView extends RelativeLayout {
      * @param recyclerView
      * @param list
      */
-    private void createRecyclerView(RecyclerView recyclerView, List<TimeBlockItem> list) {
+    private void createRecyclerView(RecyclerView recyclerView, List<TimeTable> list) {
         if (mAdapters == null) mAdapters = new ArrayList<>();
         recyclerView.setLayoutManager(new CustomLinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         TimeTableRecyclerAdapter adapter = new TimeTableRecyclerAdapter(list, classRoomColor , mContext) {
             @Override
-            protected void onItemClicked(@NonNull List<TimeBlockItem> items, TimeBlockItem model) {
+            protected void onItemClicked(@NonNull List<TimeTable> items, TimeTable model) {
                 super.onItemClicked(items, model);
                 mListenerInfo.mOnCellClickListener.onCellClick(items, model);
             }

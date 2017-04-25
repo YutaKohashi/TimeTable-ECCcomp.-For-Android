@@ -1,7 +1,5 @@
 package jp.yuta.kohashi.esc.network;
 
-import jp.yuta.kohashi.esc.network.service.HttpHelper;
-
 /**
  * Created by yutakohashi on 2016/11/15.
  */
@@ -41,6 +39,7 @@ public class HttpConnector {
     public static void request(Type type, final String userId, final String password, final Callback callback) {
         switch (type) {
             case TIME_TABLE:
+//                HttpHelper.getTimeTable(userId,password,(bool -> callback.callback(bool)));
                 HttpHelper.getTimeTable(userId,password,(bool -> callback.callback(bool)));
                 break;
             case ATTENDANCE_RATE:
