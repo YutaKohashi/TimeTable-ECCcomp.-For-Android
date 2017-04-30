@@ -23,11 +23,13 @@
     <string name="time_four_class">15:15 ~ 16:45</string>
     <string name="time_five_class">17:00 ~ 18:30</string>
 
+    <string name="sun_string">日</string>
     <string name="mon_string">月</string>
     <string name="tue_string">火</string>
     <string name="wed_string">水</string>
     <string name="thur_string">木</string>
     <string name="fri_string">金</string>
+    <string name="sat_string">土</string>
 
     <!--ボトムシート-->
     <string name="detail_info">詳細情報</string>
@@ -35,11 +37,13 @@
     <string name="class_teacher">担当教師</string>
     <string name="class_room">教室</string>
 
+    <string name="sunday_string">日曜日</string>
     <string name="monday_string">月曜日</string>
     <string name="tuesday_string">火曜日</string>
     <string name="wednesday_string">水曜日</string>
     <string name="thursday_string">木曜日</string>
     <string name="friday_string">金曜日</string>
+    <string name="saturday_string">土曜日</string>
     <string name="class_time">時間</string>
 
     <!--出席率-->
@@ -71,7 +75,7 @@
     <string name="from_school">学校から</string>
     <string name="from_tannin">担任から</string>
     <string name="attachment_file">添付ファイルが %1$d 件あります</string>
-    <string name="download_attachment_file">添付ファイルをダウンロード</string>
+    <string name="download_attachment_file">ダウンロード</string>
     <string name="notify_new_news">新しいお知らせがあります</string>
     <string name="news_name">記事名</string>
     <string name="news_date">日付</string>
@@ -81,17 +85,25 @@
     <string name="pref_group_title_time_table">時間割</string>
     <string name="pref_update_time_table">時間割を更新</string>
     <string name="pref_change_time_table">時間割データを変更</string>
+    <string name="pref_enable_time_table">有効・無効設定</string>
     <string name="pref_group_title_time_attendance">出席照会</string>
     <string name="pref_attendance_color">出席照会を色分けする</string>
     <string name="pref_attendance_divide">前期・後期の設定</string>
     <string name="pref_attendance_log">ログを確認する</string>
     <string name="pref_group_title_news">お知らせ</string>
     <string name="pref_notify_news">お知らせの通知を有効にする</string>
+    <string name="pref_group_title_schedule">スケジュール</string>
+    <string name="pref_update_schedule">スケジュールを更新</string>
     <string name="pref_group_title_time_other">その他</string>
     <string name="pref_lisence">ライセンス情報</string>
     <string name="pref_about">このアプリについて</string>
     <string name="pref_app_version">アプリバージョン</string>
     <string name="pref_logout">ログアウト</string>
+    <!--時間割有効無効設定-->
+    <string name="pref_enable_zero_gen">\"0限\" を表示する</string>
+    <string name="pref_enable_go_gen">\"5限\" を表示する</string>
+    <string name="pref_enable_sun">\"日曜日\" を表示する</string>
+    <string name="pref_enable_sat">\"土曜日\" を表示する</string>
     <!--出席照会を色分けする-->
     <string name="pref_enable_change_color">色分けを有効にする</string>
     <string name="pref_set_color">色を設定する</string>
@@ -105,7 +117,9 @@
     <string name="dialog_comment_comment">ログアウトしてもよろしいですか？</string>
     <string name="dialog_title_update_check">時間割を更新します</string>
     <string name="dialog_time_table_update_comment">サーバーから最新の時間割データを取得します。変更した時間割データは削除されます。</string>
+    <string name="dialog_schedule_update_comment">サーバーから最新のスケジュールデータを取得します。</string>
     <string name="loading">読込中...</string>
+    <string name="dialog_failure_news_detail">ニュース詳細の\n取得に失敗しました。</string>
     <string name="failure_update">更新に失敗しました</string>
     <string name="success_update">更新しました</string>
     <string name="failure_login">ログインに失敗しました</string>

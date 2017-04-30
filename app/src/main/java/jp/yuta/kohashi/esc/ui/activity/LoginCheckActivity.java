@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
-import jp.yuta.kohashi.esc.model.NewsItem;
+import jp.yuta.kohashi.esc.network.api.model.news.NewsItem;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
+
+//import jp.yuta.kohashi.esc.model.NewsItem;_/
 
 
 /***

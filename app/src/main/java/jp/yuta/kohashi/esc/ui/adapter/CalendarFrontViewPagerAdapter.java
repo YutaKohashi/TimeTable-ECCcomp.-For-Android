@@ -6,9 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.Calendar;
+import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.schedule.CalendarList;
+import jp.yuta.kohashi.esc.network.api.model.schedule.ScheduleRoot;
 import jp.yuta.kohashi.esc.ui.view.CalendarView;
 import jp.yuta.kohashi.esc.util.Util;
 
@@ -20,18 +21,23 @@ public class CalendarFrontViewPagerAdapter extends BaseCalendarViewPagerAdapter 
     //    private ClickPagerImgListener listener;
 
 
-    public CalendarFrontViewPagerAdapter(Context context, CalendarList model) {
+    public CalendarFrontViewPagerAdapter(Context context, List<ScheduleRoot> scheduleRoots) {
         super(context);
-        calendarList = model;
+        this.scheduleRoots = scheduleRoots;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         CalendarView calendarView = new CalendarView(mContext, null);
+//        calendarView.setMonth(
+//                Calendar.getInstance().get(Calendar.YEAR),
+//                Util.getTabPositionToMonth(position),
+//                scheduleRoots.get(Util.getTabPositionToMonth(position)));
         calendarView.setMonth(
                 Calendar.getInstance().get(Calendar.YEAR),
                 Util.getTabPositionToMonth(position),
-                calendarList.get(Util.getTabPositionToMonth(position)));
+                scheduleRoots.get(position));
+
         container.addView(calendarView);
         return calendarView;
     }

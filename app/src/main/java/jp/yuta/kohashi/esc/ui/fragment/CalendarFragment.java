@@ -4,26 +4,23 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 
-import com.google.gson.Gson;
-
-import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
 
-import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.schedule.CalendarList;
+import jp.yuta.kohashi.esc.network.api.model.schedule.ScheduleRoot;
 import jp.yuta.kohashi.esc.ui.adapter.CalendarFrontViewPagerAdapter;
 import jp.yuta.kohashi.esc.ui.adapter.CalendarViewPagerAdapter;
 import jp.yuta.kohashi.esc.ui.fragment.base.BaseFragment;
 import jp.yuta.kohashi.esc.ui.view.SynchronizedViewPager;
 import jp.yuta.kohashi.esc.util.Util;
+import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 /**
  * Created by yutakohashi on 2017/01/14.
@@ -40,7 +37,7 @@ public class CalendarFragment extends BaseFragment implements ViewTreeObserver.O
     private CalendarFrontViewPagerAdapter mFrontPagerAdapter;
     private CalendarViewPagerAdapter mBottomPagerAdapter;
     int currentPage;
-    private CalendarList calendarList;
+//    private CalendarList calendarList;
     private boolean flag = true;
     View mView;
 
@@ -49,7 +46,8 @@ public class CalendarFragment extends BaseFragment implements ViewTreeObserver.O
                              Bundle savedInstanceState) {
 
         mView = inflater.inflate(R.layout.fragment_calendar_parent, container, false);
-        calendarList = getSchedule(); //スケジュールを取得
+//        calendarList = getSchedule(); //スケジュールを取得
+        List<ScheduleRoot> scheduleRootList = PrefUtil.loadSchedule();
 
 
         mPrevBtn = (Button) mView.findViewById(R.id.prev_btn);
@@ -62,13 +60,14 @@ public class CalendarFragment extends BaseFragment implements ViewTreeObserver.O
                 .setTargetViewPager(mFrontViewPager);
         mFrontViewPager.setTargetViewPager(mBottomViewPager);
 
+//        mFrontPagerAdapter = new CalendarFrontViewPagerAdapter(getContext(), calendarList);
+        mFrontPagerAdapter = new CalendarFrontViewPagerAdapter(getContext(), scheduleRootList);
 
-        mFrontPagerAdapter = new CalendarFrontViewPagerAdapter(getContext(), calendarList);
         mFrontViewPager.setAdapter(mFrontPagerAdapter);
         mFrontTabLayout = (TabLayout) mView.findViewById(R.id.tab_calendar);
         mFrontTabLayout.setupWithViewPager(mFrontViewPager);
 
-        mBottomPagerAdapter = new CalendarViewPagerAdapter(getChildFragmentManager(), calendarList, getActivity());
+        mBottomPagerAdapter = new CalendarViewPagerAdapter(getChildFragmentManager(), scheduleRootList, getActivity());
         mBottomViewPager.setAdapter(mBottomPagerAdapter);
         //ViewTreeObserverをフック
         mFrontTabLayout.getViewTreeObserver().addOnGlobalLayoutListener(this);
@@ -137,22 +136,22 @@ public class CalendarFragment extends BaseFragment implements ViewTreeObserver.O
     private void moveBottomPage(int position) {
         mBottomViewPager.setCurrentItem(position, false);
     }
-
-    /**
-     * Asettsからスケジュールを取得
-     *
-     * @return
-     */
-    private CalendarList getSchedule() {
-        String jsonText = "";
-        Gson gson = new Gson();
-        try {
-            jsonText = Util.loadTextAsset(Const.SCHEDULE_FILE_NAME);
-        } catch (IOException e) {
-            Log.d(TAG, e.toString());
-        }
-
-        CalendarList listModel = gson.fromJson(jsonText, CalendarList.class);
-        return listModel;
-    }
+//
+//    /**
+//     * Asettsからスケジュールを取得
+//     *
+//     * @return
+//     */
+//    private CalendarList getSchedule() {
+//        String jsonText = "";
+//        Gson gson = new Gson();
+//        try {
+//            jsonText = Util.loadTextAsset(Const.SCHEDULE_FILE_NAME);
+//        } catch (IOException e) {
+//            Log.d(TAG, e.toString());
+//        }
+//
+//        CalendarList listModel = gson.fromJson(jsonText, CalendarList.class);
+//        return listModel;
+//    }
 }

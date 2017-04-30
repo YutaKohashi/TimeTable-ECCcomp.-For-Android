@@ -19,7 +19,8 @@ import jp.yuta.kohashi.esc.App;
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.AttendanceRate;
-import jp.yuta.kohashi.esc.model.NewsItem;
+import jp.yuta.kohashi.esc.network.api.model.news.NewsItem;
+import jp.yuta.kohashi.esc.network.api.model.schedule.ScheduleRoot;
 import jp.yuta.kohashi.esc.network.api.model.timeTable.TimeTable;
 import jp.yuta.kohashi.esc.util.RegexUtil;
 import jp.yuta.kohashi.esc.util.Util;
@@ -37,17 +38,6 @@ public class PrefUtil {
     //**
     //region Load
     //**
-//    public static List<List<TimeBlockItem>> loadTimeBlockList() {
-//        List<List<TimeBlockItem>> lists = new ArrayList<>();
-//
-//        lists.add(loadTimeBlockList(PrefConst.KEY_MON_LIST));
-//        lists.add(loadTimeBlockList(PrefConst.KEY_TUE_LIST));
-//        lists.add(loadTimeBlockList(PrefConst.KEY_WED_LIST));
-//        lists.add(loadTimeBlockList(PrefConst.KEY_THUR_LIST));
-//        lists.add(loadTimeBlockList(PrefConst.KEY_FRI_LIST));
-//
-//        return lists;
-//    }
 
     /**
      * 時間割をろーど
@@ -65,13 +55,13 @@ public class PrefUtil {
      */
     public static List<List<TimeTable>> loadTimeBlockList(Context context) {
         List<List<TimeTable>> lists = new ArrayList<>();
+        lists.add((loadTimeBlockList(PrefConst.KEY_SUN_LIST,context)));
         lists.add((loadTimeBlockList(PrefConst.KEY_MON_LIST,context)));
         lists.add((loadTimeBlockList(PrefConst.KEY_TUE_LIST,context)));
         lists.add((loadTimeBlockList(PrefConst.KEY_WED_LIST,context)));
         lists.add((loadTimeBlockList(PrefConst.KEY_THUR_LIST,context)));
         lists.add((loadTimeBlockList(PrefConst.KEY_FRI_LIST,context)));
         lists.add((loadTimeBlockList(PrefConst.KEY_SAT_LIST,context)));
-        lists.add((loadTimeBlockList(PrefConst.KEY_SUN_LIST,context)));
 
         return lists;
     }
@@ -82,40 +72,16 @@ public class PrefUtil {
      */
     public static List<List<TimeTable>> loadOriginalTimeBlockList() {
         List<List<TimeTable>> lists = new ArrayList<>();
+        lists.add((loadTimeBlockList(PrefConst.KEY_SUN_LIST_ORIGINAL)));
         lists.add((loadTimeBlockList(PrefConst.KEY_MON_LIST_ORIGINAL)));
         lists.add((loadTimeBlockList(PrefConst.KEY_TUE_LIST_ORIGINAL)));
         lists.add((loadTimeBlockList(PrefConst.KEY_WED_LIST_ORIGINAL)));
         lists.add((loadTimeBlockList(PrefConst.KEY_THUR_LIST_ORIGINAL)));
         lists.add((loadTimeBlockList(PrefConst.KEY_FRI_LIST_ORIGINAL)));
         lists.add((loadTimeBlockList(PrefConst.KEY_SAT_LIST_ORIGINAL)));
-        lists.add((loadTimeBlockList(PrefConst.KEY_SUN_LIST_ORIGINAL)));
-
         return lists;
     }
 
-    /***
-     * 曜日ごとの時間割をロードするメソッド
-     *
-     * @param key
-     * @return
-     */
-//    public static List<TimeBlockItem> loadTimeBlockList(String key) {
-//        SharedPreferences sharedPreferences;
-//        List<TimeBlockItem> arrayList;
-//        sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_TIME_TABLE, Context.MODE_PRIVATE);
-//        arrayList = new Gson().fromJson(sharedPreferences.getString(key, ""), new TypeToken<List<TimeBlockItem>>() {
-//        }.getType());
-//
-//        try {
-//            if (arrayList.size() == 0) {
-//                arrayList = new ArrayList<>();
-//            }
-//        } catch (Exception e) {
-//            arrayList = new ArrayList<>();
-//        }
-//
-//        return arrayList;
-//    }
     public static List<TimeTable> loadTimeBlockList(String key) {
         return loadTimeBlockList(key, App.getAppContext());
     }
@@ -127,23 +93,6 @@ public class PrefUtil {
      * @param context
      * @return
      */
-//    public static List<TimeBlockItem> loadTimeBlockList(String key, Context context) {
-//        SharedPreferences sharedPreferences;
-//        List<TimeBlockItem> arrayList;
-//        sharedPreferences = context.getSharedPreferences(PrefConst.FILE_TIME_TABLE, Context.MODE_PRIVATE);
-//        arrayList = new Gson().fromJson(sharedPreferences.getString(key, ""), new TypeToken<List<TimeBlockItem>>() {
-//        }.getType());
-//
-//        try {
-//            if (arrayList.size() == 0) {
-//                arrayList = new ArrayList<>();
-//            }
-//        } catch (Exception e) {
-//            arrayList = new ArrayList<>();
-//        }
-//
-//        return arrayList;
-//    }
     public static List<TimeTable> loadTimeBlockList(String key, Context context) {
         SharedPreferences pref = context.getSharedPreferences(PrefConst.FILE_TIME_TABLE, Context.MODE_PRIVATE);
         List<TimeTable> list = new Gson().fromJson(pref.getString(key,""),new TypeToken<List<TimeTable>>(){}.getType());
@@ -228,8 +177,6 @@ public class PrefUtil {
         SharedPreferences sharedPreferences;
         List<NewsItem> arrayList;
         sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_NEWS, Context.MODE_PRIVATE);
-        arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_TANNIN_NEWS, ""), new TypeToken<List<NewsItem>>() {
-        }.getType());
 
         try {
             arrayList = new Gson().fromJson(sharedPreferences.getString(PrefConst.KEY_TANNIN_NEWS, ""), new TypeToken<List<NewsItem>>() {
@@ -242,6 +189,24 @@ public class PrefUtil {
         }
 
         return arrayList;
+    }
+
+    /**
+     * スケジュールを取得するメソッド
+     * @return
+     */
+    public static List<ScheduleRoot> loadSchedule(){
+        SharedPreferences preferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_SCHEDULE, Context.MODE_PRIVATE);
+        List<ScheduleRoot> scheduleRoots;
+        try{
+            scheduleRoots = new Gson().fromJson(preferences.getString(PrefConst.KEY_SCHEDULE, ""), new TypeToken<List<ScheduleRoot>>() {
+            }.getType());
+        } catch( Exception e) {
+            Log.d(TAG,e.toString());
+            scheduleRoots = new ArrayList<>();
+        }
+
+        return scheduleRoots;
     }
 
     /***
@@ -371,23 +336,6 @@ public class PrefUtil {
     //region save
     //**
 
-//    /**
-//     * 時間割（先生名を含めて）保存するメソッド
-//     *
-//     * @param html
-//     * @param htmls
-//     */
-//    public static void saveTimeTable(String html, List<String> htmls) {
-//        List<String> names = getTeacherNames(htmls);
-//        List<TimeBlockItem> tempList = createTempList(html, names);
-//
-//        saveTimeTableMon(createWeekList(tempList, 0));
-//        saveTimeTableTue(createWeekList(tempList, 1));
-//        saveTimeTableWed(createWeekList(tempList, 2));
-//        saveTimeTableThur(createWeekList(tempList, 3));
-//        saveTimeTableFri(createWeekList(tempList, 4));
-//    }
-
     /**
      * 時間割を保存するメソッド
      * @param timeTables
@@ -402,23 +350,6 @@ public class PrefUtil {
         saveTimeTableSun(createWeekList(timeTables, 0)); //日
     }
 
-//    /**
-//     * オリジナルの時間割を保存
-//     *
-//     * @param html
-//     * @param htmls
-//     */
-//    public static void saveTimeTableOriginal(String html, List<String> htmls) {
-//        List<String> names = getTeacherNames(htmls);
-//        List<TimeBlockItem> tempList = createTempList(html, names);
-//
-//        save(createWeekList(tempList, 0), PrefConst.KEY_MON_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
-//        save(createWeekList(tempList, 1), PrefConst.KEY_TUE_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
-//        save(createWeekList(tempList, 2), PrefConst.KEY_WED_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
-//        save(createWeekList(tempList, 3), PrefConst.KEY_THUR_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
-//        save(createWeekList(tempList, 4), PrefConst.KEY_FRI_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
-//    }
-
     /**
      * オリジナル時間割を保存するメソッド
      * @param timeTables
@@ -432,26 +363,6 @@ public class PrefUtil {
         save(createWeekList(timeTables, 6), PrefConst.KEY_SAT_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
         save(createWeekList(timeTables, 0), PrefConst.KEY_SUN_LIST_ORIGINAL, PrefConst.FILE_TIME_TABLE);
     }
-
-//    public static void saveTimeTableMon(List<TimeBlockItem> list) {
-//        save(list, PrefConst.KEY_MON_LIST, PrefConst.FILE_TIME_TABLE);
-//    }
-//
-//    public static void saveTimeTableTue(List<TimeBlockItem> list) {
-//        save(list, PrefConst.KEY_TUE_LIST, PrefConst.FILE_TIME_TABLE);
-//    }
-//
-//    public static void saveTimeTableWed(List<TimeBlockItem> list) {
-//        save(list, PrefConst.KEY_WED_LIST, PrefConst.FILE_TIME_TABLE);
-//    }
-//
-//    public static void saveTimeTableThur(List<TimeBlockItem> list) {
-//        save(list, PrefConst.KEY_THUR_LIST, PrefConst.FILE_TIME_TABLE);
-//    }
-//
-//    public static void saveTimeTableFri(List<TimeBlockItem> list) {
-//        save(list, PrefConst.KEY_FRI_LIST, PrefConst.FILE_TIME_TABLE);
-//    }
 
     public static void saveTimeTableMon(List<TimeTable> list) {
         save(list, PrefConst.KEY_MON_LIST, PrefConst.FILE_TIME_TABLE);
@@ -510,10 +421,12 @@ public class PrefUtil {
     }
 
     public static void saveStudentInfo(String html) {
+        String name = RegexUtil.getValues("id=\"ctl00_lblSimei\" style=\"[^\"]*\">(.+?)<",html);
         String classTxt = RegexUtil.getValues("id=\"ctl00_lblClass\" style=\"[^\"]*\">(.+?)</span>", html);
         String gakka = RegexUtil.getValues("id=\"ctl00_lblGakka\" style=\"[^\"]*\">(.+?)</span>", html);
         String course = RegexUtil.getValues("id=\"ctl00_lblCourse\" style=\"[^\"]*\">(.+?)</span>", html);
         String shusekiNum = RegexUtil.getValues("id=\"ctl00_lblSyuseki\" style=\"[^\"]*\">(.+?)</span>", html);
+        save(name, PrefConst.KEY_USER_NAME,PrefConst.FILE_ID_PASS);
         save(classTxt, PrefConst.KEY_CLASS, PrefConst.FILE_ID_PASS);
         save(gakka, PrefConst.KEY_GAKKA, PrefConst.FILE_ID_PASS);
         save(course, PrefConst.KEY_COURSE, PrefConst.FILE_ID_PASS);
@@ -523,21 +436,19 @@ public class PrefUtil {
     /**
      * 学校からのお知らせを保存するメソッド
      *
-     * @param html
+     *
      */
-    public static void saveSchoolNews(String html) {
-        List<NewsItem> list = createSchoolNewsList(html);
-        save(list, PrefConst.KEY_SCHOOL_NEWS, PrefConst.FILE_NEWS);
+    public static void saveSchoolNews(List<NewsItem> newsItems) {
+        save(newsItems,PrefConst.KEY_SCHOOL_NEWS,PrefConst.FILE_NEWS);
     }
 
     /**
      * 担任からのお知らせを保存するメソッド
      *
-     * @param html
+     * @param newsItems
      */
-    public static void saveTanninNews(String html) {
-        List<NewsItem> list = createTanninNewsList(html);
-        save(list, PrefConst.KEY_TANNIN_NEWS, PrefConst.FILE_NEWS);
+    public static void saveTanninNews(List<NewsItem> newsItems) {
+        save(newsItems,PrefConst.KEY_TANNIN_NEWS,PrefConst.FILE_NEWS);
     }
 
     /**
@@ -651,6 +562,32 @@ public class PrefUtil {
         save(date ,PrefConst.KEY_LATEST_UPDATE_DATA,PrefConst.FILE_UTIL);
     }
 
+    /**
+     * 0限5限有効無効
+     */
+    public static void saveEnableZeroGen(boolean bool){
+        save(bool, PrefConst.KEY_ENABLE_ZERO_GEN, PrefConst.FILE_UTIL);
+    }
+
+    public static void saveEnableGoGen(boolean bool){
+        save(bool, PrefConst.KEY_ENABLE_GO_GEN, PrefConst.FILE_UTIL);
+    }
+
+    /**
+     * 土日有効無効
+     */
+    public static void saveEnableSunCol(boolean bool){
+        save(bool, PrefConst.KEY_ENABLE_SUN_COL, PrefConst.FILE_UTIL);
+    }
+
+    public static void saveEnableSatCol(boolean bool){
+        save(bool, PrefConst.KEY_ENABLE_SAT_COL, PrefConst.FILE_UTIL);
+    }
+
+    public static void saveSchedule(List<ScheduleRoot> scheduleRoots){
+        save(scheduleRoots, PrefConst.KEY_SCHEDULE, PrefConst.FILE_SCHEDULE);
+    }
+
     //**
     //endregion
     //**
@@ -727,6 +664,33 @@ public class PrefUtil {
     }
 
 
+    /**
+     * 0限5限有効無効
+     */
+    public static boolean isEnableZeroGen(){
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(PrefConst.KEY_ENABLE_ZERO_GEN, false);
+    }
+
+    public static boolean isEnableGoGen(){
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(PrefConst.KEY_ENABLE_GO_GEN, false);
+    }
+
+    /**
+     * 土日有効無効
+     */
+    public static boolean isEnableSunCol(){
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(PrefConst.KEY_ENABLE_SUN_COL, false);
+    }
+
+    public static boolean isEnableSatCol(){
+        SharedPreferences sharedPreferences = App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(PrefConst.KEY_ENABLE_SAT_COL, false);
+    }
+
+
     //**
     //endregion
     //**
@@ -746,6 +710,7 @@ public class PrefUtil {
         App.getAppContext().getSharedPreferences(PrefConst.FILE_NEWS, Context.MODE_PRIVATE).edit().clear().apply();
         App.getAppContext().getSharedPreferences(PrefConst.FILE_ID_PASS, Context.MODE_PRIVATE).edit().clear().apply();
         App.getAppContext().getSharedPreferences(PrefConst.FILE_UTIL, Context.MODE_PRIVATE).edit().clear().apply();
+        App.getAppContext().getSharedPreferences(PrefConst.FILE_SCHEDULE, Context.MODE_PRIVATE).edit().clear().apply();
         PreferenceManager.getDefaultSharedPreferences(App.getAppContext()).edit().clear().apply();
     }
 
@@ -803,14 +768,16 @@ public class PrefUtil {
             AttendanceRate attendanceRate = new AttendanceRate();
 
             String narrowHtml = m.group();
+            Log.d(TAG,"narrowHtml : " + narrowHtml);
 
             String subject = RegexUtil.getValues("<img(?:\\\".*?\\\"|\\'.*?\\'|[^\\'\\\"])*?>(.+?)</a>", narrowHtml);
             attendanceRate.setSubjectName(subject);
-
+            Log.d(TAG,"subject : " + subject);
             int count = 0;
             Matcher m2 = RegexUtil.getGroupValues("<td(?:\\\".*?\\\"|\\'.*?\\'|[^\\'\\\"])*?>(.*?)</td>", narrowHtml);
             while (m2.find()) {
                 String str = m2.group(1);
+                Log.d(TAG,"count : " + count +" " +str);
                 str = RegexUtil.deletePercent(str);
                 str = RegexUtil.deleteNBSPTo0(str);
                 switch (count) {
@@ -880,73 +847,6 @@ public class PrefUtil {
     //region 時間割関連
     //**
 
-//    /**
-//     * @param subject
-//     * @param room
-//     * @param name
-//     * @param row
-//     * @param col
-//     * @return
-//     */
-//    private static TimeBlockItem createTimeBlockModel(String subject, String room, String name, int row, int col) {
-//        TimeBlockItem model = new TimeBlockItem();
-//        model.setSubject(subject);
-//        model.setClassRoom(room);
-//        model.setTeacherName(name);
-//        model.setRowNum(row);
-//        model.setColNum(col);
-//        return model;
-//    }
-//
-//    /***
-//     * 曜日別ではなくhtmlソースをの頭から順に時間割のセルごとのリストを作成するメソッド
-//     * 曜日別に保存したいのでこのメソッドを実行した後にcreateWeekListを実行
-//     *
-//     * @param html
-//     * @param names
-//     * @return
-//     */
-//    private static List<TimeBlockItem> createTempList(String html, List<String> names) {
-//        List<TimeBlockItem> temp = new ArrayList<>();
-//
-//        html = RegexUtil.replaceCRLF(html, true);
-//        String narrowHtml = RegexUtil.narrowingValues("<div id=\"timetable_col\" class=\"col\">", "<div class=\"col\">", html);
-//
-//        int rowNum = 1; //1〜
-//        int teacherIndex = 0;
-//        boolean flg = true;
-//
-//        Matcher row = RegexUtil.getGroupValues("<th class=\"term\">.*?</tr>", narrowHtml);
-//        while (row.find()) {
-//
-//            //１行目はヘッダのため無視
-//            if (flg) {
-//                flg = false;
-//                continue;
-//            }
-//
-//            Matcher col = RegexUtil.getGroupValues("<td>(.+?)</td>", row.group());
-//            int colNum = 1; //1〜
-//            while (col.find()) {
-//                String colHtml = col.group();
-//
-//                String subject = "";
-//                String room = "";
-//                String teacherName = "";
-//                if (RegexUtil.containsCheck("<li>", colHtml)) {
-//                    subject = RegexUtil.getValues("<td>\\s*<ul>\\s*<li>(.+?)</li>", colHtml);
-//                    room = RegexUtil.getValues("</li>\\s*<li>(.+?)</li>", colHtml);
-//                    teacherName = names.get(teacherIndex++);
-//                }
-//
-//                TimeBlockItem model = createTimeBlockModel(subject, room, teacherName, rowNum, colNum++);
-//                temp.add(model);
-//            }
-//            rowNum++;
-//        }
-//        return temp;
-//    }
-
     /***
      * 引数のnumを利用して曜日ごとに振り分けるメソッド
      * num 1 = 月曜日
@@ -956,13 +856,15 @@ public class PrefUtil {
      */
     private static List<TimeTable> createWeekList(List<TimeTable> timeTables, int num) {
         List<TimeTable> tmp = new ArrayList<>();
-        timeTables.forEach(timeTable -> {
+        for(TimeTable timeTable:timeTables){
+            // 引数で指定された曜日のリストtmpを作成
             if (timeTable.getWeek() == num) tmp.add(timeTable);
-        });
+        }
 
         //　ソートする
         List<TimeTable> list = new ArrayList<>();
-        for(int i = 1; i< 5; i++){
+        // 0限から5限まで回す
+        for(int i = 0; i<= 5; i++){
             boolean flg = false;
             for(int j = 0; j < tmp.size(); j++){
                 if(tmp.get(j).getTerm() == i) {
@@ -972,7 +874,10 @@ public class PrefUtil {
             }
             if(!flg) {
                 // 空のオブジェクトを入れる
-                list.add(new TimeTable());
+                TimeTable timeTable = new TimeTable();
+                timeTable.setTerm(i);
+                timeTable.setWeek(num);
+                list.add(timeTable);
             }
         }
 
@@ -982,126 +887,6 @@ public class PrefUtil {
     //**
     //endregion
     //**
-
-
-    //**
-    //region 先生名関連
-    //**
-
-    /***
-     * 先生名リストを作成するメソッド
-     *
-     * @param htmls
-     * @return
-     */
-    private static List<String> getTeacherNames(List<String> htmls) {
-        List<String> names = new ArrayList<>();
-        for (String html : htmls) {
-            String name = getTeacherName(html);
-            names.add(name);
-        }
-        return names;
-    }
-
-    /***
-     * htmlソースから先生名を取得するメソッド
-     *
-     * @param html
-     * @return
-     */
-    private static String getTeacherName(String html) {
-        html = RegexUtil.replaceCRLF(html, true);
-        String teacherName = RegexUtil.getValues("<h3>受信者</h3>    <p>(.+?)</p>", html);
-        teacherName = fixTeacherName(teacherName);
-        return teacherName;
-    }
-
-    /***
-     * 不要な空白を取り除くメソッド
-     *
-     * @param teacherName
-     * @return
-     */
-    private static String fixTeacherName(String teacherName) {
-        teacherName = teacherName.replace("     ", " ");
-        teacherName = teacherName.replace("    ", " ");
-        teacherName = teacherName.replace("   ", " ");
-        teacherName = teacherName.replace("  ", " ");
-
-        return teacherName.trim();
-    }
-
-    //**
-    //endregion
-    //**
-
-
-    //**
-    //region お知らせ関連
-    //**
-
-    /***
-     * 学校からのお知らせリストを作成するメソッド
-     *
-     * @param html
-     * @return
-     */
-    private static List<NewsItem> createSchoolNewsList(String html) {
-        html = RegexUtil.replaceCRLF(html, true);
-        String narrowHtml = RegexUtil.narrowingValues("<div id=\"school_news_col\" class=\"col\">", "<div id=\"shcool_event_col\"", html);
-        List<NewsItem> schoolNewsList = new ArrayList<>();
-
-        Matcher m = RegexUtil.getGroupValues("<div class=\"wrapper\">(.+?)</div>", narrowHtml);
-        while (m.find()) {
-            String groupHtml = m.group(1);
-            String groupTitle = RegexUtil.getValues("<h3>(.+?)</h3>", groupHtml);
-
-            schoolNewsList.add(new NewsItem(groupTitle));
-            schoolNewsList.addAll(createNewsList(groupHtml));
-        }
-        return schoolNewsList;
-    }
-
-    /**
-     * 担任からのお知らせリストを作成するメソッド
-     *
-     * @param html
-     * @return
-     */
-    private static List<NewsItem> createTanninNewsList(String html) {
-        html = RegexUtil.replaceCRLF(html, true);
-        String narrowHtml = RegexUtil.narrowingValues("<h2>担任からのお知らせ</h2>", "</div>", html);
-        List<NewsItem> tanninNewsList = createNewsList(narrowHtml);
-        return tanninNewsList;
-    }
-
-    /**
-     * 与えられた引数の文字列からニュースリストを作成する
-     *
-     * @param narrowHtml
-     * @return
-     */
-    private static List<NewsItem> createNewsList(String narrowHtml) {
-        List<NewsItem> list = new ArrayList<>();
-
-        Matcher m = RegexUtil.getGroupValues("<li>(.*?)</li>", narrowHtml);
-        while (m.find()) {
-            String news = m.group();
-            String date = RegexUtil.getValues("class=\"date\">(.+?)<", news);
-            String uri = RegexUtil.getValues("<a href=\"(.+?)\">", news);
-            String title = RegexUtil.getValues("<a href=\"[^\"]*\">(.+?)</a>", news);
-
-            list.add(new NewsItem(title, date, uri));
-        }
-
-        return list;
-    }
-
-
-    //**
-    //endregion
-    //**
-
 
     //**
     //region 実際に保存するメソッド

@@ -2,11 +2,10 @@ package jp.yuta.kohashi.esc.network.api.model.news;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-import jp.yuta.kohashi.esc.network.api.model.timeTable.TimeTable;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Author : yutakohashi
@@ -14,10 +13,12 @@ import lombok.Setter;
  * Date : 10 / 04 / 2017
  */
 @Getter
-@Setter
-public class RootNews {
+public class NewsArray implements Serializable{
+    // API正常実行
     @SerializedName("code")
     String code;
+
+    // お知らせArray
     @SerializedName("notices")
-    List<TimeTable> notices;
+    List<NewsItem> newsArray;
 }

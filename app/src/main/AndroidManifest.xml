@@ -47,6 +47,9 @@
         <activity
             android:name=".ui.activity.TimeTableChangeActivity"
             android:configChanges="orientation|screenSize" />
+        <activity android:name=".ui.activity.TimeTableEnableDisableActivity"
+            android:theme="@style/PrefTheme"
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".ui.activity.AttendanceRateChangeColorActivity"
             android:configChanges="orientation|screenSize"

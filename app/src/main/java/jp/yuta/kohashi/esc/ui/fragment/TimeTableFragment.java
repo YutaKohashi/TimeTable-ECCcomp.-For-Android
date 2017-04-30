@@ -33,7 +33,17 @@ public class TimeTableFragment extends Fragment implements TimeTableView.OnCellC
     @Override
     public void onResume() {
         super.onResume();
+        /**
+         * onResumeでデータをセットすることで設定から
+         * MainActiivtyに戻ってきたときにデータを更新することができる
+         * 日曜土曜の表示有無も適用できる
+         */
+        mTimeTableView.isEnableGoGen(PrefUtil.isEnableGoGen());
+        mTimeTableView.isEnableZeroGen(PrefUtil.isEnableZeroGen());
         mTimeTableView.setData(PrefUtil.loadTimeBlockList());
+        mTimeTableView.isEnableSatCol(PrefUtil.isEnableSatCol());
+        mTimeTableView.isEnableSunCol(PrefUtil.isEnableSunCol());
+//        mTimeTableView.notifyDataSetChanged();
     }
 
     private View initView() {
@@ -52,13 +62,10 @@ public class TimeTableFragment extends Fragment implements TimeTableView.OnCellC
     @Override
     public void onCellClick(List<TimeTable> items, TimeTable model) {
         if (TextUtils.isEmpty(model.getLessonName())) return;
-        String teacher = "";
-        if(model.getTeachers() != null)
-            teacher = model.getTeachers().get(0).getFamilyName() + " " + model.getTeachers().get(0).getFirstName();
 
         new TimeTableBottomSheet.Builder(this)
                 .subject(model.getLessonName())
-                .teacher(teacher)
+                .teacher(model.getTeacherNames())
                 .time(getTime(model.getTerm()))
                 .build()
                 .show();

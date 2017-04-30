@@ -14,7 +14,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class TeacherTImeTable implements Serializable {
+public class TeacherTimeTable implements Serializable {
     // 先生名字
     @SerializedName("first_name")
     String firstName;
@@ -24,4 +24,10 @@ public class TeacherTImeTable implements Serializable {
     // 1: メイン 0: チューター
     @SerializedName("category")
     String  category;
+
+    public TeacherTimeTable(String name){
+        this.firstName = name;
+        this.familyName = "";
+        this.category = "1";
+    }
 }

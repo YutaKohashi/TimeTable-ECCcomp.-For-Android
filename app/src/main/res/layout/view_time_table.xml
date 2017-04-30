@@ -9,8 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="40sp"
         android:background="#f7f7f7"
-        android:orientation="horizontal"
-        android:weightSum="5">
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/sun_col_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/week_header_right"
+            android:gravity="center"
+            android:text="@string/sun_string"
+            android:textColor="@android:color/black" />
 
         <TextView
             android:id="@+id/mon_col_name"
@@ -60,6 +69,16 @@
             android:gravity="center"
             android:text="@string/fri_string"
             android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/sat_col_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/week_header_right"
+            android:gravity="center"
+            android:text="@string/sat_string"
+            android:textColor="@android:color/black" />
     </LinearLayout>
 
     <android.support.v4.widget.NestedScrollView
@@ -72,8 +91,13 @@
             android:layout_height="match_parent"
             android:baselineAligned="false"
             android:fadeScrollbars="false"
-            android:orientation="horizontal"
-            android:weightSum="5">
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/sun_col"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/mon_col"
@@ -104,6 +128,13 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/sat_col"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

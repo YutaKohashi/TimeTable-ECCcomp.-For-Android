@@ -21,7 +21,7 @@ public class TimeTableChangeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_time_table);
+        setContentView(R.layout.activity_time_table_change);
 
         initToolbar();
         enableBackBtn();

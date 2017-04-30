@@ -15,12 +15,14 @@ import java.util.List;
 
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.NewsItem;
 import jp.yuta.kohashi.esc.network.HttpConnector;
+import jp.yuta.kohashi.esc.network.api.model.news.NewsItem;
 import jp.yuta.kohashi.esc.ui.activity.LoginCheckActivity;
 import jp.yuta.kohashi.esc.ui.activity.MainActivity;
 import jp.yuta.kohashi.esc.ui.activity.NewsDetailActivity;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
+
+//import jp.yuta.kohashi.esc.model.NewsItem;
 
 public class EccNewsManageService extends BasePeriodicService {
     private final String TAG = EccNewsManageService.class.getSimpleName();

@@ -91,6 +91,8 @@
                 android:layout_height="match_parent"
                 android:background="@color/white">
 
+
+
                 <ScrollView
                     android:id="@+id/container_web_view"
                     android:layout_width="match_parent"
@@ -99,11 +101,22 @@
                     android:background="@color/white"
                     android:scrollbars="vertical">
 
-                    <WebView
-                        android:id="@+id/webView"
+                    <TextView
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="13dp"
+                        android:paddingLeft="13dp"
+                        android:textSize="16sp"
+                        android:textColor="@color/news_body_text_color"
+                        android:id="@+id/body_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white" />
+                        android:background="@color/white"/>
+                    <!--<WebView-->
+                        <!--android:id="@+id/webView"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="@color/white" />-->
 
                 </ScrollView>
 
@@ -125,5 +138,27 @@
                     app:shadowHeight="5dp" />
             </RelativeLayout>
         </LinearLayout>
+
+        <com.rey.material.widget.ProgressView
+            android:id="@+id/progress_view"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:pv_circular="true"
+            app:pv_progressStyle="@style/Material.Drawable.CircularProgress"
+            app:pv_progressMode="indeterminate"
+            app:cpd_strokeColor="@color/colorPrimaryDark"
+            android:layout_centerInParent="true" />
+
+        <!--<me.zhanghai.android.materialprogressbar.MaterialProgressBar-->
+            <!--android:id="@+id/material_progress_bar"-->
+            <!--app:mpb_progressTint="@color/colorPrimaryDark"-->
+            <!---->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:layout_width="48dp"-->
+            <!--android:layout_height="48dp"-->
+            <!--android:indeterminate="true"-->
+            <!--app:mpb_progressStyle="circular"-->
+            <!--style="@style/Widget.MaterialProgressBar.ProgressBar" />-->
+
     </RelativeLayout>
 </RelativeLayout>

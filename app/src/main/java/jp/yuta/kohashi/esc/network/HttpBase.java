@@ -24,7 +24,7 @@ import okhttp3.Response;
 
 public class HttpBase {
 
-    private static String TAG = HttpBase.class.getSimpleName();
+    private final static String TAG = HttpBase.class.getSimpleName();
 
     private static OkHttpClient mClient;
     private static CookieManager cookieManager;

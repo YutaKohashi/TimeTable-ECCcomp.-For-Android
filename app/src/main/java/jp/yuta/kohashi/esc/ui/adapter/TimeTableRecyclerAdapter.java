@@ -2,11 +2,11 @@ package jp.yuta.kohashi.esc.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,9 +27,20 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
     private LayoutInflater mLayoutInflater;
     private int color;
 
+    /**
+     * 0限有効無効フラグ
+     * default:true
+     */
+    private boolean isEnableZeroGen;
+
+    /**
+     * 5限有効無効フラグ
+     * default:true
+     */
+    private boolean isEnableGoGen;
 
     // タップされたときに呼び出されるメソッド
-    protected void onItemClicked(@NonNull List<TimeTable> items, TimeTable model) {
+    public void onItemClicked(@NonNull List<TimeTable> items, TimeTable model) {
     }
 
     public TimeTableRecyclerAdapter(List<TimeTable> items, int color, Context context) {
@@ -39,6 +50,8 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
         this.items.addAll(items);
         this.mContext = context;
         this.color = color;
+        isEnableZeroGen = true;
+        isEnableGoGen = true;
     }
 
     @Override
@@ -46,12 +59,10 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
         View v = mLayoutInflater.inflate(R.layout.cell_time_table, parent, false);
         final TimeViewHolder holder = new TimeViewHolder(v);
         // onCreateViewHolder でリスナーをセット
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = holder.getAdapterPosition();
-                onItemClicked(items, items.get(position));
-            }
+        holder.itemView.setOnClickListener(v1 -> {
+            int position = holder.getAdapterPosition();
+            if (!isEnableZeroGen) position += 1;
+            onItemClicked(items, items.get(position));
         });
 
         return holder;
@@ -61,15 +72,30 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
     public void onBindViewHolder(TimeViewHolder holder, int position) {
 //        holder.subjectName.setText(items.get(position).getSubject());
 //        holder.roomName.setText(items.get(position).getClassRoom());
+        /**
+         * 0限が無効の時
+         */
+//        if(!isEnableZeroGen) position -=1;
+        if (!isEnableZeroGen) position += 1;
+
         holder.subjectName.setText(items.get(position).getLessonName());
         holder.roomName.setText(items.get(position).getRoom());
 
         holder.roomName.setBackgroundColor(Util.getColor(color));
+//
+//        /**
+//         * 0限 5限の設定を反映
+//         */
+//        if (position == 0 && !isEnableZeroGen) holder.root.setVisibility(View.GONE);
+//        if(position == 5 && !isEnableGoGen) holder.root.setVisibility(View.GONE);
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        int count = items.size();
+        if (!isEnableZeroGen) count -= 1;
+        if(!isEnableGoGen) count -= 1;
+        return count;
     }
 
     public void swap(List<TimeTable> items) {
@@ -78,17 +104,32 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
         notifyDataSetChanged();
     }
 
-    //ViewHolder
-    public static class TimeViewHolder extends RecyclerView.ViewHolder {
+    /**
+     * 0限5限の有効無効設定
+     */
+    public void isEnableZeroGen(boolean bool){
+        isEnableZeroGen = bool;
+    }
+    public void isEnableGoGen(boolean bool){
+        isEnableGoGen = bool;
+    }
 
-        CardView container;
+
+
+    //***************************************************************************************************
+    // ViewHolder
+    class TimeViewHolder extends RecyclerView.ViewHolder {
+
+        FrameLayout container;
+        View root;
         // Campos respectivos de un item
-        public TextView subjectName;
-        public TextView roomName;
+        TextView subjectName;
+        TextView roomName;
 
-        public TimeViewHolder(View v) {
+        TimeViewHolder(View v) {
             super(v);
-            container = (CardView) v.findViewById(R.id.card_view_time_block);
+            root  = v.findViewById(R.id.root);
+            container = (FrameLayout) v.findViewById(R.id.card_view_time_block);
             subjectName = (TextView) v.findViewById(R.id.text_subject);
             roomName = (TextView) v.findViewById(R.id.text_classRoom);
         }

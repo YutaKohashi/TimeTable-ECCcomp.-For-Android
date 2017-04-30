@@ -2,6 +2,7 @@ package jp.yuta.kohashi.esc.network.api.model.schedule;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.Getter;
@@ -14,11 +15,15 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class RowSchedule {
+public class ScheduleCategory implements Serializable{
+    /**
+     * category_id": 1,
+     "title": "全体予定"
+     */
     @SerializedName("category_id")
     String category_id;
     @SerializedName("title")
     String title;
     @SerializedName("details")
-    List details;
+    List<ScheduleItem> details;
 }

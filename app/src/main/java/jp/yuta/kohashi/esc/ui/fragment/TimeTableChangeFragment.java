@@ -69,6 +69,7 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
             List<TimeTable> list = createSaveList(after);
             saveList(list);
             NotifyUtil.saveData();
+            //TODO:時間割のセルが更新された場合すべてのデータを読み込み直している,変更した列のみ読み込みなおすように改善すべき
             mTimeTableView.loadList(PrefUtil.loadTimeBlockList());
             mTimeTableView.swapAll();
         } else {
@@ -101,15 +102,12 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
     // execute from activity
     public void allReset() {
         timeBlockLists = PrefUtil.loadOriginalTimeBlockList();
-        mTimeTableView.allReset(timeBlockLists, new TimeTableView.CallBack() {
-            @Override
-            public void callback() {
-                // オリジナルリストをデフォルトリストに反映
-                for (List<TimeTable> list : timeBlockLists) {
-                    saveList(list);
-                }
-                NotifyUtil.allReset();
+        mTimeTableView.allReset(timeBlockLists, () -> {
+            // オリジナルリストをデフォルトリストに反映
+            for (List<TimeTable> list : timeBlockLists) {
+                saveList(list);
             }
+            NotifyUtil.allReset();
         });
     }
 
@@ -121,6 +119,9 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
     private void saveList(List<TimeTable> items) {
         // 曜日別
         switch (items.get(0).getWeek()) {
+            case 0:
+                PrefUtil.saveTimeTableSun(items);
+                break;
             case 1:
                 PrefUtil.saveTimeTableMon(items);
                 break;
@@ -135,6 +136,9 @@ public class TimeTableChangeFragment extends Fragment implements TimeTableInputD
                 break;
             case 5:
                 PrefUtil.saveTimeTableFri(items);
+                break;
+            case 6:
+                PrefUtil.saveTimeTableSat(items);
                 break;
         }
     }

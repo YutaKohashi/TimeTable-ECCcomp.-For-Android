@@ -41,6 +41,8 @@
     <color name="bg_blackout">#5b5b5b</color>
     <color name="bg_default_card_view">#f9f9f9</color>
 
+    <color name="news_body_text_color">#414141</color>
+
     <!--トースト-->
     <color name="bg_toast">#545454</color>
 

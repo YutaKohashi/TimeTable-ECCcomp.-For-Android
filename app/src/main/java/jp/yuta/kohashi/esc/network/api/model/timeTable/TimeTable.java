@@ -3,6 +3,7 @@ package jp.yuta.kohashi.esc.network.api.model.timeTable;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -39,15 +40,40 @@ public class TimeTable implements Serializable {
     String course;
     // 先生（リスト）
     @SerializedName("teachers")
-    List<TeacherTImeTable> teachers;
+    List<TeacherTimeTable> teachers;
+
+    public TimeTable(){
+        id = "";
+        week = -1;
+        term = -1;
+        lessonCode = "";
+        lessonName = "";
+        room = "";
+        course = "";
+        teachers = new ArrayList<>();
+    }
 
     public boolean equals(TimeTable timeTable){
-        if(this.lessonName.equals(timeTable.lessonName)  && this.room.equals(timeTable.room)){
+        if(this.lessonName.equals(timeTable.lessonName)  &&
+                this.room.equals(timeTable.room) &&
+                (this.getTeachers().equals(timeTable.getTeacherNames()))){
             return true;
         }
         return false;
     }
 
 
+    public String getTeacherNames(){
+        String teacher = "";
+        if(this.getTeachers() != null) {
+            for(TeacherTimeTable teacherTimeTable: this.getTeachers()){
+                teacher += teacherTimeTable.getFamilyName() + " " + teacherTimeTable.getFirstName();
+                teacher += " , ";
+            }
+            // 最後のカンマを削除
+            if(teacher.length() >= 3) teacher = teacher.substring(0, teacher.length()-3);
+        }
+        return teacher.trim();
+    }
 
 }

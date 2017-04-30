@@ -2,6 +2,8 @@ package jp.yuta.kohashi.esc.network.api.model.schedule;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,17 +14,21 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class CellSchedule {
+public class ScheduleItem implements Serializable{
     @SerializedName("date")
     String date;
     @SerializedName("year")
-    String year;
+    Integer year;
     @SerializedName("month")
-    String month;
+    Integer month;
     @SerializedName("day")
-    String day;
+    Integer day;
     @SerializedName("week")
-    String week;
+    Integer week;
+
+    /**
+     * 内容
+     */
     @SerializedName("body")
     String body;
 }

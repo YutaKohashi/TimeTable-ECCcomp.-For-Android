@@ -2,6 +2,7 @@ package jp.yuta.kohashi.esc.ui.view;
 
 import android.content.Context;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -15,7 +16,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.schedule.CalendarItem;
+import jp.yuta.kohashi.esc.network.api.model.schedule.ScheduleItem;
+import jp.yuta.kohashi.esc.network.api.model.schedule.ScheduleRoot;
 import jp.yuta.kohashi.esc.util.Util;
 
 /**
@@ -47,13 +49,16 @@ public class CalendarView extends LinearLayout {
      * @param year
      * @param month
      */
-    public void setMonth(int year, int month, List<CalendarItem> scheduleList) {
+    public void setMonth(int year, int month, ScheduleRoot scheduleRoot) {
 //        this.year = year;
 //        this.month = month;
         //get Root calender View
 
-        List<String> dayList = new ArrayList<>(); //　バッジを付けるリスト
-        for(CalendarItem model:scheduleList)dayList.add(model.getDate());
+        List<ScheduleItem> items = scheduleRoot.getSchedules().get(0).getDetails();
+        List<Integer> dayList = new ArrayList<>(); //　バッジを付けるリスト
+        for(ScheduleItem item:items){
+            if(!TextUtils.isEmpty(item.getBody())) dayList.add(item.getDay());
+        }
 
         Calendar calendar = Calendar.getInstance();
 
@@ -158,7 +163,7 @@ public class CalendarView extends LinearLayout {
                 }
 
 //                dateListに含まれる場合
-                if(dayList.contains(String.format("%02d",dayCount))){
+                if(dayList.contains(dayCount)){
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         textView1.setBackground(Util.getDrawable(R.drawable.bg_calendar_budge));
                     } else {

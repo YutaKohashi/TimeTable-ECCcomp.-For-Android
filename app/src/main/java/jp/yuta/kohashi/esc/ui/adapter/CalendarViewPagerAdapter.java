@@ -4,9 +4,10 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-import jp.yuta.kohashi.esc.model.schedule.CalendarList;
+import java.util.List;
+
+import jp.yuta.kohashi.esc.network.api.model.schedule.ScheduleRoot;
 import jp.yuta.kohashi.esc.ui.fragment.CalendarBottomFragment;
-import jp.yuta.kohashi.esc.util.Util;
 
 /**
  * Created by yutakohashi on 2017/02/06.
@@ -15,16 +16,22 @@ import jp.yuta.kohashi.esc.util.Util;
 public class CalendarViewPagerAdapter extends BaseFragmentPagerAdapter{
     private static final String TAG = CalendarViewPagerAdapter.class.getSimpleName();
 
-    private CalendarList mCalendarList;
+//    private CalendarList mCalendarList;
+    private List<ScheduleRoot> scheduleRoots;
 
-    public CalendarViewPagerAdapter(FragmentManager fm, CalendarList list,Context context) {
+    public CalendarViewPagerAdapter(FragmentManager fm, List<ScheduleRoot> scheduleRoots ,Context context) {
         super(fm,context);
         mPagerCount = 12;
-        mCalendarList = list;
+//        mCalendarList = list;
+        this.scheduleRoots = scheduleRoots;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return  new CalendarBottomFragment().newInstance(mCalendarList.get(Util.getTabPositionToMonth(position)));
+        CalendarBottomFragment fragment = new CalendarBottomFragment();
+        fragment.setList(scheduleRoots.get(position));
+//         return  new CalendarBottomFragment().newInstance(scheduleRoots.get(Util.getTabPositionToMonth(position)));
+//        return  new CalendarBottomFragment().newInstance(scheduleRoots.get(position));
+        return fragment;
     }
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_attendance_rate_change_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary9"
+    tools:context="jp.yuta.kohashi.esc.ui.activity.TimeTableEnableDisableActivity">
+
+    <include
+        android:id="@+id/appbar"
+        layout="@layout/view_appbar" />
+
+    <fragment
+        android:id="@+id/attendance_divide_fragment"
+        android:name="jp.yuta.kohashi.esc.ui.fragment.TimeTableEnableDisableFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appbar"
+        tools:context="jp.yuta.kohashi.esc.ui.fragment.TimeTableEnableDisableFragment"
+        />
+</RelativeLayout>

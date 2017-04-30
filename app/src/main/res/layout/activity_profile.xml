@@ -31,7 +31,7 @@
 
             <RelativeLayout
                 android:layout_width="300dp"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="30dp"
                 android:background="@color/colorPrimary"
@@ -42,14 +42,15 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="5dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginBottom="4dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
                         android:layout_weight="1">
 
                         <TextView
@@ -68,14 +69,16 @@
                             android:layout_weight="7"
                             android:gravity="center_vertical"
                             android:text="00000"
+                            android:maxLines="1"
                             android:textColor="@color/info_content"
                             android:textSize="16sp" />
 
                     </LinearLayout>
 
                     <LinearLayout
+                        android:layout_marginTop="5dp"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1">
 
                         <TextView
@@ -95,14 +98,15 @@
                             android:gravity="center_vertical"
                             android:text="◯◯◯◯◯◯"
                             android:textColor="@color/info_content"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            android:maxLines="1"/>
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="300dp"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="30dp"
                 android:background="@color/colorPrimary"
@@ -113,13 +117,14 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1">
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:layout_width="0dp"
@@ -133,19 +138,21 @@
                         <TextView
                             android:id="@+id/gakka"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_weight="7"
                             android:gravity="center_vertical"
+                            android:maxLines="1"
                             android:text="◯◯◯◯◯◯"
                             android:textColor="@color/info_content"
                             android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
+
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginBottom="4dp"
-                        android:layout_weight="1">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp">
 
                         <TextView
                             android:layout_width="0dp"
@@ -163,15 +170,16 @@
                             android:layout_weight="7"
                             android:gravity="center_vertical"
                             android:text="00000"
+                            android:maxLines="1"
                             android:textColor="@color/info_content"
                             android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginBottom="4dp"
-                        android:layout_weight="1">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp">
 
                         <TextView
                             android:layout_width="0dp"
@@ -189,6 +197,7 @@
                             android:layout_weight="7"
                             android:gravity="center_vertical"
                             android:text="00000"
+                            android:maxLines="1"
                             android:textColor="@color/info_content"
                             android:textSize="16sp" />
 
@@ -196,8 +205,9 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp">
 
                         <TextView
                             android:layout_width="0dp"
@@ -205,6 +215,7 @@
                             android:layout_weight="3"
                             android:gravity="center_vertical"
                             android:text="@string/shuseki_num"
+
                             android:textColor="@color/info_content"
                             android:textSize="14sp" />
 
@@ -215,6 +226,7 @@
                             android:layout_weight="7"
                             android:gravity="center_vertical"
                             android:text="◯◯◯◯◯◯"
+                            android:maxLines="1"
                             android:textColor="@color/info_content"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -225,7 +237,7 @@
 
             <RelativeLayout
                 android:layout_width="300dp"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="30dp"
                 android:background="@color/colorPrimary"
@@ -244,54 +256,55 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/info_school_title"
                     android:orientation="vertical"
                     android:padding="5dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="2">
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:layout_marginBottom="3dp">
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_weight="3"
                             android:text="@string/school_place"
                             android:textColor="@color/info_content"
-                            android:textSize="13sp" />
+                            android:textSize="14sp"/>
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_weight="7"
                             android:text="@string/school_street_address"
                             android:textColor="@color/info_content"
-                            android:textSize="13sp" />
+                            android:textSize="16sp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1">
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_weight="3"
                             android:text="@string/school_phone"
                             android:textColor="@color/info_content"
-                            android:textSize="13sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_weight="7"
                             android:text="@string/school_phone_num"
                             android:textColor="@color/info_content"
-                            android:textSize="13sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>

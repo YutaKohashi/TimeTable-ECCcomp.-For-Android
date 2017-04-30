@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.anprosit.android.promise.Callback;
-import com.anprosit.android.promise.NextTask;
 import com.anprosit.android.promise.Promise;
 import com.anprosit.android.promise.Task;
 
@@ -14,7 +13,10 @@ import java.util.Map;
 
 import jp.yuta.kohashi.esc.App;
 import jp.yuta.kohashi.esc.model.AttendanceRate;
+import jp.yuta.kohashi.esc.network.api.EscApiCallback;
 import jp.yuta.kohashi.esc.network.api.EscApiManager;
+import jp.yuta.kohashi.esc.network.api.model.news.NewsDetail;
+import jp.yuta.kohashi.esc.network.api.model.schedule.ScheduleRoot;
 import jp.yuta.kohashi.esc.network.api.model.timeTable.TimeTable;
 import jp.yuta.kohashi.esc.util.RegexUtil;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
@@ -30,7 +32,6 @@ public class HttpHelper {
     private static final String TAG = HttpHelper.class.getSimpleName();
 
     private static String mLastResponseHtml = "";
-    private static List<String> teacherHtmls;
 
     /************************************   public   ********************************************************/
 
@@ -41,12 +42,13 @@ public class HttpHelper {
 //     * @param password
 //     * @param successCallbacks
 //     */
-    public static void getTimeTable(String userId,String password ,final SuccessCallbacks successCallbacks) {
+    public static void  getTimeTable(String userId,String password ,final SuccessCallbacks successCallbacks) {
 
         EscApiManager.getTimeTable(userId, password, (List<TimeTable> timeTableList) ->{
             // nullの時失敗
             if(timeTableList != null){
                 PrefUtil.saveTimeTable(timeTableList);
+                PrefUtil.saveTimeTableOriginal(timeTableList);
                 successCallbacks.callback(true);
             } else {
                 successCallbacks.callback(false);
@@ -67,20 +69,17 @@ public class HttpHelper {
      * @param successCallbacks
      */
     public static void getAttendanceRate(String userId, String password, final SuccessCallbacks successCallbacks) {
-        requestAttendanceRate(userId, password, new AccessCallbacks() {
-            @Override
-            public void callback(String html, boolean bool) {
-                if (bool) {
-                    if (PrefUtil.loadAttendanceRateModelList().size() > 0) {
-                        saveAttandanceRate(html);
-                    } else {
-                        PrefUtil.saveAttendanceRate(html);
-                    }
-                    PrefUtil.saveAttendanceAllRateData(html);
-                    PrefUtil.saveStudentInfo(html);
+        requestAttendanceRate(userId, password, (html, bool) -> {
+            if (bool) {
+                if (PrefUtil.loadAttendanceRateModelList().size() > 0) {
+                    saveAttandanceRate(html);
+                } else {
+                    PrefUtil.saveAttendanceRate(html);
                 }
-                successCallbacks.callback(bool);
+                PrefUtil.saveAttendanceAllRateData(html);
+                PrefUtil.saveStudentInfo(html);
             }
+            successCallbacks.callback(bool);
         });
     }
 
@@ -109,19 +108,11 @@ public class HttpHelper {
      * @param successCallBacks
      */
     public static void getTimeAttend(final String userId, final String password, final SuccessCallbacks successCallBacks) {
-        getTimeTable(userId, password, new SuccessCallbacks() {
-            @Override
-            public void callback(boolean bool) {
-                if (bool) {
-                    getAttendanceRate(userId, password, new SuccessCallbacks() {
-                        @Override
-                        public void callback(boolean bool) {
-                            successCallBacks.callback(bool);
-                        }
-                    });
-                } else {
-                    successCallBacks.callback(false);
-                }
+        getTimeTable(userId, password, bool -> {
+            if (bool) {
+                getAttendanceRate(userId, password, bool1 -> successCallBacks.callback(bool1));
+            } else {
+                successCallBacks.callback(false);
             }
         });
     }
@@ -135,15 +126,15 @@ public class HttpHelper {
      * @param successCallbacks
      */
     public static void getSchoolNews(final String userId, final String password, final SuccessCallbacks successCallbacks) {
-//        requestNews(userId, password, new AccessCallbacks() {
-//            @Override
-//            public void callback(String html, boolean bool) {
-//                if (bool) {
-//                    PrefUtil.saveSchoolNews(html);
-//                }
-//                successCallbacks.callback(bool);
-//            }
-//        });
+        EscApiManager.getSchoolNews(userId,password,newsItems -> {
+            if(newsItems != null){
+                PrefUtil.saveSchoolNews(newsItems);
+                successCallbacks.callback(true);
+            }
+            else{
+                successCallbacks.callback(false);
+            }
+        });
     }
 
     /**
@@ -154,15 +145,15 @@ public class HttpHelper {
      * @param successCallbacks
      */
     public static void getTanninNews(final String userId, final String password, final SuccessCallbacks successCallbacks) {
-//        requestNews(userId, password, new AccessCallbacks() {
-//            @Override
-//            public void callback(String html, boolean bool) {
-//                if (bool) {
-//                    PrefUtil.saveTanninNews(html);
-//                }
-//                successCallbacks.callback(bool);
-//            }
-//        });
+        EscApiManager.getTaninNews(userId,password,newsItems -> {
+            if(newsItems != null){
+                PrefUtil.saveTanninNews(newsItems);
+                successCallbacks.callback(true);
+            }
+            else{
+                successCallbacks.callback(false);
+            }
+        });
     }
 
     /**
@@ -173,139 +164,146 @@ public class HttpHelper {
      * @param successCallbacks
      */
     public static void getSchoolTanninNews(final String userId, final String password, final SuccessCallbacks successCallbacks) {
-        getSchoolNews(userId, password, new SuccessCallbacks() {
-            @Override
-            public void callback(boolean bool) {
-                if (bool) {
-                    getTanninNews(userId, password, new SuccessCallbacks() {
-                        @Override
-                        public void callback(boolean bool) {
-                            successCallbacks.callback(bool);
-                        }
-                    });
-                } else {
-                    successCallbacks.callback(false);
-                }
+        getSchoolNews(userId, password, bool -> {
+            if (bool) {
+                getTanninNews(userId, password, bool1 -> successCallbacks.callback(bool1));
+            } else {
+                successCallbacks.callback(false);
             }
         });
     }
 
     /**
      * ニュース詳細を取得
-     *
+     * @param newsId
      * @param userId
      * @param password
-     * @param url
-     * @param accessCallbacks
+     * @param callback
      */
-    public static void getNewsDetail(final String userId, final String password, String url, final AccessCallbacks accessCallbacks) {
+    public static void getNewsDetail(Integer newsId, String userId, String password, EscApiCallback<NewsDetail> callback) {
 //        requestNewsDetail(userId, password, url, new AccessCallbacks() {
 //            @Override
 //            public void callback(String html, boolean bool) {
 //                accessCallbacks.callback(html, bool);
 //            }
 //        });
+
+        EscApiManager.getNewsDetail(newsId, userId, password, newsDetail -> {
+            callback.callback(newsDetail);
+        });
+    }
+
+    public static void getScheduleList(String userId, String password, SuccessCallbacks callbacks){
+        EscApiManager.getSchedule(userId, password, response -> {
+            List<ScheduleRoot> scheduleRootList = response;
+            if(scheduleRootList != null){
+                PrefUtil.saveSchedule(scheduleRootList);
+                callbacks.callback(true);
+            } else {
+                callbacks.callback(false);
+            }
+        });
     }
 
     /************************************   private   ********************************************************/
 
-    //**
-    //region 時間割
-    //**
-
-    /***
-     * 時間割のリクエストメソッド
-     *
-     * @param userId
-     * @param password
-     * @param listCallbacks
-     */
-//    private static void requestTimeTable(final String userId,
-//                                         final String password,
-//                                         final AccessListCallbacks listCallbacks) {
+//    //**
+//    //region 時間割
+//    //**
 //
-//        if (teacherHtmls != null) teacherHtmls.clear();
+//    /***
+//     * 時間割のリクエストメソッド
+//     *
+//     * @param userId
+//     * @param password
+//     * @param listCallbacks
+//     */
+////    private static void requestTimeTable(final String userId,
+////                                         final String password,
+////                                         final AccessListCallbacks listCallbacks) {
+////
+////        if (teacherHtmls != null) teacherHtmls.clear();
+////
+////
+////
+////        Promise.with(App.getAppContext(), Void.class).thenOnAsyncThread(new Task<Void, Void>() {
+////            @Override
+////            public void run(Void aVoid, NextTask<Void> nextTask) {
+////                try {
+////                    HttpResultClass result = loginToESC(userId, password);
+////
+////                    //failure
+////                    if (!result.getBool()) throw new Exception("ログインに失敗しました");
+////
+////                    mLastResponseHtml = result.getString();
+////                    List<String> urls = getTeacherNameUrls(mLastResponseHtml);
+////
+////                    teacherHtmls = requestTeacherName(urls);
+////
+////                    //先生名取得失敗
+////                    if (teacherHtmls == null) throw new Exception("先生名の取得に失敗しました");
+////
+//////                    Log.d(TAG, mLastResponseHtml);
+////                    nextTask.run(null);
+////                } catch (Exception e) {
+////                    nextTask.fail(null, e);
+////                }
+////            }
+////        }).setCallback(new Callback<Void>() {
+////            @Override
+////            public void onSuccess(Void aVoid) {
+////                listCallbacks.callback(mLastResponseHtml, teacherHtmls, true);
+////            }
+////
+////            @Override
+////            public void onFailure(Bundle bundle, Exception e) {
+//////                log(e);
+////                listCallbacks.callback(mLastResponseHtml, teacherHtmls, false);
+////            }
+////        }).create().execute(null);
+////    }
+//
+//    /**
+//     * 引数のhtmlソースから先生名のurlを取り出すメソッド
+//     *
+//     * @param html
+//     * @return
+//     */
+////    private static List<String> getTeacherNameUrls(String html) {
+////        List<String> urls = new ArrayList<>();
+////
+////        html = RegexUtil.replaceCRLF(html, true);
+////        Matcher m = RegexUtil.getGroupValues("<li class=\"letter\"><a href=\"(.+?)\">投書</a>", html);
+////        while (m.find()) {
+////            String url = m.group(1);
+////            urls.add(url);
+////        }
+////        return urls;
+////    }
 //
 //
+//    /***
+//     * 先生名のhtmlソースを取得するメソッド
+//     *
+//     * @param urls
+//     * @return
+//     */
+////    private static List<String> requestTeacherName(final List<String> urls) {
+////
+////        final List<String> htmls = new ArrayList<>();
+////
+////        for (String url : urls) {
+////            HttpResultClass result = HttpBase.httpGet(url, RequestURL.ESC_TO_LOGIN_PAGE);
+////            if (!result.getBool()) return null;
+////
+////            htmls.add(result.getString());
+////        }
+////        return htmls;
+////    }
 //
-//        Promise.with(App.getAppContext(), Void.class).thenOnAsyncThread(new Task<Void, Void>() {
-//            @Override
-//            public void run(Void aVoid, NextTask<Void> nextTask) {
-//                try {
-//                    HttpResultClass result = loginToESC(userId, password);
-//
-//                    //failure
-//                    if (!result.getBool()) throw new Exception("ログインに失敗しました");
-//
-//                    mLastResponseHtml = result.getString();
-//                    List<String> urls = getTeacherNameUrls(mLastResponseHtml);
-//
-//                    teacherHtmls = requestTeacherName(urls);
-//
-//                    //先生名取得失敗
-//                    if (teacherHtmls == null) throw new Exception("先生名の取得に失敗しました");
-//
-////                    Log.d(TAG, mLastResponseHtml);
-//                    nextTask.run(null);
-//                } catch (Exception e) {
-//                    nextTask.fail(null, e);
-//                }
-//            }
-//        }).setCallback(new Callback<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                listCallbacks.callback(mLastResponseHtml, teacherHtmls, true);
-//            }
-//
-//            @Override
-//            public void onFailure(Bundle bundle, Exception e) {
-////                log(e);
-//                listCallbacks.callback(mLastResponseHtml, teacherHtmls, false);
-//            }
-//        }).create().execute(null);
-//    }
-
-    /**
-     * 引数のhtmlソースから先生名のurlを取り出すメソッド
-     *
-     * @param html
-     * @return
-     */
-//    private static List<String> getTeacherNameUrls(String html) {
-//        List<String> urls = new ArrayList<>();
-//
-//        html = RegexUtil.replaceCRLF(html, true);
-//        Matcher m = RegexUtil.getGroupValues("<li class=\"letter\"><a href=\"(.+?)\">投書</a>", html);
-//        while (m.find()) {
-//            String url = m.group(1);
-//            urls.add(url);
-//        }
-//        return urls;
-//    }
-
-
-    /***
-     * 先生名のhtmlソースを取得するメソッド
-     *
-     * @param urls
-     * @return
-     */
-//    private static List<String> requestTeacherName(final List<String> urls) {
-//
-//        final List<String> htmls = new ArrayList<>();
-//
-//        for (String url : urls) {
-//            HttpResultClass result = HttpBase.httpGet(url, RequestURL.ESC_TO_LOGIN_PAGE);
-//            if (!result.getBool()) return null;
-//
-//            htmls.add(result.getString());
-//        }
-//        return htmls;
-//    }
-
-    //**
-    //endregion
-    //**
+//    //**
+//    //endregion
+//    //**
 
 
     //**
@@ -321,35 +319,31 @@ public class HttpHelper {
      */
     private static void requestAttendanceRate(final String userId, final String password, final AccessCallbacks accessCallbacks) {
 
-        Promise.with(App.getAppContext(), Void.class).thenOnAsyncThread(new Task<Void, Void>() {
-            @Override
-            public void run(Void aVoid, NextTask<Void> nextTask) {
-                try {
-                    //ログイン
-                    HttpResultClass result = loginToYS(userId, password);
+        Promise.with(App.getAppContext(), Void.class).thenOnAsyncThread((Task<Void, Void>) (aVoid, nextTask) -> {
+            try {
+                //ログイン
+                HttpResultClass result = loginToYS(userId, password);
 
-                    //failure
-                    if (!result.getBool()) throw new Exception("ログインに失敗しました");
+                //failure
+                if (!result.getBool()) throw new Exception("ログインに失敗しました");
 
-                    mLastResponseHtml = result.getString();
-                    //出席率ページへリクエスト
-                    Map<String, String> body = CreateRequestBody.createPostDataForRatePage(mLastResponseHtml);
-                    result = HttpBase.httpPost(RequestURL.YS_TO_RATE_PAGE, body, RequestURL.DEFAULT_REFERRER);
+                mLastResponseHtml = result.getString();
+                //出席率ページへリクエスト
+                Map<String, String> body = CreateRequestBody.createPostDataForRatePage(mLastResponseHtml);
+                result = HttpBase.httpPost(RequestURL.YS_TO_RATE_PAGE, body, RequestURL.DEFAULT_REFERRER);
 
-                    //failure
-                    if (!result.getBool()) throw new Exception("出席率ページへの遷移に失敗しました");
+                //failure
+                if (!result.getBool()) throw new Exception("出席率ページへの遷移に失敗しました");
 
-                    mLastResponseHtml = result.getString();
+                mLastResponseHtml = result.getString();
 //                    Log.d(TAG, mLastResponseHtml);
-                    if (!RegexUtil.containsCheck(">個人別出席率表<", mLastResponseHtml)) {
-                        throw new Exception("出席率ページへの遷移に失敗しました");
-                    }
-
-                    nextTask.run(null);
-                } catch (Exception e) {
-                    nextTask.fail(null, e);
+                if (!RegexUtil.containsCheck(">個人別出席率表<", mLastResponseHtml)) {
+                    throw new Exception("出席率ページへの遷移に失敗しました");
                 }
 
+                nextTask.run(null);
+            } catch (Exception e) {
+                nextTask.fail(null, e);
             }
 
         }).setCallback(new Callback<Void>() {
@@ -543,10 +537,6 @@ public class HttpHelper {
 
     public interface AccessCallbacks {
         void callback(String html, boolean bool);
-    }
-
-    public interface AccessListCallbacks {
-        void callback(String html, List<String> htmls, boolean bool);
     }
 
     public interface SuccessCallbacks {

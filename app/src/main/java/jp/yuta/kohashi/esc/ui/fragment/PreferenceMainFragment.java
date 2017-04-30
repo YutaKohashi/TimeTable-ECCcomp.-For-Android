@@ -20,11 +20,11 @@ import jp.yuta.kohashi.esc.model.PrefItem;
 import jp.yuta.kohashi.esc.model.enums.PrefViewType;
 import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.ui.activity.AboutActivity;
-import jp.yuta.kohashi.esc.ui.activity.AttendanceDivideActivity;
 import jp.yuta.kohashi.esc.ui.activity.AttendanceRateChangeColorActivity;
 import jp.yuta.kohashi.esc.ui.activity.LicenceActivity;
 import jp.yuta.kohashi.esc.ui.activity.LoginCheckActivity;
 import jp.yuta.kohashi.esc.ui.activity.TimeTableChangeActivity;
+import jp.yuta.kohashi.esc.ui.activity.TimeTableEnableDisableActivity;
 import jp.yuta.kohashi.esc.ui.adapter.PrefRecyclerAdapter;
 import jp.yuta.kohashi.esc.ui.fragment.base.BasePrefBaseRecyclerViewFragment;
 import jp.yuta.kohashi.esc.ui.service.EccNewsManageService;
@@ -52,11 +52,14 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
         addItem(new PrefItem(getResources().getString(R.string.pref_group_title_time_table), PrefViewType.ITEM_GROUP_TITLE));
         addItem(new PrefItem(getResources().getString(R.string.pref_update_time_table), R.drawable.ic_refresh, PrefViewType.ITEM));
         addItem(new PrefItem(getResources().getString(R.string.pref_change_time_table), R.drawable.ic_create, PrefViewType.ITEM_RIGHT_ARROW));
+        addItem(new PrefItem(getResources().getString(R.string.pref_enable_time_table), R.drawable.ic_playlist_add_check, PrefViewType.ITEM_RIGHT_ARROW));
         addItem(new PrefItem(getResources().getString(R.string.pref_group_title_time_attendance), PrefViewType.ITEM_GROUP_TITLE));
         addItem(new PrefItem(getResources().getString(R.string.pref_attendance_divide), R.drawable.ic_view_compact, PrefViewType.ITEM_RIGHT_ARROW));
         addItem(new PrefItem(getResources().getString(R.string.pref_attendance_color), R.drawable.ic_brush, PrefViewType.ITEM_RIGHT_ARROW));
         addItem(new PrefItem(getResources().getString(R.string.pref_group_title_news), PrefViewType.ITEM_GROUP_TITLE));
         addItem(new PrefItem(getResources().getString(R.string.pref_notify_news), R.drawable.ic_notifications, PrefViewType.ITEM_SWITCH, PrefUtil.isNotifyNews()));
+        addItem(new PrefItem(getResources().getString(R.string.pref_group_title_schedule), PrefViewType.ITEM_GROUP_TITLE));
+        addItem(new PrefItem(getResources().getString(R.string.pref_update_schedule), R.drawable.ic_refresh, PrefViewType.ITEM));
         addItem(new PrefItem(getResources().getString(R.string.pref_group_title_time_other), PrefViewType.ITEM_GROUP_TITLE));
         addItem(new PrefItem(getResources().getString(R.string.pref_lisence), R.drawable.ic_business, PrefViewType.ITEM_RIGHT_ARROW));
         addItem(new PrefItem(getResources().getString(R.string.pref_about), R.drawable.ic_about, PrefViewType.ITEM_RIGHT_ARROW));
@@ -78,10 +81,14 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
                     updateTimeTable();
                 } else if (name.equals(getResources().getString(R.string.pref_change_time_table))) {
                     changeTimeTable();
+                } else if(name.equals(getResources().getString(R.string.pref_enable_time_table))){
+                    setDisableEnableSettings();
                 } else if (name.equals(getResources().getString(R.string.pref_attendance_divide))) {
                     divideData();
                 } else if (name.equals(getResources().getString(R.string.pref_attendance_color))) {
                     changeColorAttendance();
+                } else if(name.equals(getResources().getString(R.string.pref_update_schedule))){
+                    updateSchedule();
                 } else if (name.equals(getResources().getString(R.string.pref_lisence))) {
                     showLicence();
                 } else if (name.equals(getResources().getString(R.string.pref_about))) {
@@ -163,10 +170,17 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
     }
 
     /**
+     * 有効・向こう設定
+     */
+    private void setDisableEnableSettings(){
+        startActivity(new Intent(getActivity(), TimeTableEnableDisableActivity.class));
+    }
+
+    /**
      * 前期後期
      */
     private void divideData() {
-        startActivity(new Intent(getActivity(), AttendanceDivideActivity.class));
+        startActivity(new Intent(getActivity(), TimeTableEnableDisableActivity.class));
     }
 
     /**
@@ -174,6 +188,41 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
      */
     private void changeColorAttendance() {
         startActivity(new Intent(getActivity(), AttendanceRateChangeColorActivity.class));
+    }
+
+    /**
+     * スケジュールを更新
+     */
+    private void updateSchedule(){
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity())
+                .content(R.string.dialog_schedule_update_comment)
+                .positiveText(R.string.dialog_positive_ok)
+                .negativeText(R.string.dialog_negative_cancel)
+                .title(R.string.pref_update_schedule)
+                .positiveColor(Util.getColor(R.color.diag_text_color_cancel))
+                .negativeColor(Util.getColor(R.color.colorPrimary))
+                .onPositive(((dialog, which) -> {
+                    dialog.dismiss();
+                    if (!Util.netWorkCheck()) {
+                        NotifyUtil.failureNetworkConnection();
+                    } else {
+                        NotifyUtil.showUpdatingDiag(getActivity());
+                        String userId = PrefUtil.getId();
+                        String password = PrefUtil.getPss();
+                        HttpConnector.request(HttpConnector.Type.SCHEDULE, userId, password, (bool -> {
+                            NotifyUtil.dismiss();
+                            if (bool) {
+                                NotifyUtil.successUpdate();
+                            } else {
+                                NotifyUtil.failureUpdate();
+                            }
+                        }));
+                    }
+                }))
+                .onNegative(((dialog, which) -> dialog.dismiss()));
+
+        MaterialDialog dialog = builder.build();
+        dialog.show();
     }
 
     /**

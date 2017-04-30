@@ -77,7 +77,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             userId = mIdTextView.getText().toString();
             password = mPasswordTextView.getText().toString();
-
             login();
         } else {
             defaultProgBtn();
@@ -91,22 +90,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startProgBtn();
         HttpConnector.request(HttpConnector.Type.TIME_TABLE, userId, password,(bool -> {
             if(bool){
-                successLogin(bool);
-//                // お知らせ
-//                HttpConnector.request(HttpConnector.Type.NEWS_SCHOOL_TEACHER, userId, password,(bool1 -> {
-//                    if (bool1) {
-//                        // 出席照会
-//                        HttpConnector.request(HttpConnector.Type.ATTENDANCE_RATE, userId, password,(bool2 -> {
-//                            successLogin(bool2);
-//                        }));
-//                    } else {
-//                        failureLogin();
-//                    }
-//                }));
+                HttpConnector.request(HttpConnector.Type.NEWS_SCHOOL_TEACHER, userId, password, bool1 -> {
+                    if(bool1){
+                        HttpConnector.request(HttpConnector.Type.SCHEDULE, userId, password, bool2 -> {
+                            if(bool2){
+                                HttpConnector.request(HttpConnector.Type.ATTENDANCE_RATE, userId, password, bool3 -> {
+                                    successLogin(bool3);
+                                });
+                            } else {
+                                failureLogin();
+                            }
+                        });
+                    } else {
+                        failureLogin();
+                    }
+                });
             } else {
                 failureLogin();
             }
         }));
+
     }
 
     /**

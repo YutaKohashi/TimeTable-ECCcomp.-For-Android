@@ -10,6 +10,6 @@
     <dimen name="text_size_medium">18sp</dimen>
     <dimen name="text_size_large">22sp</dimen>
 
-    <dimen name="text_size_pref">17sp</dimen>
-    <dimen name="text_size_pref_group_title">12sp</dimen>
+    <dimen name="text_size_pref">16sp</dimen>
+    <dimen name="text_size_pref_group_title">13sp</dimen>
 </resources>

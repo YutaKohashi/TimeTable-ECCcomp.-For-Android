@@ -5,7 +5,9 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import jp.yuta.kohashi.esc.model.schedule.CalendarList;
+import java.util.List;
+
+import jp.yuta.kohashi.esc.network.api.model.schedule.ScheduleRoot;
 
 /**
  * Created by yutakohashi on 2017/02/05.
@@ -16,7 +18,8 @@ public abstract class BaseCalendarViewPagerAdapter extends PagerAdapter {
 
     protected LayoutInflater _inflater = null;
     protected  Context mContext;
-    protected CalendarList calendarList;
+//    protected List<ScheduleRoot> scheduleRoots;
+    protected List<ScheduleRoot> scheduleRoots;
 
     public BaseCalendarViewPagerAdapter(Context context) {
         _inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

@@ -8,9 +8,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
+import jp.yuta.kohashi.esc.network.api.model.timeTable.TeacherTimeTable;
 import jp.yuta.kohashi.esc.network.api.model.timeTable.TimeTable;
 import jp.yuta.kohashi.esc.ui.fragment.base.BaseDialogFragment;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
@@ -42,7 +44,7 @@ public class TimeTableInputDialogFragment extends BaseDialogFragment implements 
     }
 
     public void setInfo(TimeTable item){
-        this.beforeModel = item;
+        beforeModel = item;
     }
 
     @Override
@@ -80,7 +82,8 @@ public class TimeTableInputDialogFragment extends BaseDialogFragment implements 
         mTeacherTextView = (EditText)mDialog.findViewById(R.id.edit_teacher);
         mRoomTextView = (EditText)mDialog.findViewById(R.id.edit_room);
         mSubjectTextView.setText(beforeModel.getLessonName());
-//        mTeacherTextView.setText(beforeModel.gettea());
+        String teacher = beforeModel.getTeacherNames();
+        mTeacherTextView.setText(teacher);
         mRoomTextView.setText(beforeModel.getRoom());
         mTitleTextView.setText(createTitle(beforeModel));
         mUndoBtn = (ImageButton)mDialog.findViewById(R.id.undo_button);
@@ -94,7 +97,10 @@ public class TimeTableInputDialogFragment extends BaseDialogFragment implements 
 
         TimeTable afterModel = new TimeTable();
         afterModel.setLessonName(subject);
-//        afterModel.setTeacherName(teacher);
+        List<TeacherTimeTable> teacherTimeTables = new ArrayList<>();
+        teacherTimeTables.add(new TeacherTimeTable(teacher));
+
+        afterModel.setTeachers(teacherTimeTables);
         afterModel.setRoom(room);
         afterModel.setTerm(beforeModel.getTerm());
         afterModel.setWeek(beforeModel.getWeek());
@@ -109,7 +115,7 @@ public class TimeTableInputDialogFragment extends BaseDialogFragment implements 
         List<TimeTable> list = lists.get(beforeModel.getWeek() - 1);
         TimeTable original = list.get(beforeModel.getTerm()-1);
         mSubjectTextView.setText(original.getLessonName());
-//        mTeacherTextView.setText(original.gettea());
+        mTeacherTextView.setText(original.getTeacherNames());
         mRoomTextView.setText(original.getRoom());
         mSubjectTextView.setSelection(mSubjectTextView.getText().length());
         mTeacherTextView.setSelection(mTeacherTextView.getText().length());
@@ -122,6 +128,9 @@ public class TimeTableInputDialogFragment extends BaseDialogFragment implements 
 
         String week;
         switch (col){
+            case 0:
+                week = getResources().getString(R.string.sunday_string);
+                break;
             case 1:
                 week = getResources().getString(R.string.monday_string);
                 break;
@@ -136,6 +145,9 @@ public class TimeTableInputDialogFragment extends BaseDialogFragment implements 
                 break;
             case 5:
                 week = getResources().getString(R.string.friday_string);
+                break;
+            case 6:
+                week = getResources().getString(R.string.saturday_string);
                 break;
             default:
                 week = "";

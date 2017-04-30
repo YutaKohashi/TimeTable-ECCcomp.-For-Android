@@ -11,17 +11,17 @@ import android.widget.TextView;
 import java.util.List;
 
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.schedule.CalendarItem;
+import jp.yuta.kohashi.esc.network.api.model.schedule.ScheduleItem;
 
 /**
  * Created by Yuta on 2016/04/06.
  */
 public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecyclerAdapter.CalendarRecyclerViewHolder> {
-    private List<CalendarItem> items;
+    private List<ScheduleItem> items;
     private Context context;
 
 
-    public CalendarRecyclerAdapter(List<CalendarItem> items, Context context){
+    public CalendarRecyclerAdapter(List<ScheduleItem> items, Context context){
         this.items = items;
         this.context = context;
     }
@@ -35,8 +35,8 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
 
     @Override
     public void onBindViewHolder(CalendarRecyclerViewHolder holder, int position) {
-        holder.dateText.setText(items.get(position).getDate());
-        holder.containtsText.setText(items.get(position).getTitle());
+        holder.dateText.setText(String.valueOf(items.get(position).getDay()));
+        holder.containtsText.setText(items.get(position).getBody());
     }
 
     @Override
@@ -46,8 +46,6 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
 
     public static class CalendarRecyclerViewHolder extends RecyclerView.ViewHolder {
         CardView container;
-
-        // Campos respectivos de un item
         public TextView dateText;
         public TextView containtsText;
 
@@ -60,7 +58,7 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarRecycl
         }
     }
 
-    public void swap(List<CalendarItem> items){
+    public void swap(List<ScheduleItem> items){
         this.items.clear();
         this.items.addAll(items);
         notifyDataSetChanged();

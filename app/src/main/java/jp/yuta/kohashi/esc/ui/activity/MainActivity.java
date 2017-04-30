@@ -25,18 +25,20 @@ import java.util.List;
 
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.model.NewsItem;
-import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.network.RequestURL;
+import jp.yuta.kohashi.esc.network.api.model.news.NewsItem;
 import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
 import jp.yuta.kohashi.esc.ui.fragment.AttendanceRateParentFragment;
 import jp.yuta.kohashi.esc.ui.fragment.CalendarFragment;
 import jp.yuta.kohashi.esc.ui.fragment.NewsParentFragment;
 import jp.yuta.kohashi.esc.ui.fragment.TimeTableFragment;
 import jp.yuta.kohashi.esc.ui.service.EccNewsManageService;
+import jp.yuta.kohashi.esc.ui.view.CustomBottomNavigationView;
 import jp.yuta.kohashi.esc.util.NotifyUtil;
 import jp.yuta.kohashi.esc.util.Util;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
+
+//import jp.yuta.kohashi.esc.model.NewsItem;
 
 
 /***
@@ -51,7 +53,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private NavigationView mNavDrawer;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    private BottomNavigationView mBottomNavView;
+    private CustomBottomNavigationView mBottomNavView;
     private Fragment transitionFragment;
 
     private int currentTab;
@@ -101,8 +103,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void initBottomNavView() {
-        mBottomNavView = (BottomNavigationView) findViewById(R.id.bottom_nav_view);
+        mBottomNavView = (CustomBottomNavigationView) findViewById(R.id.bottom_nav_view);
         mBottomNavView.setOnNavigationItemSelectedListener(this);
+        mBottomNavView.disableShiftMode();
     }
 
     /*
@@ -218,17 +221,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     return;
                 }
 
-                NotifyUtil.showLoadingDiag(this);
-                HttpConnector.requestNewsDetail(PrefUtil.getId(), PrefUtil.getPss(), item.getUri(),((html, bool1) -> {
-                    if (bool1) {
-                        Intent intent1 = new Intent(MainActivity.this, NewsDetailActivity.class);
-                        intent1.putExtra(NewsDetailActivity.NEWS_MODEL, item);
-                        intent1.putExtra(NewsDetailActivity.NEWS_HTML, html);
-
-                        startActivity(intent1);
-                    }
-                    NotifyUtil.dismiss();
-                }));
+//                NotifyUtil.showLoadingDiag(this);
+//                HttpConnector.requestNewsDetail(PrefUtil.getId(), PrefUtil.getPss(), item.getUri(),((html, bool1) -> {
+//                    if (bool1) {
+//                        Intent intent1 = new Intent(MainActivity.this, NewsDetailActivity.class);
+//                        intent1.putExtra(NewsDetailActivity.NEWS_MODEL, item);
+//                        intent1.putExtra(NewsDetailActivity.NEWS_HTML, html);
+//
+//                        startActivity(intent1);
+//                    }
+//                    NotifyUtil.dismiss();
+//                }));
             }
 
         }
@@ -247,8 +250,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * ChoromeCustomTabsを表示
      */
     private void showWeb() {
-//        Uri uri = Uri.parse(RequestURL.ESC_TO_LOGIN_PAGE);
-        Uri uri = Uri.parse("");
+        Uri uri = Uri.parse(RequestURL.ESC_LOGIN);
         CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                 .setShowTitle(true)
                 .setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary))

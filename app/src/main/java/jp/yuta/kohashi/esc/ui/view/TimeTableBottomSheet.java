@@ -130,12 +130,12 @@ public class TimeTableBottomSheet extends RelativeLayout implements Animation.An
         }
 
         public Builder subject(String subject) {
-            this.subject = subject;
+            this.subject = subject.trim();
             return this;
         }
 
         public Builder teacher(String teacher) {
-            this.teacher = teacher;
+            this.teacher = teacher.trim();
             return this;
         }
 

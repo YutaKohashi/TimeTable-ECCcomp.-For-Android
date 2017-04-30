@@ -57,6 +57,10 @@ public class NotifyUtil {
         showToast(App.getAppContext().getResources().getString(R.string.cancel),R.drawable.ic_cancel);
     }
 
+    public static void failureGetNewsDetail(){
+        showToast(App.getAppContext().getResources().getString(R.string.dialog_failure_news_detail),R.drawable.ic_error);
+    }
+
     private static ProgressDialog mDialog;
     public static void showLoadingDiag(Context context){
         mDialog = createProgressDialog(context,context.getResources().getString(R.string.loading));

@@ -12,9 +12,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.yuta.kohashi.esc.model.NewsItem;
 import jp.yuta.kohashi.esc.network.HttpConnector;
-import jp.yuta.kohashi.esc.network.HttpHelper;
+import jp.yuta.kohashi.esc.network.api.model.news.NewsItem;
 import jp.yuta.kohashi.esc.ui.activity.NewsDetailActivity;
 import jp.yuta.kohashi.esc.ui.adapter.NewsRecyclerAdapter;
 import jp.yuta.kohashi.esc.ui.fragment.base.BaseRefreshRecyclerViewFragment;
@@ -22,12 +21,14 @@ import jp.yuta.kohashi.esc.util.NotifyUtil;
 import jp.yuta.kohashi.esc.util.Util;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
+//import jp.yuta.kohashi.esc.model.NewsItem;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
 
-    private List<NewsItem> items;
+    private List<NewsItem>  items;
 
     private String userId;
     private String password;
@@ -77,21 +78,35 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
                     return;
                 }
 
-                NotifyUtil.showLoadingDiag(getActivity());
-
-                HttpConnector.requestNewsDetail(userId, password, model.getUri(), new HttpHelper.AccessCallbacks() {
-                    @Override
-                    public void callback(String html, boolean bool) {
-                        if (bool) {
-                            Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
-                            intent.putExtra(NewsDetailActivity.NEWS_MODEL, model);
-                            intent.putExtra(NewsDetailActivity.NEWS_HTML, html);
-
-                            startActivity(intent);
-                        }
-                        NotifyUtil.dismiss();
-                    }
-                });
+//                NotifyUtil.showLoadingDiag(getActivity());
+                Intent intent = new Intent(getActivity(),NewsDetailActivity.class);
+                intent.putExtra(NewsDetailActivity.NEWS_MODEL,model);
+                startActivity(intent);
+//                HttpConnector.request(model.getId(),userId,password,newsDetail -> {
+//                    if(newsDetail != null){
+//                        Intent intent = new Intent(getActivity(),NewsDetailActivity.class);
+//                        intent.putExtra(NewsDetailActivity.NEWS_MODEL,newsDetail);
+//                        startActivity(intent);
+//                    } else {
+//                        NotifyUtil.failureGetNewsDetail();
+//                    }
+//                    NotifyUtil.dismiss();
+//
+//                });
+//
+//                HttpConnector.requestNewsDetail(userId, password, model.getUri(), new HttpHelper.AccessCallbacks() {
+//                    @Override
+//                    public void callback(String html, boolean bool) {
+//                        if (bool) {
+//                            Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+//                            intent.putExtra(NewsDetailActivity.NEWS_MODEL, model);
+//                            intent.putExtra(NewsDetailActivity.NEWS_HTML, html);
+//
+//                            startActivity(intent);
+//                        }
+//                        NotifyUtil.dismiss();
+//                    }
+//                });
             }
         };
         mRecyclerView.setAdapter(mRecyclerAdapter);
