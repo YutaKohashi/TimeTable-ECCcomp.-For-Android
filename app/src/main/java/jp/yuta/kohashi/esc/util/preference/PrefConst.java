@@ -67,13 +67,13 @@ public final class PrefConst {
     static final String KEY_CLASS = "KEY_CLASS";
     static final String KEY_SHUSEKI_NUM = "KEY_SHUSEKI_NUM";
 
-    static final String KEY_ENABLE_NOTIFY_NEWS ="KEY_ENABLE_NOTIFY_NEWS";
+    static final String KEY_ENABLE_NOTIFY_NEWS = "KEY_ENABLE_NOTIFY_NEWS";
 
-    static final String KEY_DIVIDE_ATTENDANCE ="KEY_ATTENDANCE_DIVIDE";
+    static final String KEY_DIVIDE_ATTENDANCE = "KEY_ATTENDANCE_DIVIDE";
 
-    static final String KEY_ATTENDANCE_TAB_POSITION ="KEY_ATTENDANCE_TAB_POSITION";
+    static final String KEY_ATTENDANCE_TAB_POSITION = "KEY_ATTENDANCE_TAB_POSITION";
 
-    static final String KEY_LATEST_UPDATE_DATA ="KEY_LATEST_UPDATE_DATA";
+    static final String KEY_LATEST_UPDATE_DATA = "KEY_LATEST_UPDATE_DATA";
 
     static final String KEY_SCHEDULE = "KEY_SCHEDULE";
 }

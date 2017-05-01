@@ -30,15 +30,15 @@ public class HttpBase {
     private static CookieManager cookieManager;
     private static CookieJar cookieJar;
 
-    public static void init(){
-        if(cookieManager ==null )cookieManager = new CookieManager();
-        if(cookieJar == null) cookieJar = new JavaNetCookieJar(cookieManager);
-        if(cookieManager == null) cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+    public static void init() {
+        if (cookieManager == null) cookieManager = new CookieManager();
+        if (cookieJar == null) cookieJar = new JavaNetCookieJar(cookieManager);
+        if (cookieManager == null) cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
 
-        if(mClient == null)
-        mClient = new OkHttpClient.Builder()
-                .cookieJar(cookieJar)
-                .build();
+        if (mClient == null)
+            mClient = new OkHttpClient.Builder()
+                    .cookieJar(cookieJar)
+                    .build();
     }
 
     /***
@@ -47,33 +47,33 @@ public class HttpBase {
      * @param referer
      * @return
      */
-    protected static HttpResultClass httpGet(String url, String referer){
+    protected static HttpResultClass httpGet(String url, String referer) {
         HttpResultClass result = new HttpResultClass();
 
         Request request = new Request.Builder()
                 .url(url)
-                .addHeader("Referer",referer)
-                .addHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87")
-                .addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+                .addHeader("Referer", referer)
+                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87")
+                .addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
                 .build();
 
         Response response;
-        try{
+        try {
             response = mClient.newCall(request).execute();
             Thread.sleep(100);
 
-            if(response.code() != 200) {
+            if (response.code() != 200) {
                 throw new Exception("Failure Network Connection");
             }
 
             result.setString(response.body().string());
             result.setBool(true);
             response.body().close();
-        }catch(IOException | InterruptedException e){
-            Log.d(TAG,e.toString());
+        } catch (IOException | InterruptedException e) {
+            Log.d(TAG, e.toString());
             result.setBool(false);
         } catch (Exception e) {
-            Log.d(TAG,e.toString());
+            Log.d(TAG, e.toString());
             result.setBool(false);
         }
         return result;
@@ -81,74 +81,59 @@ public class HttpBase {
 
     /**
      * POST method
+     *
      * @param url
      * @param requestBody
      * @param referer
      * @return
      */
-    protected static HttpResultClass httpPost(String url, Map<String,String> requestBody, String referer){
+    protected static HttpResultClass httpPost(String url, Map<String, String> requestBody, String referer) {
         HttpResultClass result = new HttpResultClass();
 
         Request request = new Request.Builder()
                 .url(url)
                 .post(createRequestBody(requestBody))
-                .header("Referer",referer)
-                .addHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87")
-                .addHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+                .header("Referer", referer)
+                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87")
+                .addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
                 .build();
 
         Response response;
-        try{
+        try {
             response = mClient.newCall(request).execute();
             Thread.sleep(100);
 
-            if(response.code() != 200) {
+            if (response.code() != 200) {
                 throw new Exception("Failure Network Connection");
             }
 
             result.setString(response.body().string());
             result.setBool(true);
             response.body().close();
-        }catch(IOException | InterruptedException e){
-            Log.d(TAG,e.toString());
+        } catch (IOException | InterruptedException e) {
+            Log.d(TAG, e.toString());
             result.setBool(false);
         } catch (Exception e) {
-            Log.d(TAG,e.toString());
+            Log.d(TAG, e.toString());
             result.setBool(false);
         }
 
         return result;
     }
 
-    /**
-     * ネットワーク接続チェック
-     * @param context
-     * @return
-     */
-    public static boolean netWorkCheck(Context context){
-        ConnectivityManager cm =  (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = cm.getActiveNetworkInfo();
-        if( info != null ){
-            return info.isConnected();
-        } else {
-            return false;
-        }
-    }
-
-
     /***
+     * mapをリクエストbodyに変換するメソッド
      * リクエストボディを作成するメソッド
      * @param body
      * @return
      */
-    private static  RequestBody createRequestBody(Map<String,String> body){
+    private static RequestBody createRequestBody(Map<String, String> body) {
         FormBody.Builder builder = new FormBody.Builder();
 
-        for ( Map.Entry<String, String> entry : body.entrySet() ) {
-            builder.add( entry.getKey(), entry.getValue() );
+        for (Map.Entry<String, String> entry : body.entrySet()) {
+            builder.add(entry.getKey(), entry.getValue());
         }
 
-        return  builder.build();
+        return builder.build();
     }
-
 }

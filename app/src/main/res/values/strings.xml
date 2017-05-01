@@ -53,8 +53,10 @@
     <string name="attendance_num">出席</string>
     <string name="absence">欠席</string>
     <string name="late">遅刻</string>
-    <string name="kouketsu_1">公欠1</string>
-    <string name="kouketsu_2">公欠2</string>
+    <!--<string name="kouketsu_1">公欠1</string>-->
+    <!--<string name="kouketsu_2">公欠2</string>-->
+    <string name="kouketsu_1">公欠</string>
+    <string name="kouketsu_2">出扱</string>
 
     <string name="yotei_tani">予定単位数</string>
     <string name="husoku_tani">出席不足単位</string>
@@ -85,7 +87,7 @@
     <string name="pref_group_title_time_table">時間割</string>
     <string name="pref_update_time_table">時間割を更新</string>
     <string name="pref_change_time_table">時間割データを変更</string>
-    <string name="pref_enable_time_table">有効・無効設定</string>
+    <string name="pref_enable_time_table">表示・非表示 設定</string>
     <string name="pref_group_title_time_attendance">出席照会</string>
     <string name="pref_attendance_color">出席照会を色分けする</string>
     <string name="pref_attendance_divide">前期・後期の設定</string>

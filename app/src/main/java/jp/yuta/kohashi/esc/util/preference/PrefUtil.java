@@ -802,9 +802,12 @@ public class PrefUtil {
                         attendanceRate.setPublicAbsentNumber2(str);
                         break;
                     case 7:
-                        attendanceRate.setAttendanceRate(str);
+                        // E休
                         break;
                     case 8:
+                        attendanceRate.setAttendanceRate(str);
+                        break;
+                    case 9:
                         attendanceRate.setShortageseNumber(str);
                         break;
                 }

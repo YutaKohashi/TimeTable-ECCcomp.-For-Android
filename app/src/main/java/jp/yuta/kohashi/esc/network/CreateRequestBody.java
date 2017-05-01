@@ -18,25 +18,6 @@ public class CreateRequestBody {
      * @param html
      * @return
      */
-    protected static Map<String,String> createPostDataForEscLogin(String userId, String password, String html){
-        Map<String,String> body = new HashMap<>();
-
-        // トークンを取得
-        String token = RegexUtil.getValues("input name=\"_token\" type=\"hidden\" value=\"(.+?)\"",html);
-
-        body.put("_token",token);
-        body.put("userid",userId);
-        body.put("password",password);
-        return body;
-    }
-
-    /**
-     * 山口学園学生サービスログイン時のリクエストボディ
-     * @param userId
-     * @param password
-     * @param html
-     * @return
-     */
     protected static Map<String,String> createPostDataForYSLogin(String userId, String password, String html){
         String __LASTFOCUS = RegexUtil.getValues("input type=\"hidden\" name=\"__LASTFOCUS\" id=\"__LASTFOCUS\" value=\"(.+?)\"",html);
         String __VIEWSTATE =  RegexUtil.getValues("input type=\"hidden\" name=\"__VIEWSTATE\" id=\"__VIEWSTATE\" value=\"(.+?)\"",html);
