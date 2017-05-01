@@ -61,6 +61,8 @@ public class AttendanceRateFragment extends BaseRefreshRecyclerViewFragment {
         super.initView(view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerAdapter = new AttendanceRateRecyclerAdapter(items, getActivity());
+        if(items.size() > 0) inVisibleEmptyTextView();
+        else visibleEmptyTextView();
         mRecyclerView.setAdapter(mRecyclerAdapter);
     }
 
@@ -94,21 +96,21 @@ public class AttendanceRateFragment extends BaseRefreshRecyclerViewFragment {
         }
 
         disableScroll();
-        HttpConnector.request(HttpConnector.Type.ATTENDANCE_RATE, userId, password, new HttpConnector.Callback() {
-            @Override
-            public void callback(boolean bool) {
-                if (bool) {
-                    swap();
-                    PrefUtil.saveLatestUpdateData(Util.getCurrentTimeMillis());
-                    NotifyUtil.successUpdate();
-                    // call event
-                    EventBus.getDefault().post(new RefreshEvent());
-                } else {
-                    NotifyUtil.failureUpdate();
-                }
-                endRefresh();
-                enableScroll();
+        HttpConnector.request(HttpConnector.Type.ATTENDANCE_RATE, userId, password, bool -> {
+            if (bool) {
+                swap();
+                if(items.size() > 0) inVisibleEmptyTextView();
+                else visibleEmptyTextView();
+                PrefUtil.saveLatestUpdateData(Util.getCurrentTimeMillis());
+                NotifyUtil.successUpdate();
+
+                // call event
+                EventBus.getDefault().post(new RefreshEvent());
+            } else {
+                NotifyUtil.failureUpdate();
             }
+            endRefresh();
+            enableScroll();
         });
     }
 

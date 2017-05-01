@@ -42,7 +42,8 @@ public final class PrefConst {
     static final String KEY_SCHOOL_NEWS = "KEY_SCHOOL_NEWS";
     static final String KEY_TANNIN_NEWS = "KEY_TANNIN_NEWS";
 
-    static final String KEY_LOGIN_STATE = "KEY_LOGIN_STATE";
+    // ログイン状態を保持するkey 2017/05/01　_1追加
+    static final String KEY_LOGIN_STATE = "KEY_LOGIN_STATE_1";
     static final String KEY_FIRST_TIME = "KEY_FIRST_TIME";
 
     static final String KEY_ID = "KEY_ID";

@@ -76,18 +76,18 @@ public class EccNewsManageService extends BasePeriodicService {
         final List<NewsItem> schoolNewsList1 = PrefUtil.loadSchoolNewsList();
         final List<NewsItem> tanninNewsList1 = PrefUtil.loadTanninNewsList();
 
-        HttpConnector.request(HttpConnector.Type.NEWS_SCHOOL_TEACHER, PrefUtil.getId(),PrefUtil.getPss(), (bool -> {
+        HttpConnector.request(HttpConnector.Type.NEWS_SCHOOL_TEACHER, PrefUtil.getId(), PrefUtil.getPss(), (bool -> {
             if (bool) {
                 List<NewsItem> newSchoolNewsList1 = PrefUtil.loadSchoolNewsList();
                 List<NewsItem> newTanninNewsList1 = PrefUtil.loadTanninNewsList();
-//                            /**
-//                             * STUB  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
-//                             */
-//                            NewsItem stub = new NewsItem("ダミー","2020.12.20","http://google.com");
-//                            newSchoolNewsList1.add(stub);
-//                            /**
-//                             *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
-//                             */
+//                /**
+//                 * STUB  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+//                 */
+//                NewsItem stub = new NewsItem(100, "ダミー", "body", "2020.12.20");
+//                newSchoolNewsList1.add(stub);
+//                /**
+//                 *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+//                 */
                 List<NewsItem> compareNewsList = new ArrayList<>();
                 //　一つにまとめる
                 compareNewsList.addAll(compareList(schoolNewsList1, newSchoolNewsList1));

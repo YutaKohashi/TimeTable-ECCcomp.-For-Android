@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Author : yutakohashi
@@ -17,39 +18,40 @@ import lombok.Getter;
 public class NewsItem implements Serializable {
     //お知らせのID
     @SerializedName("id")
-    Integer id;
+    private Integer id;
 
     // お知らせのカテゴリ名
     @SerializedName("category")
-    String category;
+    private String category;
 
     // お知らせのカテゴリ名
     @SerializedName("title")
-    String title;
+    private String title;
 
     // お知らせ本文
     @SerializedName("body")
-    String body;
+    private String body;
 
     // 最終更新日
     @SerializedName("updated_date")
-    String updated_date;
+    private String updated_date;
 
     // 最終更新時間
     @SerializedName("updated_time")
-    String updated_time;
+    private String updated_time;
 
     // お知らせの作者名
     @SerializedName("author")
-    String author;
+    private String author;
 
+    public NewsItem(Integer id, String title, String body, String updated_date){
+        this.id = id;
+        this.title = title;
+        this.body = body;
+        this.updated_date = updated_date;
+    }
 
     public boolean equals(NewsItem model) {
-//        if(this.groupTitle != null){
-//            return true;
-//        } else {
-//
-//        }
         return this.getId() == model.getId();
     }
 

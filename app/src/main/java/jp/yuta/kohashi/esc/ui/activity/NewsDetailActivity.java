@@ -90,7 +90,6 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
     private void setBodyText(){
 //        mProgressView.stop();
         mProgressView.setVisibility(View.INVISIBLE);
-//        mMaterialProgressBar.setVisibility(View.INVISIBLE);
         String body = newsDetail.getBody();
         body = body.replace("&lt;","<");
         body = body.replace("&gt;",">");

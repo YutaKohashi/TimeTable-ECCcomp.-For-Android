@@ -30,8 +30,6 @@ public class CalendarViewPagerAdapter extends BaseFragmentPagerAdapter{
     public Fragment getItem(int position) {
         CalendarBottomFragment fragment = new CalendarBottomFragment();
         fragment.setList(scheduleRoots.get(position));
-//         return  new CalendarBottomFragment().newInstance(scheduleRoots.get(Util.getTabPositionToMonth(position)));
-//        return  new CalendarBottomFragment().newInstance(scheduleRoots.get(position));
         return fragment;
     }
 }

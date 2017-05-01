@@ -186,6 +186,10 @@ public class HttpHelper {
         EscApiManager.getSchedule(userId, password, response -> {
             List<ScheduleRoot> scheduleRootList = response;
             if(scheduleRootList != null){
+                /**
+                 * 保存する段階でnullが内容にリストを整形する
+                 */
+//                scheduleRootList = fixScheduleList(scheduleRootList);
                 PrefUtil.saveSchedule(scheduleRootList);
                 callbacks.callback(true);
             } else {

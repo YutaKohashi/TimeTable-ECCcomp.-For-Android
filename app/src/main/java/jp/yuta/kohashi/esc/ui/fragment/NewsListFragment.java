@@ -28,14 +28,14 @@ import jp.yuta.kohashi.esc.util.preference.PrefUtil;
  */
 public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
 
-    private List<NewsItem>  items;
+    private List<NewsItem> items;
 
     private String userId;
     private String password;
     private NewsRecyclerAdapter mRecyclerAdapter;
     private int contains;  //0:school,  1:Teacher
 
-    public static NewsListFragment newInstance(int contains){
+    public static NewsListFragment newInstance(int contains) {
         NewsListFragment fragment = new NewsListFragment();
         fragment.contains = contains;
         return fragment;
@@ -44,11 +44,18 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater,container,savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         userId = PrefUtil.getId();
         password = PrefUtil.getPss();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (items.size() > 0) inVisibleEmptyTextView();
+        else visibleEmptyTextView();
     }
 
     @Override
@@ -59,13 +66,17 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
     @Override
     public void initView(View v) {
         super.initView(v);
-        if(items == null){
-            switch(contains){
+        if (items == null) {
+            switch (contains) {
                 case 0:
                     items = PrefUtil.loadSchoolNewsList();
+                    if (items.size() > 0) inVisibleEmptyTextView();
+                    else visibleEmptyTextView();
                     break;
                 case 1:
                     items = PrefUtil.loadTanninNewsList();
+                    if (items.size() > 0) inVisibleEmptyTextView();
+                    else visibleEmptyTextView();
                     break;
             }
         }
@@ -77,36 +88,9 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
                     NotifyUtil.failureNetworkConnection();
                     return;
                 }
-
-//                NotifyUtil.showLoadingDiag(getActivity());
-                Intent intent = new Intent(getActivity(),NewsDetailActivity.class);
-                intent.putExtra(NewsDetailActivity.NEWS_MODEL,model);
+                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+                intent.putExtra(NewsDetailActivity.NEWS_MODEL, model);
                 startActivity(intent);
-//                HttpConnector.request(model.getId(),userId,password,newsDetail -> {
-//                    if(newsDetail != null){
-//                        Intent intent = new Intent(getActivity(),NewsDetailActivity.class);
-//                        intent.putExtra(NewsDetailActivity.NEWS_MODEL,newsDetail);
-//                        startActivity(intent);
-//                    } else {
-//                        NotifyUtil.failureGetNewsDetail();
-//                    }
-//                    NotifyUtil.dismiss();
-//
-//                });
-//
-//                HttpConnector.requestNewsDetail(userId, password, model.getUri(), new HttpHelper.AccessCallbacks() {
-//                    @Override
-//                    public void callback(String html, boolean bool) {
-//                        if (bool) {
-//                            Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
-//                            intent.putExtra(NewsDetailActivity.NEWS_MODEL, model);
-//                            intent.putExtra(NewsDetailActivity.NEWS_HTML, html);
-//
-//                            startActivity(intent);
-//                        }
-//                        NotifyUtil.dismiss();
-//                    }
-//                });
             }
         };
         mRecyclerView.setAdapter(mRecyclerAdapter);
@@ -119,9 +103,9 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
 
     @Override
     protected void getSavedItems() {
-        if(items == null) items = new ArrayList<>();
+        if (items == null) items = new ArrayList<>();
         else items.clear();
-        if(contains == 0) items.addAll(PrefUtil.loadSchoolNewsList());
+        if (contains == 0) items.addAll(PrefUtil.loadSchoolNewsList());
         else items.addAll(PrefUtil.loadTanninNewsList());
     }
 
@@ -133,7 +117,7 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
             endRefresh();
             return;
         }
-       disableScroll();
+        disableScroll();
         switch (contains) {
             case 0: // 学校からのお知らせ
                 HttpConnector.request(HttpConnector.Type.NEWS_SCHOOL, userId, password, new HttpConnector.Callback() {
@@ -141,6 +125,8 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
                     public void callback(boolean bool) {
                         if (bool) {
                             getSavedItems();
+                            if (items.size() > 0) inVisibleEmptyTextView();
+                            else visibleEmptyTextView();
                             mRecyclerAdapter.swap(items);
                             NotifyUtil.successUpdate();
                         } else {
@@ -157,6 +143,8 @@ public class NewsListFragment extends BaseRefreshRecyclerViewFragment {
                     public void callback(boolean bool) {
                         if (bool) {
                             getSavedItems();
+                            if (items.size() > 0) inVisibleEmptyTextView();
+                            else visibleEmptyTextView();
                             mRecyclerAdapter.swap(items);
                             NotifyUtil.successUpdate();
                         } else {

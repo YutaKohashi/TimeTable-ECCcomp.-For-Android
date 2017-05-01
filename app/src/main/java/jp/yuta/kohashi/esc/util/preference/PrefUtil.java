@@ -584,7 +584,9 @@ public class PrefUtil {
         save(bool, PrefConst.KEY_ENABLE_SAT_COL, PrefConst.FILE_UTIL);
     }
 
+
     public static void saveSchedule(List<ScheduleRoot> scheduleRoots){
+//        scheduleRoots = fixScheduleList(scheduleRoots);
         save(scheduleRoots, PrefConst.KEY_SCHEDULE, PrefConst.FILE_SCHEDULE);
     }
 

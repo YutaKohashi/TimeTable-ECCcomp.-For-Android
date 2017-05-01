@@ -20,6 +20,7 @@ import jp.yuta.kohashi.esc.model.PrefItem;
 import jp.yuta.kohashi.esc.model.enums.PrefViewType;
 import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.ui.activity.AboutActivity;
+import jp.yuta.kohashi.esc.ui.activity.AttendanceDivideActivity;
 import jp.yuta.kohashi.esc.ui.activity.AttendanceRateChangeColorActivity;
 import jp.yuta.kohashi.esc.ui.activity.LicenceActivity;
 import jp.yuta.kohashi.esc.ui.activity.LoginCheckActivity;
@@ -180,7 +181,7 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
      * 前期後期
      */
     private void divideData() {
-        startActivity(new Intent(getActivity(), TimeTableEnableDisableActivity.class));
+        startActivity(new Intent(getActivity(), AttendanceDivideActivity.class));
     }
 
     /**

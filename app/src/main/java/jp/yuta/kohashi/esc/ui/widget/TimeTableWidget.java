@@ -23,11 +23,11 @@ public class TimeTableWidget extends AppWidgetProvider {
 
         List<List<TimeTable>> lists = PrefUtil.loadTimeBlockList(context);
         try {
-            createColTimeTable(context, lists.get(0), R.id.mon_col_widget, remoteViews);
-            createColTimeTable(context, lists.get(1), R.id.tue_col_widget, remoteViews);
-            createColTimeTable(context, lists.get(2), R.id.wed_col_widget, remoteViews);
-            createColTimeTable(context, lists.get(3), R.id.thur_col_widget, remoteViews);
-            createColTimeTable(context, lists.get(4), R.id.fri_col_widget, remoteViews);
+            createColTimeTable(context, lists.get(1), R.id.mon_col_widget, remoteViews);
+            createColTimeTable(context, lists.get(2), R.id.tue_col_widget, remoteViews);
+            createColTimeTable(context, lists.get(3), R.id.wed_col_widget, remoteViews);
+            createColTimeTable(context, lists.get(4), R.id.thur_col_widget, remoteViews);
+            createColTimeTable(context, lists.get(5), R.id.fri_col_widget, remoteViews);
         }catch(Exception e){
             // failure load
             remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_root_time_table);
@@ -55,7 +55,11 @@ public class TimeTableWidget extends AppWidgetProvider {
 
     private static void createColTimeTable(Context context, List<TimeTable> list, int colId, RemoteViews remoteViews) throws Exception {
         RemoteViews col = new RemoteViews(context.getPackageName(), R.layout.widget_col_time_table);
-        for (int i = 0; i < list.size(); i++) {
+        int i = 0;
+        int limit = list.size();
+        if(!PrefUtil.isEnableGoGen()) limit -=1;
+        if(!PrefUtil.isEnableZeroGen()) i = 1;
+        for (; i < limit; i++) {
             TimeTable timeBlock = list.get(i);
             String subStr = timeBlock.getLessonName();
             String roomStr = timeBlock.getRoom();

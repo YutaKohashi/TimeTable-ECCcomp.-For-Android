@@ -25,6 +25,7 @@ import java.util.List;
 
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
+import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.network.RequestURL;
 import jp.yuta.kohashi.esc.network.api.model.news.NewsItem;
 import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
@@ -221,17 +222,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     return;
                 }
 
-//                NotifyUtil.showLoadingDiag(this);
-//                HttpConnector.requestNewsDetail(PrefUtil.getId(), PrefUtil.getPss(), item.getUri(),((html, bool1) -> {
-//                    if (bool1) {
-//                        Intent intent1 = new Intent(MainActivity.this, NewsDetailActivity.class);
-//                        intent1.putExtra(NewsDetailActivity.NEWS_MODEL, item);
-//                        intent1.putExtra(NewsDetailActivity.NEWS_HTML, html);
-//
-//                        startActivity(intent1);
-//                    }
-//                    NotifyUtil.dismiss();
-//                }));
+                Intent intent1 = new Intent(MainActivity.this, NewsDetailActivity.class);
+                intent1.putExtra(NewsDetailActivity.NEWS_MODEL, item);
+                startActivity(intent1);
             }
 
         }

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.ui.fragment.ScrollController;
@@ -21,6 +22,7 @@ public abstract  class BaseRefreshRecyclerViewFragment extends BaseRecyclerViewF
     protected SwipeRefreshLayout mPullRefreshLayout;
     protected ScrollController mScrollController;
 
+    private TextView mEmptyTextView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public abstract  class BaseRefreshRecyclerViewFragment extends BaseRecyclerViewF
     public void initView(View v) {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.addOnItemTouchListener(mScrollController);
+        mEmptyTextView = (TextView)v.findViewById(R.id.empty_text_view);
     }
 
     /**
@@ -68,5 +71,13 @@ public abstract  class BaseRefreshRecyclerViewFragment extends BaseRecyclerViewF
 
     @Override
     public void onRefresh() {
+    }
+
+    protected void visibleEmptyTextView(){
+        mEmptyTextView.setVisibility(View.VISIBLE);
+    }
+
+    protected  void inVisibleEmptyTextView(){
+        mEmptyTextView.setVisibility(View.GONE);
     }
 }

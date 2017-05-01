@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.AppCompatEditText;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ import jp.yuta.kohashi.esc.util.Util;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = LoginActivity.class.getSimpleName();
 
     private CircularProgressButton mLoginButton;
     private AppCompatEditText mIdTextView;
@@ -88,6 +90,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         disableTextViews();
         disableBtn();
         startProgBtn();
+
+        try {
+            PrefUtil.deleteSharedPreferencesFiles();
+            PrefUtil.deleteAll();
+        } catch (Throwable e) {
+            Log.d(TAG,e.toString());
+        }
+
         HttpConnector.request(HttpConnector.Type.TIME_TABLE, userId, password,(bool -> {
             if(bool){
                 HttpConnector.request(HttpConnector.Type.NEWS_SCHOOL_TEACHER, userId, password, bool1 -> {
@@ -216,13 +226,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     //　以前のバージョンでインストールしていた場合
     private void isInstallBeforeVersion() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        int num = pref.getInt("InitState", -1);
+        int num = pref.getInt("InitState", -1); //以前作成していたプロジェクトを引き継いだため決め打ち
         if (num != -1) {
             MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
                     .content(R.string.dialog_comment_updated)
                     .positiveText(R.string.dialog_positive_ok)
                     .cancelable(false)
-                    .positiveColor(getResources().getColor(R.color.diag_text_color_cancel))
+                    .positiveColor(Util.getColor(R.color.diag_text_color_cancel))
                     .onPositive(((dialog, which) -> {
                         PrefUtil.deleteAll();
                         try {
@@ -234,5 +244,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             MaterialDialog dialog = builder.build();
             dialog.show();
         }
+
+
     }
 }

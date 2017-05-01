@@ -16,19 +16,28 @@ import lombok.Setter;
 @Setter
 public class ScheduleItem implements Serializable{
     @SerializedName("date")
-    String date;
+    private String date;
     @SerializedName("year")
-    Integer year;
+    private Integer year;
     @SerializedName("month")
-    Integer month;
+    private Integer month;
     @SerializedName("day")
-    Integer day;
+    private Integer day;
     @SerializedName("week")
-    Integer week;
+    private Integer week;
 
     /**
      * 内容
      */
     @SerializedName("body")
-    String body;
+    private String body;
+
+    public ScheduleItem(){
+        date = "";
+        year = 0;
+        month = 0;
+        day = 0;
+        week = 0;
+        body = "";
+    }
 }

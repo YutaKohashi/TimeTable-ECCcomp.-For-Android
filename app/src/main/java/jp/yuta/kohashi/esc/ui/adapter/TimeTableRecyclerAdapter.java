@@ -70,24 +70,12 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
 
     @Override
     public void onBindViewHolder(TimeViewHolder holder, int position) {
-//        holder.subjectName.setText(items.get(position).getSubject());
-//        holder.roomName.setText(items.get(position).getClassRoom());
-        /**
-         * 0限が無効の時
-         */
-//        if(!isEnableZeroGen) position -=1;
         if (!isEnableZeroGen) position += 1;
 
         holder.subjectName.setText(items.get(position).getLessonName());
         holder.roomName.setText(items.get(position).getRoom());
 
         holder.roomName.setBackgroundColor(Util.getColor(color));
-//
-//        /**
-//         * 0限 5限の設定を反映
-//         */
-//        if (position == 0 && !isEnableZeroGen) holder.root.setVisibility(View.GONE);
-//        if(position == 5 && !isEnableGoGen) holder.root.setVisibility(View.GONE);
     }
 
     @Override
@@ -122,7 +110,6 @@ public class TimeTableRecyclerAdapter extends RecyclerView.Adapter<TimeTableRecy
 
         FrameLayout container;
         View root;
-        // Campos respectivos de un item
         TextView subjectName;
         TextView roomName;
 

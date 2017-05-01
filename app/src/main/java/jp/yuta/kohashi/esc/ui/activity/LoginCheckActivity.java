@@ -8,9 +8,6 @@ import android.support.v4.app.ActivityCompat;
 import jp.yuta.kohashi.esc.network.api.model.news.NewsItem;
 import jp.yuta.kohashi.esc.util.preference.PrefUtil;
 
-//import jp.yuta.kohashi.esc.model.NewsItem;_/
-
-
 /***
  * このActivityを経由してログイン済みかどうかの判定を行う
  */
@@ -29,13 +26,12 @@ public class LoginCheckActivity extends Activity {
         } else {
             //ログインしている
             Intent intent = new Intent(LoginCheckActivity.this, MainActivity.class);
-            if(getIntent().getBooleanExtra(MainActivity.SELECT_TAB_NEWS,false)) {
+            if (getIntent().getBooleanExtra(MainActivity.SELECT_TAB_NEWS, false))
                 intent.putExtra(MainActivity.SELECT_TAB_NEWS, true);
-            }
+
             NewsItem item = (NewsItem) getIntent().getSerializableExtra(NewsDetailActivity.NEWS_MODEL);
-            if(item != null){
-                intent.putExtra(NewsDetailActivity.NEWS_MODEL,item);
-            }
+            if (item != null) intent.putExtra(NewsDetailActivity.NEWS_MODEL, item);
+
             startActivity(intent);
         }
         ActivityCompat.finishAffinity(this);
