@@ -112,8 +112,8 @@ public class TimeTableInputDialogFragment extends BaseDialogFragment implements 
      */
     private void undoItem() throws IndexOutOfBoundsException{
         List<List<TimeTable>> lists =  PrefUtil.loadOriginalTimeBlockList();
-        List<TimeTable> list = lists.get(beforeModel.getWeek() - 1);
-        TimeTable original = list.get(beforeModel.getTerm()-1);
+        List<TimeTable> list = lists.get(beforeModel.getWeek());
+        TimeTable original = list.get(beforeModel.getTerm());
         mSubjectTextView.setText(original.getLessonName());
         mTeacherTextView.setText(original.getTeacherNames());
         mRoomTextView.setText(original.getRoom());

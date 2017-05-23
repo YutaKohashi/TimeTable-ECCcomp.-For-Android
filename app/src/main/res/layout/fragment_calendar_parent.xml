@@ -19,7 +19,7 @@
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleGravity="bottom|right"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:layout_scrollFlags="snap|scroll|exitUntilCollapsed"
             app:titleEnabled="false">
 
             <jp.yuta.kohashi.esc.ui.view.SynchronizedViewPager
@@ -35,10 +35,10 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_gravity="bottom"
-            app:layout_scrollFlags="scroll|enterAlways"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
             app:tabBackground="@drawable/bg_news_tab"
-            app:tabMode="scrollable"
             app:tabIndicatorColor="@color/colorPrimaryDark"
+            app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/tab_focus_color"
             app:tabTextColor="@color/tab_noFocus_color" />
 

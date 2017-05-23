@@ -69,12 +69,14 @@ public class CalendarFragment extends BaseFragment implements ViewTreeObserver.O
                 .setTargetViewPager(mFrontViewPager);
         mFrontViewPager.setTargetViewPager(mBottomViewPager);
 
+        // TODO: 2017/05/02
         mFrontPagerAdapter = new CalendarFrontViewPagerAdapter(getContext(), scheduleRootList);
 
         mFrontViewPager.setAdapter(mFrontPagerAdapter);
         mFrontTabLayout = (TabLayout) mView.findViewById(R.id.tab_calendar);
         mFrontTabLayout.setupWithViewPager(mFrontViewPager);
 
+        // TODO: 2017/05/02
         mBottomPagerAdapter = new CalendarViewPagerAdapter(getChildFragmentManager(), scheduleRootList, getActivity());
         mBottomViewPager.setAdapter(mBottomPagerAdapter);
         //ViewTreeObserverをフック

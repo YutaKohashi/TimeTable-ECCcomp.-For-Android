@@ -31,4 +31,17 @@ public class ScheduleRoot implements Serializable{
         code = "";
         message  = "";
     }
+
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        ScheduleRoot scheduleRoot = null;
+        try{
+            scheduleRoot = new ScheduleRoot();
+
+        } catch (Exception e){
+
+        }
+        return scheduleRoot;
+    }
 }

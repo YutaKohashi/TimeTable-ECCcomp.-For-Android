@@ -74,12 +74,15 @@ public class EccNewsManageService extends BasePeriodicService {
     private void task() {
         Log.d(TAG, "execute task ");
         final List<NewsItem> schoolNewsList1 = PrefUtil.loadSchoolNewsList();
+        Log.d(TAG,String.valueOf(schoolNewsList1.size()));
         final List<NewsItem> tanninNewsList1 = PrefUtil.loadTanninNewsList();
-
+        Log.d(TAG,String.valueOf(tanninNewsList1.size()));
         HttpConnector.request(HttpConnector.Type.NEWS_SCHOOL_TEACHER, PrefUtil.getId(), PrefUtil.getPss(), (bool -> {
             if (bool) {
                 List<NewsItem> newSchoolNewsList1 = PrefUtil.loadSchoolNewsList();
+                Log.d(TAG,String.valueOf(newSchoolNewsList1.size()));
                 List<NewsItem> newTanninNewsList1 = PrefUtil.loadTanninNewsList();
+                Log.d(TAG,String.valueOf(newTanninNewsList1.size()));
 //                /**
 //                 * STUB  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
 //                 */
@@ -92,7 +95,7 @@ public class EccNewsManageService extends BasePeriodicService {
                 //　一つにまとめる
                 compareNewsList.addAll(compareList(schoolNewsList1, newSchoolNewsList1));
                 compareNewsList.addAll(compareList(tanninNewsList1, newTanninNewsList1));
-
+                Log.d(TAG,String.valueOf(compareNewsList.size()));
                 if (compareNewsList.size() >= 1) {
                     showNotification(compareNewsList);
                 }
@@ -135,6 +138,8 @@ public class EccNewsManageService extends BasePeriodicService {
         List<NewsItem> resultList = new ArrayList<>();
         for (NewsItem after : afterList) {
             if (!NewsItem.containsList(after, beforeList)) {
+                Log.d(TAG,String.valueOf(beforeList.get(0).getId()));
+                Log.d(TAG,String.valueOf(after.getId()));
                 resultList.add(after);
             }
         }

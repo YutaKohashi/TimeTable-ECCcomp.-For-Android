@@ -56,7 +56,8 @@ public class TimeTable implements Serializable {
     public boolean equals(TimeTable timeTable){
         if(this.lessonName.equals(timeTable.lessonName)  &&
                 this.room.equals(timeTable.room) &&
-                (this.getTeachers().equals(timeTable.getTeacherNames()))){
+                (this.getTeacherNames().equals(timeTable.getTeacherNames()))){
+
             return true;
         }
         return false;

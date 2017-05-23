@@ -1,12 +1,13 @@
 package jp.yuta.kohashi.esc.network.api.model.news;
 
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
 
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Author : yutakohashi
@@ -52,7 +53,8 @@ public class NewsItem implements Serializable {
     }
 
     public boolean equals(NewsItem model) {
-        return this.getId() == model.getId();
+        if(this.id == null || model.id == null) return false;
+        return this.getId().intValue() == model.getId().intValue();
     }
 
     /**
@@ -67,6 +69,9 @@ public class NewsItem implements Serializable {
             if(item.equals(i)){
                 result = true;
                 break;
+            } else {
+                Log.d("ggggg",String.valueOf(item.getId()));
+                Log.d("ggggg1", String.valueOf(i.getId()));
             }
         }
         return result;

@@ -230,7 +230,6 @@ public class HttpHelper {
                 if (!result.getBool()) throw new Exception("出席率ページへの遷移に失敗しました");
 
                 mLastResponseHtml = result.getString();
-//                    Log.d(TAG, mLastResponseHtml);
                 if (!RegexUtil.containsCheck(">個人別出席率表<", mLastResponseHtml)) {
                     throw new Exception("出席率ページへの遷移に失敗しました");
                 }
@@ -248,7 +247,6 @@ public class HttpHelper {
 
             @Override
             public void onFailure(Bundle bundle, Exception e) {
-//                log(e);
                 accessCallbacks.callback(mLastResponseHtml, false);
             }
         }).create().execute(null);

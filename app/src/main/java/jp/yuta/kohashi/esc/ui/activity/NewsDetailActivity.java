@@ -11,6 +11,7 @@ import com.rey.material.widget.ProgressView;
 
 import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.network.HttpConnector;
+import jp.yuta.kohashi.esc.network.api.EscApiManager;
 import jp.yuta.kohashi.esc.network.api.model.news.NewsDetail;
 import jp.yuta.kohashi.esc.network.api.model.news.NewsItem;
 import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;
@@ -32,7 +33,6 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
     private String userId;
     private String password;
     private ProgressView mProgressView;
-//    private MaterialProgressBar mMaterialProgressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,6 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
         newsDetail = null;
         Intent intent = getIntent();
         newsItem = (NewsItem) intent.getSerializableExtra(NEWS_MODEL);
-
 
         initToolbar();
         enableBackBtn();
@@ -113,8 +112,6 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
         mBodyTextView = (TextView)findViewById(R.id.body_text_view);
         mProgressView = (ProgressView)findViewById(R.id.progress_view);
         mProgressView.start();
-//        mMaterialProgressBar = (MaterialProgressBar)findViewById(R.id.material_progress_bar);
-//        mMaterialProgressBar.setVisibility(View.VISIBLE);
 
         titleTextView.setText(newsItem.getTitle());
         dateTextView.setText(newsItem.getUpdated_date());
@@ -140,6 +137,8 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
                 .items(newsDetail.getNewsFiles())
                 .itemsCallback(((dialog, itemView, position, text) -> {
 //                    downloadFile(downloadUrls.get(position));
+                    EscApiManager.downloadFile(NewsDetailActivity.this,newsDetail,position);
+//                    Toast.makeText(NewsDetailActivity.this,"実装中です",Toast.LENGTH_SHORT).show();
                 }))
                 .show();
     }
@@ -149,9 +148,7 @@ public class NewsDetailActivity extends BaseActivity implements View.OnClickList
     /**
      * 　添付ファイルをダウンロード
      *
-     * @param url
+     * @param position
      */
-    private void downloadFile(String url) {
 
-    }
 }

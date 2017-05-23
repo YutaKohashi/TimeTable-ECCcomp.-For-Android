@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".ui.fragment.TimeTableFragment">
+
     <LinearLayout
         android:id="@+id/time_table_header"
         android:layout_width="match_parent"

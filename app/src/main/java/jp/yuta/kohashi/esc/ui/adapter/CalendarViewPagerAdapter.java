@@ -1,6 +1,7 @@
 package jp.yuta.kohashi.esc.ui.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
@@ -29,7 +30,10 @@ public class CalendarViewPagerAdapter extends BaseFragmentPagerAdapter{
     @Override
     public Fragment getItem(int position) {
         CalendarBottomFragment fragment = new CalendarBottomFragment();
-        fragment.setList(scheduleRoots.get(position));
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(CalendarBottomFragment.KEY_SCHEDULE_LIST,scheduleRoots.get(position));
+        fragment.setArguments(bundle);
+//        fragment.setList(scheduleRoots.get(position));
         return fragment;
     }
 }

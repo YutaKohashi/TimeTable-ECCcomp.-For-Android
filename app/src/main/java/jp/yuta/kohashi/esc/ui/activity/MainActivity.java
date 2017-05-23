@@ -25,7 +25,6 @@ import java.util.List;
 
 import jp.yuta.kohashi.esc.Const;
 import jp.yuta.kohashi.esc.R;
-import jp.yuta.kohashi.esc.network.HttpConnector;
 import jp.yuta.kohashi.esc.network.RequestURL;
 import jp.yuta.kohashi.esc.network.api.model.news.NewsItem;
 import jp.yuta.kohashi.esc.ui.activity.base.BaseActivity;

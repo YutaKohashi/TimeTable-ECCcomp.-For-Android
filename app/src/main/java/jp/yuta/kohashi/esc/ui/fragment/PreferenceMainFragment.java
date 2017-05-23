@@ -19,6 +19,7 @@ import jp.yuta.kohashi.esc.R;
 import jp.yuta.kohashi.esc.model.PrefItem;
 import jp.yuta.kohashi.esc.model.enums.PrefViewType;
 import jp.yuta.kohashi.esc.network.HttpConnector;
+import jp.yuta.kohashi.esc.network.api.EscApiManager;
 import jp.yuta.kohashi.esc.ui.activity.AboutActivity;
 import jp.yuta.kohashi.esc.ui.activity.AttendanceDivideActivity;
 import jp.yuta.kohashi.esc.ui.activity.AttendanceRateChangeColorActivity;
@@ -256,6 +257,16 @@ public class PreferenceMainFragment extends BasePrefBaseRecyclerViewFragment {
                     Handler mHandler = new Handler();
                     Runnable runnable = () -> {
                         PrefUtil.deleteAll();
+                        try{
+                            PrefUtil.deleteSharedPreferencesFiles();
+                        }catch(Throwable t){
+
+                        }
+                        /**
+                         * サービスを終了
+                         */
+                        EccNewsManageService.stopResidentIfActive(getContext());
+                        EscApiManager.resetToken();
                         NotifyUtil.dismiss();
                         Intent intent = new Intent(getContext().getApplicationContext(), LoginCheckActivity.class);
                         startActivity(intent);

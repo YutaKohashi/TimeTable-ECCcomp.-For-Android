@@ -8,8 +8,8 @@ android {
         applicationId "jp.yuta.kohashi.esc"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 25
-        versionName "2.0.5"
+        versionCode 29
+        versionName "2.1.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
